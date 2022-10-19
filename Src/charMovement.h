@@ -1,0 +1,4 @@
+#ifndef CHAR_MOVEMENT_H
+#define CHAR_MOVEMENT_H
+
+#endif // !CHAR_MOVEMENT_H
