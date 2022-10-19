@@ -103,7 +103,15 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Src\FileIO\encode.c" />
+    <ClCompile Include="..\Src\FileIO\fileIO.c" />
+    <ClCompile Include="..\Src\FileIO\serialization.c" />
     <ClCompile Include="..\Src\main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Src\FileIO\encode.h" />
+    <ClInclude Include="..\Src\FileIO\fileIO.h" />
+    <ClInclude Include="..\Src\FileIO\serialization.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

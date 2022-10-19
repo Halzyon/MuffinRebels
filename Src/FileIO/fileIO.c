@@ -11,6 +11,7 @@
 #include "fileIO.h"
 
 
+
 #ifndef _MSC_VER // for linux/all other compilers and apparently release mode
 #define FILEPATH "../../Assets/GameData/"
 #endif
@@ -21,7 +22,6 @@
 #define FILEPATH "Assets/GameData/"
 #define _CRTDBG_MAP_ALLOC
 #endif       
-
 
 
 
@@ -226,6 +226,8 @@ void exit_IO(void)
     //    }
     //}
     fcloseall();
+    if (buffer->data != NULL)
+        free(buffer->data);
     if (files != NULL) 
         free(files);
     if (buffer != NULL)
