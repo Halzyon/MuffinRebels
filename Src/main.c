@@ -1,7 +1,11 @@
 #include "cprocessing.h"
+#include "FileIO/fileIO.h"
+#include "FileIO/serialization.h"
+
+    
 
 CP_Image logo;
-
+ 
 void game_init(void)
 {
 	logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
@@ -30,10 +34,42 @@ void game_exit(void)
 
 
 
-void main(void)
+int main(void)
 {
-	//CP_Engine_SetNextGameState(splash_screen_init, splash_screen_update, splash_screen_exit);
-	CP_Engine_SetNextGameState(game_init, game_update, game_exit);
-	CP_Engine_Run();
+	//printf("%s\n",readFile("data12.dat"));
+	ExampleStruct ex;
+	Buffer * b = newBuffer();
+	//reserveSpace(b, sizeof(ExampleStruct));
+
+	ex.str = "kill meAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+	ex.var1 = -2531;
+	ex.var2 = -69.1239817;
+
+	serialize_Ex(ex, b);
+	//readSerialize_Ex(b, &ex);
+
+	init_IO();
+	writeFile("data16.dat", b->data, "w");
+
+	ExampleStruct ex2;
+	char* c = readFile("data16.dat");
+	readSerialize_Ex(c, &ex2);
+
+	//ex2.str = "";
+	clearBuffer(b);
+	serialize_Ex(ex2, b);
+	writeFile("data15.dat", b->data, "w");
+	/*printf("%d\n", ex2.var1);
+	printf("%.32lf\n", ex2.var2);*/
+
+	exit_IO();
+	//free(ex);
+	closeBuffer(b);
+	//free(b);
+
+
+
+	
+	// @TODO CRASHING A LOT AT EXIT IN RELEASE PROBLEMS IS THE SERIALIZATION CODE
 	return 0;
 }
