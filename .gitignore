@@ -352,3 +352,9 @@ MigrationBackup/
 #ignore generated build folders
 .tmp/*
 bin/*
+*.dat
+*.vcxproj
+*.filters
+*.json
+*.o
+*.out
