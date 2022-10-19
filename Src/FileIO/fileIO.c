@@ -56,7 +56,7 @@ int init_IO(void)
  @param name 
  @param type 
 *//*______________________________________________________________________*/
-int addFile(const char *filepath, const char* mode, const char *name, TYPEFILE type)
+int addFile(const unsigned char *filepath, const unsigned char* mode, const unsigned char *name, TYPEFILE type)
 {
     if (!isInit)
     {
@@ -114,7 +114,7 @@ int addFile(const char *filepath, const char* mode, const char *name, TYPEFILE t
  @param name 
  @return FILE* 
 *//*______________________________________________________________________*/
-FILE *getFile(const char *name)
+FILE *getFile(const unsigned char *name)
 {
     if (!isInit)
     {
@@ -138,9 +138,9 @@ FILE *getFile(const char *name)
  @brief looks for the file by name and opens if needed.
  
  @param name 
- @return const char* is the contents of the file
+ @return const unsigned char* is the contents of the file
 *//*______________________________________________________________________*/
-const char* readFile(const char *name)
+const unsigned char* readFile(const unsigned char *name)
 {
     if (!isInit)
     {
@@ -150,7 +150,7 @@ const char* readFile(const char *name)
     {
         fclose(getFile(name));
     }
-    char tmp1[100] = FILEPATH;
+    unsigned char tmp1[100] = FILEPATH;
     strcat(tmp1, name);
     //printf("%s\n", tmp1);
     if (addFile(tmp1, "r", name, TYPE_1) != MAXFILES + 1)
@@ -159,9 +159,9 @@ const char* readFile(const char *name)
         size_t sz = ftell(getFile(name)) + 1; // record the index of the final position + 1
         fseek(getFile(name), 0L, SEEK_SET); // move back to start of file
         buffer = newBuffer();
-        reserveSpace(buffer, sz * sizeof(char));
-        //buffer = malloc(sz * sizeof(char));
-        char* buffer2 = malloc(sz * sizeof(char));
+        reserveSpace(buffer, sz * sizeof(unsigned char));
+        //buffer = malloc(sz * sizeof(unsigned char));
+        unsigned char* buffer2 = malloc(sz * sizeof(unsigned char));
         if (buffer && buffer2)
         {
             //int c = getc(getFile(name));
@@ -192,7 +192,7 @@ const char* readFile(const char *name)
  @param input 
  @param mode 
 *//*______________________________________________________________________*/
-int writeFile(const char *name, const char* input, const char* mode)
+int writeFile(const unsigned char *name, const unsigned char* input, const unsigned char* mode)
 {
     if (!isInit)
     {
@@ -202,7 +202,7 @@ int writeFile(const char *name, const char* input, const char* mode)
     {
         fclose(getFile(name));
     }
-    char tmp1[100] = FILEPATH;
+    unsigned char tmp1[100] = FILEPATH;
     strcat(tmp1, name);
     if (addFile(tmp1, mode, name, TYPE_1) != MAXFILES + 1)
     {
@@ -275,7 +275,7 @@ int main(void)
     // writeFile("data15.dat","this is file 15\n", "w");
     // writeFile("data16.dat","this is file 16\n", "w");
 
-    const char* tmp = readFile("data12.dat");
+    const unsigned char* tmp = readFile("data12.dat");
     if (tmp != NULL)
         printf("%s\n", tmp);
 

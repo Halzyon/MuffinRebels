@@ -53,7 +53,7 @@ void reserveSpace(Buffer *b, size_t bytes)
         return;
     if ((b->next + bytes) > b->size)
     {
-        char* tmp = realloc(b->data, b->size + bytes);
+        unsigned char* tmp = realloc(b->data, b->size + bytes);
         if (tmp != NULL)
         {
             // in the event that the data is larger than the buffer, doulbe the buffer in size
@@ -90,7 +90,7 @@ void closeBuffer(Buffer *b)
 void serializeInt(int i, Buffer *b)
 {
     reserveSpace(b, 16);
-    char tmp[16];
+    unsigned char tmp[16];
     if (tmp != NULL)
     {
         snprintf(tmp, 16, "int=%X\n", i);
@@ -108,7 +108,7 @@ void serializeInt(int i, Buffer *b)
 void serializeDouble(double d, Buffer *b)
 {
     reserveSpace(b, 29);
-    char tmp[29];
+    unsigned char tmp[29];
     if (tmp != NULL)
     {
         snprintf(tmp, 29, "dbl=%A\n", d);
@@ -123,11 +123,11 @@ void serializeDouble(double d, Buffer *b)
  @param c 
  @param b 
 *//*______________________________________________________________________*/
-void serializeString(const char* c, Buffer *b)
+void serializeString(const unsigned char* c, Buffer *b)
 {
     int size = strlen(c) + 1 + 4 + 2;
     reserveSpace(b, size);
-    char *tmp = malloc(size);
+    unsigned char *tmp = malloc(size);
     snprintf(tmp, size, "str=%s\n", c);
     if (tmp != NULL)
     {
@@ -161,10 +161,10 @@ void serialize_Ex(ExampleStruct exStruct, Buffer *output)
  @param file 
  @param ex 
 *//*______________________________________________________________________*/
-void readSerialize_Ex(const char* file, ExampleStruct *ex)
+void readSerialize_Ex(const unsigned char* file, ExampleStruct *ex)
 {
     int size = strlen(file) + 1;
-    char buffer[5];
+    unsigned char buffer[5];
     buffer[4] = '\0';
     if (file != NULL)
     {
@@ -183,7 +183,7 @@ void readSerialize_Ex(const char* file, ExampleStruct *ex)
             {
                 i += 4;
                 int j = 0;
-                char tmpBuffer[8];
+                unsigned char tmpBuffer[8];
                 while (j < 8 && (i + j + 8) < size)
                 {
                     tmpBuffer[j] = file[i + j];
@@ -196,7 +196,7 @@ void readSerialize_Ex(const char* file, ExampleStruct *ex)
             {
                 i += 4;
                 int j = 0;
-                char tmpBuffer2[21];
+                unsigned char tmpBuffer2[21];
                 while (j < 21)
                 {
                     tmpBuffer2[j] = file[i + j];
@@ -213,14 +213,14 @@ void readSerialize_Ex(const char* file, ExampleStruct *ex)
                 i += 4;
                 j = i;
                 
-                char c = file[j];
+                unsigned char c = file[j];
                 while (c != IDENTIFIER_EOS)
                 {
                     ++j;
                     c = file[j];
                 }
                 k = j - i;
-                char* buffer2 = malloc(sizeof(char) * k);
+                unsigned char* buffer2 = malloc(sizeof(unsigned char) * k);
                 for (int x = 0; x < k&& buffer2 != NULL; ++x)
                 {
                     if (file[i + x] != NULL)
@@ -236,7 +236,7 @@ void readSerialize_Ex(const char* file, ExampleStruct *ex)
 
                         #ifdef _DEBUG
                         #pragma warning(disable : 6386) // its technically out of array but fk it
-                            ex->str[y + 1] = '\0'; // debug has like 4 extra characters at the end, this is to prevent it from borking the data during testing
+                            ex->str[y + 1] = '\0'; // debug has like 4 extra unsigned characters at the end, this is to prevent it from borking the data during testing
                         #endif
                     }
                 }
@@ -254,7 +254,7 @@ void readSerialize_Ex(const char* file, ExampleStruct *ex)
  @param c 
  @return int 
 *//*______________________________________________________________________*/
-int deSerializeInt(const char* c)
+int deSerializeInt(const unsigned char* c)
 {
     unsigned int tmp = (unsigned int)strtoul(c, NULL, 16);
     int tmp2 = (int)strtol(c, NULL, 16);
@@ -275,7 +275,7 @@ int deSerializeInt(const char* c)
  @param c 
  @return double 
 *//*______________________________________________________________________*/
-double deSerializeDouble(const char* c)
+double deSerializeDouble(const unsigned char* c)
 {
     return strtod(c, NULL, 16);
 }
@@ -289,7 +289,7 @@ void clearBuffer(Buffer* b)
 {
     if (b == NULL)
         return;
-    char* tmp2 = realloc(b->data, DEFAULT_SIZE);
+    unsigned char* tmp2 = realloc(b->data, DEFAULT_SIZE);
     if (tmp2 != NULL)
         b->data = tmp2;
 

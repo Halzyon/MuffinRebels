@@ -20,7 +20,7 @@
 
 typedef struct
 {
-    char *data;
+    unsigned char *data;
     size_t next;
     size_t size;
 }Buffer;
@@ -29,7 +29,7 @@ typedef struct
 {
     int var1;
     double var2;
-    char *str;
+    unsigned char *str;
 }ExampleStruct;
 void serialize_Ex(ExampleStruct exStruct, Buffer *output);
 
@@ -37,7 +37,7 @@ void serializeInt(int i, Buffer *b);
 
 void serializeDouble(double d, Buffer *b);
 
-void serializeString(const char* c, Buffer *b);
+void serializeString(const unsigned char* c, Buffer *b);
 
 Buffer *newBuffer();
 
@@ -46,10 +46,10 @@ void clearBuffer(Buffer* b);
 
 void reserveSpace(Buffer *b, size_t bytes);
 
-void readSerialize_Ex(const char * file, ExampleStruct* ex);
+void readSerialize_Ex(const unsigned char * file, ExampleStruct* ex);
 
 
-int deSerializeInt(const char* c);
-double deSerializeDouble(const char* c);
+int deSerializeInt(const unsigned char* c);
+double deSerializeDouble(const unsigned char* c);
 
 #endif

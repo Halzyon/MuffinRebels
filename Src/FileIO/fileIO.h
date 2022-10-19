@@ -32,9 +32,9 @@ typedef enum
 typedef struct 
 {
     FILE *file;
-    char index; // used to identify the age of the file
+    unsigned char index; // used to identify the age of the file
     TYPEFILE type; // used to identify the importance of a file smaller == higher importance
-    char name[32];
+    unsigned char name[32];
 }fileObj;
 
 fileObj *files;
@@ -55,7 +55,7 @@ int isInit;
  @param type 
  @return int returns the file index for use in other code
 *//*______________________________________________________________________*/
-int addFile(const char *filepath, const char *mode, const char *name, TYPEFILE type);
+int addFile(const unsigned char *filepath, const unsigned char *mode, const unsigned char *name, TYPEFILE type);
 
 /*!
  @brief Get the File object by name
@@ -63,7 +63,7 @@ int addFile(const char *filepath, const char *mode, const char *name, TYPEFILE t
  @param name 
  @return FILE* 
 *//*______________________________________________________________________*/
-FILE *getFile(const char *name);
+FILE *getFile(const unsigned char *name);
 
 
 
@@ -71,9 +71,9 @@ FILE *getFile(const char *name);
  @brief looks for the file by name and opens if needed.
  
  @param name 
- @return const char* is the contents of the file
+ @return const unsigned char* is the contents of the file
 *//*______________________________________________________________________*/
-const char* readFile(const char *name);
+const unsigned char* readFile(const unsigned char *name);
 
 
 /*!
@@ -83,7 +83,7 @@ const char* readFile(const char *name);
  @param input 
  @param mode 
 *//*______________________________________________________________________*/
-int writeFile(const char *name, const char* input, const char* mode);
+int writeFile(const unsigned char *name, const unsigned char* input, const unsigned char* mode);
 
 
 

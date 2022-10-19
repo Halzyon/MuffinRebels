@@ -53,7 +53,7 @@ int main(void)
 	writeFile("data16.dat", b->data, "w");
 
 	ExampleStruct ex2;
-	char* c = readFile("data16.dat");
+	unsigned char* c = readFile("data16.dat");
 	readSerialize_Ex(c, &ex2);
 
 	//ex2.str = "";
@@ -61,12 +61,16 @@ int main(void)
 	serialize_Ex(ex2, b);
 	size_t tmp = 0;
 	writeFile("data15.dat", b64_encode(b->data, strlen(b->data), &tmp), "w");
+	c = readFile("data15.dat");
+	c = b64_decode(c, strlen(c) + 1, &tmp);
+	printf("%s", c);
 	/*printf("%d\n", ex2.var1);
 	printf("%.32lf\n", ex2.var2);*/
 
 	exit_IO();
 	//free(ex);
 	closeBuffer(b);
+	free(c);
 	//free(b);
 
 
