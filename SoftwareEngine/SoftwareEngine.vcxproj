@@ -67,7 +67,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);CProcessingd.lib</AdditionalDependencies>
@@ -103,17 +103,15 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Src\FileIO\encode.c" />
-    <ClCompile Include="..\Src\FileIO\fileIO.c" />
-    <ClCompile Include="..\Src\FileIO\serialization.c" />
-    <ClCompile Include="..\Src\Level Editor\lvl_editor.c" />
+    <ClCompile Include="..\Src\charMovement.c" />
+    <ClCompile Include="..\Src\gameChar.c" />
+    <ClCompile Include="..\Src\gameMap.c" />
     <ClCompile Include="..\Src\main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Src\FileIO\encode.h" />
-    <ClInclude Include="..\Src\FileIO\fileIO.h" />
-    <ClInclude Include="..\Src\FileIO\serialization.h" />
-    <ClInclude Include="..\Src\Level Editor\lvl_editor.h" />
+    <ClInclude Include="..\Src\charMovement.h" />
+    <ClInclude Include="..\Src\gameChar.h" />
+    <ClInclude Include="..\Src\gameMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

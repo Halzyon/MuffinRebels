@@ -18,30 +18,24 @@
     <ClCompile Include="..\Src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\FileIO\encode.c">
+    <ClCompile Include="..\Src\gameMap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\FileIO\fileIO.c">
+    <ClCompile Include="..\Src\gameChar.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\FileIO\serialization.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\Level Editor\lvl_editor.c">
+    <ClCompile Include="..\Src\charMovement.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Src\FileIO\encode.h">
+    <ClInclude Include="..\Src\gameMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\FileIO\fileIO.h">
+    <ClInclude Include="..\Src\gameChar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\FileIO\serialization.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\Level Editor\lvl_editor.h">
+    <ClInclude Include="..\Src\charMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
