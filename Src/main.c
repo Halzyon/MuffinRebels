@@ -2,34 +2,45 @@
 #include "FileIO/fileIO.h"
 #include "FileIO/serialization.h"
 #include "FileIO/encode.h"
+#include "Character/gameMap.h"
+#include "Character/gameChar.h"
+#include "Character/diceHandler.h"
+#include "Character/charMovement.h"    
 
-    
-
-//CP_Image logo;
+CP_Image logo;
+game_map* map1;
  
 void game_init(void)
 {
-	/*logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
+	logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 
-	CP_System_SetWindowSize(CP_Image_GetWidth(logo), CP_Image_GetHeight(logo));*/
+	CP_System_SetWindowSize(CP_Image_GetWidth(logo), CP_Image_GetHeight(logo));
+
+	init_dice();
+	init_char(Warrior);
+	init_map_obj(10, 10, &map1);
 }
 
 void game_update(void)
 {
-	//CP_Graphics_ClearBackground(CP_Color_Create(0,0,0,255));
-	//CP_Image_Draw(logo, 0.f, 0.f, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255);
-	//if (CP_Input_KeyDown(KEY_Q))
-	//{
-	//	CP_Engine_Terminate();
-	//}
+	CP_Graphics_ClearBackground(CP_Color_Create(0,0,0,255));
+	CP_Image_Draw(logo, 0.f, 0.f, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255);
+	if (CP_Input_KeyDown(KEY_Q))
+	{
+		CP_Engine_Terminate();
+	}
+
+	hardware_handler();
 	
 }
 
 void game_exit(void)
 {
-	//CP_Image_Free(&logo);
+	CP_Image_Free(&logo);
+	free_map_obj(&map1);
+	free_char();
 }
 
 
@@ -37,45 +48,9 @@ void game_exit(void)
 
 int main(void)
 {
-	//printf("%s\n",readFile("data12.dat"));
-	ExampleStruct ex;
-	Buffer * b = newBuffer();
-	//reserveSpace(b, sizeof(ExampleStruct));
+	//CP_Engine_SetNextGameState(splash_screen_init, splash_screen_update, splash_screen_exit);
+	CP_Engine_SetNextGameState(game_init, game_update, game_exit);
+	CP_Engine_Run();
 
-	ex.str = "kill meAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-	ex.var1 = -2531;
-	ex.var2 = -69.1239817;
-
-	serialize_Ex(ex, b);
-	//readSerialize_Ex(b, &ex);
-
-	init_IO();
-	writeFile("data16.dat", b->data, "w");
-
-	ExampleStruct ex2;
-	unsigned char* c = readFile("data16.dat");
-	readSerialize_Ex(c, &ex2);
-
-	//ex2.str = "";
-	clearBuffer(b);
-	serialize_Ex(ex2, b);
-	size_t tmp = 0;
-	writeFile("data15.dat", b64_encode(b->data, strlen(b->data), &tmp), "w");
-	c = readFile("data15.dat");
-	c = b64_decode(c, strlen(c) + 1, &tmp);
-	printf("%s", c);
-	/*printf("%d\n", ex2.var1);
-	printf("%.32lf\n", ex2.var2);*/
-
-	exit_IO();
-	//free(ex);
-	closeBuffer(b);
-	free(c);
-	//free(b);
-
-
-
-	
-	// @TODO CRASHING A LOT AT EXIT IN RELEASE PROBLEMS IS THE SERIALIZATION CODE
 	return 0;
 }

@@ -352,3 +352,5 @@ MigrationBackup/
 #ignore generated build folders
 .tmp/*
 bin/*
+*.dat
+*.13
