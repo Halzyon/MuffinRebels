@@ -27,6 +27,9 @@
     <ClCompile Include="..\Src\FileIO\serialization.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\Level Editor\lvl_editor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\FileIO\encode.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\FileIO\serialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Level Editor\lvl_editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
