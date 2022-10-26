@@ -18,15 +18,6 @@
     <ClCompile Include="..\Src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< Updated upstream
-    <ClCompile Include="..\Src\FileIO\encode.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\FileIO\fileIO.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\FileIO\serialization.c">
-=======
     <ClCompile Include="..\Src\Character\diceHandler.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,20 +40,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Character\gameMap.c">
->>>>>>> Stashed changes
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< Updated upstream
-    <ClInclude Include="..\Src\FileIO\encode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\FileIO\fileIO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\FileIO\serialization.h">
-=======
     <ClInclude Include="..\Src\Character\diceHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -85,7 +66,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Character\gameMap.h">
->>>>>>> Stashed changes
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
