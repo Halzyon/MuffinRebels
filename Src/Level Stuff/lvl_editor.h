@@ -11,15 +11,8 @@
 #ifndef LVL_EDITOR_H
 #define LVL_EDITOR_H
 
-typedef struct
-{
-	char* map;
+#include "lvl_manager.h"
 
-	unsigned char mapWidth;
-	unsigned char mapHeight;
-}MAP;
-
-void resizeMap(MAP* map, unsigned char width, unsigned char height);
 
 
 #endif // LVL_EDITOR_H

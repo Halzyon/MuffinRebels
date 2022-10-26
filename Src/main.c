@@ -37,45 +37,7 @@ void game_exit(void)
 
 int main(void)
 {
-	//printf("%s\n",readFile("data12.dat"));
-	ExampleStruct ex;
-	Buffer * b = newBuffer();
-	//reserveSpace(b, sizeof(ExampleStruct));
-
-	ex.str = "kill meAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-	ex.var1 = -2531;
-	ex.var2 = -69.1239817;
-
-	serialize_Ex(ex, b);
-	//readSerialize_Ex(b, &ex);
-
-	init_IO();
-	writeFile("data16.dat", b->data, "w");
-
-	ExampleStruct ex2;
-	unsigned char* c = readFile("data16.dat");
-	readSerialize_Ex(c, &ex2);
-
-	//ex2.str = "";
-	clearBuffer(b);
-	serialize_Ex(ex2, b);
-	size_t tmp = 0;
-	writeFile("data15.dat", b64_encode(b->data, strlen(b->data), &tmp), "w");
-	c = readFile("data15.dat");
-	c = b64_decode(c, strlen(c) + 1, &tmp);
-	printf("%s", c);
-	/*printf("%d\n", ex2.var1);
-	printf("%.32lf\n", ex2.var2);*/
-
-	exit_IO();
-	//free(ex);
-	closeBuffer(b);
-	free(c);
-	//free(b);
 
 
-
-	
-	// @TODO CRASHING A LOT AT EXIT IN RELEASE PROBLEMS IS THE SERIALIZATION CODE
 	return 0;
 }

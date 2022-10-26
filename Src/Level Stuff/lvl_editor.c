@@ -12,12 +12,4 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void resizeMap(MAP* map, unsigned char width, unsigned char height)
-{
-	if (map == NULL)
-	{
-	}
-	else
-	{
-	}
-}
+
