@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Src\charMovement.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Character\charMovement.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -19,12 +16,6 @@
     <ClCompile Include="..\Src\FileIO\fileIO.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\gameChar.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\gameMap.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Level Stuff\lvl_editor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,6 +29,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Character\gameChar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Character\gameMap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

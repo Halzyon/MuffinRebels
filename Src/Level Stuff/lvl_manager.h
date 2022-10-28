@@ -11,7 +11,7 @@
 #ifndef LEVEL_MANAGER_H
 #define LEVEL_MANAGER_H
 
-#include "../gameMap.h"
+#include "../Character/gameMap.h"
 #define POOL_SIZE 3 // increase this number to allow more maps/levels 
 					// to be loaded at once
 #define DEFAULT_LEVEL_SIZE 5
@@ -27,7 +27,7 @@ enum TILE_TYPE
 	WALL_T_JUNCTION_INVERTED = '_',
 	WATER = 'w', // WOTAH
 	CHEST = 'c',
-	NUM_TYPES
+	NUM_TYPES_TILE
 };
 
 game_map *mapPool[POOL_SIZE];

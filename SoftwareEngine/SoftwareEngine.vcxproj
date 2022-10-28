@@ -105,12 +105,11 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
   <ItemGroup>
     <ClCompile Include="..\Src\Character\charMovement.c" />
     <ClCompile Include="..\Src\Character\diceHandler.c" />
-    <ClCompile Include="..\Src\charMovement.c" />
+    <ClCompile Include="..\Src\Character\gameChar.c" />
+    <ClCompile Include="..\Src\Character\gameMap.c" />
     <ClCompile Include="..\Src\FileIO\encode.c" />
     <ClCompile Include="..\Src\FileIO\fileIO.c" />
     <ClCompile Include="..\Src\FileIO\serialization.c" />
-    <ClCompile Include="..\Src\gameChar.c" />
-    <ClCompile Include="..\Src\gameMap.c" />
     <ClCompile Include="..\Src\Level Stuff\lvl_editor.c" />
     <ClCompile Include="..\Src\Level Stuff\lvl_manager.c" />
     <ClCompile Include="..\Src\main.c" />
