@@ -68,5 +68,17 @@
     <ClInclude Include="..\Src\Character\gameMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClCompile Include="..\Src\yijia\settings_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\pause_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\combat_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\overworld_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
