@@ -4,15 +4,6 @@
 #include "..\..\Character\diceHandler.h"
 #include "dice_ui.h"
 
-/*typedef struct
-{
-	CP_Vector pos;
-	CP_Image img;
-	float height;
-	float width;
-}image_asset_properties;
-
-image_asset_properties dice[6];*/
 CP_Image d20;
 CP_Image d6;
 CP_Font dice_font;
@@ -20,22 +11,11 @@ float dice_time;
 
 void dice_ui_init(void)
 {
-	/*dice[0].img = CP_Image_Load("Assets/dice/dieWhite_border1.png");
-	dice[1].img = CP_Image_Load("Assets/dice/dieWhite_border2.png");
-	dice[2].img = CP_Image_Load("Assets/dice/dieWhite_border3.png");
-	dice[3].img = CP_Image_Load("Assets/dice/dieWhite_border4.png");
-	dice[4].img = CP_Image_Load("Assets/dice/dieWhite_border5.png");
-	dice[5].img = CP_Image_Load("Assets/dice/dieWhite_border6.png");*/
 	d6 = CP_Image_Load("Assets/dice/d6.png");
 	d20 = CP_Image_Load("Assets/dice/d20.png");
 	dice_font = CP_Font_Load("Assets/Kenney_Pixel.ttf");
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
-	/*for (int i = 0; i < 6; i++)
-	{
-		dice[i].height = CP_Image_GetHeight(dice[i].img);
-		dice[i].width = CP_Image_GetWidth(dice[i].img);
-	}*/
 	dice_time = 0.0f;
 }
 
@@ -99,10 +79,6 @@ void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_po
 
 void dice_shutdown(void)
 {
-	/*for (int i = 0; i < 6; i++)
-	{
-		CP_Image_Free(&dice[i].img);
-	}*/
 	CP_Image_Free(d6);
 	CP_Image_Free(d20);
 }
