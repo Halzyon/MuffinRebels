@@ -29,7 +29,6 @@ void game_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	buttons();
 	if (CP_Input_KeyDown(KEY_ESCAPE))
 	{
 		CP_Engine_Terminate();
