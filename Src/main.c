@@ -2,7 +2,7 @@
 #include "FileIO/fileIO.h"
 #include "FileIO/serialization.h"
 #include "FileIO/encode.h"
-
+#include "Level Stuff/lvl_manager.h"
     
 
 //CP_Image logo;
@@ -37,7 +37,23 @@ void game_exit(void)
 
 int main(void)
 {
+	init_lvl_manager();
+	game_map *map = malloc(sizeof(map));
+#ifdef _DEBUG
+	map->map_arr = malloc(4);
+#else
+	map->map_arr = malloc(4);
+#endif
 
+	map->map_arr[0] = GROUND;
+	map->map_arr[1] = GROUND;
+	map->map_arr[2] = GROUND;
+	map->map_arr[3] = GROUND;
+	map->height = 2;
+	map->width = 2;
+	loadNewMap(*map);
 
+	printf("%s", map->map_arr);
+	exit_lvl_manager();
 	return 0;
 }

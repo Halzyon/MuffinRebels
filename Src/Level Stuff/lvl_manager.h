@@ -18,7 +18,7 @@
 
 enum TILE_TYPE
 {
-	DEFAULT = 0, // HTIS REPRESENTS EMPTY SPACE
+	DEFAULT = 0, // THIS REPRESENTS EMPTY SPACE
 	GROUND = 'g', // THIS IS A NORMAL GROUND TILE
 	WALL_HORIZONTAL = '-',
 	WALL_VERTICAL = '|',
@@ -26,6 +26,7 @@ enum TILE_TYPE
 	WALL_T_JUNCTION = 'T',
 	WALL_T_JUNCTION_INVERTED = '_',
 	WATER = 'w', // WOTAH
+	CHEST = 'c',
 	NUM_TYPES
 };
 
@@ -36,7 +37,10 @@ void init_lvl_manager();
 void exit_lvl_manager();
 
 void loadNewMapFile(const char* filename);
-void loadNewMap(const char* map, unsigned int width, unsigned int height);
+void loadNewMap(game_map map);
+void newMapIndex(char i, game_map map);
+
+char getPoolFreeIndex();
 
 
 #endif // !LEVEL_MANAGER_H
