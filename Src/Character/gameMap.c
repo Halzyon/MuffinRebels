@@ -30,3 +30,4 @@ void free_map_obj(game_map* map_obj)
 {
 	free(map_obj->map_arr);
 }
+
