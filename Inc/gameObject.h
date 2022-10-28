@@ -9,6 +9,7 @@ typedef struct {
 	CP_Vector position;
 	CP_Vector direction;
 	CP_Vector scale;
+	CP_Vector size;
 	float rotation;
 	float speed;
 }GameObject;
