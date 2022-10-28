@@ -6,11 +6,11 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 	Sprite* newSprite = malloc(sizeof(Sprite));
 	if (newSprite)
 	{
-		newSprite->image = CP_Image_Load(imgPath);
+		newSprite->go.image = CP_Image_Load(imgPath);
 		newSprite->col = col;
 		newSprite->row = row;
-		newSprite->size.x = CP_Image_GetWidth(newSprite->image) / newSprite->col;
-		newSprite->size.y = CP_Image_GetHeight(newSprite->image) / newSprite->row;
+		newSprite->go.size.x = CP_Image_GetWidth(newSprite->go.image) / newSprite->col;
+		newSprite->go.size.y = CP_Image_GetHeight(newSprite->go.image) / newSprite->row;
 		newSprite->id = 0;
 		newSprite->time = 0.15;
 		newSprite->time_elapsed = 0;
@@ -58,14 +58,13 @@ void UpdateSprite(Sprite* sprite, float dt)
 
 			}
 		}		
-		sprite->tL.v[0] = sprite->id * sprite->size.x;
-		sprite->tL.v[1] = sprite->renderMode * sprite->size.y;
-		sprite->bR = CP_Vector_Add(sprite->tL, sprite->size);
-		printf("%d\n", sprite->id);
+		sprite->tL.v[0] = sprite->id * sprite->go.size.x;
+		sprite->tL.v[1] = sprite->renderMode * sprite->go.size.y;
+		sprite->bR = CP_Vector_Add(sprite->tL, sprite->go.size);
 	}
 }
 void RenderSprite(Sprite* sprite)
 {	
 	if (sprite != NULL)	
-		CP_Image_DrawSubImage(sprite->image, sprite->go.position.x, sprite->go.position.y, sprite->size.x * sprite->go.scale.x, sprite->size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y, 255);
+		CP_Image_DrawSubImage(sprite->go.image, sprite->go.position.x, sprite->go.position.y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y, 255);
 }

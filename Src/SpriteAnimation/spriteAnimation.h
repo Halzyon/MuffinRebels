@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "gameObject.h"
+#include "../GameObject/gameObject.h"
 typedef enum {
 
 	CONTINUOUS,
@@ -25,7 +25,6 @@ typedef enum {
 
 typedef struct {
 	GameObject go;
-	CP_Image image;
 	int row;
 	int col;
 	int id;

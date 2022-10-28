@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 typedef struct {
+	CP_Image image;
 	CP_Vector position;
 	CP_Vector direction;
 	CP_Vector scale;
