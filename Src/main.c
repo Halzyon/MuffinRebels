@@ -7,6 +7,7 @@
 #include "Character/diceHandler.h"
 #include "Character/charMovement.h"   
 #include "UI/DiceUI/dice_ui.h"
+#include "UI/CombatOverlayUI/combat_overlay.h"
 
 CP_Image logo;
 game_map* map1;
@@ -21,11 +22,14 @@ void game_init(void)
 	init_dice();
 	init_char(Warrior);
 	init_map_obj(10, 10, &map1);
+	combat_init();
 }
 
 void game_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+
+	buttons();
 	if (CP_Input_KeyDown(KEY_ESCAPE))
 	{
 		CP_Engine_Terminate();

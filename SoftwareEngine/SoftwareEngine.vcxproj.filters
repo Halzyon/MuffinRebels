@@ -8,10 +8,10 @@
     <ClCompile Include="..\Src\FileIO\encode.c" />
     <ClCompile Include="..\Src\FileIO\fileIO.c" />
     <ClCompile Include="..\Src\FileIO\serialization.c" />
-    <ClCompile Include="..\Src\Level Editor\lvl_editor.c" />
     <ClCompile Include="..\Src\main.c" />
     <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c" />
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c" />
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\Character\charMovement.h" />
@@ -24,5 +24,6 @@
     <ClInclude Include="..\Src\Level Editor\lvl_editor.h" />
     <ClInclude Include="..\Src\UI\DiceUI\dice_ui.h" />
     <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h" />
+    <ClInclude Include="..\Src\UI\CombatOverlayUI\combat_overlay.h" />
   </ItemGroup>
 </Project>
