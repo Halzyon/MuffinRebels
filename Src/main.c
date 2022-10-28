@@ -1,4 +1,4 @@
-#include "../Inc/tek.h"
+#include "SpriteAnimation/spriteAnimation.h"
 
 CP_Image logo;
 Sprite* ash;
@@ -32,6 +32,7 @@ void game_update(void)
 void game_exit(void)
 {
 	CP_Image_Free(&logo);
+	CP_Image_Free(&ash->go.image);
 	free(ash);
 }
 
