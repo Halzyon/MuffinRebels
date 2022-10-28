@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
+#include "gameObject.h"
 typedef enum {
 
 	CONTINUOUS,
@@ -32,7 +32,6 @@ typedef struct {
 	CP_Vector tL;
 	CP_Vector bR;
 	double time_elapsed;
-	CP_Vector size;
 	float time;
 	bool moved;
 	UINT8 spriteStates[MAX_STATES];
