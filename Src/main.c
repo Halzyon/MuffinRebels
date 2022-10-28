@@ -5,7 +5,8 @@
 #include "Character/gameMap.h"
 #include "Character/gameChar.h"
 #include "Character/diceHandler.h"
-#include "Character/charMovement.h"    
+#include "Character/charMovement.h"   
+#include "UI/DiceUI/dice_ui.h"
 
 CP_Image logo;
 game_map* map1;
@@ -15,9 +16,8 @@ void game_init(void)
 	logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
-
-	CP_System_SetWindowSize(CP_Image_GetWidth(logo), CP_Image_GetHeight(logo));
-
+	CP_System_Fullscreen();
+	dice_ui_init();
 	init_dice();
 	init_char(Warrior);
 	init_map_obj(10, 10, &map1);
@@ -26,8 +26,7 @@ void game_init(void)
 void game_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	CP_Image_Draw(logo, 0.f, 0.f, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255);
-	if (CP_Input_KeyDown(KEY_Q))
+	if (CP_Input_KeyDown(KEY_ESCAPE))
 	{
 		CP_Engine_Terminate();
 	}
@@ -41,6 +40,7 @@ void game_exit(void)
 	CP_Image_Free(&logo);
 	free_map_obj(&map1);
 	free_char();
+	dice_ui_shutdown();
 }
 
 

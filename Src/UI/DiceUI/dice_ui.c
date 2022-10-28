@@ -77,7 +77,7 @@ void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_po
 	}
 }
 
-void dice_shutdown(void)
+void dice_ui_shutdown(void)
 {
 	CP_Image_Free(d6);
 	CP_Image_Free(d20);

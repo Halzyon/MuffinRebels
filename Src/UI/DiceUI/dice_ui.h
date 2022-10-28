@@ -7,4 +7,4 @@ void dice_ui_init(void);
 
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY);
 
-void dice_shutdown(void);
+void dice_ui_shutdown(void);
