@@ -10,12 +10,16 @@
     <ClCompile Include="..\Src\Character\gameMap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\SpriteAnimation.c">
+    <ClCompile Include="..\Src\Character\charMovement.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Src\main.c">
+    <ClCompile Include="..\Src\Character\diceHandler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Character\gameChar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\FileIO\serialization.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\FileIO\encode.c">
@@ -24,7 +28,18 @@
     <ClCompile Include="..\Src\FileIO\fileIO.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\FileIO\serialization.c">
+    <ClCompile Include="..\Src\Level Stuff\lvl_manager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Level Stuff\lvl_editor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="..\Src\Character\charMovement.h">
@@ -51,9 +66,6 @@
     <ClInclude Include="..\Src\Level Editor\lvl_editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\Level Stuff\lvl_manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\FileIO\serialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -71,10 +83,10 @@
     <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Inc\gameObject.h">
+    <ClInclude Include="..\Src\Level Stuff\lvl_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Inc\spriteAnimation.h">
+    <ClInclude Include="..\Src\Level Stuff\lvl_editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
