@@ -125,7 +125,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\FileIO\encode.h" />
     <ClInclude Include="..\Src\FileIO\fileIO.h" />
     <ClInclude Include="..\Src\FileIO\serialization.h" />
-    <ClInclude Include="..\Src\Level Editor\lvl_editor.h" />
+    <ClInclude Include="..\Src\Level Stuff\lvl_editor.h" />
     <ClInclude Include="..\Src\UI\DiceUI\dice_ui.h" />
     <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h" />
     <ClInclude Include="..\Src\Level Stuff\lvl_manager.h" />

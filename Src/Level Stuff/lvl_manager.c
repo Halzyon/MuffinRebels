@@ -14,6 +14,8 @@
 
 void init_lvl_manager()
 {
+	if (isInit)
+		return;
 	for (int i = 0; i < POOL_SIZE; ++i)
 	{
 		mapPool[i] = malloc(sizeof(game_map));
@@ -27,19 +29,20 @@ void init_lvl_manager()
 			mapPool[i]->width = 0;
 		}
 	}
-
+	isInit = TRUE;
 }
 
 void exit_lvl_manager()
 {
+
 	for (int i = 0; i < POOL_SIZE; ++i)
 	{
-		if (mapPool[i]->map_arr)
-		{
-			free(mapPool[i]->map_arr);
-		}
 		if (mapPool[i])
 		{
+			if (mapPool[i]->map_arr)
+			{
+				free(mapPool[i]->map_arr);
+			}
 			free(mapPool[i]);
 		}
 	}

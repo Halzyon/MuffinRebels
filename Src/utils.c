@@ -33,3 +33,8 @@ CP_Vector AngleToVector(float radian_angle)
 	ret = CP_Vector_Set(cosf(radian_angle), sinf(radian_angle));
     return ret;
 }
+
+CP_Vector GetAreaClicked(float clickX, float clickY, float gridsize)
+{
+	return CP_Vector_Set(clickX / gridsize, clickY / gridsize);
+}
