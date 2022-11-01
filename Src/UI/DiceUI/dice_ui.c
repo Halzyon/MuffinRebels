@@ -8,7 +8,7 @@ CP_Image d20;
 CP_Image d6;
 CP_Font dice_font;
 float dice_time;
-
+/*
 void dice_ui_init(void)
 {
 	d6 = CP_Image_Load("Assets/dice/d6.png");
@@ -18,7 +18,7 @@ void dice_ui_init(void)
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 	dice_time = 0.0f;
 }
-
+*/
 /*
 void player_rolls_dice(int num_roll)
 {
@@ -44,7 +44,7 @@ void player_rolls_dice(int num_roll)
 	}
 	dice_time = 0;
 }*/
-
+/*
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY)
 {
 	float text_posX = dice_posX + 5.5;
@@ -81,4 +81,4 @@ void dice_ui_shutdown(void)
 {
 	CP_Image_Free(d6);
 	CP_Image_Free(d20);
-}
+}*/
