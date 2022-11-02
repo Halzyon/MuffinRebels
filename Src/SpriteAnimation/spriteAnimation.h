@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../GameObject/gameObject.h"
+#include "../Character/gameMap.h"
 typedef enum {
 
 	CONTINUOUS,
@@ -39,7 +40,7 @@ typedef struct {
 
 void UpdateSprite(Sprite* sprite, float dt);
 
-void RenderSprite(Sprite* sprite);
+void RenderSprite(Sprite* sprite, game_map* gm);
 
 Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool dir);
 

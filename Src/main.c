@@ -5,6 +5,7 @@
 
 CP_Image logo;
 Sprite* ash;
+game_map* Level;
 void game_init(void)
 {
 	logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
@@ -16,8 +17,10 @@ void game_init(void)
 	
 	CP_System_SetWindowSize(CP_Image_GetWidth(logo), CP_Image_GetHeight(logo) * 3);
 
+	Level = malloc(sizeof(game_map));
 	init_dice();
 	init_char(Warrior);
+	init_map_obj(CP_Image_GetWidth(logo) / get_character()->sp->go.size.x, CP_Image_GetHeight(logo) / get_character()->sp->go.size.y, Level, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo));
 }
 
 void game_update(void)
@@ -27,7 +30,7 @@ void game_update(void)
 	CP_Graphics_ClearBackground(CP_Color_Create(0,0,0,255));
 
 	//CP_Image_Draw(logo, 0.f, 0.f, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255);
-	RenderSprite(get_character()->sp);
+	RenderSprite(get_character()->sp,Level);
 
 	if (CP_Input_KeyDown(KEY_Q))
 	{
@@ -39,7 +42,7 @@ void game_update(void)
 void game_exit(void)
 {
 	CP_Image_Free(&logo);
-
+	free(Level);
 	free_char();
 }
 
