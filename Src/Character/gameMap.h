@@ -1,5 +1,6 @@
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
+#include <cprocessing.h>
 
 typedef struct
 {
@@ -7,6 +8,9 @@ typedef struct
 
 	unsigned int width;
 	unsigned int height;
+
+	float world_width;
+	float world_height;
 
 } game_map;
 
@@ -24,13 +28,19 @@ enum TILE_TYPE
 	NUM_TYPES_TILE
 };
 
-int init_map_obj(unsigned int width_size, unsigned int height_size, game_map* out_obj);
+int init_map_obj(unsigned int width_size, unsigned int height_size, game_map* out_obj, float world_width, float world_height);
 
 int map_get_x(int index, int size);
 
 int map_get_y(int index, int size);
 
 int map_get_index(int x, int y, int size);
+
+CP_Vector map_get_worldpos(int index, game_map* in_map);
+
+float map_get_world_x(int x, game_map* in_map);
+
+float map_get_world_y(int y, game_map* in_map);
 
 void free_map_obj(game_map* map_obj);
 

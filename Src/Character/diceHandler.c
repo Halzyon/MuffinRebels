@@ -10,7 +10,7 @@ int* dice_list[NUM_TYPES] = {&std_D6, &std_D20};
 
 void init_dice(void)
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 }
 
 int roll_dice(dice_types dice)
@@ -29,6 +29,6 @@ int roll_dice(dice_types dice)
 			break;
 	}
 
-	int number = ((double)rand() / (RAND_MAX + 1)) * size; //normalise rand values then multiplay by range
+	int number = (int)(((double)rand() / (RAND_MAX + 1)) * size); //normalise rand values then multiplay by range
 	return dice_list[dice][number];
 }
