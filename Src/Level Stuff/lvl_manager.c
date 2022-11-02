@@ -22,8 +22,8 @@ void init_lvl_manager()
 		poolStatus[i] = 0;
 		if (mapPool[i])
 		{
-			mapPool[i]->map_arr = malloc(1);
-			mapPool[i]->map_arr[0] = '\0';
+			if (mapPool[i]->map_arr = malloc(1))
+				mapPool[i]->map_arr[0] = '\0';
 
 			mapPool[i]->height = 0;
 			mapPool[i]->width = 0;
@@ -103,5 +103,5 @@ char getPoolFreeIndex()
 		if (!poolStatus[i])
 			return i;
 	}
-	return NULL;
+	return -1;
 }
