@@ -29,7 +29,7 @@ enum TILE_TYPE
 };
 
 /*!
- * @brief 
+ * @brief initialises out parameter (out_obj) with default values and makes sure it exists
  * @param out_obj empty game_map object to be passed in so that default values can be written in and passed back
  * @param width_size unsigned integer total number of units in the width of the grid
  * @param height_size unsigned integer total number of units in the height of the grid
