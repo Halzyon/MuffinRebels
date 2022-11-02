@@ -2,6 +2,8 @@
 #define GAME_CHAR_H
 #include "cprocessing.h"
 
+#include "../SpriteAnimation/spriteAnimation.h"
+
 typedef enum
 {
 	Warrior,
@@ -11,7 +13,7 @@ typedef enum
 
 typedef struct 
 {
-	CP_Vector pos;
+	Sprite* sp;
 
 	int hp;
 	int energy;

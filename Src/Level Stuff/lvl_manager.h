@@ -16,19 +16,7 @@
 					// to be loaded at once
 #define DEFAULT_LEVEL_SIZE 5
 
-enum TILE_TYPE
-{
-	DEFAULT = 0, // THIS REPRESENTS EMPTY SPACE
-	GROUND = 'g', // THIS IS A NORMAL GROUND TILE
-	WALL_HORIZONTAL = '-',
-	WALL_VERTICAL = '|',
-	WALL_JUNCTION = '+',
-	WALL_T_JUNCTION = 'T',
-	WALL_T_JUNCTION_INVERTED = '_',
-	WATER = 'w', // WOTAH
-	CHEST = 'c',
-	NUM_TYPES_TILE
-};
+
 
 game_map *mapPool[POOL_SIZE];
 char poolStatus[POOL_SIZE];

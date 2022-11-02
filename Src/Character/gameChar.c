@@ -10,10 +10,16 @@ int init_char(class_select char_select)
 	the_player = malloc(sizeof(my_character));
 	if (the_player)
 	{
+		the_player->sp = CreateSprite("Assets/poke.png", 4, 4, true, true);
 		the_player->char_class = char_select;
 		the_player->energy = 0;
 		the_player->hp = 100;
-		the_player->pos = CP_Vector_Zero();
+
+		//sprite animation init
+		the_player->sp->spriteStates[RIGHT] = 2;
+		the_player->sp->spriteStates[BACKWARD] = 0;
+		the_player->sp->spriteStates[LEFT] = 1;
+		the_player->sp->spriteStates[FORWARD] = 3;
 	}
 
 	return the_player;
@@ -26,6 +32,9 @@ my_character* get_character(void)
 
 int free_char(void)
 {
+	CP_Image_Free(get_character()->sp->go.image);
+	free(get_character()->sp);
+
 	the_player = NULL;
 	free(the_player);
 }
