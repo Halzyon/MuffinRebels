@@ -1,9 +1,4 @@
-#include "cprocessing.h"
-#include "FileIO/fileIO.h"
-#include "FileIO/serialization.h"
-#include "FileIO/encode.h"
-#include "Character/gameMap.h"
-#include "Character/gameChar.h"
+#include "SpriteAnimation/spriteAnimation.h"
 #include "Character/diceHandler.h"
 #include "Character/charMovement.h"   
 #include "utils.h"
@@ -18,20 +13,26 @@ CP_Image logo;
 //CP_Image logo;
 
 
+
+#include "Character/gameChar.h"
+
+CP_Image logo;
+Sprite* ash;
+
 void game_init(void)
 {
 	logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
+	
+	//ash = CreateSprite("Assets/poke.png",4,4,true,true);
+
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 
-
 	
+	CP_System_SetWindowSize(CP_Image_GetWidth(logo), CP_Image_GetHeight(logo) * 3);
 
 	init_dice();
 	init_char(Warrior);
-	//CP_System_SetWindowSize(CP_Image_GetWidth(logo), CP_Image_GetHeight(logo));
-
-
 }
 
 void game_update(void)
@@ -49,23 +50,27 @@ void game_update(void)
 	
 
 	//hardware_handler();
+	hardware_handler();
+	UpdateSprite(get_character()->sp, CP_System_GetDt());
+	CP_Graphics_ClearBackground(CP_Color_Create(0,0,0,255));
+
+	//CP_Image_Draw(logo, 0.f, 0.f, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255);
+	RenderSprite(get_character()->sp);
 }
 
 void game_exit(void)
 {
 	CP_Image_Free(&logo);
-	
-	//free_char();
-	
+
+
+	free_char();
 }
 
 
 
 
-int main(void)
+void main(void)
 {
-
-
 	//CP_Engine_SetNextGameState(splash_screen_init, splash_screen_update, splash_screen_exit);
 	CP_Engine_SetNextGameState(editor_init, editor_update, editor_exit);
 	CP_Engine_Run();
