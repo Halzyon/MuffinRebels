@@ -44,4 +44,6 @@ float map_get_world_y(int y, game_map* in_map);
 
 void free_map_obj(game_map* map_obj);
 
+
+
 #endif // !GAME_MAP_H

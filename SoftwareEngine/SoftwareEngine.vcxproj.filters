@@ -10,6 +10,12 @@
     <ClCompile Include="..\Src\Character\gameMap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\main.c">
     <ClCompile Include="..\Src\Character\charMovement.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Level Stuff\lvl_manager.h">

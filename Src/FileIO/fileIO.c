@@ -174,6 +174,7 @@ const unsigned char* readFile(const unsigned char *name)
                 //buffer2 = getc(getFile(name));
             }
             //fseek(getFile(name), 0L, SEEK_SET); // move back to start of file
+            free(buffer2);
             return buffer->data;
         }
     }
