@@ -57,12 +57,14 @@ void combat_init(void)
 
 	// set timer and dice timer
 	dice_timer = 0;
+
 }
 
 void combat_buttons(void)
 {
 	printf("%d, %d ", roll, d6.clicked);
 	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
+
 	float buttons_centerpointX = CP_System_GetWindowWidth() - 180;
 	float buttons_centerpointY = CP_System_GetWindowHeight() - 100;
 	dice_button.pos.x = buttons_centerpointX + 100;
@@ -133,13 +135,14 @@ void combat_buttons(void)
 		}
 		if (roll == 1)
 		{
-			if ((dice_timer += CP_System_GetDt()) < 2)
+			generate_dice(4, e_std_D6, roll_pos.x, roll_pos.y);
+			dice_timer += CP_System_GetDt();
+			if (dice_timer > 2)
 			{
-				generate_dice(4, e_std_D6, roll_pos.x, roll_pos.y);
+				dice_timer = 0;
+				roll = !roll;
+				d6.clicked = !d6.clicked;
 			}
-			dice_timer = 0;
-			roll = !roll;
-			d6.clicked = !d6.clicked;
 		}
 	}
 	/*else if (d20.clicked == 1)
@@ -230,8 +233,7 @@ void settings_button(void)
 
 /*void timer_ui(void)
 {
-	int remain = 
-	char* remaining_time = '0' + timer;
+	char display_mins_tens = 
 	CP_Font_DrawText(*remaining_time, CP_System_GetWindowWidth() / 2, 50.0f);
 }*/
 
