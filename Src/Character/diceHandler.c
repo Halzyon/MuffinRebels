@@ -3,8 +3,8 @@
 
 #include "diceHandler.h"
 
-const int std_D6[6] = { 1,2,3,4,5,6 };
-const int std_D20[20] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
+int std_D6[D6_SIZE] = {1,2,3,4,5,6};
+int std_D20[D20_SIZE] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
 
 int* dice_list[NUM_TYPES] = {&std_D6, &std_D20};
 
@@ -15,6 +15,20 @@ void init_dice(void)
 
 int roll_dice(dice_types dice)
 {
-	int number = rand() % (sizeof(*dice_list[dice]) / sizeof(int)) + 1;
+	int size;
+	switch (dice)
+	{
+		case e_std_D6:
+			size = D6_SIZE;
+			break;
+		case e_std_D20:
+			size = D20_SIZE;
+			break;
+		default:
+			size = D6_SIZE;
+			break;
+	}
+
+	int number = ((double)rand() / (RAND_MAX + 1)) * size; //normalise rand values then multiplay by range
 	return dice_list[dice][number];
 }
