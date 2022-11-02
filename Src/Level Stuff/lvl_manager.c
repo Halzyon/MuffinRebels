@@ -14,7 +14,7 @@
 
 void init_lvl_manager()
 {
-	if (isInit)
+	if (isInit_lvlmanager)
 		return;
 	for (int i = 0; i < POOL_SIZE; ++i)
 	{
@@ -29,7 +29,7 @@ void init_lvl_manager()
 			mapPool[i]->width = 0;
 		}
 	}
-	isInit = TRUE;
+	isInit_lvlmanager = TRUE;
 }
 
 void exit_lvl_manager()

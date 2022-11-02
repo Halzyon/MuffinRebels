@@ -30,6 +30,6 @@ void newMapIndex(char i, game_map map);
 
 char getPoolFreeIndex();
 
-CP_BOOL isInit = FALSE;
+CP_BOOL isInit_lvlmanager;
 #endif // !LEVEL_MANAGER_H
 

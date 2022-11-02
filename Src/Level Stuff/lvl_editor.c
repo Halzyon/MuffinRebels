@@ -11,7 +11,6 @@
 #include "lvl_editor.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../Level Stuff/lvl_manager.h"
 #include "../Character/gameMap.h"
 #include "cprocessing.h"
 #include "../utils.h"
@@ -44,10 +43,10 @@ void editor_update(void)
 #ifdef LEVEL_EDITOR
 	if (CP_Input_MouseClicked())
 	{
-		CP_Vector tmp = GetAreaClicked(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), gridsize);
+		CP_Vector tmp = GetAreaClicked(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), (float)gridsize);
 		if (tmp.x != 0 && tmp.y != 0)
 		{
-			map->map_arr[map_get_index(tmp.x, tmp.y, map->width)] = mouse_cursor;
+			map->map_arr[map_get_index((int)tmp.x, (int)tmp.y, map->width)] = mouse_cursor;
 		}
 	}
 	if (CP_Input_KeyTriggered(KEY_1))
@@ -111,7 +110,7 @@ void editor_update(void)
 		}
 		//CP_Settings_NoStroke();
 		CP_Settings_StrokeWeight(0.5f);
-		CP_Graphics_DrawRectAdvanced(map_get_x(i, map->width) * gridsize + 0.5f, map_get_y(i, map->height) * gridsize + 0.5f, gridsize - 0.5f, gridsize - 0.5f, 0.f, 0.f);
+		CP_Graphics_DrawRectAdvanced((float)(map_get_x((int)i, map->width) * gridsize + 0.5f), (float)(map_get_y((float)i, map->height) * gridsize + 0.5f), gridsize - 0.5f, gridsize - 0.5f, 0.f, 0.f);
 	}
 
 	switch (mouse_cursor)
@@ -145,7 +144,7 @@ void editor_update(void)
 	CP_Settings_NoStroke();
 	int tmp = gridsize / 4;
 	int tmp2 = tmp / 2;
-	CP_Graphics_DrawRect(CP_Input_GetMouseX() - tmp2, CP_Input_GetMouseY() - tmp2, tmp, tmp);
+	CP_Graphics_DrawRect(CP_Input_GetMouseX() - tmp2, CP_Input_GetMouseY() - tmp2, (float)tmp, (float)tmp);
 
 #endif // LEVEL_EDITOR render
 }
@@ -155,3 +154,9 @@ void editor_exit(void)
 	free_map_obj(map);
 	exit_lvl_manager();
 }
+// @TODO add serialization code to allow saving for maps.
+// plannedf data is for dynamic char array
+// save as chr= 0xff0x990x12.... ?
+
+
+
