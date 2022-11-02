@@ -13,6 +13,7 @@ asset settings;
 CP_Vector roll_pos;
 int roll;
 CP_Font font;
+float dice_timer;
 
 void combat_init(void)
 {
@@ -53,6 +54,9 @@ void combat_init(void)
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Font_Set(font);
+
+	// set timer and dice timer
+	dice_timer = 0;
 }
 
 void combat_buttons(void)
@@ -125,20 +129,31 @@ void combat_buttons(void)
 
 		if (mouse_in_rect(roll_pos.x, roll_pos.y, d6.size.x * 1.4, d6.size.y * 1.4) == 1 && CP_Input_MouseClicked())
 		{
-			roll == 1;
+			roll = 1;
 		}
 		if (roll == 1)
 		{
-			generate_dice(4, e_std_D6, roll_pos.x, roll_pos.y);
+			if ((dice_timer += CP_System_GetDt()) < 2)
+			{
+				generate_dice(4, e_std_D6, roll_pos.x, roll_pos.y);
+			}
+			dice_timer = 0;
+			roll = !roll;
+			d6.clicked = !d6.clicked;
 		}
 	}
 	/*else if (d20.clicked == 1)
 	{
 		CP_Image_Draw(inventory.img, roll_pos.x, roll_pos.y, (inventory.size.x * 5), (inventory.size.y * 5), 255);
 		generate_dice(20, e_std_D20, roll_pos.x, roll_pos.y);
-		if (mouse_in_rect(roll_pos.x, roll_pos.y, d20.size.x * 1.5, d20.size.y * 1.5) == 1 && CP_Input_MouseClicked())
+
+		if (mouse_in_rect(roll_pos.x, roll_pos.y, d6.size.x * 1.4, d6.size.y * 1.4) == 1 && CP_Input_MouseClicked())
 		{
-			generate_dice(14, e_std_D20, roll_pos.x, roll_pos.y);
+			roll = 1;
+		}
+		if (roll == 1)
+		{
+			generate_dice(4, e_std_D6, roll_pos.x, roll_pos.y);
 		}
 	}*/
 }
@@ -173,6 +188,7 @@ void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_po
 		}
 	}
 }
+
 
 void health_bar(int remaining_hp)
 {	
@@ -212,6 +228,12 @@ void settings_button(void)
 	}
 }
 
+/*void timer_ui(void)
+{
+	int remain = 
+	char* remaining_time = '0' + timer;
+	CP_Font_DrawText(*remaining_time, CP_System_GetWindowWidth() / 2, 50.0f);
+}*/
 
 
 /*
