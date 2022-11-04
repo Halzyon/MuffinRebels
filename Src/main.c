@@ -1,10 +1,10 @@
 #include "SpriteAnimation/spriteAnimation.h"
 
-CP_Image logo;
+GameObject logo;
 Sprite* ash;
 void game_init(void)
 {
-	logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
+	logo.image = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
 	
 	ash = CreateSprite("Assets/poke.png",4,4,true,true);
 
