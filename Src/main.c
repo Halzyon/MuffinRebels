@@ -23,7 +23,7 @@ void game_init(void)
 	//CP_System_Fullscreen();
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
-	CP_System_SetWindowSize(1280,800);
+	CP_System_SetWindowSize(1280,720);
 	combat_init();
 	init_dice();
 	init_char(Warrior);
@@ -37,9 +37,10 @@ void game_update(void)
 
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	combat_buttons();
+	combat_buttons(5);
 	health_bar(4);
 	settings_button();
+	inventory_window();
 
 	hardware_handler();
 	UpdateSprite(get_character()->sp, CP_System_GetDt());

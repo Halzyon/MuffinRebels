@@ -1,4 +1,6 @@
-#pragma once
+#ifndef COMBAT_OVERLAY_H
+#define COMBAT_OVERLAY_H
+
 #include "cprocessing.h"
 #include "../../Character/diceHandler.h"
 
@@ -13,7 +15,11 @@ typedef struct
 
 void combat_init(void);
 
-void combat_buttons(void);
+void init_dicePos(void);
+
+void init_rollPos(void);
+
+void combat_buttons(int num_roll);
 
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY);
 
@@ -21,4 +27,8 @@ void health_bar(int remaining_hp);
 
 void settings_button(void);
 
+void inventory_window(void);
+
 void combat_ui_shutdown(void);
+
+#endif //COMBAT_OVERLAY_H

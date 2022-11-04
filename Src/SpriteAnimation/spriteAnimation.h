@@ -35,6 +35,7 @@ typedef struct {
 	bool moved;
 	UINT8 spriteStates[MAX_STATES];
 	UINT8 renderMode;
+	int clicked;
 }Sprite;
 
 void UpdateSprite(Sprite* sprite, float dt);
