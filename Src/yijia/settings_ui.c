@@ -100,7 +100,7 @@ void settings_update(void) {
 	}
 
 	//brightness--> brightness_Settings_ui
-	if (CP_Font_DrawText("Brightness", 720, 650)
+	if (IsAreaClicked(CP_Font_DrawText("Brightness", 720, 650)))
 	{
 
 	}
