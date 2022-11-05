@@ -2,12 +2,15 @@
 
 #include "gameMap.h"
 
+#include <math.h>
+
+#pragma warning(disable : 6011)
 int init_map_obj(unsigned int width_size, unsigned int height_size, game_map* out_obj, float world_width, float world_height)
 {
 	out_obj->width = width_size;
 	out_obj->height = height_size;
-	out_obj->map_arr = malloc((size_t)(width_size * height_size));
-
+	out_obj->map_arr = malloc((size_t)(width_size * height_size) + 1);
+	out_obj->map_arr[(width_size * height_size)] = '\0';
 	out_obj->world_width = world_width;
 	out_obj->world_height = world_height;
 
@@ -49,3 +52,15 @@ void free_map_obj(game_map* map_obj)
 	free(map_obj->map_arr);
 }
 
+
+void load_map_file(game_map* dst, const char* src)
+{
+	int len = strlen(src);
+	dst->world_height = dst->world_width = (int)sqrt(len);
+	
+	for (int i = 0; i < len; ++i)
+	{
+		dst->map_arr[i] = src[i];
+	}
+	return;
+}
