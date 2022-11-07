@@ -116,7 +116,6 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\Level Stuff\lvl_manager.c" />
     <ClCompile Include="..\Src\main.c" />
     <ClCompile Include="..\Src\Scenes\GameScene.c" />
-    <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c" />
     <ClCompile Include="..\Src\SplashScreen\splashscreen.c" />
     <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
     <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c" />
@@ -136,7 +135,6 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\Level Stuff\lvl_editor.h" />
     <ClInclude Include="..\Src\Level Stuff\lvl_manager.h" />
     <ClInclude Include="..\Src\Scenes\GameScene.h" />
-    <ClInclude Include="..\Src\UI\DiceUI\dice_ui.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\GameObject\gameObject.h" />
