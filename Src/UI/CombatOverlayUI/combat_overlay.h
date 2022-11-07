@@ -6,9 +6,9 @@
 
 typedef struct
 {
-	CP_Image img;
+	CP_Image image;
 	CP_Vector size;
-	CP_Vector pos;
+	CP_Vector position;
 	int inButton;
 	int clicked;
 }asset;
@@ -27,7 +27,7 @@ void health_bar(int remaining_hp);
 
 void settings_button(void);
 
-void inventory_window(void);
+void inventory_window(int num_item, float rightmost_box_positionX);
 
 void combat_ui_shutdown(void);
 

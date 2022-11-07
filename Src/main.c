@@ -40,7 +40,6 @@ void game_update(void)
 	combat_buttons(5);
 	health_bar(4);
 	settings_button();
-	inventory_window();
 
 	hardware_handler();
 	UpdateSprite(get_character()->sp, CP_System_GetDt());
