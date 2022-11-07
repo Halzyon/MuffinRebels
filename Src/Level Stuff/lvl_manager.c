@@ -14,32 +14,35 @@
 
 void init_lvl_manager()
 {
+	if (isInit_lvlmanager)
+		return;
 	for (int i = 0; i < POOL_SIZE; ++i)
 	{
 		mapPool[i] = malloc(sizeof(game_map));
 		poolStatus[i] = 0;
 		if (mapPool[i])
 		{
-			mapPool[i]->map_arr = malloc(1);
-			mapPool[i]->map_arr[0] = '\0';
+			if (mapPool[i]->map_arr = malloc(1))
+				mapPool[i]->map_arr[0] = '\0';
 
 			mapPool[i]->height = 0;
 			mapPool[i]->width = 0;
 		}
 	}
-
+	isInit_lvlmanager = TRUE;
 }
 
 void exit_lvl_manager()
 {
+
 	for (int i = 0; i < POOL_SIZE; ++i)
 	{
-		if (mapPool[i]->map_arr)
-		{
-			free(mapPool[i]->map_arr);
-		}
 		if (mapPool[i])
 		{
+			if (mapPool[i]->map_arr)
+			{
+				free(mapPool[i]->map_arr);
+			}
 			free(mapPool[i]);
 		}
 	}
@@ -100,5 +103,5 @@ char getPoolFreeIndex()
 		if (!poolStatus[i])
 			return i;
 	}
-	return NULL;
+	return -1;
 }

@@ -13,6 +13,8 @@
 
 #include "lvl_manager.h"
 
-
+void editor_init(void);
+void editor_update(void);
+void editor_exit(void);
 
 #endif // LVL_EDITOR_H
