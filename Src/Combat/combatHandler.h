@@ -2,7 +2,8 @@
 #define combat_handler_h
 #include "../GameObject/gameObject.h"
 
-* priority_go; //priority will always be counted as attacking while the combat while defend
+
+GameObject* priority_go; //priority will always be counted as attacking while the combat while defend
 
 GameObject* defending_go;
 
