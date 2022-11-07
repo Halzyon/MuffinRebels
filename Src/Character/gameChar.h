@@ -3,6 +3,9 @@
 #include "cprocessing.h"
 
 #include "../SpriteAnimation/spriteAnimation.h"
+#include "../Character/diceHandler.h"
+
+#define MAX_DICE 5
 
 typedef enum
 {
@@ -18,6 +21,9 @@ typedef struct
 	int hp;
 	int energy;
 	unsigned int char_class;
+
+	unsigned int dice_size;
+	dice_types dice[MAX_DICE];
 
 } my_character;
 
