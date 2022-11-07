@@ -29,15 +29,16 @@ void splash_screen_update(void)
 	//get the delta time between each frame
 	float dt = CP_System_GetDt();
 	//algorithm for logo fade in and out
+	int oldalpha = alpha;
+	alpha += speed * dt;
 
-	alpha = alpha % 256 + speed * dt;
 	//To Quit the game
 	if (CP_Input_KeyDown(KEY_ESCAPE) || CP_Input_KeyDown(KEY_Q))
 	{
 		CP_Engine_Terminate();
 	}
 	logo->go.alpha = alpha;
-	if (alpha > 254)
+	if (oldalpha > alpha)
 	{
 		GameStateSetNextScene(GAME_SCENE);
 	}

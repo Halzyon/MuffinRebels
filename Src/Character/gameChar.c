@@ -9,7 +9,6 @@ int init_char(class_select char_select)
 	the_player = malloc(sizeof(my_character));
 	if (the_player)
 	{
-		Sprite* object = CreateSprite("assets thing", 1, 1, false, false);
 		the_player->sp = CreateSprite("Assets/poke.png", 4, 4, true, false);
 		the_player->char_class = char_select;
 		the_player->energy = 0;
