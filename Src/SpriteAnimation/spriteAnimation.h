@@ -47,5 +47,4 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 
 
 
-
 #endif
