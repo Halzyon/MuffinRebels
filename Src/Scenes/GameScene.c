@@ -52,6 +52,6 @@ void game_exit(void)
 {
 	
 
-	free(ash)
+	free(ash);
 	free_char();
 }

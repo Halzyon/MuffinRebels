@@ -1,19 +1,6 @@
 #include "GameStateManager.h"
-#include "SpriteAnimation/SpriteScene.h"
-#include "Scenes/GameScene.h"
-void GameStateRun(void)
-{
-	gsm.b_subScene = false;
-	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
-	GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
-	GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
-	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
 
-	GameStateSetNextScene(SPLASHSCREEN_SCENE);
-	CP_Engine_Run();
 
-	freeArray(&gsm.Scenes);
-}
 void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, FunctionPtr exit)
 {
 	Scene* scne = (Scene*)malloc(sizeof(scn) + sizeof(init) + sizeof(update) + sizeof(exit));
@@ -109,4 +96,18 @@ void freeArray(SceneArray* a) {
 	free(a->array);
 	a->array = NULL;
 	a->used = a->size = 0;
+}
+
+void GameStateRun(void)
+{
+	gsm.b_subScene = false;
+	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
+	GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
+	GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
+	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
+
+	GameStateSetNextScene(SPLASHSCREEN_SCENE);
+	CP_Engine_Run();
+
+	freeArray(&gsm.Scenes);
 }

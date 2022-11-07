@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include "SplashScreen/splashscreen.h"
 #include "GameObject/gameObject.h"
+#include "SpriteAnimation/SpriteScene.h"
+#include "Scenes/GameScene.h"
 
 #ifdef _DEBUG
 #define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));
