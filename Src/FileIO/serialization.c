@@ -127,6 +127,8 @@ void serializeString(const unsigned char* c, Buffer *b)
 {
     int size = strlen(c) + 1 + 4 + 2;
     reserveSpace(b, size);
+
+
     unsigned char *tmp = malloc(size);
     snprintf(tmp, size, "str=%s\n", c);
     if (tmp != NULL)
@@ -152,7 +154,6 @@ void serialize_Ex(ExampleStruct exStruct, Buffer *output)
 
     serializeString(exStruct.str, output);
     //clearBuffer(output);
-
 }
 
 /*!
@@ -280,6 +281,20 @@ double deSerializeDouble(const unsigned char* c)
     return strtod(c, NULL, 16);
 }
 
+void serializeMap(char* c, Buffer* b)
+{
+    int size = strlen(c) + 2;
+    reserveSpace(b, size);
+
+    //unsigned char* tmp = malloc(size);
+    if (b->data != NULL)
+    {
+        strncat(b->data, c, size);
+    }
+    b->next += size;
+}
+
+
 /*!
  @brief 
  
@@ -289,13 +304,8 @@ void clearBuffer(Buffer* b)
 {
     if (b == NULL)
         return;
-    unsigned char* tmp2 = realloc(b->data, DEFAULT_SIZE);
-    if (tmp2 != NULL)
-        b->data = tmp2;
-
+    
     if (b->data != NULL)
-        *b->data = NULL;
-    b->size = DEFAULT_SIZE;
-    b->next = 0;
-    //free(tmp2);
+        free(b->data);
+    free(b);
 }

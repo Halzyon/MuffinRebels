@@ -52,4 +52,6 @@ void readSerialize_Ex(const unsigned char * file, ExampleStruct* ex);
 int deSerializeInt(const unsigned char* c);
 double deSerializeDouble(const unsigned char* c);
 
+void serializeMap(char* c, Buffer* b);
+
 #endif
