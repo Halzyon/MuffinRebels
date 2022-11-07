@@ -34,11 +34,11 @@ void editor_init(void)
 
 	if (map = malloc(sizeof(map)))
 	{
-		if (init_map_obj(10, 10, map, WINDOW_HEIGHT, WINDOW_HEIGHT))
+		if (init_map_obj(map,10, 10, WINDOW_HEIGHT, WINDOW_HEIGHT))
 		{
 			int size = map->height * map->width;
 			loadNewMap(*map);
-			for (int i = 0; i < 100; ++i)
+			for (int i = 0; i < size; ++i)
 			{
 				map->map_arr[i] = 'g';
 			}
