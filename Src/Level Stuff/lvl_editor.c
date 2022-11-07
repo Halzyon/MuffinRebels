@@ -31,14 +31,13 @@ void editor_init(void)
 	init_lvl_manager();
 
 
-
 	if (map = malloc(sizeof(map)))
 	{
 		if (init_map_obj(10, 10, map, WINDOW_HEIGHT, WINDOW_HEIGHT))
 		{
 			int size = map->height * map->width;
 			loadNewMap(*map);
-			for (int i = 0; i < 100; ++i)
+			for (int i = 0; i < size; ++i)
 			{
 				map->map_arr[i] = 'g';
 			}
@@ -110,6 +109,7 @@ void editor_update(void)
 
 
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	// change rendered tile to tile 49 in pack.
 #ifdef LEVEL_EDITOR
 
 	for (size_t i = 0; i < map->width * map->height; ++i) // row
