@@ -2,10 +2,9 @@
 
 #include "gameMap.h"
 
-#include <math.h>
-
 #pragma warning(disable : 6011)
-int init_map_obj(unsigned int width_size, unsigned int height_size, game_map* out_obj, float world_width, float world_height)
+
+int init_map_obj(game_map* out_obj, unsigned int width_size, unsigned int height_size, float world_width, float world_height)
 {
 	out_obj->width = width_size;
 	out_obj->height = height_size;

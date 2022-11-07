@@ -15,6 +15,14 @@ int init_char(class_select char_select)
 		the_player->energy = 0;
 		the_player->hp = 100;
 
+		the_player->dice[0] = e_std_D6;
+		the_player->dice_size = MAX_DICE;
+
+		for (int i = 1; i < MAX_DICE; ++i)
+		{
+			the_player->dice[i] = -1;
+		}
+
 		//sprite animation init
 		the_player->sp->spriteStates[RIGHT] = 2;
 		the_player->sp->spriteStates[BACKWARD] = 0;
