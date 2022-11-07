@@ -7,6 +7,8 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 	if (newSprite)
 	{
 		newSprite->go.image = CP_Image_Load(imgPath);
+		if (!newSprite->go.image)
+			LOG("ERROR LOADING IMAGE FROM FILE %s", imgPath);
 		newSprite->col = col;
 		newSprite->row = row;
 		newSprite->go.size.x = CP_Image_GetWidth(newSprite->go.image) / newSprite->col;
@@ -80,7 +82,7 @@ void RenderSprite(Sprite* sprite)
 
 void RenderSpriteOnMap(Sprite* sprite, game_map* gm)
 {
-	if (sprite != NULL)
+	if (sprite != NULL && sprite->go.isAlive)
 	{
 		
 		float x = map_get_world_x(sprite->go.position.x, gm);

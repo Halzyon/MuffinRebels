@@ -6,6 +6,13 @@
 #include <stdbool.h>
 #include "../GameObject/gameObject.h"
 #include "../Character/gameMap.h"
+
+#ifdef _DEBUG
+#define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));
+#else
+#define LOG(ERROR_MSG, ...) 0
+#endif
+
 typedef enum {
 
 	CONTINUOUS,

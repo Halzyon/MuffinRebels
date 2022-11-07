@@ -106,6 +106,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\Character\charMovement.c" />
     <ClCompile Include="..\Src\Character\diceHandler.c" />
     <ClCompile Include="..\Src\Character\gameChar.c" />
+    <ClCompile Include="..\Src\Character\gameEnemy.c" />
     <ClCompile Include="..\Src\Character\gameMap.c" />
     <ClCompile Include="..\Src\Combat\combatHandler.c" />
     <ClCompile Include="..\Src\FileIO\encode.c" />
@@ -126,6 +127,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\Character\charMovement.h" />
     <ClInclude Include="..\Src\Character\diceHandler.h" />
     <ClInclude Include="..\Src\Character\gameChar.h" />
+    <ClInclude Include="..\Src\Character\gameEnemy.h" />
     <ClInclude Include="..\Src\Character\gameMap.h" />
     <ClInclude Include="..\Src\Combat\combatHandler.h" />
     <ClInclude Include="..\Src\FileIO\encode.h" />
