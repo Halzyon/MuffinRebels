@@ -13,8 +13,9 @@ typedef struct {
 	CP_Vector size;
 	float rotation;
 	float speed;
+	bool isAlive;
+	float alpha;
 }GameObject;
-
 
 
 

@@ -115,6 +115,12 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\Level Stuff\lvl_manager.c" />
     <ClCompile Include="..\Src\main.c" />
     <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c" />
+
+    <ClCompile Include="..\Src\GameStateManager.c" />
+    <ClCompile Include="..\Src\main.c" />
+    <ClCompile Include="..\Src\SplashScreen\splashscreen.c" />
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c" />
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c" />
     <ClCompile Include="..\Src\utils.c" />
   </ItemGroup>
@@ -134,7 +140,10 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\GameObject\gameObject.h" />
+    <ClInclude Include="..\Src\GameStateManager.h" />
+    <ClInclude Include="..\Src\SplashScreen\splashscreen.h" />
     <ClInclude Include="..\Src\SpriteAnimation\spriteAnimation.h" />
+    <ClInclude Include="..\Src\SpriteAnimation\SpriteScene.h" />
     <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
