@@ -2,28 +2,7 @@
 #include "../UtilsUI/ui_utils.h"
 #include "combat_overlay.h"
 #include "../../Character/diceHandler.h"
-//#include "../../GameObject/gameObject.h"
-#include "../../SpriteAnimation/spriteAnimation.h"
-#include <stdio.h>
-/*
-Sprite* inventory;
-Sprite* dice_button;
-Sprite* powerup_button;
-Sprite* d20;
-Sprite* d6;
-Sprite* settings;
-CP_Vector roll_pos;
-int roll;
-CP_Font font;
-Sprite* cursor;
-Sprite* alive_hp;
-Sprite* dead_hp;
-//CP_Image inv;
-int d6_clicked;
-int d20_clicked;
-int dicebutton_clicked;
-int settings_clicked;
-float dice_timer;*/
+
 float buttons_centerpointX;
 float buttons_centerpointY;
 asset dead_hp;
@@ -43,19 +22,6 @@ float dice_timer;
 
 void combat_init(void)
 {
-	/*
-	inventory = CreateSprite("Assets/combat_overlay_ui/inventory_block.png", 1, 1, false, false);
-	dice_button = CreateSprite("Assets/combat_overlay_ui/dice_3D_detailed.png", 1, 1, false, false);
-	powerup_button = CreateSprite("Assets/combat_overlay_ui/sword.png", 1, 1, false, false);
-	d6 = CreateSprite("Assets/dice/d6.png", 1, 1, false, false);
-	d20 = CreateSprite("Assets/dice/d20.png", 1, 1, false, false);
-	font = CP_Font_Load("Assets/Kenney_Pixel.ttf");
-	settings = CreateSprite("Assets/combat_overlay_ui/gear.png", 1, 1, false, false);
-	//inv = CP_Image_Load("Assets/combat_overlay_ui/inventory_block.png");
-	cursor = CreateSprite("Assets/combat_overlay_ui/cursor.png", 1, 1, false, false);
-	alive_hp = CreateSprite("Assets/combat_overlay_ui/alive_hp.png", 1, 1, false, false);
-	dead_hp = CreateSprite("Assets/combat_overlay_ui/dead_hp.png", 1, 1, false, false);*/
-
 	//	loads assets
 	
 	inventory.image = CP_Image_Load("Assets/combat_overlay_ui/inventory_block.png");
@@ -93,7 +59,6 @@ void combat_init(void)
 
 	d6.inButton = 0;
 	d20.inButton = 0;
-	dice_button.inButton = 0;
 
 	//	when image is drawn, it will place center of image at the specified location. when text is drawn, center of text will be placed at the location
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -113,7 +78,7 @@ void init_dicePos(void)
 	// set location where choosable d6 and d20 die are after player selects the dice button
 
 	d20.position.x = buttons_centerpointX + 80.0f;
-	d6.position.y =  d20.position.y = buttons_centerpointY - 120.0f;
+	d6.position.y =  d20.position.y = buttons_centerpointY - 130.0f;
 	d6.position.x = d20.position.x - 125.0f;
 }
 
@@ -142,9 +107,9 @@ void combat_buttons(int num_roll)
 	CP_Image_Draw(dice_button.image, dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y, 255);
 	CP_Image_Draw(powerup_button.image, powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y, 255);
 
-	dice_button.inButton = mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y);	//	checks if pointer is in the dice_button image
+	//dice_button.inButton = mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y);	//	checks if pointer is in the dice_button image
 
-	if (dice_button.inButton == 1 && CP_Input_MouseClicked())	//	checks if user clicked the dice button
+	if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked())	//	checks if user clicked the dice button
 	{
 		dice_button.clicked = !dice_button.clicked;
 		d6.clicked = 0;
@@ -155,7 +120,7 @@ void combat_buttons(int num_roll)
 	{
 		init_dicePos();
 		inventory_window(2, dice_button.position.x);
-		CP_Image_Draw(d6.image, d6.position.x, d6.position.y, d6.size.x, d6.size.y, 255);
+		CP_Image_Draw(d6.image, d6.position.x, d6.position.y, d6.size.x * 0.95, d6.size.y * 0.95, 255);
 		CP_Image_Draw(d20.image, d20.position.x, d20.position.y, d20.size.x, d20.size.y, 255);
 		CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
 		CP_Settings_TextSize(50.0f);
@@ -163,16 +128,16 @@ void combat_buttons(int num_roll)
 		CP_Font_DrawText("d20", d20.position.x, d20.position.y);
 	}
 
-	d6.inButton = mouse_in_rect(d6.position.x, d6.position.y, d6.size.x - 60.0f, d6.size.y - 60.0f);			//	checks if pointer is in the d6 image
-	d20.inButton = mouse_in_rect(d20.position.x, d20.position.y, d20.size.x - 60.0f, d20.size.y - 60.0f);		//	checks if pointer is in the d20 image
+	d6.inButton = mouse_in_rect(d6.position.x, d6.position.y, d6.size.x - 30.0f, d6.size.y - 30.0f);			//	checks if pointer is in the d6 image
+	d20.inButton = mouse_in_rect(d20.position.x, d20.position.y, d20.size.x - 30.0f, d20.size.y - 30.0f);		//	checks if pointer is in the d20 image
 
 	if (d6.inButton == 1)
 	{
-		CP_Image_Draw(cursor.image, d6.position.x, d6.position.y, cursor.size.x, cursor.size.y, 50.0f);
+		CP_Image_Draw(cursor.image, d6.position.x, d6.position.y, cursor.size.x, cursor.size.y, 255);
 	}
 	if (d20.inButton == 1)
 	{
-		CP_Image_Draw(cursor.image, d20.position.x, d20.position.y, cursor.size.x, cursor.size.y, 128);
+		CP_Image_Draw(cursor.image, d20.position.x, d20.position.y, cursor.size.x, cursor.size.y, 255);
 	}
 
 	if ((d6.inButton == 1) && CP_Input_MouseClicked() && !d20.clicked)	//	checks if user selected to roll d6 dice
@@ -192,15 +157,15 @@ void combat_buttons(int num_roll)
 	if (d6.clicked > 0)	// draws pop up window for when a dice is selected
 	{
 		init_rollPos();
-		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.5f, inventory.size.y * 2.5f, 255);
-		generate_dice(6, e_std_D6, roll_pos.x, roll_pos.y);
-
+		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.0f, inventory.size.y * 2.0f, 255);
+		//generate_dice(6, e_std_D6, roll_pos.x, roll_pos.y);
+		/*
 		if (mouse_in_rect(roll_pos.x, roll_pos.y, d6.size.x * 1.4f, d6.size.y * 1.4f) == 1 && CP_Input_MouseClicked())
 		{
 			roll = 1;
 		}
 		if (roll == 1)
-		{
+		{*/
 			generate_dice(roll_dice(e_std_D6), e_std_D6, roll_pos.x, roll_pos.y);		// todo: change number to randomiser
 			dice_timer += CP_System_GetDt();
 			if (dice_timer > 2.0f)
@@ -213,21 +178,19 @@ void combat_buttons(int num_roll)
 					d6.clicked = !d6.clicked;
 				}
 			}
-		}
+		//}
 	}
 	else if (d20.clicked > 0)
 	{
 		init_rollPos();
-		d20.position.x = d20.position.y = 0;
-		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.5f, inventory.size.y * 2.5f, 255);
-		generate_dice(20, e_std_D20, roll_pos.x, roll_pos.y);
+		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 1.8f, inventory.size.y * 1.8f, 255);
+		/*generate_dice(20, e_std_D20, roll_pos.x, roll_pos.y);
 		if (mouse_in_rect(roll_pos.x, roll_pos.y, d20.size.x * 1.6f, d20.size.y * 1.6f) == 1 && CP_Input_MouseClicked())
 		{
 			roll = 1;
 		}
 		if (roll == 1)
-		{
-			CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.5f, inventory.size.y * 2.5f, 255);
+		{*/
 			generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y);
 			dice_timer += CP_System_GetDt();
 			if (dice_timer > 2.0f)
@@ -240,11 +203,16 @@ void combat_buttons(int num_roll)
 				d20.clicked = !d20.clicked;
 				}
 			}
-		}
+		//}
 	}
 }
 
-void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY)
+void choose_to_roll_dice(int num_roll)
+{
+
+}
+
+void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY) // draws dice (d6 or d20) with number corresponding to value num_roll
 {
 	float text_posX = dice_posX + 5.5f;
 	float text_posY = dice_posY - 2.5f;
@@ -255,12 +223,12 @@ void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_po
 	CP_Settings_TextSize(100.0f);
 	if (dice == e_std_D6)
 	{
-		CP_Image_Draw(d6.image, dice_posX, dice_posY, d6.size.x * 1.4f, d6.size.y * 1.4f, 255);
+		CP_Image_Draw(d6.image, dice_posX, dice_posY, d6.size.x * 1.6f, d6.size.y * 1.6f, 255);
 		CP_Font_DrawText(&num_ones, text_posX, text_posY);
 	}
 	else if (dice == e_std_D20)
 	{
-		CP_Image_Draw(d20.image, dice_posX, dice_posY, d20.size.x * 1.8f, d20.size.y * 1.8f, 255);
+		CP_Image_Draw(d20.image, dice_posX, dice_posY, d20.size.x * 1.6f, d20.size.y * 1.6f, 255);
 		if (num_roll / 10 != 0)
 		{
 			num_ones = '0' + (num_roll % 10);
@@ -276,7 +244,7 @@ void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_po
 }
 
 
-void health_bar(int remaining_hp)
+void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 {	
 	float positionX;
 	float positionY = 60.0f;
@@ -292,7 +260,7 @@ void health_bar(int remaining_hp)
 	}
 }
 
-void settings_button(void)
+void settings_button(void)		//	draws settings icon
 {
 	settings.position.x = CP_System_GetWindowWidth() - 50.0f;
 	settings.position.y = 50.0f;
@@ -314,11 +282,11 @@ void settings_button(void)
 
 void inventory_window(int num_item, float rightmost_box_positionX)
 {
-	float position_Y = buttons_centerpointY - 120.0f;
+	float position_Y = buttons_centerpointY - 130.0f;
 	for (int i = 0; i < num_item; i++)
 	{
 		float position_X = rightmost_box_positionX - ((float)i * (125.0f));
-		CP_Image_Draw(inventory.image, position_X, position_Y, 128.0f, 128.0f, 255);
+		CP_Image_Draw(inventory.image, position_X, position_Y, inventory.size.x, inventory.size.y, 255);
 	}
 }
 

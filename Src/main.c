@@ -8,9 +8,7 @@
 #include "Character/charMovement.h"   
 #include "UI/CombatOverlayUI/combat_overlay.h"
 #include "SpriteAnimation/spriteAnimation.h"
-#include "Character/diceHandler.h"
 #include "Character/charMovement.h"
-#include "Character/gameChar.h"
 
 CP_Image logo;
 Sprite* ash;
