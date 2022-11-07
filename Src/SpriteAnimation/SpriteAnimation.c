@@ -20,8 +20,7 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 		newSprite->spriteStates[CONTINUOUS] = b_continuous;
 		newSprite->renderMode = 0;
 		newSprite->moved = false;
-		newSprite->go.isAlive = true;
-	}	newSprite->go.alpha = 255;
+	}
 	//if the spritesheet has multiple different sprits according to row(Y axis) do this
 	/*ewSprite->spriteStates[RIGHT] = 2;
 	newSprite->spriteStates[BACKWARD] = 0;
@@ -32,8 +31,6 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 }
 void UpdateSprite(Sprite* sprite, float dt)
 {
-	if (sprite == NULL || !sprite->go.isAlive)
-		return;
 	sprite->time_elapsed += dt;
 
 	/* to switch between columns when rendering spritesheet
@@ -68,8 +65,6 @@ void UpdateSprite(Sprite* sprite, float dt)
 }
 void RenderSprite(Sprite* sprite)
 {	
-	//CP_Color color;
-	//color.
-	if (sprite != NULL && sprite->go.isAlive)	
-		CP_Image_DrawSubImage(sprite->go.image, sprite->go.position.x, sprite->go.position.y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y, sprite->go.alpha);
+	if (sprite != NULL)	
+		CP_Image_DrawSubImage(sprite->go.image, sprite->go.position.x, sprite->go.position.y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y, 255);
 }
