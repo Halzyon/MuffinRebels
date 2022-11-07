@@ -1,5 +1,5 @@
 #include "spriteAnimation.h"
-
+#include "../Character/gameMap.h"
 
 Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool b_continuous)
 {
@@ -21,7 +21,10 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 		newSprite->renderMode = 0;
 		newSprite->moved = false;
 		newSprite->go.isAlive = true;
-	}	newSprite->go.alpha = 255;
+	newSprite->go.alpha = 255;
+	}
+		
+
 	//if the spritesheet has multiple different sprits according to row(Y axis) do this
 	/*ewSprite->spriteStates[RIGHT] = 2;
 	newSprite->spriteStates[BACKWARD] = 0;
@@ -66,6 +69,7 @@ void UpdateSprite(Sprite* sprite, float dt)
 		sprite->bR = CP_Vector_Add(sprite->tL, sprite->go.size);
 	}
 }
+
 void RenderSprite(Sprite* sprite)
 {	
 	//CP_Color color;
@@ -73,3 +77,18 @@ void RenderSprite(Sprite* sprite)
 	if (sprite != NULL && sprite->go.isAlive)	
 		CP_Image_DrawSubImage(sprite->go.image, sprite->go.position.x, sprite->go.position.y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y, sprite->go.alpha);
 }
+
+void RenderSpriteOnMap(Sprite* sprite, game_map* gm)
+{
+	if (sprite != NULL)
+	{
+		
+		float x = map_get_world_x(sprite->go.position.x, gm);
+		float y = map_get_world_y(sprite->go.position.y, gm);
+		
+		CP_Image_DrawSubImage(sprite->go.image, x, y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y,255);
+
+	}
+
+}
+
