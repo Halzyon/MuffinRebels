@@ -1,4 +1,5 @@
 #include "combat_overlay.h"
+#include "../UtilsUI/ui_utils.h"
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -20,46 +21,23 @@ float dice_timer;
 
 void combat_overlay_init(void)
 {
-	//	loads assets
+	//	loads images and finds their sizes
 	
-	inventory.image = CP_Image_Load("Assets/combat_overlay_ui/inventory_block.png");
-	dice_button.image = CP_Image_Load("Assets/combat_overlay_ui/dice_button.png");
-	powerup_button.image = CP_Image_Load("Assets/combat_overlay_ui/powerup_button.png");
-	d6.image = CP_Image_Load("Assets/dice/d6.png");
-	d20.image = CP_Image_Load("Assets/dice/d20.png");
+	get_image_size("dice_button.png", &dice_button);
+	get_image_size("inventory_block.png", &inventory);
+	get_image_size("powerup_button.png", &powerup_button);
+	get_image_size("d6.png", &d6);
+	get_image_size("d20.png", &d20);
+	get_image_size("settings.png", &settings);
+	get_image_size("cursor.png", &cursor);
+	get_image_size("alive_hp.png", &alive_hp);
+	get_image_size("dead_hp.png", &dead_hp);
+	get_image_size("powerup[atk].png", &powerup[atk]);
+	get_image_size("powerup[hp].png", &powerup[hp]);
+	get_image_size("powerup[extra_d4].png", &powerup[extra_d4]);
 	font = CP_Font_Load("Assets/Kenney_Pixel.ttf");
-	settings.image = CP_Image_Load("Assets/combat_overlay_ui/settings.png");
-	cursor.image = CP_Image_Load("Assets/combat_overlay_ui/cursor.png");
-	alive_hp.image = CP_Image_Load("Assets/combat_overlay_ui/alive_hp.png");
-	dead_hp.image = CP_Image_Load("Assets/combat_overlay_ui/dead_hp.png");
-	powerup[atk].image = CP_Image_Load("Assets/combat_overlay_ui/powerup[atk].png");
-	powerup[hp].image = CP_Image_Load("Assets/combat_overlay_ui/powerup[hp].png");
-	powerup[extra_d4].image = CP_Image_Load("Assets/combat_overlay_ui/powerup[extra_d4].png");
 
-
-	// finds the width and height of each image
-
-	dice_button.size = get_size(dice_button);
-	
-	powerup_button.size.x = (float)CP_Image_GetWidth(powerup_button.image);
-	powerup_button.size.y = (float)CP_Image_GetHeight(powerup_button.image);
-	inventory.size.x = (float)CP_Image_GetWidth(inventory.image);
-	inventory.size.y = (float)CP_Image_GetHeight(inventory.image);
-	d20.size.x = (float)CP_Image_GetWidth(d20.image);
-	d20.size.y = (float)CP_Image_GetHeight(d20.image);
-	d6.size.x = (float)CP_Image_GetWidth(d6.image);
-	d6.size.y = (float)CP_Image_GetHeight(d6.image);
-	settings.size.x = (float)CP_Image_GetWidth(settings.image);
-	settings.size.y = (float)CP_Image_GetHeight(settings.image);
-	cursor.size.x = (float)CP_Image_GetWidth(cursor.image);
-	cursor.size.y = (float)CP_Image_GetHeight(cursor.image);
-	alive_hp.size.x = (float)CP_Image_GetWidth(alive_hp.image);
-	alive_hp.size.y = (float)CP_Image_GetHeight(alive_hp.image);
-	dead_hp.size.x = (float)CP_Image_GetWidth(dead_hp.image);
-	dead_hp.size.y = (float)CP_Image_GetHeight(dead_hp.image);
-	powerup[atk].size.x = (float)CP_Image_GetWidth(powerup[atk].image);
-	powerup[atk].size.y = (float)CP_Image_GetHeight(powerup[atk].image);
-
+	// init inbutton values to 0
 	d6.inButton = 0;
 	d20.inButton = 0;
 
@@ -79,7 +57,7 @@ void combat_overlay_init(void)
 	powerup[atk].desc = "Increases damage dealt for 3 turns.";
 	powerup[hp].desc = "Increases Max HP for 3 turns";
 	powerup[extra_d4].desc = "Additional d4 Dice is given. Can be used for 3 turns.";
-
+	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
 }
 
@@ -222,27 +200,50 @@ void choose_powerup(void)
 		float y = buttons_centerpointY - 150.0f;
 		for (int i = 0; i < 3; i++)
 		{
-			float x = powerup_button.position.x - ((float)i * (128.0f));
-			CP_Image_Draw(powerup[i].image, x, y, powerup[i].size.x, powerup[i].size.y, 255);
+			powerup[i].position.x = powerup_button.position.x - ((float)i * (128.0f));
+			CP_Image_Draw(powerup[i].image, powerup[i].position.x, y, powerup[i].size.x, powerup[i].size.y, 255);
 		}
 		for (int i = 0; i < 3; i++)
 		{
-			float x = powerup_button.position.x - ((float)i * (128.0f));
-			if (mouse_in_rect(x, y, 80, 80))
+			//float x = powerup_button.position.x - ((float)i * (128.0f));
+			if (mouse_in_rect(powerup[i].position.x, y, 80.0f, 80.0f))
 			{
-				CP_Image_Draw(cursor.image, x, y, cursor.size.x, cursor.size.y, 255);
+				CP_Image_Draw(cursor.image, powerup[i].position.x, y, cursor.size.x, cursor.size.y, 255);
 				CP_Settings_Fill(CP_Color_Create(255,255,255, 255));
 				CP_Settings_TextSize(20.0f);
-				CP_Font_DrawTextBox(powerup[i].desc, x - (128.0*3/4), y - 125.0f, 200.0f);
+				CP_Font_DrawTextBox(powerup[i].desc, powerup[i].position.x - (128.0*3/4), y - 125.0f, 200.0f);
 			}
 		}
-		if (mouse_in_rect(powerup_button.position.x, y, 80, 80) && CP_Input_MouseClicked())
+		if (mouse_in_rect(powerup[atk].position.x, y, 80.0f, 80.0f) && CP_Input_MouseClicked())
 		{
-			int p1 = 1;
-			int p2 = 0;
-			int p3 = 0;
+			powerup[atk].clicked = !powerup[atk].clicked;
+			powerup[hp]. clicked = 0;
+			powerup[extra_d4].clicked = 0;
+			powerup_button.clicked = !powerup_button.clicked;
 		}
-		
+		else if (mouse_in_rect(powerup[hp].position.x, y, 80.0f, 80.0f) && CP_Input_MouseClicked())
+		{
+			powerup[atk].clicked = 0;
+			powerup[hp].clicked = !powerup[hp].clicked;
+			powerup[extra_d4].clicked = 0;
+			powerup_button.clicked = !powerup_button.clicked;
+		}
+		else if (mouse_in_rect(powerup[extra_d4].position.x, y, 80.0f, 80.0f) && CP_Input_MouseClicked())
+		{
+			powerup[atk].clicked = 0;
+			powerup[hp].clicked = 0;
+			powerup[extra_d4].clicked = !powerup[extra_d4].clicked;
+			powerup_button.clicked = !powerup_button.clicked;
+		}
+		for (int i = 0, value = 0; i < 3; i++)
+		{
+			float value = 0;
+			if (powerup[i].clicked == 1)
+			{
+				value += CP_System_GetDt();
+				CP_Image_Draw(powerup[i].image, EaseOutSine(powerup[i].position.x, 40.0f, value), EaseOutSine(y, 40.0f, value), powerup[i].size.x, powerup[i].size.y, 255);
+			}
+		}
 	}
 
 }

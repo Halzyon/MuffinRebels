@@ -1,6 +1,10 @@
 #include "cprocessing.h"
 #include "ui_utils.h"
 #include "../CombatOverlayUI/combat_overlay.h"
+#include <string.h>
+#include <math.h>
+#define PI 3.142857
+
 int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_height)
 {
 	float mouse_x = CP_Input_GetMouseX();
@@ -17,12 +21,19 @@ int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_heigh
 	}
 }
 
-CP_Vector get_size(asset obj)
+void get_image_size(const char *filepath, asset* obj)
 {
-	CP_Vector size;
-	size.x = (float)CP_Image_GetWidth(obj.image);
-	size.y = (float)CP_Image_GetHeight(obj.image);
-	return size;
+	char str[100] = "Assets/combat_overlay_ui/";
+	strcat_s(str, 100, filepath);
+	obj->image = CP_Image_Load(str);
+	obj->size.x = (float)CP_Image_GetWidth(obj->image);
+	obj->size.y = (float)CP_Image_GetHeight(obj->image);
+}
+
+float EaseOutSine(float start, float end, float value)
+{
+	end -= start;
+	return end * sinf(value * (PI * 0.5f)) + start;
 }
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)
