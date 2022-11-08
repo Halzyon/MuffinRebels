@@ -84,7 +84,7 @@ void init_rollPos(void)
 
 void combat_overlay_update(void)
 {
-	CP_Graphics_ClearBackground(CP_Color_Create(125, 125, 125, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	dice_powerup(5);
 	health_bar(4);
 	settings_button();
@@ -180,12 +180,12 @@ void choose_to_roll_dice(int num_roll)
 		if (dice_timer > 2.0f)
 		{
 			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
-			if (dice_timer > 4.0f)
-			{
-				dice_timer = 0;
-				roll = !roll;
-				d20.clicked = !d20.clicked;
-			}
+		}
+		if (dice_timer > 4.0f)
+		{
+			dice_timer = 0;
+			roll = !roll;
+			d20.clicked = !d20.clicked;
 		}
 	}
 }
@@ -260,11 +260,10 @@ void choose_powerup(void)
 			}
 			else if (powerup_timer > 2.0f)
 			{
-				CP_Image_Draw(powerup[i].image, 60.0f, 200.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
+				CP_Image_Draw(powerup[i].image, 60.0f, 250.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
 			}
 		}
 	}
-
 }
 
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY, float scale) // draws dice (d6 or d20) with number corresponding to value num_roll
