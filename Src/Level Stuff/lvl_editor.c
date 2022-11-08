@@ -29,6 +29,7 @@
 //#define _CRTDBG_MAP_ALLOC
 #endif  
 
+
 #define WINDOW_HEIGHT 1080
 #define LEVEL_EDITOR
 game_map* map;
@@ -146,13 +147,14 @@ void loadSprites(void)
 	int i = 0;
 	while (i < NUM_TYPES_TILE - 1)
 	{
-		char tmp1[100] = FILEPATH;
-		char tmp2[100] = "tile_";
-		char buffer[10];
-		snprintf(buffer, 10, "%d.png", i);
-		strcat(tmp2, buffer);
-		strcat(tmp1, tmp2);
-		level_sprites[i] = CP_Image_Load(tmp1);
+		char tmp1[100] = FILEPATH; // path of file
+		char tmp2[100] = "tile_"; // file name without number 
+		char buffer[10]; // contain the number + file extention
+		snprintf(buffer, 10, "%d.png", i); // put number and file extention tgt: 0.png, 1.png
+		strcat(tmp2, buffer); // put tile_ and number and extension tgt: tile_0.png, tile_1.png
+		strcat(tmp1, tmp2); // put tgt with file path: Assets/tiles/tile_0.png
+		level_sprites[i] = CP_Image_Load(tmp1); 
 		++i;
+		printf("%s", getName(level_sprites[i]));
 	}
 }
