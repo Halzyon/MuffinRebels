@@ -3,6 +3,7 @@
 
 #include "cprocessing.h"
 #include "../../Character/diceHandler.h"
+#include "../UtilsUI/ui_utils.h"
 
 typedef struct
 {
@@ -11,7 +12,16 @@ typedef struct
 	CP_Vector position;
 	int inButton;
 	int clicked;
+	const char* desc;
+
 }asset;
+
+enum powerup
+{
+	atk = 0,
+	hp = 1,
+	extra_d4 = 2,
+};
 
 // initialize assets, finds their sizes, sets all text alighnment and image alignment and initializes dice randomiser
 void combat_overlay_init(void);
@@ -28,10 +38,10 @@ void combat_overlay_update(void);
 void dice_powerup(int num_roll);
 
 // runs if player chooses to roll dice
-//void choose_to_roll_dice(int num_roll);
+void choose_to_roll_dice(int num_roll);
 
 // runs if player chooses to select a powerup
-//void choose_powerup(void);
+void choose_powerup(void);
 
 // generates the dice that is rolling
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY);

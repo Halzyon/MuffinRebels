@@ -1,5 +1,6 @@
 #include "cprocessing.h"
 #include "ui_utils.h"
+#include "../CombatOverlayUI/combat_overlay.h"
 int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_height)
 {
 	float mouse_x = CP_Input_GetMouseX();
@@ -14,6 +15,14 @@ int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_heigh
 	{
 		return 0;
 	}
+}
+
+CP_Vector get_size(asset obj)
+{
+	CP_Vector size;
+	size.x = (float)CP_Image_GetWidth(obj.image);
+	size.y = (float)CP_Image_GetHeight(obj.image);
+	return size;
 }
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)
