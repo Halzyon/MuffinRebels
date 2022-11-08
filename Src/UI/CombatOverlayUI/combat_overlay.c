@@ -18,6 +18,8 @@ CP_Vector roll_pos;
 int roll;
 CP_Font font;
 float dice_timer;
+float powerup_timer;
+int animation;
 
 void combat_overlay_init(void)
 {
@@ -49,6 +51,7 @@ void combat_overlay_init(void)
 
 	// set timer and dice timer
 	dice_timer = 0;
+	powerup_timer = 0;
 
 	// dice randomiser initialise
 	init_dice();
@@ -155,11 +158,11 @@ void choose_to_roll_dice(int num_roll)
 	{
 		init_rollPos();
 		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.0f, inventory.size.y * 2.0f, 255);
-		generate_dice(roll_dice(e_std_D6), e_std_D6, roll_pos.x, roll_pos.y);		// todo: change number to randomiser
+		generate_dice(roll_dice(e_std_D6), e_std_D6, roll_pos.x, roll_pos.y, 1.4f);		// todo: change number to randomiser
 		dice_timer += CP_System_GetDt();
 		if (dice_timer > 2.0f)
 		{
-			generate_dice(num_roll, e_std_D6, roll_pos.x, roll_pos.y);
+			generate_dice(num_roll, e_std_D6, roll_pos.x, roll_pos.y, 1.4f);
 			if (dice_timer > 4.0f)
 			{
 				dice_timer = 0;
@@ -172,11 +175,11 @@ void choose_to_roll_dice(int num_roll)
 	{
 		init_rollPos();
 		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 1.8f, inventory.size.y * 1.8f, 255);
-		generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y);
+		generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
 		dice_timer += CP_System_GetDt();
 		if (dice_timer > 2.0f)
 		{
-			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y);
+			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
 			if (dice_timer > 4.0f)
 			{
 				dice_timer = 0;
@@ -192,6 +195,8 @@ void choose_powerup(void)
 	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && !dice_button.clicked)	//	checks if user clicked the dice button
 	{
 		powerup_button.clicked = !powerup_button.clicked;
+		powerup[atk].clicked = powerup[hp].clicked = powerup[extra_d4].clicked = 0;
+		powerup_timer = 0;
 	}
 
 	if (powerup_button.clicked)	// Draws the window pop up for player to choose power up
@@ -237,19 +242,32 @@ void choose_powerup(void)
 		}
 		
 	}
-	float value = 0;
-	for (int i = 0, value = 0; i < 3; i++)
+
+	for (int i = 0; i < 3; i++)
 	{
-		
 		if (powerup[i].clicked == 1)
 		{
-			value += CP_System_GetDt();
-			CP_Image_Draw(powerup[i].image, EaseOutSine(powerup[i].position.x, 40.0f, value), EaseOutSine(powerup[i].position.y, 40.0f, value), powerup[i].size.x, powerup[i].size.y, 255);
+			if (powerup_timer < 2.0f)
+			{
+				CP_Vector target;
+				target.x = 60.0f;
+				target.y = buttons_centerpointY - 200.0f;
+				CP_Vector displacement = CP_Vector_Subtract(target, powerup[i].position);
+				CP_Vector damped_displacement = CP_Vector_Scale(displacement, 0.1f);
+				powerup[i].position = CP_Vector_Add(powerup[i].position, damped_displacement);
+				CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x, powerup[i].size.y, 255);
+				powerup_timer += CP_System_GetDt();
+			}
+			else if (powerup_timer > 2.0f)
+			{
+				CP_Image_Draw(powerup[i].image, 60.0f, 200.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
+			}
 		}
+		
 	}
 }
 
-void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY) // draws dice (d6 or d20) with number corresponding to value num_roll
+void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY, float scale) // draws dice (d6 or d20) with number corresponding to value num_roll
 {
 	float text_posX = dice_posX + 5.5f;
 	float text_posY = dice_posY - 2.5f;
@@ -260,12 +278,12 @@ void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_po
 	CP_Settings_TextSize(100.0f);
 	if (dice == e_std_D6)
 	{
-		CP_Image_Draw(d6.image, dice_posX, dice_posY, d6.size.x * 1.6f, d6.size.y * 1.6f, 255);
+		CP_Image_Draw(d6.image, dice_posX, dice_posY, d6.size.x * scale, d6.size.y * scale, 255);
 		CP_Font_DrawText(&num_ones, text_posX, text_posY);
 	}
 	else if (dice == e_std_D20)
 	{
-		CP_Image_Draw(d20.image, dice_posX, dice_posY, d20.size.x * 1.6f, d20.size.y * 1.6f, 255);
+		CP_Image_Draw(d20.image, dice_posX, dice_posY, d20.size.x * scale, d20.size.y * scale, 255);
 		if (num_roll / 10 != 0)
 		{
 			num_ones = '0' + (num_roll % 10);
@@ -323,6 +341,11 @@ void inventory_window(int num_item, float rightmost_box_positionX)
 		float position_X = rightmost_box_positionX - ((float)i * (128.0f));
 		CP_Image_Draw(inventory.image, position_X, position_Y, inventory.size.x, inventory.size.y, 255);
 	}
+}
+
+void movement_left(dice_types type, int* num_remain)
+{
+	generate_dice(num_remain, type, 60.0f, 160.0f, 1.0f);
 }
 
 /*void timer_ui(void)
