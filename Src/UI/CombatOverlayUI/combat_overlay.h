@@ -22,10 +22,10 @@ void init_dicePos(void);
 // initialize rolling position
 void init_rollPos(void);
 
-void combat_update(void);
+void combat_overlay_update(void);
 
 // constantly updates the combat overlay based on player interaction with it - num_roll is pregenerated number that the player rolls
-void combat_overlay_update(int num_roll);
+void dice_powerup(int num_roll);
 
 // runs if player chooses to roll dice
 //void choose_to_roll_dice(int num_roll);
