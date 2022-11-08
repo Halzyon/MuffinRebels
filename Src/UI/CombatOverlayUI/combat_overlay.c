@@ -20,7 +20,7 @@ int roll;
 CP_Font font;
 float dice_timer;
 
-void combat_init(void)
+void combat_overlay_init(void)
 {
 	//	loads assets
 	
@@ -91,7 +91,7 @@ void init_rollPos(void)
 	d6.position.x = d6.position.y = d20.position.x = d20.position.y = 0.0f;
 }
 
-void combat_buttons(int rng_num)
+void combat_overlay_update(int num_roll)
 {
 
 	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
@@ -107,21 +107,95 @@ void combat_buttons(int rng_num)
 	CP_Image_Draw(dice_button.image, dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y, 255);
 	CP_Image_Draw(powerup_button.image, powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y, 255);
 
-	//dice_button.inButton = mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y);	//	checks if pointer is in the dice_button image
-
-	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked())	//	checks if user clicked the dice button
+	// branch out to decide if player rolls or not
+	if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked)	//	checks if user clicked the dice button
 	{
-		powerup_button.clicked = !powerup_button.clicked;
+		dice_button.clicked = !dice_button.clicked;
 		d6.clicked = 0;
 		d20.clicked = 0;
 	}
 
-	choose_to_roll_dice(rng_num);
-}
+	if (powerup_button.clicked)	// Draws the window pop up for player to choose dice to roll
+	{
+		inventory_window(3, powerup_button.position.x);
+	}
 
+	if (dice_button.clicked)	// Draws the window pop up for player to choose dice to roll
+	{
+		init_dicePos();
+		inventory_window(2, dice_button.position.x);
+		CP_Image_Draw(d6.image, d6.position.x, d6.position.y, d6.size.x * 0.95, d6.size.y * 0.95, 255);
+		CP_Image_Draw(d20.image, d20.position.x, d20.position.y, d20.size.x, d20.size.y, 255);
+		CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
+		CP_Settings_TextSize(50.0f);
+		CP_Font_DrawText("d6", d6.position.x, d6.position.y);
+		CP_Font_DrawText("d20", d20.position.x, d20.position.y);
+	}
+
+	d6.inButton = mouse_in_rect(d6.position.x, d6.position.y, d6.size.x - 30.0f, d6.size.y - 30.0f);			//	checks if pointer is in the d6 image
+	d20.inButton = mouse_in_rect(d20.position.x, d20.position.y, d20.size.x - 30.0f, d20.size.y - 30.0f);		//	checks if pointer is in the d20 image
+
+	if (d6.inButton == 1)
+	{
+		CP_Image_Draw(cursor.image, d6.position.x, d6.position.y, cursor.size.x, cursor.size.y, 255);
+	}
+	if (d20.inButton == 1)
+	{
+		CP_Image_Draw(cursor.image, d20.position.x, d20.position.y, cursor.size.x, cursor.size.y, 255);
+	}
+
+	if ((d6.inButton == 1) && CP_Input_MouseClicked() && !d20.clicked)	//	checks if user selected to roll d6 dice
+	{
+		dice_button.clicked = 0;
+		d6.clicked = !d6.clicked;
+		d20.clicked = 0;
+	}
+	else if ((d20.inButton == 1) && CP_Input_MouseClicked() && !d6.clicked)	//	checks if user selected d20 dice
+	{
+		dice_button.clicked = 0;
+		d6.clicked = 0;
+		d20.clicked = !d20.clicked;
+	}
+
+	if (d6.clicked)	// draws pop up window for when a dice is selected
+	{
+		init_rollPos();
+		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.0f, inventory.size.y * 2.0f, 255);
+		generate_dice(roll_dice(e_std_D6), e_std_D6, roll_pos.x, roll_pos.y);		// todo: change number to randomiser
+		dice_timer += CP_System_GetDt();
+		if (dice_timer > 2.0f)
+		{
+			generate_dice(num_roll, e_std_D6, roll_pos.x, roll_pos.y);
+			if (dice_timer > 4.0f)
+			{
+				dice_timer = 0;
+				roll = !roll;
+				d6.clicked = !d6.clicked;
+			}
+		}
+	}
+	else if (d20.clicked)
+	{
+		init_rollPos();
+		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 1.8f, inventory.size.y * 1.8f, 255);
+		generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y);
+		dice_timer += CP_System_GetDt();
+		if (dice_timer > 2.0f)
+		{
+			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y);
+			if (dice_timer > 4.0f)
+			{
+				dice_timer = 0;
+				roll = !roll;
+				d20.clicked = !d20.clicked;
+			}
+		}
+	}
+}
+/*
 void choose_to_roll_dice(int num_roll)
 {
-	if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked())	//	checks if user clicked the dice button
+	if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && powerup_button.clicked == 0)	//	checks if user clicked the dice button
 	{
 		dice_button.clicked = !dice_button.clicked;
 		d6.clicked = 0;
@@ -170,14 +244,6 @@ void choose_to_roll_dice(int num_roll)
 	{
 		init_rollPos();
 		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.0f, inventory.size.y * 2.0f, 255);
-		//generate_dice(6, e_std_D6, roll_pos.x, roll_pos.y);
-		/*
-		if (mouse_in_rect(roll_pos.x, roll_pos.y, d6.size.x * 1.4f, d6.size.y * 1.4f) == 1 && CP_Input_MouseClicked())
-		{
-			roll = 1;
-		}
-		if (roll == 1)
-		{*/
 		generate_dice(roll_dice(e_std_D6), e_std_D6, roll_pos.x, roll_pos.y);		// todo: change number to randomiser
 		dice_timer += CP_System_GetDt();
 		if (dice_timer > 2.0f)
@@ -190,19 +256,11 @@ void choose_to_roll_dice(int num_roll)
 				d6.clicked = !d6.clicked;
 			}
 		}
-		//}
 	}
 	else if (d20.clicked > 0)
 	{
 		init_rollPos();
 		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 1.8f, inventory.size.y * 1.8f, 255);
-		/*generate_dice(20, e_std_D20, roll_pos.x, roll_pos.y);
-		if (mouse_in_rect(roll_pos.x, roll_pos.y, d20.size.x * 1.6f, d20.size.y * 1.6f) == 1 && CP_Input_MouseClicked())
-		{
-			roll = 1;
-		}
-		if (roll == 1)
-		{*/
 		generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y);
 		dice_timer += CP_System_GetDt();
 		if (dice_timer > 2.0f)
@@ -215,9 +273,37 @@ void choose_to_roll_dice(int num_roll)
 				d20.clicked = !d20.clicked;
 			}
 		}
-		//}
 	}
 }
+
+void choose_powerup(void)
+{
+	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && dice_button.clicked == 0)	//	checks if user clicked the dice button
+	{
+		powerup_button.clicked = !powerup_button.clicked;
+	}
+
+	if (powerup_button.clicked == 1)	// Draws the window pop up for player to choose dice to roll
+	{
+		inventory_window(3, powerup_button.position.x);
+		for (int i = 0; i < 3; i++)
+		{
+			float x = powerup_button.position.x - ((float)i * 125.0f);
+			float y = buttons_centerpointY - 130.0f;
+			CP_Graphics_DrawRect(x, y, 100.0f, 100.0f);
+		}
+	}
+	
+	for (int i = 0; i < 3; i++)
+	{
+		float x = powerup_button.position.x - ((float)i * 125.0f);
+		float y = buttons_centerpointY - 130.0f;
+		if (mouse_in_rect(x, y, 60.0f, 60.0f) == 1)
+		{
+			CP_Image_Draw(cursor.image, x, y, cursor.size.x, cursor.size.y, 255);
+		}
+	}
+}*/
 
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY) // draws dice (d6 or d20) with number corresponding to value num_roll
 {
@@ -272,7 +358,6 @@ void settings_button(void)		//	draws settings icon
 	settings.position.x = CP_System_GetWindowWidth() - 50.0f;
 	settings.position.y = 50.0f;
 	CP_Image_Draw(settings.image, settings.position.x, settings.position.y, settings.size.x, settings.size.y, 255);
-	// settings.inButton = mouse_in_rect(settings.go.position.x, settings.go.position.y, settings.go.size.x, settings.go.size.y);
 	if ((mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1) && CP_Input_MouseClicked())
 	{
 		settings.clicked = !settings.clicked;

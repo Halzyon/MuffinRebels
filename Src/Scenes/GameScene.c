@@ -34,7 +34,7 @@ void game_init(void)
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 	CP_System_SetWindowSize(1280, 720);
-	combat_init();
+	combat_overlay_init();
 	init_dice();
 	init_char(Warrior);
 	//init_map_obj(10, 10, &map1);
@@ -46,7 +46,7 @@ void game_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	combat_buttons(5);
+	combat_overlay_update(5);
 	health_bar(4);
 	settings_button();
 
