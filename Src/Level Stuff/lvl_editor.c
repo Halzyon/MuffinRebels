@@ -155,6 +155,5 @@ void loadSprites(void)
 		strcat(tmp1, tmp2); // put tgt with file path: Assets/tiles/tile_0.png
 		level_sprites[i] = CP_Image_Load(tmp1); 
 		++i;
-		printf("%s", getName(level_sprites[i]));
 	}
 }
