@@ -91,6 +91,13 @@ void init_rollPos(void)
 	d6.position.x = d6.position.y = d20.position.x = d20.position.y = 0.0f;
 }
 
+void combat_update(void)
+{
+	combat_overlay_update(5);
+	health_bar(4);
+	settings_button();
+}
+
 void combat_overlay_update(int num_roll)
 {
 
@@ -389,7 +396,7 @@ void inventory_window(int num_item, float rightmost_box_positionX)
 }*/
 
 
-void combat_ui_shutdown(void)
+void combat_overlay_exit(void)
 {
 	CP_Image_Free(d6.image);
 	CP_Image_Free(d20.image);

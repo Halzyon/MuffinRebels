@@ -9,6 +9,7 @@
 #include "GameObject/gameObject.h"
 #include "SpriteAnimation/SpriteScene.h"
 #include "Scenes/GameScene.h"
+#include "UI/CombatOverlayUI/combat_overlay.h"
 
 #ifdef _DEBUG
 #define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));

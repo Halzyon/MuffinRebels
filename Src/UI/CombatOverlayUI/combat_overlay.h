@@ -22,6 +22,8 @@ void init_dicePos(void);
 // initialize rolling position
 void init_rollPos(void);
 
+void combat_update(void);
+
 // constantly updates the combat overlay based on player interaction with it - num_roll is pregenerated number that the player rolls
 void combat_overlay_update(int num_roll);
 
@@ -44,6 +46,6 @@ void settings_button(void);
 void inventory_window(int num_item, float rightmost_box_positionX);
 
 // frees all images
-void combat_ui_shutdown(void);
+void combat_overlay_exit(void);
 
 #endif //COMBAT_OVERLAY_H
