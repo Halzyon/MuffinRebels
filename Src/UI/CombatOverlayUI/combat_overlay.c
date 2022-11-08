@@ -263,8 +263,8 @@ void choose_powerup(void)
 				CP_Image_Draw(powerup[i].image, 60.0f, 200.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
 			}
 		}
-		
 	}
+
 }
 
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY, float scale) // draws dice (d6 or d20) with number corresponding to value num_roll
