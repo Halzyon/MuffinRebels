@@ -61,7 +61,13 @@ Enemy* CreateEnemy(void)
 	{
 		newEnemy->hp = 5;
 		newEnemy->energy = 2;
-		newEnemy->dice_size = 5;
+		newEnemy->dice[0] = e_std_D6;
+		newEnemy->dice_size = MAX_DICE;
+
+		for (int i = 1; i < MAX_DICE; ++i)
+		{
+			newEnemy->dice[i] = -1;
+		}
 		newEnemy->enemyState = PATROL_UPDOWN_STATE;
 		newEnemy->b_direction = true;
 		newEnemy->movement = 0;
@@ -75,6 +81,7 @@ Enemy* CreateEnemy(void)
 		newEnemy->sp->spriteStates[BACKWARD] = 0;
 		newEnemy->sp->spriteStates[LEFT] = 2;
 		newEnemy->sp->spriteStates[FORWARD] = 1;
+		newEnemy->sp->go.this_enemy = newEnemy;
 	}
 	return newEnemy;
 }

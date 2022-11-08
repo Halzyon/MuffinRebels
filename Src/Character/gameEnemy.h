@@ -15,6 +15,7 @@ typedef struct
 	int hp;
 	int energy;
 	unsigned int dice_size;
+	dice_types dice[MAX_DICE];
 	unsigned char enemyState;
 	bool b_direction;
 	unsigned int movement;
