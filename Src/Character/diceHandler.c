@@ -25,7 +25,7 @@ int roll_dice(dice_types dice)
 			size = D20_SIZE;
 			break;
 		default:
-			return 0;
+			size = D6_SIZE;
 			break;
 	}
 

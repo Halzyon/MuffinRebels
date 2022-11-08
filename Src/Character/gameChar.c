@@ -28,7 +28,6 @@ int init_char(class_select char_select)
 		the_player->sp->spriteStates[LEFT] = 1;
 		the_player->sp->spriteStates[FORWARD] = 3;
 
-		the_player->sp->go.this_character = the_player;
 	}
 
 	return the_player;

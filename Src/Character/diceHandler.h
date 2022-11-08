@@ -7,7 +7,6 @@
 
 typedef enum
 {
-	NONE = -1,
 	e_std_D6,
 	e_std_D20,
 

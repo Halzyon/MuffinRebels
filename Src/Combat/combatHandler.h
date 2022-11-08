@@ -1,5 +1,5 @@
-#ifndef COMBAT_HANDLER_H
-#define COMBAT_HANDLER_H
+#ifndef combat_handler_h
+#define combat_handler_h
 #include "../GameObject/gameObject.h"
 #include "../Character/gameChar.h"
 
@@ -24,4 +24,4 @@ void declare_combatants(GameObject* const priority, GameObject* const defendant)
 int combat_phase(void);
 
 
-#endif // !COMBAT_HANDLER_H
+#endif // !combat_handler_h
