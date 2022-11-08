@@ -9,7 +9,7 @@ int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_heigh
 
 void get_image_size(const char* filepath, asset* obj);
 
-float EaseOutSine(float start, float end, float value);
+static float EaseOutSine(float start, float end, float value);
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position);
 int IsAreaClickedCorner(const GameObject obj, const CP_Vector position);

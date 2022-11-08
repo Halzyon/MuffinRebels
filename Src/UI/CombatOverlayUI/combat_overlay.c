@@ -343,5 +343,4 @@ void combat_overlay_exit(void)
 	CP_Image_Free(cursor.image);
 	CP_Image_Free(alive_hp.image);
 	CP_Image_Free(dead_hp.image);
-	//CP_Image_Free(inv);
 }

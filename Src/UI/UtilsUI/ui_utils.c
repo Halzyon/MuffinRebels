@@ -30,7 +30,7 @@ void get_image_size(const char *filepath, asset* obj)
 	obj->size.y = (float)CP_Image_GetHeight(obj->image);
 }
 
-float EaseOutSine(float start, float end, float value)
+static float EaseOutSine(float start, float end, float value)
 {
 	end -= start;
 	return end * sinf(value * (PI * 0.5f)) + start;
