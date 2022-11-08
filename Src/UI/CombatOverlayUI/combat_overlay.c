@@ -197,55 +197,56 @@ void choose_powerup(void)
 	if (powerup_button.clicked)	// Draws the window pop up for player to choose power up
 	{
 		inventory_window(3, powerup_button.position.x);
-		float y = buttons_centerpointY - 150.0f;
+		powerup[atk].position.y = powerup[hp].position.y = powerup[extra_d4].position.y = buttons_centerpointY - 150.0f;
 		for (int i = 0; i < 3; i++)
 		{
 			powerup[i].position.x = powerup_button.position.x - ((float)i * (128.0f));
-			CP_Image_Draw(powerup[i].image, powerup[i].position.x, y, powerup[i].size.x, powerup[i].size.y, 255);
+			CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x, powerup[i].size.y, 255);
 		}
 		for (int i = 0; i < 3; i++)
 		{
 			//float x = powerup_button.position.x - ((float)i * (128.0f));
-			if (mouse_in_rect(powerup[i].position.x, y, 80.0f, 80.0f))
+			if (mouse_in_rect(powerup[i].position.x, powerup[i].position.y, 80.0f, 80.0f))
 			{
-				CP_Image_Draw(cursor.image, powerup[i].position.x, y, cursor.size.x, cursor.size.y, 255);
+				CP_Image_Draw(cursor.image, powerup[i].position.x, powerup[i].position.y, cursor.size.x, cursor.size.y, 255);
 				CP_Settings_Fill(CP_Color_Create(255,255,255, 255));
 				CP_Settings_TextSize(20.0f);
-				CP_Font_DrawTextBox(powerup[i].desc, powerup[i].position.x - (128.0*3/4), y - 125.0f, 200.0f);
+				CP_Font_DrawTextBox(powerup[i].desc, powerup[i].position.x - (128.0*3/4), powerup[i].position.y - 125.0f, 200.0f);
 			}
 		}
-		if (mouse_in_rect(powerup[atk].position.x, y, 80.0f, 80.0f) && CP_Input_MouseClicked())
+		if (mouse_in_rect(powerup[atk].position.x, powerup[atk].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked())
 		{
 			powerup[atk].clicked = !powerup[atk].clicked;
 			powerup[hp]. clicked = 0;
 			powerup[extra_d4].clicked = 0;
 			powerup_button.clicked = !powerup_button.clicked;
 		}
-		else if (mouse_in_rect(powerup[hp].position.x, y, 80.0f, 80.0f) && CP_Input_MouseClicked())
+		else if (mouse_in_rect(powerup[hp].position.x, powerup[hp].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked())
 		{
 			powerup[atk].clicked = 0;
 			powerup[hp].clicked = !powerup[hp].clicked;
 			powerup[extra_d4].clicked = 0;
 			powerup_button.clicked = !powerup_button.clicked;
 		}
-		else if (mouse_in_rect(powerup[extra_d4].position.x, y, 80.0f, 80.0f) && CP_Input_MouseClicked())
+		else if (mouse_in_rect(powerup[extra_d4].position.x, powerup[extra_d4].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked())
 		{
 			powerup[atk].clicked = 0;
 			powerup[hp].clicked = 0;
 			powerup[extra_d4].clicked = !powerup[extra_d4].clicked;
 			powerup_button.clicked = !powerup_button.clicked;
 		}
-		for (int i = 0, value = 0; i < 3; i++)
+		
+	}
+	float value = 0;
+	for (int i = 0, value = 0; i < 3; i++)
+	{
+		
+		if (powerup[i].clicked == 1)
 		{
-			float value = 0;
-			if (powerup[i].clicked == 1)
-			{
-				value += CP_System_GetDt();
-				CP_Image_Draw(powerup[i].image, EaseOutSine(powerup[i].position.x, 40.0f, value), EaseOutSine(y, 40.0f, value), powerup[i].size.x, powerup[i].size.y, 255);
-			}
+			value += CP_System_GetDt();
+			CP_Image_Draw(powerup[i].image, EaseOutSine(powerup[i].position.x, 40.0f, value), EaseOutSine(powerup[i].position.y, 40.0f, value), powerup[i].size.x, powerup[i].size.y, 255);
 		}
 	}
-
 }
 
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY) // draws dice (d6 or d20) with number corresponding to value num_roll
