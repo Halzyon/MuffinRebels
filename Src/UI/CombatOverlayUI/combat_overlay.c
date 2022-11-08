@@ -91,7 +91,7 @@ void init_rollPos(void)
 	d6.position.x = d6.position.y = d20.position.x = d20.position.y = 0.0f;
 }
 
-void combat_buttons(int num_roll)
+void combat_buttons(int rng_num)
 {
 
 	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
@@ -109,6 +109,18 @@ void combat_buttons(int num_roll)
 
 	//dice_button.inButton = mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y);	//	checks if pointer is in the dice_button image
 
+	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked())	//	checks if user clicked the dice button
+	{
+		powerup_button.clicked = !powerup_button.clicked;
+		d6.clicked = 0;
+		d20.clicked = 0;
+	}
+
+	choose_to_roll_dice(rng_num);
+}
+
+void choose_to_roll_dice(int num_roll)
+{
 	if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked())	//	checks if user clicked the dice button
 	{
 		dice_button.clicked = !dice_button.clicked;
@@ -152,7 +164,7 @@ void combat_buttons(int num_roll)
 		d6.clicked = 0;
 		d20.clicked = !d20.clicked;
 	}
-	
+
 
 	if (d6.clicked > 0)	// draws pop up window for when a dice is selected
 	{
@@ -166,18 +178,18 @@ void combat_buttons(int num_roll)
 		}
 		if (roll == 1)
 		{*/
-			generate_dice(roll_dice(e_std_D6), e_std_D6, roll_pos.x, roll_pos.y);		// todo: change number to randomiser
-			dice_timer += CP_System_GetDt();
-			if (dice_timer > 2.0f)
+		generate_dice(roll_dice(e_std_D6), e_std_D6, roll_pos.x, roll_pos.y);		// todo: change number to randomiser
+		dice_timer += CP_System_GetDt();
+		if (dice_timer > 2.0f)
+		{
+			generate_dice(num_roll, e_std_D6, roll_pos.x, roll_pos.y);
+			if (dice_timer > 4.0f)
 			{
-				generate_dice(num_roll, e_std_D6, roll_pos.x, roll_pos.y);
-				if (dice_timer > 4.0f)
-				{
-					dice_timer = 0;
-					roll = !roll;
-					d6.clicked = !d6.clicked;
-				}
+				dice_timer = 0;
+				roll = !roll;
+				d6.clicked = !d6.clicked;
 			}
+		}
 		//}
 	}
 	else if (d20.clicked > 0)
@@ -191,25 +203,20 @@ void combat_buttons(int num_roll)
 		}
 		if (roll == 1)
 		{*/
-			generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y);
-			dice_timer += CP_System_GetDt();
-			if (dice_timer > 2.0f)
+		generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y);
+		dice_timer += CP_System_GetDt();
+		if (dice_timer > 2.0f)
+		{
+			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y);
+			if (dice_timer > 4.0f)
 			{
-				generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y);
-				if (dice_timer > 4.0f)
-				{
 				dice_timer = 0;
 				roll = !roll;
 				d20.clicked = !d20.clicked;
-				}
 			}
+		}
 		//}
 	}
-}
-
-void choose_to_roll_dice(int num_roll)
-{
-
 }
 
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY) // draws dice (d6 or d20) with number corresponding to value num_roll

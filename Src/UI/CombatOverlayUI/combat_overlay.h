@@ -21,6 +21,8 @@ void init_rollPos(void);
 
 void combat_buttons(int num_roll);
 
+void choose_to_roll_dice(int num_roll);
+
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY);
 
 void health_bar(int remaining_hp);
