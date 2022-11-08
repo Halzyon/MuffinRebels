@@ -1,11 +1,10 @@
-#ifndef combat_handler_h
-#define combat_handler_h
-#include "../GameObject/gameObject.h"
+#ifndef COMBAT_HANDLER_H
+#define COMBAT_HANDLER_H
+
 #include "../Character/gameChar.h"
+#include "../Character/gameEnemy.h"
 
-
-GameObject* priority_go; //priority will always be counted as attacking while the combat while defend
-GameObject* defending_go;
+Enemy* the_enemy;
 int combatants_present;
 
 /*!
@@ -14,7 +13,7 @@ int combatants_present;
  * @param priority GameObject pointer pointing to the GO that is attacking (priority)
  * @param defendant GameObject pointer pointing to the GO that is defending
 */
-void declare_combatants(GameObject* const priority, GameObject* const defendant);
+void declare_combatants(Enemy* const enemy, int enemy_combat_mode);
 
 /*!
  * @brief Single-turn combat function. To be called as many times as the GO has energy
@@ -24,4 +23,4 @@ void declare_combatants(GameObject* const priority, GameObject* const defendant)
 int combat_phase(void);
 
 
-#endif // !combat_handler_h
+#endif // !COMBAT_HANDLER_H

@@ -22,12 +22,13 @@ int init_char(class_select char_select)
 			the_player->dice[i] = -1;
 		}
 
+		the_player->combat_mode = CHAR_NONE;
+
 		//sprite animation init
 		the_player->sp->spriteStates[RIGHT] = 2;
 		the_player->sp->spriteStates[BACKWARD] = 0;
 		the_player->sp->spriteStates[LEFT] = 1;
 		the_player->sp->spriteStates[FORWARD] = 3;
-
 	}
 
 	return the_player;

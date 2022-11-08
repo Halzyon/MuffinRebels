@@ -25,6 +25,13 @@ typedef struct
 	unsigned int dice_size;
 	dice_types dice[MAX_DICE];
 
+	enum
+	{
+		CHAR_NONE = -1,
+		CHAR_ATTACKING,
+		CHAR_DEFENDING
+	} combat_mode;
+
 } my_character;
 
 enum warrior_loot

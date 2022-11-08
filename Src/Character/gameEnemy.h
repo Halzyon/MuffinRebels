@@ -15,11 +15,19 @@ typedef struct
 	int hp;
 	int energy;
 	unsigned int dice_size;
+	dice_types dice[MAX_DICE];
 	unsigned char enemyState;
 	bool b_direction;
 	unsigned int movement;
 	unsigned int patrolRange;
 	int steps;
+
+	enum
+	{
+		ENEMY_NONE = -1,
+		ENEMY_ATTACKING,
+		ENEMY_DEFENDING
+	} combat_mode;
 
 } Enemy;
 
