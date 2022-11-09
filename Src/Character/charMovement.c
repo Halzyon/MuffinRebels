@@ -60,6 +60,8 @@ void hardware_handler(void)
 			get_character()->sp->moved = 0;
 		}
 	}
+	else
+		get_character()->sp->moved = 0;
 
 	//TODO: check if dice clicked. Roll dice. Update values
 	if (/* clicked dice on screen */CP_Input_MouseTriggered(MOUSE_BUTTON_RIGHT))
