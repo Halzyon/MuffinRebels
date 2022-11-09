@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\Src\Character\charMovement.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -76,6 +79,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Character\diceHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\UI\CombatOverlayUI\combat_overlay.h" >
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\FileIO\encode.h">

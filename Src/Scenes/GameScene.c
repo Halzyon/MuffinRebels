@@ -28,12 +28,12 @@ void game_init(void)
 	enemy->sp->go.position.y = 5;
 	enemy->sp->go.scale.x = 0.5;
 	enemy->sp->go.scale.y = 0.5;
+
 	enemy->steps = 1;
 
 	//set sub scenes to run 
 	GameStateSetNextSubScene(SPRITEANIMATION_SCENE, false);
-	GameStateSetNextSubScene(MAX_SCENE, false); // to stop sub scene from running
-
+	GameStateSetNextSubScene(MAX_SCENE, false); // to stop sub scene from running*/
 }
 
 void game_update(void)
