@@ -64,6 +64,15 @@ void combat_overlay_init(void)
 	CP_System_SetWindowSize(1280, 720);
 }
 
+
+void combat_overlay_update(void)											// STILL NEED TO ADD MORE STUFF
+{
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	dice_powerup(5);
+	health_bar(4);
+	settings_button();
+}
+
 void init_dicePos(void)
 {
 	// set location where choosable d6 and d20 die are after player selects the dice button
@@ -82,13 +91,6 @@ void init_rollPos(void)
 	d6.position.x = d6.position.y = d20.position.x = d20.position.y = 0.0f;
 }
 
-void combat_overlay_update(void)
-{
-	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	dice_powerup(5);
-	health_bar(4);
-	settings_button();
-}
 
 void dice_powerup(int rng_num)
 {
