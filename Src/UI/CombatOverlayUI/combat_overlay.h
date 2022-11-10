@@ -12,6 +12,7 @@ typedef struct
 	int inButton;
 	int clicked;
 	const char* desc;
+	int side_display;
 
 }asset;
 
@@ -40,7 +41,7 @@ void dice_powerup(int num_roll);
 void choose_to_roll_dice(int num_roll);
 
 // runs if player chooses to select a powerup
-void choose_powerup(void);
+void choose_powerup(int turns_left);
 
 // draws dice (d6 or d20) with number corresponding to value num_roll
 void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY, float scale);
