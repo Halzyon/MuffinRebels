@@ -20,6 +20,8 @@ CP_Font font;
 float dice_timer;
 float powerup_timer;
 int animation;
+int num_roll;
+int display_side_dice;
 
 void combat_overlay_init(void)
 {
@@ -56,6 +58,10 @@ void combat_overlay_init(void)
 	// dice randomiser initialise
 	init_dice();
 
+	num_roll = 5;
+	
+	display_side_dice = 0;
+
 	// initialize description
 	powerup[atk].desc = "Increases damage dealt for 3 turns.";
 	powerup[hp].desc = "Increases Max HP for 3 turns";
@@ -80,12 +86,13 @@ void init_rollPos(void)
 	roll_pos.x = buttons_centerpointX + 20.0f;
 	roll_pos.y = buttons_centerpointY - 200.0f;
 	d6.position.x = d6.position.y = d20.position.x = d20.position.y = 0.0f;
+	CP_Settings_TextSize(100.0f);
 }
 
 void combat_overlay_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	dice_powerup(5);
+	dice_powerup(num_roll, d20);
 	health_bar(4);
 	settings_button();
 }
@@ -175,10 +182,18 @@ void choose_to_roll_dice(int num_roll)
 	{
 		init_rollPos();
 		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 1.8f, inventory.size.y * 1.8f, 255);
-		generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
 		dice_timer += CP_System_GetDt();
-		if (dice_timer > 2.0f)
+		if (dice_timer < 2.0f) 
 		{
+			generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
+		}
+		if (3.0f > dice_timer && dice_timer > 2.0f)
+		{
+			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
+		}
+		if (dice_timer > 3.0f)
+		{
+			go_to_animation(50.0f, 150.0f, &roll_pos);
 			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
 		}
 		if (dice_timer > 4.0f)
@@ -186,6 +201,24 @@ void choose_to_roll_dice(int num_roll)
 			dice_timer = 0;
 			roll = !roll;
 			d20.clicked = !d20.clicked;
+			display_side_dice = !display_side_dice;
+		}
+	}
+	if (display_side_dice == 1)
+	{
+		CP_Settings_TextSize(50.0f);
+		generate_dice(num_roll, e_std_D20, 50.0f, 150.0f, 0.8);
+		if (CP_Input_KeyDown(KEY_D))
+		{
+			num_roll--;
+		}
+		if (num_roll == 0)
+		{
+			dice_timer += CP_System_GetDt();
+			if (dice_timer > 2.0f)
+			{
+				display_side_dice = !display_side_dice;
+			}
 		}
 	}
 }
@@ -247,20 +280,19 @@ void choose_powerup(void)
 	{
 		if (powerup[i].clicked == 1)
 		{
-			if (powerup_timer < 2.0f)
+			if (powerup_timer < 1.5f)
 			{
-				CP_Vector target;
-				target.x = 60.0f;
-				target.y = buttons_centerpointY - 200.0f;
-				CP_Vector displacement = CP_Vector_Subtract(target, powerup[i].position);
-				CP_Vector damped_displacement = CP_Vector_Scale(displacement, 0.1f);
-				powerup[i].position = CP_Vector_Add(powerup[i].position, damped_displacement);
+				go_to_animation(60.0f, 200.0f, &powerup[i].position);
 				CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x, powerup[i].size.y, 255);
 				powerup_timer += CP_System_GetDt();
 			}
-			else if (powerup_timer > 2.0f)
+			else if (powerup_timer > 1.5f && num_roll > 0)
 			{
 				CP_Image_Draw(powerup[i].image, 60.0f, 250.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
+			}
+			else if (powerup_timer > 1.5f && num_roll == 0)
+			{
+				CP_Image_Draw(powerup[i].image, 60.0f, 150.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
 			}
 		}
 	}
@@ -274,7 +306,6 @@ void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_po
 	char num_tens;
 	CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
 	CP_Font_Set(font);
-	CP_Settings_TextSize(100.0f);
 	if (dice == e_std_D6)
 	{
 		CP_Image_Draw(d6.image, dice_posX, dice_posY, d6.size.x * scale, d6.size.y * scale, 255);

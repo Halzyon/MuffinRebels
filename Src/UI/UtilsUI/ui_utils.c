@@ -29,7 +29,15 @@ void get_image_size(const char *filepath, asset* obj)
 	obj->size.y = (float)CP_Image_GetHeight(obj->image);
 }
 
-
+void go_to_animation(float targetX, float targetY, CP_Vector *pos_to_change)
+{
+	CP_Vector target;
+	target.x = targetX;
+	target.y = targetY;									// TODO: Change target positions to the characters position
+	CP_Vector displacement = CP_Vector_Subtract(target, *pos_to_change);
+	CP_Vector damped_displacement = CP_Vector_Scale(displacement, 0.1f);
+	*pos_to_change = CP_Vector_Add(*pos_to_change, damped_displacement);
+}
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)
 {
