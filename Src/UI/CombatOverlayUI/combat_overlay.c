@@ -302,15 +302,15 @@ void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_po
 void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 {	
 	float positionX;
-	float positionY = 60.0f;
+	float positionY = 50.0f;
 	for (int j = 5; j > remaining_hp; j--)
 	{
-		positionX = 60.0f + ((float)(j-1) * 100.0f);
+		positionX = 50.0f + ((float)(j-1) * 80.0f);
 		CP_Image_Draw(dead_hp.image, positionX, positionY, dead_hp.size.x, dead_hp.size.y, 255);
 	}
 	for (int i = 0; i < remaining_hp; i++)
 	{
-		positionX = 60.0f + ((float)i * 100.0f);
+		positionX = 50.0f + ((float)i * 80.0f);
 		CP_Image_Draw(alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, 255);
 	}
 }
