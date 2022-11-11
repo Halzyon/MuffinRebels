@@ -24,7 +24,7 @@ void game_init(void)
 
 	//creating map data
 	Level = malloc(sizeof(game_map));
-	init_map_obj(Level, 15, 15, CP_System_GetWindowHeight(), CP_System_GetWindowHeight());
+	init_map_obj(Level, 10, 10, CP_System_GetWindowHeight(), CP_System_GetWindowHeight());
 	Buffer* b = newBuffer();
 	b->data = readFile("map.dat");
 	size_t len = 0;
