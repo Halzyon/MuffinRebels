@@ -78,3 +78,9 @@ void main(void)
 
  	return 0;
 }
+// #include "GameStateManager.h"
+
+// void main(void)
+// {
+// 	GameStateRun();
+// }

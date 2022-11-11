@@ -1,43 +1,176 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Src\Character\charMovement.c" />
-    <ClCompile Include="..\Src\Character\diceHandler.c" />
-    <ClCompile Include="..\Src\Character\gameChar.c" />
-    <ClCompile Include="..\Src\Character\gameMap.c" />
-    <ClCompile Include="..\Src\FileIO\encode.c" />
-    <ClCompile Include="..\Src\FileIO\fileIO.c" />
-    <ClCompile Include="..\Src\FileIO\serialization.c" />
-    <ClCompile Include="..\Src\Level Stuff\lvl_editor.c" />
-    <ClCompile Include="..\Src\Level Stuff\lvl_manager.c" />
-    <ClCompile Include="..\Src\main.c" />
-    <ClCompile Include="..\Src\yijia\brightness_Settings_ui.c" />
-    <ClCompile Include="..\Src\yijia\combat_ui.c" />
-    <ClCompile Include="..\Src\yijia\overworld_ui.c" />
-    <ClCompile Include="..\Src\yijia\pause_ui.c" />
-    <ClCompile Include="..\Src\yijia\settings_ui.c" />
-    <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c" />
-    <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c" />
-    <ClCompile Include="..\Src\utils.c" />
-    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
+
+    <ClCompile Include="..\Src\yijia\brightness_Settings_ui.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\combat_ui.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\overworld_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\pause_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\settings_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Character\charMovement.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Combat\combatHandler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Character\diceHandler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\FileIO\encode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\FileIO\fileIO.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Character\gameChar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Character\gameMap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Level Stuff\lvl_editor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Level Stuff\lvl_manager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\FileIO\serialization.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\GameStateManager.c" />
+    <ClCompile Include="..\Src\Scenes\GameScene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Src\Character\charMovement.h" />
-    <ClInclude Include="..\Src\Character\diceHandler.h" />
-    <ClInclude Include="..\Src\Character\gameChar.h" />
-    <ClInclude Include="..\Src\Character\gameMap.h" />
-    <ClInclude Include="..\Src\FileIO\encode.h" />
-    <ClInclude Include="..\Src\FileIO\fileIO.h" />
-    <ClInclude Include="..\Src\FileIO\serialization.h" />
-    <ClInclude Include="..\Src\Level Stuff\lvl_editor.h" />
-    <ClInclude Include="..\Src\Level Stuff\lvl_manager.h" />
-    <ClInclude Include="..\Src\UI\DiceUI\dice_ui.h" />
-    <ClInclude Include="..\Src\GameObject\gameObject.h" />
-    <ClInclude Include="..\Src\SpriteAnimation\spriteAnimation.h" />
-    <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h" />
-    <ClInclude Include="..\Src\yijia\brightness_Settings_ui.h" />
-    <ClInclude Include="..\Src\yijia\settings_ui.h" />
-    <ClInclude Include="..\Src\yijia\overworld_ui.h" />
-    <ClInclude Include="..\Src\yijia\pause_ui .h" />
+    <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SplashScreen\splashscreen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="..\Src\Character\charMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Combat\combatHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Character\diceHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\UI\CombatOverlayUI\combat_overlay.h" >
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\FileIO\encode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\FileIO\fileIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Character\gameChar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Character\gameMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\GameObject\gameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Level Stuff\lvl_editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Level Stuff\lvl_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\FileIO\serialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\SpriteAnimation\spriteAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\UI\DiceUI\dice_ui.h">
+        <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\yijia\brightness_Settings_ui.h">
+        <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\yijia\settings_ui.h">
+        <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\yijia\overworld_ui.h">
+        <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\yijia\pause_ui .h">
+        <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{8967f0a3-1562-4ade-9586-b2b7e23a47f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{902dc616-212b-4823-82d6-732682744d46}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\GameObject\gameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\SpriteAnimation\spriteAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\SplashScreen\splashscreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\SpriteAnimation\SpriteScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\GameStateManager.h" />
+    <ClInclude Include="..\Src\Scenes\GameScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -111,7 +111,7 @@ unsigned char* b64_decode(const unsigned char* src, size_t length, size_t *retLe
 
 	olength = count / 4 * 3;
 	pos = ret = malloc(olength);
-
+	//ret[olength] = '\0';
 	if (ret == NULL)
 	{
 		return NULL;

@@ -14,6 +14,9 @@
 #include "../Character/gameMap.h"
 #include "cprocessing.h"
 #include "../utils.h"
+#include "../FileIO/serialization.h"
+#include "../FileIO/fileIO.h"
+#include "../FileIO/encode.h"
 
 #define WINDOW_HEIGHT 1080
 #define LEVEL_EDITOR
@@ -27,13 +30,20 @@ void editor_init(void)
 	CP_System_ShowCursor(0);
 	init_lvl_manager();
 
+
+
 	if (map = malloc(sizeof(map)))
 	{
-	/*	if (init_map_obj(10, 10, map))
+		if (init_map_obj(map,10, 10, WINDOW_HEIGHT, WINDOW_HEIGHT))
 		{
+			int size = map->height * map->width;
 			loadNewMap(*map);
+			for (int i = 0; i < size; ++i)
+			{
+				map->map_arr[i] = 'g';
+			}
 			gridsize = WINDOW_HEIGHT / map->height;
-		}*/
+		}
 	}
 }
 
@@ -64,6 +74,30 @@ void editor_update(void)
 	if (CP_Input_KeyTriggered(KEY_4))
 	{
 		mouse_cursor = CHEST;
+	}
+	if (CP_Input_KeyTriggered(KEY_S))
+	{
+		// save map
+		if (map)
+		{
+			Buffer* b = newBuffer();
+			serializeMap(map->map_arr, b);
+			size_t encodedLen = 0;
+			b->data = b64_encode(b->data, strlen(b->data), &encodedLen);
+ 			writeFile("map.dat", b->data, "w");
+			clearBuffer(b);
+			fclose(getFile("map.dat"));
+		}
+	}
+	if (CP_Input_KeyTriggered(KEY_L))
+	{
+		Buffer* b = newBuffer();
+		b->data = readFile("map.dat");
+		size_t len = 0;
+		b->data = b64_decode(b->data, strlen(b->data), &len);
+		load_map_file(map, b->data);
+		clearBuffer(b);
+		fclose(getFile("map.dat"));
 	}
 
 #endif // LEVEL_EDITOR inputs
@@ -110,7 +144,7 @@ void editor_update(void)
 		}
 		//CP_Settings_NoStroke();
 		CP_Settings_StrokeWeight(0.5f);
-		CP_Graphics_DrawRectAdvanced((float)(map_get_x((int)i, map->width) * gridsize + 0.5f), (float)(map_get_y((float)i, map->height) * gridsize + 0.5f), gridsize - 0.5f, gridsize - 0.5f, 0.f, 0.f);
+		CP_Graphics_DrawRectAdvanced((float)(map_get_y((int)i, map->width) * gridsize + 0.5f), (float)(map_get_x((float)i, map->height) * gridsize + 0.5f), gridsize - 0.5f, gridsize - 0.5f, 0.f, 0.f);
 	}
 
 	switch (mouse_cursor)

@@ -94,6 +94,8 @@ float map_get_world_y(int y, game_map* in_map);
 */
 void free_map_obj(game_map* map_obj);
 
+void load_map_file(game_map* dst, const char* src);
+
 
 
 #endif // !GAME_MAP_H
