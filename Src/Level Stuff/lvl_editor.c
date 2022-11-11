@@ -116,12 +116,14 @@ void editor_update(void)
 	// change rendered tile to tile 49 in pack.
 #ifdef LEVEL_EDITOR
 
-	for (size_t i = 0; i < map->width * map->height; ++i) // row
-	{
-		CP_Settings_ImageMode(CP_POSITION_CORNER);
-		CP_Image_Draw(level_sprites[map->map_arr[i] - 1], (float)(map_get_y((int)i, map->width) * gridsize), (float)(map_get_x((float)i, map->height) * gridsize), gridsize, gridsize, 255);
-		//CP_Graphics_DrawRectAdvanced((float)(map_get_y((int)i, map->width) * gridsize + 0.5f), (float)(map_get_x((float)i, map->height) * gridsize + 0.5f), gridsize - 0.5f, gridsize - 0.5f, 0.f, 0.f);
-	}
+	//for (size_t i = 0; i < map->width * map->height; ++i) // row
+	//{
+	//	CP_Settings_ImageMode(CP_POSITION_CORNER);
+	//	CP_Image_Draw(level_sprites[map->map_arr[i] - 1], (float)(map_get_y((int)i, map->width) * gridsize), (float)(map_get_x((float)i, map->height) * gridsize), gridsize, gridsize, 255);
+	//	//CP_Graphics_DrawRectAdvanced((float)(map_get_y((int)i, map->width) * gridsize + 0.5f), (float)(map_get_x((float)i, map->height) * gridsize + 0.5f), gridsize - 0.5f, gridsize - 0.5f, 0.f, 0.f);
+	//}
+	CP_Vector vec = { 0,0 };
+	render_map(map, vec);
 
 	CP_Settings_NoStroke();
 	//int tmp = gridsize / 4;
@@ -142,18 +144,18 @@ void editor_exit(void)
 	}
 }
 
-void loadSprites(void)
-{
-	int i = 0;
-	while (i < NUM_TYPES_TILE - 1)
-	{
-		char tmp1[100] = FILEPATH; // path of file
-		char tmp2[100] = "tile_"; // file name without number 
-		char buffer[10]; // contain the number + file extention
-		snprintf(buffer, 10, "%d.png", i); // put number and file extention tgt: 0.png, 1.png
-		strcat(tmp2, buffer); // put tile_ and number and extension tgt: tile_0.png, tile_1.png
-		strcat(tmp1, tmp2); // put tgt with file path: Assets/tiles/tile_0.png
-		level_sprites[i] = CP_Image_Load(tmp1); 
-		++i;
-	}
-}
+//void loadSprites(void)
+//{
+//	int i = 0;
+//	while (i < NUM_TYPES_TILE - 1)
+//	{
+//		char tmp1[100] = FILEPATH; // path of file
+//		char tmp2[100] = "tile_"; // file name without number 
+//		char buffer[10]; // contain the number + file extention
+//		snprintf(buffer, 10, "%d.png", i); // put number and file extention tgt: 0.png, 1.png
+//		strcat(tmp2, buffer); // put tile_ and number and extension tgt: tile_0.png, tile_1.png
+//		strcat(tmp1, tmp2); // put tgt with file path: Assets/tiles/tile_0.png
+//		level_sprites[i] = CP_Image_Load(tmp1); 
+//		++i;
+//	}
+//}
