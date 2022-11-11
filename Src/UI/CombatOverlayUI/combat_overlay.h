@@ -13,14 +13,21 @@ typedef struct
 	int clicked;
 	const char* desc;
 	int side_display;
-
+	dice_types type;
 }asset;
 
 enum powerup
 {
 	atk = 0,
 	hp = 1,
-	extra_d4 = 2,
+	extra_d4 = 2
+};
+
+enum dice
+{
+	d4 = 0,
+	d6 = 1,
+	d20 = 2
 };
 
 // initialize assets, finds their sizes, sets all text alighnment and image alignment and initializes dice randomiser
@@ -35,7 +42,7 @@ void init_rollPos(void);
 void combat_overlay_update(void);
 
 // constantly updates the combat overlay based on player interaction with it - num_roll is pregenerated number that the player rolls
-void dice_powerup(int num_roll);
+void dice_powerup(int num_roll, int powerup_turns);
 
 // runs if player chooses to roll dice
 void choose_to_roll_dice(int num_roll);
@@ -44,7 +51,7 @@ void choose_to_roll_dice(int num_roll);
 void choose_powerup(int turns_left);
 
 // draws dice (d6 or d20) with number corresponding to value num_roll
-void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY, float scale);
+void generate_dice(int num_roll, asset dice, float dice_posX, float dice_posY, float scale);
 
 // draws hit points of player
 void health_bar(int remaining_hp);
@@ -56,7 +63,7 @@ void settings_button(void);
 void inventory_window(int num_item, float rightmost_box_positionX);
 
 // generates dice that shows movement left
-void movement_left(dice_types type, int* num_remain);
+void movement_left(asset dice, int* num_remain);
 
 // frees all images
 void combat_overlay_exit(void);
