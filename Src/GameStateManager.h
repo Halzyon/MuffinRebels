@@ -10,6 +10,7 @@
 #include "SpriteAnimation/SpriteScene.h"
 #include "Scenes/GameScene.h"
 #include "UI/CombatOverlayUI/combat_overlay.h"
+#include "Level Stuff/lvl_editor.h"
 
 #ifdef _DEBUG
 #define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));

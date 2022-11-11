@@ -103,8 +103,9 @@ void GameStateRun(void)
 	gsm.b_subScene = false;
 	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
 	GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
-	//GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
-	GameStateAddScene(GAME_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);
+	GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
+	//GameStateAddScene(GAME_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);
+	//GameStateAddScene(GAME_SCENE, editor_init,editor_update, editor_exit);
 	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
 
 	GameStateSetNextScene(GAME_SCENE);

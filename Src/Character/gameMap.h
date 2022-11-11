@@ -118,6 +118,9 @@ void free_map_obj(game_map* map_obj);
 
 void load_map_file(game_map* dst, const char* src);
 
+void loadSprites(void);
+
+void render_map(game_map* map, CP_Vector offset);
 
 
 #endif // !GAME_MAP_H

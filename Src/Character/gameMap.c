@@ -3,6 +3,18 @@
 #include "gameMap.h"
 
 #pragma warning(disable : 6011)
+#ifndef _MSC_VER // for linux/all other compilers and apparently release mode
+#define FILEPATH "../../Assets/tiles/"
+#endif
+
+#ifdef _MSC_VER // for visual studios/microsoft compiler
+#pragma warning(disable : 4996) // microsoft wants you to use their fopen_s but it is not portable at all
+//and not really taht much safer lol
+#define FILEPATH "Assets/tiles/"
+//#define _CRTDBG_MAP_ALLOC
+#endif  
+
+CP_Image level_sprites[NUM_TYPES_TILE];
 
 int init_map_obj(game_map* out_obj, unsigned int width_size, unsigned int height_size, float world_width, float world_height)
 {
@@ -62,4 +74,30 @@ void load_map_file(game_map* dst, const char* src)
 		dst->map_arr[i] = src[i];
 	}
 	return;
+}
+
+void render_map(game_map* map, CP_Vector offset)
+{
+	for (int i = 0; i < map->height * map->width; ++i)
+	{
+		double gridsize = CP_System_GetWindowHeight() / map->height;
+		CP_Settings_ImageMode(CP_POSITION_CORNER);
+		CP_Image_Draw(level_sprites[map->map_arr[i] - 1], (float)(map_get_y((int)i, map->width) * gridsize) + offset.x, (float)(map_get_x((float)i, map->height) * gridsize) + offset.y, gridsize, gridsize, 255);
+	}
+}
+
+void loadSprites(void)
+{
+	int i = 0;
+	while (i < NUM_TYPES_TILE - 1)
+	{
+		char tmp1[100] = FILEPATH; // path of file
+		char tmp2[100] = "tile_"; // file name without number 
+		char buffer[10]; // contain the number + file extention
+		snprintf(buffer, 10, "%d.png", i); // put number and file extention tgt: 0.png, 1.png
+		strcat(tmp2, buffer); // put tile_ and number and extension tgt: tile_0.png, tile_1.png
+		strcat(tmp1, tmp2); // put tgt with file path: Assets/tiles/tile_0.png
+		level_sprites[i] = CP_Image_Load(tmp1);
+		++i;
+	}
 }

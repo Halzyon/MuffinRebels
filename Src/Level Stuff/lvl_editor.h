@@ -18,7 +18,7 @@ void editor_init(void);
 void editor_update(void);
 void editor_exit(void);
 
-void loadSprites(void);
+//void loadSprites(void);
 
 CP_Image level_sprites[NUM_TYPES_TILE];
 
