@@ -27,10 +27,14 @@ typedef enum
 {
 	PATROL_UPDOWN_STATE,
 	PATROL_LEFTRIGHT_STATE,
+	ATTACK_STATE,
+	DEFEND_STATE,
 	MAX_ENEMY_STATE
 }ENEMY_STATE;
 
 void UpdateEnemy(Enemy* en, float dt, bool move);
+
+void UpdateCombat(Enemy* en, float dt);
 
 void ChangeState(Enemy* en, ENEMY_STATE state);
 

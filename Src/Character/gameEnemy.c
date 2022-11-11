@@ -1,14 +1,14 @@
 #include <stdlib.h>
 #include <cprocessing.h>
 #include "gameEnemy.h"
-
+#include "gameChar.h"
 
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
 	UpdateSprite(en->sp, dt);//update enemy spriteanimation
 	if (!move)
 		return;
-
+	
 	if (en->enemyState == PATROL_UPDOWN_STATE)
 	{
 		int steps = en->steps;
@@ -51,6 +51,29 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 		}
 	}
 
+}
+
+void UpdateCombat(Enemy* en, float dt)
+{
+	en->energy = roll_dice(e_std_D6);
+	printf("Enemy dice %d\n", en->energy);
+
+	if (en->energy <= get_character()->energy)
+	{//defend
+		// currently heals it 0.0
+		en->enemyState = DEFEND_STATE;
+		en->hp += en->energy;
+	}
+	else
+	{// attack
+		en->enemyState = ATTACK_STATE;
+		get_character()->hp -= en->energy;
+	}
+
+	en->hp -= get_character()->energy;
+
+	//dont need change enemy state back to patrol as its either
+	//player die or enemy die
 }
 
 Enemy* CreateEnemy(void)
