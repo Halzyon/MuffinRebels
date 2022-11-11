@@ -29,11 +29,11 @@ void editor_init(void)
 
 	if (map = malloc(sizeof(map)))
 	{
-		if (init_map_obj(10, 10, map))
+	/*	if (init_map_obj(10, 10, map))
 		{
 			loadNewMap(*map);
 			gridsize = WINDOW_HEIGHT / map->height;
-		}
+		}*/
 	}
 }
 

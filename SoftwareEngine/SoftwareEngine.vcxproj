@@ -119,8 +119,6 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\yijia\pause_ui.c" />
     <ClCompile Include="..\Src\yijia\settings_ui.c" />
     <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c" />
-    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
-    <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c" />
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c" />
     <ClCompile Include="..\Src\utils.c" />
   </ItemGroup>
@@ -136,6 +134,9 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\Level Stuff\lvl_manager.h" />
     <ClInclude Include="..\Src\UI\DiceUI\dice_ui.h" />
     <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
+    <ClInclude Include="..\Src\yijia\overworld_ui.h" />
+    <ClInclude Include="..\Src\yijia\pause_ui .h" />
+    <ClInclude Include="..\Src\yijia\settings_ui.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\GameObject\gameObject.h" />

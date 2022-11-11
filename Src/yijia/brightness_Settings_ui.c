@@ -8,12 +8,12 @@ void brightness_init() {
 
 
 void brightness_update() {
-	
-	CP_Font_Set(myFont);
-	
-	//render slider 
-	void CP_Graphics_DrawRectAdvanced(382.0f, 410.0f, 429.0f, 6.0f, 0.0, 50.0f);
-	CP_Settings_Fill(CP_Color_Create(157, 250, 166, 255));
+	//
+	//CP_Font_Set(myFont);
+	//
+	////render slider 
+	//void CP_Graphics_DrawRectAdvanced(382.0f, 410.0f, 429.0f, 6.0f, 0.0, 50.0f);
+	//CP_Settings_Fill(CP_Color_Create(157, 250, 166, 255));
 
 	//render slider icon
 	
@@ -29,6 +29,6 @@ void brightness_update() {
 }
 
 void brightness_shutdown() {
-	CP_Font_Free(myFont);  
+	//CP_Font_Free(myFont);  
 
 }

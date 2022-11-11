@@ -3,10 +3,11 @@
 #include "Character/charMovement.h"   
 #include "utils.h"
 #include "Level Stuff/lvl_editor.h"
-
-CP_Image logo;
-
-
+#include "GameObject/gameObject.h"
+#include "../Extern/CProcessing/inc/cprocessing.h"
+#include "yijia/settings_ui.h"
+#include "../Src/yijia/overworld_ui.h"
+#include "../Src/yijia/pause_ui .h"
 #define WINDOW_HEIGHT 1080
 #define LEVEL_EDITOR
 
@@ -29,7 +30,7 @@ void game_init(void)
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 
 	
-	CP_System_SetWindowSize(CP_Image_GetWidth(logo), CP_Image_GetHeight(logo) * 3);
+	CP_System_SetWindowSize(CP_Image_GetWidth(logo.image), CP_Image_GetHeight(logo.image) * 3);
 
 	init_dice();
 	init_char(Warrior);
@@ -72,7 +73,7 @@ void game_exit(void)
 void main(void)
 {
 	//CP_Engine_SetNextGameState(splash_screen_init, splash_screen_update, splash_screen_exit);
-	CP_Engine_SetNextGameState(editor_init, editor_update, editor_exit);
+	CP_Engine_SetNextGameState(settings_init, settings_update, settings_shutdown);
 	CP_Engine_Run();
 
  	return 0;
