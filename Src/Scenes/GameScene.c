@@ -82,7 +82,7 @@ void game_update(void)
 	if (enemy->enemyState == ATTACK_STATE)
 	{
 		declare_combatants(enemy, enemy->enemyState);
-		for (; get_character()->energy >= 0; --get_character()->energy)
+		for (; get_character()->energy >= 0; --get_character()->energy) //keep fighting until someone dies or loses energy
 		{
 			combat_phase();
 			if (get_character()->hp == 0 || enemy->hp == 0)

@@ -11,6 +11,11 @@ int check_limits(void)
 	return 0;
 }
 
+int check_enemy(void)
+{
+
+}
+
 void hardware_handler(void)
 {
 	if (get_character()->energy)
