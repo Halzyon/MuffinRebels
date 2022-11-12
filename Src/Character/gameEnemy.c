@@ -2,10 +2,13 @@
 #include <cprocessing.h>
 #include "gameEnemy.h"
 #include "gameChar.h"
+#include "../Combat/combatHandler.h"
 
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
-	
+	if (combatants_present)
+		return;
+
 	UpdateSprite(en->sp, dt);//update enemy spriteanimation
 	if (!move || !en->sp->go.isAlive)
 		return;
@@ -53,6 +56,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 		}
 	}
 
+	//if enemy is in the character
 	if (en->sp->go.position.x == get_character()->sp->go.position.x)
 	{
 		if (en->sp->go.position.y == get_character()->sp->go.position.y)
@@ -60,18 +64,63 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->b_combat = true;
 		}
 	}
+	//if enemy is left or right of character
 	if (en->sp->go.position.x + 1 == get_character()->sp->go.position.x || en->sp->go.position.x - 1 == get_character()->sp->go.position.x)
 	{
 		if (en->sp->go.position.y == get_character()->sp->go.position.y)
 		{
-			en->b_combat = true;
+			if (en->enemyState == PATROL_UPDOWN_STATE)
+			{
+				if (en->b_direction) //going UP
+				{
+					if (en->sp->go.position.x + 1 == get_character()->sp->go.position.x) //player coming from right i.e. running from player
+					{
+						en->enemyState = DEFEND_STATE;
+					}
+					else if (en->sp->go.position.x - 1 == get_character()->sp->go.position.x) //enemy going towards player
+					{
+						en->enemyState = ATTACK_STATE;
+					}
+
+					en->b_combat = true;
+				}
+				else
+				{
+					if (en->sp->go.position.x + 1 == get_character()->sp->go.position.x) //player coming from right i.e. running from player
+					{
+						en->enemyState = ATTACK_STATE;
+					}
+					else if (en->sp->go.position.x - 1 == get_character()->sp->go.position.x) //enemy going towards player
+					{
+						en->enemyState = DEFEND_STATE;
+					}
+
+					en->b_combat = true;
+				}
+			}
 		}
 	}
+	//if enemy is up or down of character
 	if (en->sp->go.position.x == get_character()->sp->go.position.x)
 	{
 		if (en->sp->go.position.y + 1 == get_character()->sp->go.position.y || en->sp->go.position.y - 1 == get_character()->sp->go.position.y)
 		{
-			en->b_combat = true;
+			if (en->enemyState == PATROL_LEFTRIGHT_STATE)
+			{
+				if (en->b_direction) //going left
+				{
+					if (en->sp->go.position.y + 1 == get_character()->sp->go.position.y) //player coming from right i.e. running from player
+					{
+						en->enemyState = DEFEND_STATE;
+					}
+					else if (en->sp->go.position.y - 1 == get_character()->sp->go.position.y) //enemy going towards player
+					{
+						en->enemyState = ATTACK_STATE;
+					}
+
+					en->b_combat = true;
+				}
+			}
 		}
 	}
 
@@ -83,18 +132,18 @@ void UpdateCombat(Enemy* en, float dt)
 	if (!en->b_combat || !en->sp->go.isAlive)
 		return;
 
-
-	if (en->energy <= get_character()->energy)
-	{//defend
-		// currently heals it 0.0
-		en->enemyState = DEFEND_STATE;
-		//en->hp += en->energy;
-	}
-	else
-	{// attack
-		en->enemyState = ATTACK_STATE;
-		//get_character()->hp -= en->energy;
-	}
+	//we have already set the enemy state through movement interactions
+	//if (en->energy <= get_character()->energy)
+	//{//defend
+	//	// currently heals it 0.0
+	//	en->enemyState = DEFEND_STATE;
+	//	//en->hp += en->energy;
+	//}
+	//else
+	//{// attack
+	//	en->enemyState = ATTACK_STATE;
+	//	//get_character()->hp -= en->energy;
+	//}
 
 	declare_combatants(en, en->enemyState);
 //	for (; get_character()->hp > 0 && en->hp > 0; --get_character()->energy)
@@ -105,7 +154,10 @@ void UpdateCombat(Enemy* en, float dt)
 	//dont need change enemy state back to patrol as its either
 	//player die or enemy die
 		if (en->hp <= 0)
+		{
 			en->sp->go.isAlive = false;
+			combatants_present = 0;
+		}
 }
 
 Enemy* CreateEnemy(void)
@@ -128,8 +180,6 @@ Enemy* CreateEnemy(void)
 		newEnemy->movement = 0;
 		newEnemy->steps = 1;
 		newEnemy->patrolRange = 3;
-
-		newEnemy->combat_mode = ENEMY_NONE;
 
 		newEnemy->sp = CreateSprite("Assets/ene.png", 4, 4, true, false);
 		newEnemy->b_combat = false;

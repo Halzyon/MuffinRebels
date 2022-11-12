@@ -23,13 +23,6 @@ typedef struct
 	int steps;
 	unsigned char b_combat;
 
-	enum
-	{
-		ENEMY_NONE = -1,
-		ENEMY_ATTACKING,
-		ENEMY_DEFENDING
-	} combat_mode;
-
 } Enemy;
 
 typedef enum

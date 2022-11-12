@@ -5,6 +5,7 @@
 #include "charMovement.h"
 #include "gameChar.h"
 #include "diceHandler.h"
+#include "../Combat/combatHandler.h"
 
 int check_limits(void)
 {
@@ -18,6 +19,9 @@ int check_enemy(void)
 
 void hardware_handler(void)
 {
+	if (combatants_present)
+		return;
+
 	if (get_character()->energy)
 	{
 		if (CP_Input_KeyTriggered(KEY_W))
