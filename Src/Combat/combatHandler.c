@@ -6,7 +6,17 @@ void declare_combatants(Enemy* const enemy, int enemy_combat_mode)
 	//enemy combat mode tells me what mode the player should be in
 	the_enemy = enemy;
 
-	get_character()->combat_mode = !enemy_combat_mode; //if 0 - attacking, if 1 - defending;
+	switch (the_enemy->enemyState)
+	{
+		case ATTACK_STATE:
+			get_character()->combat_mode = CHAR_DEFENDING;
+			break;
+		case DEFEND_STATE:
+			get_character()->combat_mode = CHAR_ATTACKING;
+			break;
+		default:
+			break;
+	}
 	
 	combatants_present = 1;
 }
@@ -34,7 +44,7 @@ int combat_phase(void)
 			attacker_sum += roll_dice(get_character()->dice[i]);
 		}
 	}
-	else if (the_enemy->combat_mode == ENEMY_ATTACKING)
+	else if (the_enemy->enemyState == ATTACK_STATE)
 	{
 		for (int i = 0; i < the_enemy->dice_size; ++i)
 		{
@@ -49,7 +59,7 @@ int combat_phase(void)
 			defender_sum += roll_dice(get_character()->dice[i]);
 		}
 	}
-	else if (the_enemy->combat_mode == ENEMY_DEFENDING)
+	else if (the_enemy->enemyState == DEFEND_STATE)
 	{
 		for (int i = 0; i < the_enemy->dice_size - 1; ++i)
 		{
@@ -63,7 +73,7 @@ int combat_phase(void)
 		{
 			the_enemy->hp -= (attacker_sum - defender_sum);
 		}
-		else if (the_enemy->combat_mode == ENEMY_ATTACKING)
+		else if (the_enemy->enemyState == ATTACK_STATE)
 		{
 			get_character()->hp -= (attacker_sum - defender_sum);
 		}
@@ -74,15 +84,16 @@ int combat_phase(void)
 		{
 			get_character()->hp += (attacker_sum - defender_sum);
 		}
-		else if (the_enemy->combat_mode == ENEMY_ATTACKING)
+		else if (the_enemy->enemyState == ATTACK_STATE)
 		{
 			the_enemy->hp += (attacker_sum - defender_sum);
 		}
 	}
 	//else it will be a perfect parry
 
+	//reset states
 	get_character()->combat_mode = CHAR_NONE;
-	the_enemy->combat_mode = CHAR_NONE;
+	the_enemy->enemyState = PATROL_LEFTRIGHT_STATE;
 	
 	combatants_present = 0;
 	return 0;
