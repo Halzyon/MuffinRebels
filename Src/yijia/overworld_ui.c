@@ -30,7 +30,7 @@ void overworld_init(void) {
 	settings_icon->go.position.x = CP_System_GetWindowWidth() - 50.0f;
 	settings_icon->go.position.y = 50.0f;*/
 
-	get_image_size_set("Assets/exitsetting_icon.png", &exitsetting_icon);
+	//get_image_size_set("Assets/exitsetting_icon.png", &exitsetting_icon);
 	get_image_size_set("Assets/lvl1icon.png", &lvl1icon);
 	get_image_size_set("Assets/lvl2icon.png", &lvl2icon);
 	get_image_size_set("Assets/lvl3icon.png", &lvl3icon);
@@ -39,8 +39,8 @@ void overworld_init(void) {
 
 
 	//POSITIONS 
-	exitsetting_icon.position.x = CP_System_GetWindowWidth() - 440;
-	exitsetting_icon.position.y = 170;
+	//exitsetting_icon.position.x = CP_System_GetWindowWidth() - 440;
+	//exitsetting_icon.position.y = 170;
 }
 
 

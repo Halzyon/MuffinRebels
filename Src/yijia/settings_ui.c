@@ -134,7 +134,7 @@ void settings_update(void) {
 			save_icon.clicked = SoundOn_icon.clicked = 0;
 		}
     }
-	if (brightnessSlider.clicked)
+	if (brightnessSlider.clicked) // @yijia u put brighnessSlider.clicked here as the check for render
 	{
 		RenderAsset(brightnesstxt, 255);
 		RenderAsset(brightnessSlider, 255);
@@ -151,7 +151,7 @@ void settings_update(void) {
 		if (CP_Input_MouseClicked())
 		{
 			save_icon.clicked = !save_icon.clicked;
-			brightness_icon.clicked = SoundOn_icon.clicked = 0;
+			brightnessSlider.clicked = SoundOn_icon.clicked = 0; // but here u reset briggtness_icon.clicked
 		}
 	}
 	if (save_icon.clicked)
@@ -170,7 +170,7 @@ void settings_update(void) {
 		if (CP_Input_MouseClicked())
 		{
 			SoundOn_icon.clicked = !SoundOn_icon.clicked;
-			brightness_icon.clicked = save_icon.clicked = 0;
+			brightnessSlider.clicked = save_icon.clicked = 0; // same for here
 		}
 	}
 	if (SoundOn_icon.clicked)

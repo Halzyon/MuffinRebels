@@ -1,6 +1,6 @@
 #include "GameStateManager.h"
 #include "yijia/settings_ui.h"
-#include "../yijia/overworld_ui.h"
+#include "yijia/overworld_ui.h"
 
 
 void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, FunctionPtr exit)
