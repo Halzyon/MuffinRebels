@@ -29,6 +29,13 @@ void get_image_size(const char *filepath, asset* obj)
 	obj->size.y = (float)CP_Image_GetHeight(obj->image);
 }
 
+void get_image_size_set(const char* filepath, asset* obj)
+{
+	obj->image = CP_Image_Load(filepath);
+	obj->size.x = (float)CP_Image_GetWidth(obj->image);
+	obj->size.y = (float)CP_Image_GetHeight(obj->image);
+}
+
 void go_to_animation(float targetX, float targetY, CP_Vector *pos_to_change)
 {
 	CP_Vector target;

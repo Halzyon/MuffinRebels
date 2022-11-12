@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-
-    <ClCompile Include="..\Src\yijia\brightness_Settings_ui.c" >
+    <ClCompile Include="..\Src\yijia\brightness_Settings_ui.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\yijia\combat_ui.c" >
+    <ClCompile Include="..\Src\yijia\combat_ui.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\yijia\overworld_ui.c">
@@ -17,10 +16,7 @@
     <ClCompile Include="..\Src\yijia\settings_ui.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\UI\DiceUI\dice_ui.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c" >
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Character\charMovement.c">
@@ -69,6 +65,12 @@
     <ClCompile Include="..\Src\Scenes\GameScene.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SplashScreen\splashscreen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c">
@@ -80,12 +82,6 @@
     <ClCompile Include="..\Src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\SplashScreen\splashscreen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClInclude Include="..\Src\Character\charMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -95,7 +91,7 @@
     <ClInclude Include="..\Src\Character\diceHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\UI\CombatOverlayUI\combat_overlay.h" >
+    <ClInclude Include="..\Src\UI\CombatOverlayUI\combat_overlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\FileIO\encode.h">
@@ -125,20 +121,14 @@
     <ClInclude Include="..\Src\SpriteAnimation\spriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\UI\DiceUI\dice_ui.h">
-        <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\yijia\brightness_Settings_ui.h">
-        <Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\yijia\settings_ui.h">
-        <Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\yijia\overworld_ui.h">
-        <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\yijia\pause_ui .h">
-        <Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,5 +162,7 @@
     <ClInclude Include="..\Src\Scenes\GameScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Src\Level Editor\lvl_editor.h" />
+    <ClInclude Include="..\Src\yijia\pause_ui.h" />
   </ItemGroup>
 </Project>

@@ -10,6 +10,8 @@ int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_heigh
 
 void get_image_size(const char* filepath, asset* obj);
 
+void get_image_size_set(const char* filepath, asset* obj);
+
 static float EaseOutSine(float start, float end, float value)
 {
 	end -= start;
