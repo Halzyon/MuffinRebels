@@ -476,11 +476,6 @@ void inventory_window(int num_item, float rightmost_box_positionX)
 	}
 }
 
-void movement_left(asset dice, int* num_remain)
-{
-	generate_dice(num_remain, dice, 60.0f, 160.0f, 1.0f);
-}
-
 /*void timer_ui(void)
 {
 	char display_mins_tens = 
