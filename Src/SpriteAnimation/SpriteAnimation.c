@@ -84,9 +84,9 @@ void RenderSpriteOnMap(Sprite* sprite, game_map* gm)
 {
 	if (sprite != NULL && sprite->go.isAlive)
 	{
-		
-		float x = map_get_world_x(sprite->go.position.x, gm);
-		float y = map_get_world_y(sprite->go.position.y, gm);
+		float gridsize = CP_System_GetWindowHeight() / gm->height;
+		float x = sprite->go.position.x * gridsize;
+		float y = sprite->go.position.y * gridsize;
 		
 		CP_Image_DrawSubImage(sprite->go.image, x, y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y,255);
 

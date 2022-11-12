@@ -1,10 +1,10 @@
 #include "combatHandler.h"
 #include "../Character/diceHandler.h"
-
+#include "../Character/gameEnemy.h"
 void declare_combatants(Enemy* const enemy, int enemy_combat_mode)
 {
 	//enemy combat mode tells me what mode the player should be in
-	the_enemy = &enemy;
+	the_enemy = enemy;
 
 	get_character()->combat_mode = !enemy_combat_mode; //if 0 - attacking, if 1 - defending;
 	
