@@ -4,17 +4,6 @@
 #include "SpriteAnimation/spriteAnimation.h"
 #include "settings_ui.h"
 
-/*
-Sprite* exitsetting_icon;
-Sprite* settingsbg;
-Sprite* brightness_icon;
-Sprite* save_icon;
-Sprite* SoundOn_icon;
-Sprite* savehover_icon;
-Sprite* brightnesshover_icon;
-Sprite* soundhover_icon;
-*/
-
 asset exitsetting_icon; 
 asset settingsbg;
 asset brightness_icon;
@@ -27,25 +16,15 @@ asset brightnessSlider;
 asset brightnessSlidercircle;
 asset brightnesstxt;
 asset soundtxt;
-asset savetxt;
-CP_Font myFont;
+asset yes;
+asset no; 
+asset progresstxt;
+asset soundoffscaled;
+asset soundscaled;
 int alpha;
 
 
-
-
 void settings_init(void){
-	//OPENFILE
-	myFont = CP_Font_Load("Assets/Kenney Pixel.ttf");
-	/*settingsbg = get_image_size("Assets/settingsbg.png", &settingsbg);
-	exitsetting_icon = CreateSprite("Assets/exitsetting_icon.png", 1, 1, false, false);
-	brightness_icon = CreateSprite("Assets/brightness_icon.png", 1, 1, false, false);
-	save_icon = CreateSprite("Assets/save_icon.png", 1, 1, false, false);
-	SoundOn_icon = CreateSprite("Assets/SoundOn_icon.png", 1, 1, false, false);
-	
-	savehover_icon = CreateSprite("Assets/savehover_icon.png", 1, 1, false, false);
-	brightnesshover_icon = CreateSprite("Assets/brightnesshover_icon.png", 1, 1, false, false);
-	soundhover_icon = CreateSprite("Assets/soundhover_icon.png", 1, 1, false, false);*/
 
 	get_image_size_set("Assets/settingsbg.png", &settingsbg);
 	get_image_size_set("Assets/exitsetting_icon.png", &exitsetting_icon);
@@ -59,9 +38,11 @@ void settings_init(void){
 	get_image_size_set("Assets/soundhover.png", &soundhover);
 	get_image_size_set("Assets/brightnesstxt.png", &brightnesstxt);
 	get_image_size_set("Assets/soundtxt.png", &soundtxt);
-	get_image_size_set("Assets/savetxt.png", &savetxt);
-
-
+	get_image_size_set("Assets/yes.png", &yes);
+	get_image_size_set("Assets/no.png", &no);
+	get_image_size_set("Assets/progresstxt.png", &progresstxt);
+	get_image_size_set("Assets/soundoffscaled.png", &soundoffscaled);
+	get_image_size_set("Assets/soundscaled.png", &soundscaled);
 
 	CP_System_SetWindowSize(1280, 720);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -92,7 +73,7 @@ void settings_init(void){
 	soundhover.position.x = CP_System_GetWindowWidth() - 635;
 	soundhover.position.y = 565;
 
-	//slider
+	//brightnessslider
 	brightnessSlidercircle.position.x = CP_System_GetWindowWidth() - 635;
 	brightnessSlidercircle.position.y = 360;
 
@@ -105,42 +86,67 @@ void settings_init(void){
 
 	soundtxt.position.x = CP_System_GetWindowWidth() - 635;
 	soundtxt.position.y = 260;
-
-	savetxt.position.x = CP_System_GetWindowWidth() - 635;
-	savetxt.position.y = 260;
 	
-} 
+	//positions of variables inside the sound tab
+	soundoffscaled.position.x = CP_System_GetWindowWidth() - 635;
+	soundoffscaled.position.y = 360;
 
+	soundscaled.position.x = CP_System_GetWindowWidth() - 635;
+	soundscaled.position.y = 360;
+
+	//positions of variables inside the save tab
+	yes.position.x = CP_System_GetWindowWidth() - 685;
+	yes.position.y =  380;
+
+	no.position.x = CP_System_GetWindowWidth() - 575;
+	no.position.y = 380;
+
+	progresstxt.position.x = CP_System_GetWindowWidth() - 635;
+	progresstxt.position.y = 280;
+
+	if (soundscaled.clicked == 1)
+	{
+		RenderAsset(soundscaled, 255);
+		if (mouse_in_rect(soundscaled.position.x, soundscaled.position.y, soundscaled.size.x, soundscaled.size.y) == 1 && CP_Input_MouseClicked())
+		{
+			soundoffscaled.clicked = 1;
+			soundscaled.clicked = 0;
+		}
+	}
+	if (soundoffscaled.clicked == 1)
+	{
+		RenderAsset(soundoffscaled, 255);
+		if (mouse_in_rect(soundscaled.position.x, soundscaled.position.y, soundscaled.size.x, soundscaled.size.y) == 1 && CP_Input_MouseClicked())
+		{
+			soundoffscaled.clicked = 0; 
+			soundscaled.clicked = 1;
+		}
+	}
+
+} 
 void settings_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	//RENDER ICONS
-	/*(settingsbg);
-	RenderSprite(exitsetting_icon);
-	RenderSprite(brightness_icon);
-	RenderSprite(save_icon);
-	RenderSprite(SoundOn_icon);*/
 	RenderAsset(settingsbg, 255);
 	RenderAsset(exitsetting_icon, 255);
-	
+
 	//BRIGHTNESS ICON
 	RenderAsset(brightness_icon, 255);
 	if (mouse_in_rect(brightness_icon.position.x, brightness_icon.position.y, brightness_icon.size.x, brightness_icon.size.y) == 1)	// brightness hover
-    {
+	{
 		RenderAsset(brightnesshover_icon, 255);
 		if (CP_Input_MouseClicked())
 		{
-			brightnessSlider.clicked = !brightnessSlider.clicked;
+			brightness_icon.clicked = !brightness_icon.clicked;
 			save_icon.clicked = SoundOn_icon.clicked = 0;
 		}
-    }
-	if (brightnessSlider.clicked) // @yijia u put brighnessSlider.clicked here as the check for render
+	}
+	if (brightness_icon.clicked)
 	{
 		RenderAsset(brightnesstxt, 255);
+		RenderAsset(brightnesshover_icon, 255);
 		RenderAsset(brightnessSlider, 255);
 		RenderAsset(brightnessSlidercircle, 255);
-		RenderAsset(brightnesshover_icon, 255);  
-		
 	}
 
 	//SAVE ICON
@@ -151,17 +157,17 @@ void settings_update(void) {
 		if (CP_Input_MouseClicked())
 		{
 			save_icon.clicked = !save_icon.clicked;
-			brightnessSlider.clicked = SoundOn_icon.clicked = 0; // but here u reset briggtness_icon.clicked
+			brightness_icon.clicked = SoundOn_icon.clicked = 0;
 		}
 	}
 	if (save_icon.clicked)
 	{
-		RenderAsset(savetxt, 255);
+		RenderAsset(yes, 255);
+		RenderAsset(no, 255);
+		RenderAsset(progresstxt, 255);
 		RenderAsset(savehover, 255);
 
 	}
-
-
 	//SOUND ICON 
 	RenderAsset(SoundOn_icon, 255);
 	if (mouse_in_rect(SoundOn_icon.position.x, SoundOn_icon.position.y, SoundOn_icon.size.x, SoundOn_icon.size.y) == 1)	// soundon hover
@@ -170,25 +176,25 @@ void settings_update(void) {
 		if (CP_Input_MouseClicked())
 		{
 			SoundOn_icon.clicked = !SoundOn_icon.clicked;
-			brightnessSlider.clicked = save_icon.clicked = 0; // same for here
+			brightness_icon.clicked = save_icon.clicked = 0;
 		}
 	}
 	if (SoundOn_icon.clicked)
 	{
 		RenderAsset(soundtxt, 255);
+		RenderAsset(soundoffscaled, 255);
+		RenderAsset(soundscaled, 255);
 		RenderAsset(soundhover, 255);
-
 	}
-	
 }
 
 
-void settings_shutdown(void) {
+void settings_shutdown(void){
 
 }
+
 
 void RenderAsset(asset render, int opacity)
 {
 	CP_Image_Draw(render.image, render.position.x, render.position.y, render.size.x, render.size.y, opacity);
 }
-
