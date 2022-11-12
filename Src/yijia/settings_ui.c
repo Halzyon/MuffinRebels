@@ -94,6 +94,9 @@ void settings_init(void){
 	soundscaled.position.x = CP_System_GetWindowWidth() - 635;
 	soundscaled.position.y = 360;
 
+	//	starts the game with the sound on
+	soundscaled.clicked = 1;
+
 	//positions of variables inside the save tab
 	yes.position.x = CP_System_GetWindowWidth() - 685;
 	yes.position.y =  380;
@@ -104,27 +107,10 @@ void settings_init(void){
 	progresstxt.position.x = CP_System_GetWindowWidth() - 635;
 	progresstxt.position.y = 280;
 
-	if (soundscaled.clicked == 1)
-	{
-		RenderAsset(soundscaled, 255);
-		if (mouse_in_rect(soundscaled.position.x, soundscaled.position.y, soundscaled.size.x, soundscaled.size.y) == 1 && CP_Input_MouseClicked())
-		{
-			soundoffscaled.clicked = 1;
-			soundscaled.clicked = 0;
-		}
-	}
-	if (soundoffscaled.clicked == 1)
-	{
-		RenderAsset(soundoffscaled, 255);
-		if (mouse_in_rect(soundscaled.position.x, soundscaled.position.y, soundscaled.size.x, soundscaled.size.y) == 1 && CP_Input_MouseClicked())
-		{
-			soundoffscaled.clicked = 0; 
-			soundscaled.clicked = 1;
-		}
-	}
+}
 
-} 
-void settings_update(void) {
+void settings_update(void) 
+{
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	RenderAsset(settingsbg, 255);
@@ -168,8 +154,9 @@ void settings_update(void) {
 		RenderAsset(savehover, 255);
 
 	}
+
 	//SOUND ICON 
-	RenderAsset(SoundOn_icon, 255);
+	RenderAsset(SoundOn_icon, 255); // renders the soundicon in the selection tab
 	if (mouse_in_rect(SoundOn_icon.position.x, SoundOn_icon.position.y, SoundOn_icon.size.x, SoundOn_icon.size.y) == 1)	// soundon hover
 	{
 		RenderAsset(soundhover, 255);
@@ -179,12 +166,26 @@ void settings_update(void) {
 			brightness_icon.clicked = save_icon.clicked = 0;
 		}
 	}
-	if (SoundOn_icon.clicked)
+	if (SoundOn_icon.clicked)	//	renders the sound window if the sound icon in the tab is selected
 	{
 		RenderAsset(soundtxt, 255);
-		RenderAsset(soundoffscaled, 255);
-		RenderAsset(soundscaled, 255);
 		RenderAsset(soundhover, 255);
+		if (soundscaled.clicked == 1)	// renders large soundon icon
+		{
+			RenderAsset(soundscaled, 255);
+			if (mouse_in_rect(soundscaled.position.x, soundscaled.position.y, soundscaled.size.x, soundscaled.size.y) == 1 && CP_Input_MouseClicked())	// if player clicks icon to mute sound
+			{
+				soundscaled.clicked = !soundscaled.clicked;
+			}
+		}
+		else	// renders large soundoff icon
+		{
+			RenderAsset(soundoffscaled, 255);
+			if (mouse_in_rect(soundscaled.position.x, soundscaled.position.y, soundscaled.size.x, soundscaled.size.y) == 1 && CP_Input_MouseClicked())	// if player clicked icon to turn on sound
+			{	
+				soundscaled.clicked = !soundscaled.clicked;
+			}
+		}
 	}
 }
 
