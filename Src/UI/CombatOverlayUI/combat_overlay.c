@@ -8,8 +8,6 @@ asset inventory;
 asset dice_button;
 asset powerup_button;
 asset dice[3];
-//asset d20;
-//asset d6;
 asset settings;
 asset cursor;
 asset alive_hp;
@@ -24,6 +22,7 @@ float powerup_timer;
 int num_roll;
 int display_side_dice;
 int turns;
+int warning_clicked[2];		// subscript 0: dice_button, subscript 1: powerup_button
 
 void combat_overlay_init(void)
 {
@@ -103,9 +102,13 @@ void combat_overlay_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	dice_powerup(num_roll, turns);
-	/*if (CP_Input_KeyDown(KEY_D))
+	if (CP_Input_KeyDown(KEY_D))
 	{
 		num_roll--;
+	}
+	if (CP_Input_KeyDown(KEY_S))
+	{
+		num_roll++;
 	}
 	if (CP_Input_KeyDown(KEY_A))
 	{
@@ -114,7 +117,7 @@ void combat_overlay_update(void)
 	if (CP_Input_KeyDown(KEY_W))
 	{
 		turns++;
-	}*/
+	}
 
 	health_bar(3);
 	settings_button();
@@ -144,11 +147,36 @@ void dice_powerup(int rng_num, int powerup_turns)
 
 void choose_to_roll_dice(int num_roll)
 {
-	if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked && !dice->clicked && !dice->side_display)	//	checks if user clicked the dice button
+	for (int d = 0; d < 3; d++)
 	{
-		dice_button.clicked = !dice_button.clicked;
-		dice[d6].clicked = 0;
-		dice[d20].clicked = 0;
+		if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked && !dice[d].clicked && !dice[d].side_display)	//	checks if user clicked the dice button
+		{
+			dice_button.clicked = !dice_button.clicked;
+			dice[d].clicked = 0;
+			dice[d].side_display = 0;
+		}
+		if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && dice[d].side_display && !warning_clicked[0])
+		{
+			warning_clicked[0] = !warning_clicked[0];
+		}
+		
+	}
+	if (warning_clicked[0] == 1)
+	{
+		CP_Image_Draw(desc_panel.image, dice_button.position.x, dice_button.position.y - 150.0f, desc_panel.size.x * 1.7, desc_panel.size.y, 255);
+		CP_Settings_TextSize(25.0f);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		dice_timer += CP_System_GetDt();
+		if (dice_timer < 2.5f)
+		{
+
+			CP_Font_DrawTextBox("You cannot roll twice for movement!", dice_button.position.x - 70.0f, dice_button.position.y - 175.0f, 150.0f);
+		}
+		else
+		{
+			dice_timer = 0;
+			warning_clicked[0] = 0;
+		}
 	}
 	if (dice_button.clicked)	// Draws the window pop up for player to choose dice to roll
 	{
@@ -177,6 +205,7 @@ void choose_to_roll_dice(int num_roll)
 			dice[d6].clicked = !dice[d6].clicked;
 			dice[d20].clicked = 0;
 			init_rollPos();
+			inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
 		}
 		else if ((dice[d20].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked)	//	checks if user selected dice[d20] dice
 		{
@@ -184,13 +213,17 @@ void choose_to_roll_dice(int num_roll)
 			dice[d6].clicked = 0;
 			dice[d20].clicked = !dice[d20].clicked;
 			init_rollPos();
+			inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
 		}
+	}
+	if (inventory.side_display)
+	{
+		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.0f, inventory.size.y * 2.0f, 255);
 	}
 	for (int d = 0; d < 3; d++)
 	{
 		if (dice[d].clicked)
 		{	
-			//inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
 			CP_Settings_TextSize(100.0f);
 			dice_timer += CP_System_GetDt();
 			if (dice_timer < 2.0f)
@@ -214,73 +247,26 @@ void choose_to_roll_dice(int num_roll)
 				dice[d].side_display = !dice[d].side_display;
 			}
 		}
-		if (inventory.side_display)
-		{
-			CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.0f, inventory.size.y * 2.0f, 255);
-		}
+		
 	}
-	/*
-	if (dice[d6].clicked)	// draws pop up window for when a dice is selected
-	{
-		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 2.0f, inventory.size.y * 2.0f, 255);
-		dice_timer += CP_System_GetDt();
-		if (dice_timer < 2.0f)
-		{
-			generate_dice(roll_dice(e_std_dice[d6]), e_std_dice[d6], roll_pos.x, roll_pos.y, 1.4f);
-		}
-		if (3.0f > dice_timer && dice_timer > 2.0f)
-		{
-			generate_dice(num_roll, e_std_dice[d6], roll_pos.x, roll_pos.y, 1.4f);
-		}
-		if (dice_timer > 3.0f)
-		{
-			go_to_animation(50.0f, 150.0f, &roll_pos);
-			generate_dice(num_roll, e_std_dice[d6], roll_pos.x, roll_pos.y, 1.4f);
-		}
-		if (dice_timer > 4.0f)
-		{
-			dice_timer = 0;
-			dice[d6].clicked = !dice[d6].clicked;
-			display_side_dice = !display_side_dice;
-		}
-	}
-	else if (dice[d20].clicked)
-	{
-		CP_Image_Draw(inventory.image, roll_pos.x, roll_pos.y, inventory.size.x * 1.8f, inventory.size.y * 1.8f, 255);
-		dice_timer += CP_System_GetDt();
-		if (dice_timer < 2.0f) 
-		{
-			generate_dice(roll_dice(e_std_D20), e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
-		}
-		if (3.0f > dice_timer && dice_timer > 2.0f)
-		{
-			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
-		}
-		if (dice_timer > 4.0f)
-		{
-			go_to_animation(side_display_pos.x, side_display_pos.y + 110.0f, &roll_pos);
-			generate_dice(num_roll, e_std_D20, roll_pos.x, roll_pos.y, 1.6f);
-		}
-		if (dice_timer > 4.0f)
-		{
-			dice_timer = 0;
-			dice[d20].clicked = !dice[d20].clicked;
-			display_side_dice = !display_side_dice;
-		}
-	}*/
 	for (int d = 0; d < 3; d++)
 	{
+		float x;
+		float y;
 		if (dice[d].side_display == 1)
 		{
 			CP_Settings_TextSize(50.0f);
 			generate_dice(num_roll, dice[d], side_display_pos.x, side_display_pos.y + 110.0f, 0.8f);
 			if (num_roll <= 0)
 			{
+				CP_Settings_TextSize(30.0f);
+				CP_Font_DrawText("No movement left!", side_display_pos.x + 165.0f, side_display_pos.y + 110.0f);
+				CP_Settings_TextSize(50.0f);
 				generate_dice(0, dice[d], side_display_pos.x, side_display_pos.y + 110.0f, 0.8f);
 				dice_timer += CP_System_GetDt();
 				if (dice_timer > 2.0f)
 				{
-					display_side_dice = 0;
+					dice[d].side_display = 0;
 				}
 			}
 		}
@@ -289,16 +275,15 @@ void choose_to_roll_dice(int num_roll)
 
 void choose_powerup(int turns_left)
 {
+	char* turns[1];
+	turns[0] = '0' + turns_left;
 	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && !dice_button.clicked)	//	checks if user clicked the dice button
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			if (powerup[i].side_display == 1 && powerup_timer < 3.0f)
+			if (powerup[i].side_display == 1 && !warning_clicked[1])
 			{
-				CP_Settings_TextSize(50.0f);
-				CP_Image_Draw(desc_panel.image, powerup_button.position.x - 50.0f, powerup_button.position.y - 150.0f, desc_panel.size.x, desc_panel.size.y, 255);
-				CP_Font_DrawTextBox("You can only use one power up at a time!", powerup_button.position.x - 50.0f, powerup_button.position.y - 150.0f, 120.0f);
-				powerup_timer += CP_System_GetDt();
+				warning_clicked[1] = !warning_clicked[1];
 			}
 			else
 			{
@@ -306,10 +291,23 @@ void choose_powerup(int turns_left)
 				powerup[atk].clicked = powerup[hp].clicked = powerup[extra_d4].clicked = 0;
 				powerup_timer = 0;
 			}
-			if (powerup_timer > 3.0f)
-			{
-				powerup_timer = 0;
-			}
+		}
+	}
+
+	if (warning_clicked[1] == 1)
+	{
+		CP_Image_Draw(desc_panel.image, powerup_button.position.x, powerup_button.position.y - 130.0f, desc_panel.size.x * 1.7, desc_panel.size.y, 255);
+		CP_Settings_TextSize(25.0f);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		powerup_timer += CP_System_GetDt();
+		if (powerup_timer < 2.5f)
+		{
+			CP_Font_DrawTextBox("You can only use one power up at a time!", powerup_button.position.x - 75.0f, powerup_button.position.y - 155.0f, 160.0f);
+		}
+		else
+		{
+			powerup_timer = 0;
+			warning_clicked[1] = 0;
 		}
 	}
 
@@ -378,7 +376,7 @@ void choose_powerup(int turns_left)
 
 	for (int i = 0; i < 3; i++)
 	{	
-		if (powerup[i].side_display == 1 && turns_left >= 0)
+		if (powerup[i].side_display == 1 && turns_left > 0)
 		{
 			CP_Settings_TextSize(30.0f);
 			if (num_roll > 0)
@@ -386,14 +384,14 @@ void choose_powerup(int turns_left)
 				CP_Image_Draw(desc_panel.image, side_display_pos.x, side_display_pos.y + 250.0f, 30.0f, 30.0f, 255);
 				CP_Image_Draw(powerup[i].image, side_display_pos.x, side_display_pos.y + 200.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-				CP_Font_DrawText("3", side_display_pos.x + 2.0f, side_display_pos.y + 250.0f);
+				CP_Font_DrawText(turns, side_display_pos.x + 2.0f, side_display_pos.y + 250.0f);
 			}
-			else if (num_roll <= 0)
+			else if (num_roll <= 0 && dice_timer > 2.0f)
 			{
 				CP_Image_Draw(desc_panel.image, side_display_pos.x, side_display_pos.y + 160.0f, 30.0f, 30.0f, 255);
 				CP_Image_Draw(powerup[i].image, side_display_pos.x, side_display_pos.y + 110.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-				CP_Font_DrawText("3", side_display_pos.x + 2.0f, side_display_pos.y + 160.0f);
+				CP_Font_DrawText(turns, side_display_pos.x + 2.0f, side_display_pos.y + 160.0f);
 			}
 		}
 		else if (turns_left <= 0)
@@ -505,4 +503,5 @@ void combat_overlay_exit(void)
 	CP_Image_Free(powerup[atk].image);
 	CP_Image_Free(powerup[hp].image);
 	CP_Image_Free(powerup[extra_d4].image);
+	CP_Image_Free(desc_panel.image);
 }
