@@ -5,8 +5,9 @@
 
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
+	
 	UpdateSprite(en->sp, dt);//update enemy spriteanimation
-	if (!move)
+	if (!move || !en->sp->go.isAlive)
 		return;
 	
 	if (en->enemyState == PATROL_UPDOWN_STATE)
@@ -29,6 +30,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->b_direction = !en->b_direction;
 			en->movement = 0;
 		}
+		
 	}
 	else if (en->enemyState == PATROL_LEFTRIGHT_STATE)
 	{
@@ -51,29 +53,59 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 		}
 	}
 
+	if (en->sp->go.position.x == get_character()->sp->go.position.x)
+	{
+		if (en->sp->go.position.y == get_character()->sp->go.position.y)
+		{
+			en->b_combat = true;
+		}
+	}
+	if (en->sp->go.position.x + 1 == get_character()->sp->go.position.x || en->sp->go.position.x - 1 == get_character()->sp->go.position.x)
+	{
+		if (en->sp->go.position.y == get_character()->sp->go.position.y)
+		{
+			en->b_combat = true;
+		}
+	}
+	if (en->sp->go.position.x == get_character()->sp->go.position.x)
+	{
+		if (en->sp->go.position.y + 1 == get_character()->sp->go.position.y || en->sp->go.position.y - 1 == get_character()->sp->go.position.y)
+		{
+			en->b_combat = true;
+		}
+	}
+
+	
 }
 
 void UpdateCombat(Enemy* en, float dt)
 {
-	en->energy = roll_dice(e_std_D6);
-	printf("Enemy dice %d\n", en->energy);
+	if (!en->b_combat || !en->sp->go.isAlive)
+		return;
+
 
 	if (en->energy <= get_character()->energy)
 	{//defend
 		// currently heals it 0.0
 		en->enemyState = DEFEND_STATE;
-		en->hp += en->energy;
+		//en->hp += en->energy;
 	}
 	else
 	{// attack
 		en->enemyState = ATTACK_STATE;
-		get_character()->hp -= en->energy;
+		//get_character()->hp -= en->energy;
 	}
 
-	en->hp -= get_character()->energy;
+	declare_combatants(en, en->enemyState);
+//	for (; get_character()->hp > 0 && en->hp > 0; --get_character()->energy)
+//	{
+		combat_phase();
+//	}
 
 	//dont need change enemy state back to patrol as its either
 	//player die or enemy die
+		if (en->hp <= 0)
+			en->sp->go.isAlive = false;
 }
 
 Enemy* CreateEnemy(void)
@@ -100,6 +132,7 @@ Enemy* CreateEnemy(void)
 		newEnemy->combat_mode = ENEMY_NONE;
 
 		newEnemy->sp = CreateSprite("Assets/ene.png", 4, 4, true, false);
+		newEnemy->b_combat = false;
 
 		//sprite animation init
 		newEnemy->sp->spriteStates[RIGHT] = 3;

@@ -13,7 +13,6 @@ Enemy* enemy;
 bool b_paused = false;
 void game_init(void)
 {
-	CP_System_SetWindowSize(1280,720);
 	// set draw settings
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
@@ -21,7 +20,7 @@ void game_init(void)
 	// create and initialise cplayer
 	init_dice();
 	init_char(Warrior);
-
+	get_character()->sp->go.position.x = 4;
 	//creating map data
 	Level = malloc(sizeof(game_map));
 	init_map_obj(Level, 10, 10, CP_System_GetWindowHeight(), CP_System_GetWindowHeight());
@@ -35,7 +34,7 @@ void game_init(void)
 
 	//creating and initialise 1 enemy
 	enemy = CreateEnemy();
-	enemy->sp->go.position.x = 7;
+	enemy->sp->go.position.x = 12;
 	enemy->sp->go.position.y = 5;
 	enemy->sp->go.scale.x = 0.5;
 	enemy->sp->go.scale.y = 0.5;
@@ -43,8 +42,8 @@ void game_init(void)
 	enemy->steps = 1;
 	loadSprites();
 	//set sub scenes to run 
-	GameStateSetNextSubScene(SPRITEANIMATION_SCENE, false);
-	GameStateSetNextSubScene(MAX_SCENE, false); // to stop sub scene from running*/
+	GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
+	//GameStateSetNextSubScene(MAX_SCENE, false); // to stop sub scene from running*/
 }
 
 void game_update(void)
@@ -57,15 +56,9 @@ void game_update(void)
 	{
 		CP_Engine_Terminate();
 	}
-	//Trigger for sub scene
-	if (CP_Input_KeyTriggered(KEY_P))
-	{
-		if (!b_paused)
-			GameStateSetNextSubScene(SPRITEANIMATION_SCENE, true);
-		else
-			GameStateSetNextSubScene(MAX_SCENE, true);
-		b_paused = !b_paused;
-	}
+
+	//GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, true);
+
 
 	//get player input
 	hardware_handler();
@@ -77,6 +70,17 @@ void game_update(void)
 		UpdateEnemy(enemy, dt, true);
 	else
 		UpdateEnemy(enemy, dt, false);
+<<<<<<< Updated upstream
+=======
+	UpdateCombat(enemy, dt);
+	
+	/*declare_combatants(enemy, enemy->enemyState);
+	for (; get_character()->energy > 0; --get_character()->energy)
+	{
+		combat_phase();
+	}*/
+
+>>>>>>> Stashed changes
 
 
 	//RENDER

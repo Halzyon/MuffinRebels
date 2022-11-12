@@ -21,6 +21,7 @@ typedef struct
 	unsigned int movement;
 	unsigned int patrolRange;
 	int steps;
+	unsigned char b_combat;
 
 	enum
 	{
