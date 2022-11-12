@@ -5,7 +5,7 @@
 #include "../UI/UtilsUI/ui_utils.h"
 
 asset buttonpressed;
-asset button;
+asset button[3];
 asset settings_icon;
 asset lvl1icon;
 asset lvl2icon;
@@ -31,8 +31,8 @@ void overworld_init(void) {
 	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
 	settings_icon.position.y = 50;
 
-	button.position.x = CP_System_GetWindowWidth() - 640;
-	button.position.y = 220;
+	button[0].position.x = CP_System_GetWindowWidth() - 640;
+	button[0].position.y = 220;
 
 	buttonpressed.position.x = CP_System_GetWindowWidth() - 640;
 	buttonpressed.position.y = 240;
@@ -56,21 +56,22 @@ void overworld_update(void) {
 
 	for (int i = 0; i < 3; i++)
 	{
-		CP_Image_Draw(button[0].image, button[0].position.x , button[0].position.y + (i * 150), 396, 93, 255);
+		button[i].position.y = button[0].position.y + (i * 150.0f);									//	sets the y position for each button because thats the only thing thats different with the buttons
+		CP_Image_Draw(button[0].image, button[0].position.x, button[i].position.y, 396, 93, 255);
 
 		CP_Image_Draw(lvl1icon.image,lvl1icon.position.x, lvl1icon.position.y,146,32,255);
 
-		if (mouse_in_rect(button.position.x, button.position.y + (i * 150), 396,93) == 1 && CP_Input_MouseClicked()) {
-			button.clicked[i] = !button.clicked[i];
+		if (mouse_in_rect(button[0].position.x, button[i].position.y + (i * 150), 396, 93) == 1 && CP_Input_MouseClicked()) {
+			button.clicked[i] = !button.clicked[i];		//	button[i].clicked
 
 		}
-		RenderAsset(buttonpressed);
-		if (mouse_in_rect(button.position.x, button.position.y + (i * 150), 396, 93) == 1 && CP_Input_MouseClicked()) 	
+		//RenderAsset(buttonpressed);
+		if (mouse_in_rect(button.position.x, button.position.y + (i * 150), 396, 93) == 1 && CP_Input_MouseClicked()) 	// follow the above
 		{
-			button.clicked = !button.clicked;
+			button.clicked = !button.clicked;	// follow above
 		}
-		RenderAsset(lvl2icon, 255);
-		RenderAsset(lvl3icon, 255);
+		//RenderAsset(lvl2icon, 255);
+		//RenderAsset(lvl3icon, 255);
 	}
 
 	}
