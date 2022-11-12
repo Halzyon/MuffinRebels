@@ -152,8 +152,16 @@ void settings_update(void)
 		RenderAsset(no, 255);
 		RenderAsset(progresstxt, 255);
 		RenderAsset(savehover, 255);
+		/*if (yes.clicked == 1)
+		{
 
+		}
+		if (no.clicked == 1)
+		{
+
+		}*/
 	}
+	
 
 	//SOUND ICON 
 	RenderAsset(SoundOn_icon, 255); // renders the soundicon in the selection tab

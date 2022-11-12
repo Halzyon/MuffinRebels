@@ -142,6 +142,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\Level Stuff\lvl_manager.h" />
     <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
     <ClInclude Include="..\Src\yijia\overworld_ui.h" />
+    <ClInclude Include="..\Src\yijia\pause_ui .h" />
     <ClInclude Include="..\Src\yijia\pause_ui.h" />
     <ClInclude Include="..\Src\yijia\settings_ui.h" />
     <ClInclude Include="..\Src\GameStateManager.h" />

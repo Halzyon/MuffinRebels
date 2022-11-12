@@ -9,26 +9,14 @@ asset button;
 asset settings_icon;
 asset lvl1icon;
 asset lvl2icon;
-asset lvl3icon;
+asset lvl3icon; 
+
 int alpha; 
 
 void overworld_init(void) {
-	/* = CP_Font_Load("Assets/Kenney Pixel.ttf");
-	gradientramp = CreateSprite("Assets/gradientramp.png", 1, 1, false, false);
-	buttonpressed = CreateSprite("Assets/buttonpressed.png", 1, 1, false, false);
-	button = CreateSprite("Assets/button.png", 1, 1, false, false);
-	settings_icon = CreateSprite("Assets/settings_icon.png", 1, 1, false, false);
-	lvl1icon = CreateSprite("Assets/lvl1icon.png", 1, 1, false, false);
-	lvl2icon= CreateSprite("Assets/lvl2icon.png", 1, 1, false, false);
-	lvl3icon = CreateSprite("Assets/lvl3icon.png", 1, 1, false, false);*/
-
+	
 	CP_System_SetWindowSize(1280, 720); 
-	CP_Settings_ImageMode(CP_POSITION_CORNER);  
-
-	/*settings_icon->go.position.x = 35;
-	settings_icon->go.position.y = 26;
-	settings_icon->go.position.x = CP_System_GetWindowWidth() - 50.0f;
-	settings_icon->go.position.y = 50.0f;*/
+	CP_Settings_ImageMode(CP_POSITION_CENTER);  
 
 	//get_image_size_set("Assets/exitsetting_icon.png", &exitsetting_icon);
 	get_image_size_set("Assets/lvl1icon.png", &lvl1icon);
@@ -36,66 +24,46 @@ void overworld_init(void) {
 	get_image_size_set("Assets/lvl3icon.png", &lvl3icon);
 	get_image_size_set("Assets/buttonpressed.png", &buttonpressed);
 	get_image_size_set("Assets/button.png", &button);
+	get_image_size_set("Assets/settings_icon.png", &settings_icon);
+
+	//positions
+
+	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
+	settings_icon.position.y = 50;
+
+	button.position.x = CP_System_GetWindowWidth() - 640;
+	button.position.y = 240;
+
+	buttonpressed.position.x = CP_System_GetWindowWidth() - 640;
+	buttonpressed.position.y = 240;
 
 
-	//POSITIONS 
-	//exitsetting_icon.position.x = CP_System_GetWindowWidth() - 440;
-	//exitsetting_icon.position.y = 170;
+	lvl1icon.position.x = CP_System_GetWindowWidth() - 640;
+	lvl1icon.position.y = 250;
+
+	lvl2icon.position.x = CP_System_GetWindowWidth() - 640;
+	lvl2icon.position.y = 360;
+
+	lvl3icon.position.x = CP_System_GetWindowWidth() - 640;
+	lvl3icon.position.y = 460;
+
 }
 
 
 void overworld_update(void) {
-	CP_Graphics_ClearBackground(CP_Color_Create(128, 128, 128, 255));
-	//RenderSprite(gradientramp);
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	//RenderSprite(settings_icon); //render top first
-
-	////LEVEL 1 BUTTON
-	//button->go.position.x = 442;
-	//button->go.position.y = 145;
-	//RenderSprite(button);
-
-	////LEVEL 2 BUTTON
-	//button->go.position.x = 442;
-	//button->go.position.y = 314;
-	//RenderSprite(button); 
-
-	////LEVEL 3 BUTTON
-	//button->go.position.x = 442;
-	//button->go.position.y = 483;
-	//RenderSprite(button); 
-
-	////LEVEL 1 BUTTON PRESSED
-	//buttonpressed->go.position.x = 442;
-	//buttonpressed->go.position.y = 145;
-	//RenderSprite(buttonpressed);
-
-	////LEVEL 2 BUTTON PRESSED
-	//buttonpressed->go.position.x = 442;
-	//buttonpressed->go.position.y = 314;
-	//RenderSprite(buttonpressed);
-
-	////LEVEL 3 BUTTON PRESSED
-	//buttonpressed->go.position.x = 442;
-	//buttonpressed->go.position.y = 483;
-	//RenderSprite(buttonpressed);
-	//
-	////LEVEL 1 TXT ICON
-	//lvl1icon->go.position.x = 575;
-	//lvl1icon->go.position.y = 175;
-	//RenderSprite(lvl1icon);
-
-	////LEVEL 2 TXT ICON
-	//lvl2icon->go.position.x = 575;
-	//lvl2icon->go.position.y = 345;
-	//RenderSprite(lvl2icon);
-
-	////LEVEL 3 TXT ICON
-	//lvl3icon->go.position.x = 575;
-	//lvl3icon->go.position.y = 512;
-	//RenderSprite(lvl3icon);
-
+	RenderAsset(settings_icon, 255);
+	RenderAsset(button, 255);
 	
+	/*for (int i = 0; i < 3; i++)
+	{
+		CP_Image_Draw(button.image, button.position.y + (i * 100), button.position.x, 396, 93, 255);
+	}*/
+
+	RenderAsset(lvl1icon, 255);
+	RenderAsset(lvl2icon, 255);
+	RenderAsset(lvl3icon, 255);
 }
 
 
@@ -103,3 +71,6 @@ void overworld_shutdown(void) {
 
 
 }
+
+
+

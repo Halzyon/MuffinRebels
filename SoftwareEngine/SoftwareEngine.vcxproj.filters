@@ -164,5 +164,8 @@
     </ClInclude>
     <ClInclude Include="..\Src\Level Editor\lvl_editor.h" />
     <ClInclude Include="..\Src\yijia\pause_ui.h" />
+    <ClInclude Include="..\Src\yijia\pause_ui .h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
