@@ -25,9 +25,9 @@ enum powerup
 
 enum dice
 {
-	d4 = 0,
+	d4 = 2,
 	d6 = 1,
-	d20 = 2
+	d20 = 0
 };
 
 // initialize assets, finds their sizes, sets all text alighnment and image alignment and initializes dice randomiser
@@ -62,8 +62,7 @@ void settings_button(void);
 // draws square boxes for items to be inside. num_item is number of boxes to draw, rightmost_box_positionX is the X position of the rightmost inventory window spawned
 void inventory_window(int num_item, float rightmost_box_positionX);
 
-// generates dice that shows movement left
-void movement_left(asset dice, int* num_remain);
+void timer_ui(void);
 
 // frees all images
 void combat_overlay_exit(void);

@@ -2,11 +2,13 @@
 #define DICE_HANDLER_H
 #include <cprocessing.h>
 
+#define D4_SIZE 4
 #define D6_SIZE 6
 #define D20_SIZE 20
 
 typedef enum
 {
+	e_std_D4,
 	e_std_D6,
 	e_std_D20,
 
