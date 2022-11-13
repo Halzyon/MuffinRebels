@@ -70,22 +70,33 @@ void combat_overlay_init(void)
 	num_roll = 5;
 	turns = 3;
 
-	display_side_dice = 0;
+	display_side_dice = 0;	
+	
 	// initialize description
 	powerup[atk].desc = "Increases damage dealt for 3 turns.";
 	powerup[hp].desc = "Increases Max HP for 3 turns";
 	powerup[extra_d4].desc = "Additional d4 Dice is given. Can be used for 3 turns.";
+	
 	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
+	
+	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
+
+	buttons_centerpointX = CP_System_GetWindowWidth() - 140.0f;
+	buttons_centerpointY = CP_System_GetWindowHeight() - 80.0f;
+	dice_button.position.x = buttons_centerpointX + 60.0f;
+	dice_button.position.y = powerup_button.position.y = buttons_centerpointY;	// y position of both power up and dice button are the same
+	powerup_button.position.x = buttons_centerpointX - 60.0f;
 }
 
 void init_dicePos(void)
 {
 	// set location where choosable dice[d6] and dice[d20] die are after player selects the dice button
-
-	dice[d20].position.x = buttons_centerpointX + 80.0f;
-	dice[d6].position.y =  dice[d20].position.y = buttons_centerpointY - 150.0f;
-	dice[d6].position.x = dice[d20].position.x - 125.0f;
+	for (int d = 0; d < 3; d++)
+	{
+		dice[d].position.x = dice_button.position.x;
+		dice[d].position.y = dice_button.position.y - 130.0f - (115.0f * d);
+	}
 }
 
 void init_rollPos(void)
@@ -125,15 +136,6 @@ void combat_overlay_update(void)
 
 void dice_powerup(int rng_num, int powerup_turns)
 {
-
-	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
-
-	buttons_centerpointX = CP_System_GetWindowWidth() - 180.0f;
-	buttons_centerpointY = CP_System_GetWindowHeight() - 100.0f;
-	dice_button.position.x = buttons_centerpointX + 80.0f;
-	dice_button.position.y = powerup_button.position.y = buttons_centerpointY;	// y position of both power up and dice button are the same
-	powerup_button.position.x = buttons_centerpointX - 80.0f;
-
 	// draws the interactable buttons based on the set locations
 
 	CP_Image_Draw(dice_button.image, dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y, 255);
@@ -191,12 +193,11 @@ void choose_to_roll_dice(int num_roll)
 
 		dice[d6].inButton = mouse_in_rect(dice[d6].position.x, dice[d6].position.y, dice[d6].size.x - 30.0f, dice[d6].size.y - 30.0f);			//	checks if pointer is in the dice[d6] image
 		dice[d20].inButton = mouse_in_rect(dice[d20].position.x, dice[d20].position.y, dice[d20].size.x - 30.0f, dice[d20].size.y - 30.0f);		//	checks if pointer is in the dice[d20] image
-		for (int i = 0; i < 2; i++)
+		for (int d = 0; d < 3; d++)
 		{
-			float x = dice[d20].position.x - ((float)i * (128.0f));
-			if (mouse_in_rect(x, dice[d6].position.y, 80, 80))
+			if (dice[d].inButton)
 			{
-				CP_Image_Draw(cursor.image, x, dice[d6].position.y, cursor.size.x, cursor.size.y, 255);
+				CP_Image_Draw(cursor.image, dice[d].position.x - 115.0f, dice[d].position.y, cursor.size.x, cursor.size.y, 255);
 			}
 		}
 		if ((dice[d6].inButton == 1) && CP_Input_MouseClicked() && !dice[d20].clicked)	//	checks if user selected to roll dice[d6] dice
@@ -466,12 +467,11 @@ void settings_button(void)		//	draws settings icon
 	}
 }
 
-void inventory_window(int num_item, float rightmost_box_positionX)
+void inventory_window(int num_item, float position_X)
 {
-	float position_Y = buttons_centerpointY - 150.0f;
 	for (int i = 0; i < num_item; i++)
 	{
-		float position_X = rightmost_box_positionX - ((float)i * (128.0f));
+		float position_Y = buttons_centerpointY - 130.0f - ((float)i * (115.0f));
 		CP_Image_Draw(inventory.image, position_X, position_Y, inventory.size.x, inventory.size.y, 255);
 	}
 }
