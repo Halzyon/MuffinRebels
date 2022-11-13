@@ -1,42 +1,36 @@
 #include "cprocessing.h"
-#include "SpriteAnimation/spriteAnimation.h"
-#include "../yijia/overworld_ui.h"
 #include <stdbool.h>
 #include "../UI/UtilsUI/ui_utils.h"
+#include "../yijia/mainmenu.h"
 
 asset button;
-asset button2;
-asset button3;
 asset button1pressed;
+asset button2;
 asset button2pressed;
+asset button3;
 asset button3pressed;
 asset settings_icon;
-asset lvl1icon;
-asset lvl2icon;
-asset lvl3icon; 
-
-
+asset creditstxt;
+asset exittxtlarge;
+asset startxt;
 int alpha; 
 
-void overworld_init(void) {
+void mainmenu_init() {
 	
-	CP_System_SetWindowSize(1280, 720); 
-	CP_Settings_ImageMode(CP_POSITION_CENTER);  
-
-	//get_image_size_set("Assets/exitsetting_icon.png", &exitsetting_icon);
-	get_image_size_set("Assets/lvl1icon.png", &lvl1icon);
-	get_image_size_set("Assets/lvl2icon.png", &lvl2icon);
-	get_image_size_set("Assets/lvl3icon.png", &lvl3icon);
 	get_image_size_set("Assets/button.png", &button);
 	get_image_size_set("Assets/button2.png", &button2);
 	get_image_size_set("Assets/button3.png", &button3);
 	get_image_size_set("Assets/button1pressed.png", &button1pressed);
-	get_image_size_set("Assets/button3pressed.png", &button3pressed);
 	get_image_size_set("Assets/button2pressed.png", &button2pressed);
+	get_image_size_set("Assets/button3pressed.png", &button3pressed);
 	get_image_size_set("Assets/settings_icon.png", &settings_icon);
+	get_image_size_set("Assets/creditstxt.png", &creditstxt);
+	get_image_size_set("Assets/exittxtlarge.png", &exittxtlarge);
+	get_image_size_set("Assets/startxt.png", &startxt);
+	CP_System_SetWindowSize(1280, 720);
+	CP_Settings_ImageMode(CP_POSITION_CENTER);
 
 	//positions
-
 	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
 	settings_icon.position.y = 50;
 
@@ -58,31 +52,31 @@ void overworld_init(void) {
 	button3pressed.position.x = CP_System_GetWindowWidth() - 640;
 	button3pressed.position.y = 520;
 
-	lvl1icon.position.x = CP_System_GetWindowWidth() - 640;
-	lvl1icon.position.y = 220;
+	creditstxt.position.x = CP_System_GetWindowWidth() - 640;
+	creditstxt.position.y = 365;
 
-	lvl2icon.position.x = CP_System_GetWindowWidth() - 640; 
-	lvl2icon.position.y = 370;
+	startxt.position.x = CP_System_GetWindowWidth() - 640;
+	startxt.position.y = 215;
 
-	lvl3icon.position.x = CP_System_GetWindowWidth() - 640;
-	lvl3icon.position.y = 520;
-
+	exittxtlarge.position.x = CP_System_GetWindowWidth() - 640;
+	exittxtlarge.position.y = 515;
+	
 }
 
 
-void overworld_update(void) {
+void mainmenu_update() {
+
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	
+
 	//SETTINGS ICON - open settings_ui
+
 	RenderAsset(settings_icon, 255);
 	//if (mouse_in_rect(settings_icon.position.x, settings_icon.position.y, settings_icon.size.x, settings_icon.size.y) == 1)
 	//{
 	//	//open settings pop up
 	//}
-
-	//LVL 1 BUTTON
 	RenderAsset(button, 255);
-	if (mouse_in_rect(button.position.x, button.position.y, button.size.x-100, button.size.y-100) == 1)	 //-100 to reduce the size of area of detection 
+	if (mouse_in_rect(button.position.x, button.position.y, button.size.x - 200, button.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
 	{
 		RenderAsset(button1pressed, 255);
 		if (CP_Input_MouseClicked())
@@ -97,7 +91,7 @@ void overworld_update(void) {
 
 	//LVL 2 BUTTON 
 	RenderAsset(button2, 255);
-	if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x - 100, button2.size.y - 100) == 1)	 //-100 to reduce the size of area of detection 
+	if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x - 200, button2.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
 	{
 		RenderAsset(button2pressed, 255);
 		if (CP_Input_MouseClicked())
@@ -111,7 +105,7 @@ void overworld_update(void) {
 	}
 
 	RenderAsset(button3, 255);
-	if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x - 100, button3.size.y - 100) == 1)	 //-100 to reduce the size of area of detection 
+	if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x - 200, button3.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
 	{
 		RenderAsset(button3pressed, 255);
 		if (CP_Input_MouseClicked())
@@ -122,19 +116,16 @@ void overworld_update(void) {
 		//{
 		//	//level 3
 		//}
+
 	}
-	RenderAsset(lvl1icon, 255);
-	RenderAsset(lvl2icon, 255);
-	RenderAsset(lvl3icon, 255);
 
-
+	RenderAsset(startxt, 255);
+	RenderAsset(exittxtlarge, 255);
+	RenderAsset(creditstxt, 255);
 }
 
 
-void overworld_shutdown(void) {
-
+void mainmenu_exit() {
 
 }
-
-
 

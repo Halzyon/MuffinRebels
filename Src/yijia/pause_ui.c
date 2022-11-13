@@ -6,7 +6,7 @@
 asset pausedpopup;
 asset arrowicon;
 asset exit_icon;
-//asset settings_icon;
+asset settings_icon;
 asset gamepaused; 
 asset resume;
 asset restart;
@@ -28,8 +28,8 @@ void gamepaused_init(void) {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 
 	//POSITIONS
-	//settings_icon.position.x = CP_System_GetWindowWidth() - 50;
-	//settings_icon.position.y = 50;
+	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
+	settings_icon.position.y = 50;
 
 	pausedpopup.position.x = CP_System_GetWindowWidth() - 640;
 	pausedpopup.position.y = 360;
@@ -39,7 +39,7 @@ void gamepaused_init(void) {
 
 	gamepaused.position.x = CP_System_GetWindowWidth() - 640;
 	gamepaused.position.y = 280;
-
+	
 	restart.position.x = CP_System_GetWindowWidth() - 640;
 	restart.position.y = 350;
 
@@ -54,7 +54,7 @@ void gamepaused_init(void) {
 void gamepaused_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	//RenderAsset(settings_icon, 255);
+	RenderAsset(settings_icon, 255);
 	RenderAsset(pausedpopup, 255);
 	RenderAsset(gamepaused, 255);
 
