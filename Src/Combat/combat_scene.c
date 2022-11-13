@@ -83,6 +83,7 @@ void combat_scene_update()
 		else
 		{
 			// combat logic?
+			// draw combat UI?
 		}
 		// do other combat stuff
 		CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
