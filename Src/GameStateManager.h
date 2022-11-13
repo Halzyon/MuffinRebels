@@ -11,6 +11,7 @@
 #include "Scenes/GameScene.h"
 #include "UI/CombatOverlayUI/combat_overlay.h"
 #include "Level Stuff/lvl_editor.h"
+#include "Combat/combat_scene.h"
 
 #ifdef _DEBUG
 #define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));
