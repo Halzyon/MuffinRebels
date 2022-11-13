@@ -4,12 +4,17 @@
 #include <stdbool.h>
 #include "../UI/UtilsUI/ui_utils.h"
 
-asset buttonpressed;
-asset button[3];
+asset button;
+asset button2;
+asset button3;
+asset button1pressed;
+asset button2pressed;
+asset button3pressed;
 asset settings_icon;
 asset lvl1icon;
 asset lvl2icon;
 asset lvl3icon; 
+
 
 int alpha; 
 
@@ -22,8 +27,12 @@ void overworld_init(void) {
 	get_image_size_set("Assets/lvl1icon.png", &lvl1icon);
 	get_image_size_set("Assets/lvl2icon.png", &lvl2icon);
 	get_image_size_set("Assets/lvl3icon.png", &lvl3icon);
-	get_image_size_set("Assets/buttonpressed.png", &buttonpressed);
 	get_image_size_set("Assets/button.png", &button);
+	get_image_size_set("Assets/button2.png", &button2);
+	get_image_size_set("Assets/button3.png", &button3);
+	get_image_size_set("Assets/button1pressed.png", &button1pressed);
+	get_image_size_set("Assets/button3pressed.png", &button3pressed);
+	get_image_size_set("Assets/button2pressed.png", &button2pressed);
 	get_image_size_set("Assets/settings_icon.png", &settings_icon);
 
 	//positions
@@ -31,11 +40,23 @@ void overworld_init(void) {
 	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
 	settings_icon.position.y = 50;
 
-	button[0].position.x = CP_System_GetWindowWidth() - 640;
-	button[0].position.y = 220;
+	button.position.x = CP_System_GetWindowWidth() - 640;
+	button.position.y = 220;
 
-	buttonpressed.position.x = CP_System_GetWindowWidth() - 640;
-	buttonpressed.position.y = 240;
+	button2.position.x = CP_System_GetWindowWidth() - 640;
+	button2.position.y = 370;
+
+	button3.position.x = CP_System_GetWindowWidth() - 640;
+	button3.position.y = 520;
+
+	button1pressed.position.x = CP_System_GetWindowWidth() - 640;
+	button1pressed.position.y = 220;
+
+	button2pressed.position.x = CP_System_GetWindowWidth() - 640;
+	button2pressed.position.y = 370;
+
+	button3pressed.position.x = CP_System_GetWindowWidth() - 640;
+	button3pressed.position.y = 520;
 
 	lvl1icon.position.x = CP_System_GetWindowWidth() - 640;
 	lvl1icon.position.y = 220;
@@ -51,30 +72,63 @@ void overworld_init(void) {
 
 void overworld_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	
+	//SETTINGS ICON - open settings_ui
+	RenderAsset(settings_icon, 255);
+	//if (mouse_in_rect(settings_icon.position.x, settings_icon.position.y, settings_icon.size.x, settings_icon.size.y) == 1)
+	//{
+	//	//open settings pop up
+	//}
 
-	RenderAsset(settings_icon, 255); 
-
-	for (int i = 0; i < 3; i++)
+	//LVL 1 BUTTON
+	RenderAsset(button, 255);
+	if (mouse_in_rect(button.position.x, button.position.y, button.size.x-100, button.size.y-100) == 1)	 //-100 to reduce the size of area of detection 
 	{
-		button[i].position.y = button[0].position.y + (i * 150.0f);									//	sets the y position for each button because thats the only thing thats different with the buttons
-		CP_Image_Draw(button[0].image, button[0].position.x, button[i].position.y, 396, 93, 255);
-
-		CP_Image_Draw(lvl1icon.image,lvl1icon.position.x, lvl1icon.position.y,146,32,255);
-
-		if (mouse_in_rect(button[0].position.x, button[i].position.y + (i * 150), 396, 93) == 1 && CP_Input_MouseClicked()) {
-			button.clicked[i] = !button.clicked[i];		//	button[i].clicked
-
-		}
-		//RenderAsset(buttonpressed);
-		if (mouse_in_rect(button.position.x, button.position.y + (i * 150), 396, 93) == 1 && CP_Input_MouseClicked()) 	// follow the above
+		RenderAsset(button1pressed, 255);
+		if (CP_Input_MouseClicked())
 		{
-			button.clicked = !button.clicked;	// follow above
+			button.clicked = !button.clicked;
 		}
-		//RenderAsset(lvl2icon, 255);
-		//RenderAsset(lvl3icon, 255);
+		//if (button.clicked == 1 )
+		//{
+		//	//level 1 
+		//}
 	}
 
+	//LVL 2 BUTTON 
+	RenderAsset(button2, 255);
+	if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x - 100, button2.size.y - 100) == 1)	 //-100 to reduce the size of area of detection 
+	{
+		RenderAsset(button2pressed, 255);
+		if (CP_Input_MouseClicked())
+		{
+			button2.clicked = !button2.clicked;
+		}
+		//if (button2.clicked == 1 )
+		//{
+		//	//level 2
+		//}
 	}
+
+	RenderAsset(button3, 255);
+	if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x - 100, button3.size.y - 100) == 1)	 //-100 to reduce the size of area of detection 
+	{
+		RenderAsset(button3pressed, 255);
+		if (CP_Input_MouseClicked())
+		{
+			button3.clicked = !button3.clicked;
+		}
+		//if (button3.clicked == 1 )
+		//{
+		//	//level 3
+		//}
+	}
+	RenderAsset(lvl1icon, 255);
+	RenderAsset(lvl2icon, 255);
+	RenderAsset(lvl3icon, 255);
+
+
+}
 
 
 void overworld_shutdown(void) {
