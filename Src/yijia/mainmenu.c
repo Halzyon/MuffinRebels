@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include "../UI/UtilsUI/ui_utils.h"
 #include "../yijia/mainmenu.h"
+#include "../UI/CombatOverlayUI/combat_overlay.h"
 
 asset button;
 asset button1pressed;
@@ -122,6 +123,7 @@ void mainmenu_update() {
 	RenderAsset(startxt, 255);
 	RenderAsset(exittxtlarge, 255);
 	RenderAsset(creditstxt, 255);
+
 }
 
 
@@ -129,3 +131,7 @@ void mainmenu_exit() {
 
 }
 
+void RenderAsset(asset render, int opacity)
+{
+	CP_Image_Draw(render.image, render.position.x, render.position.y, render.size.x, render.size.y, opacity);
+}

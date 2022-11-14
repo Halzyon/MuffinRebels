@@ -14,8 +14,6 @@ asset settings_icon;
 asset lvl1icon;
 asset lvl2icon;
 asset lvl3icon; 
-
-
 int alpha; 
 
 void overworld_init(void) {
@@ -129,6 +127,7 @@ void overworld_update(void) {
 
 
 }
+
 
 
 void overworld_shutdown(void) {

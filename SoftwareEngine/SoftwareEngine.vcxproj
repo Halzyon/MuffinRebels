@@ -118,6 +118,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\SplashScreen\splashscreen.c" />
     <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c" />
     <ClCompile Include="..\Src\yijia\combat_ui.c" />
+    <ClCompile Include="..\Src\yijia\credits.c" />
     <ClCompile Include="..\Src\yijia\mainmenu.c" />
     <ClCompile Include="..\Src\yijia\overworld_ui.c" />
     <ClCompile Include="..\Src\yijia\pause_ui.c" />
@@ -141,6 +142,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\Level Stuff\lvl_editor.h" />
     <ClInclude Include="..\Src\Level Stuff\lvl_manager.h" />
     <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
+    <ClInclude Include="..\Src\yijia\credits.h" />
     <ClInclude Include="..\Src\yijia\mainmenu.h" />
     <ClInclude Include="..\Src\yijia\overworld_ui.h" />
     <ClInclude Include="..\Src\yijia\pause_ui .h" />

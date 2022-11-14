@@ -21,8 +21,10 @@ asset no;
 asset progresstxt;
 asset soundoffscaled;
 asset soundscaled;
+asset matte;
 int alpha;
-
+int bright_clicked = false;
+int brightposx = 255;
 
 void settings_init(void){
 
@@ -43,6 +45,7 @@ void settings_init(void){
 	get_image_size_set("Assets/progresstxt.png", &progresstxt);
 	get_image_size_set("Assets/soundoffscaled.png", &soundoffscaled);
 	get_image_size_set("Assets/soundscaled.png", &soundscaled);
+	get_image_size_set("Assets/matte.png", &matte);
 
 	CP_System_SetWindowSize(1280, 720);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -74,7 +77,7 @@ void settings_init(void){
 	soundhover.position.y = 565;
 
 	//brightnessslider
-	brightnessSlidercircle.position.x = CP_System_GetWindowWidth() - 635;
+	brightnessSlidercircle.position.x = CP_System_GetWindowWidth() - 525;
 	brightnessSlidercircle.position.y = 360;
 
 	brightnessSlider.position.x = CP_System_GetWindowWidth() - 635;
@@ -107,12 +110,15 @@ void settings_init(void){
 	progresstxt.position.x = CP_System_GetWindowWidth() - 635;
 	progresstxt.position.y = 280;
 
+	matte.position.x = CP_System_GetWindowWidth() - 640;
+	matte.position.y = 360;
+
 }
 
 void settings_update(void) 
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-
+	
 	RenderAsset(settingsbg, 255);
 	RenderAsset(exitsetting_icon, 255);
 
@@ -133,6 +139,25 @@ void settings_update(void)
 		RenderAsset(brightnesshover_icon, 255);
 		RenderAsset(brightnessSlider, 255);
 		RenderAsset(brightnessSlidercircle, 255);
+	}
+	if (mouse_in_rect(brightnessSlidercircle.position.x, brightnessSlidercircle.position.y, brightnessSlidercircle.size.x, brightnessSlidercircle.size.y) == 1)
+	{
+		if (CP_Input_MouseDown(MOUSE_BUTTON_1) && !bright_clicked)
+		{
+			bright_clicked = 1;
+		}
+		else if (CP_Input_MouseReleased(MOUSE_BUTTON_1) && bright_clicked)
+		{
+			bright_clicked = 0;
+		}
+		
+	}
+	if (CP_Input_MouseDown(MOUSE_BUTTON_1) && bright_clicked)
+	{
+		brightposx += CP_Input_GetMouseDeltaX();
+		brightposx = CP_Math_ClampInt(brightposx, 35, 255);
+		brightnessSlidercircle.position.x += CP_Input_GetMouseDeltaX();
+		brightnessSlidercircle.position.x = CP_Math_ClampInt(brightnessSlidercircle.position.x,brightnessSlider.position.x -110, brightnessSlider.position.x + 110 );
 	}
 
 	//SAVE ICON
@@ -195,6 +220,8 @@ void settings_update(void)
 			}
 		}
 	}
+	RenderAsset(matte, 255 - brightposx);
+
 }
 
 
@@ -203,7 +230,4 @@ void settings_shutdown(void){
 }
 
 
-void RenderAsset(asset render, int opacity)
-{
-	CP_Image_Draw(render.image, render.position.x, render.position.y, render.size.x, render.size.y, opacity);
-}
+
