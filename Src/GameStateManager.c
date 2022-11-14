@@ -36,7 +36,7 @@ void GameStateSetNextScene(SCENES scne)
 	}
 	if (foundScene)
 	{
-		LOG("SETTING %d NEXT SCENE\n", scne)
+		LOG("SETTING %d NEXT SCENE\n", scne);
 		if(temp)
 		CP_Engine_SetNextGameState(*temp->fnc[0], *temp->fnc[1], *temp->fnc[2]);
 	}
@@ -66,7 +66,7 @@ void GameStateSetNextSubScene(SCENES scne, bool forced)
 	}
 		if (foundScene)
 		{
-			LOG("SETTING NEXT SUB SCENE %d\n", scne)
+			LOG("SETTING NEXT SUB SCENE %d\n", scne);
 				if(!forced)
 				if(gsm.m_subScene->fnc[0])
 					gsm.m_subScene->fnc[0]();

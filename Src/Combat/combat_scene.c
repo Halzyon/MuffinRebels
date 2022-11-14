@@ -19,7 +19,7 @@ CP_Vector targetEnemyPos;
 
 void move_to(CP_Vector* curr, CP_Vector dst);
 
-const double speedowagon = 750.0; // transition speed
+const double speedowagon = 1500.0; // transition speed
 const double speedowagon2 = 1500.0;
 
 #ifndef _MSC_VER // for linux/all other compilers and apparently release mode
