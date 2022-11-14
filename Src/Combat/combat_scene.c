@@ -92,7 +92,6 @@ void combat_scene_update()
 		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 		CP_Graphics_DrawRect(enemyPos.x, enemyPos.y, 100, 200);
 	}
-
 }
 
 void combat_scene_exit()
