@@ -48,6 +48,7 @@ void game_init(void)
 
 void game_update(void)
 {
+	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	//UPDATE
 	float dt = CP_System_GetDt();
 
@@ -70,18 +71,10 @@ void game_update(void)
 		UpdateEnemy(enemy, dt, true);
 	else
 		UpdateEnemy(enemy, dt, false);
-<<<<<<< Updated upstream
-=======
 	UpdateCombat(enemy, dt);
 	
-	/*declare_combatants(enemy, enemy->enemyState);
-	for (; get_character()->energy > 0; --get_character()->energy)
-	{
-		combat_phase();
-	}*/
 
->>>>>>> Stashed changes
-
+	combat_phase();
 
 	//RENDER
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));

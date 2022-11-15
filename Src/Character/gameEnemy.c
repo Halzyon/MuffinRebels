@@ -5,11 +5,47 @@
 
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
-	
+
+	CP_Vector charPos = get_character()->sp->go.position;
+	CP_Vector enemyPos = en->sp->go.position;
+
+	if (en->enemyState == PATROL_UPDOWN_STATE)
+	{
+		if (!en->b_direction && charPos.y + 1 == enemyPos.y && charPos.x == enemyPos.x)
+		{//player is on top of enemy and enemy is facing ontop
+			en->b_combat = true;
+			en->enemyState = ATTACK_STATE;
+			declare_combatants(en, en->enemyState);
+		}
+		else if (en->b_direction && charPos.y - 1 == enemyPos.y && charPos.x == enemyPos.x)
+		{//player is on top of enemy and enemy is facing ontop
+			en->b_combat = true;
+			en->enemyState = ATTACK_STATE;
+		}
+	}
+	else if (en->enemyState == PATROL_LEFTRIGHT_STATE)
+	{
+		if (!en->b_direction && charPos.y == enemyPos.y && charPos.x + 1 == enemyPos.x)
+		{//player is on top of enemy and enemy is facing ontop
+			en->b_combat = true;
+		}
+		else if (en->b_direction && charPos.y == enemyPos.y && charPos.x - 1 == enemyPos.x)
+		{//player is on top of enemy and enemy is facing ontop
+			en->b_combat = true;
+		}
+	}
+	else if (en->enemyState != ATTACK_STATE)
+	{
+		en->b_combat = false;
+		en->enemyState = PATROL_UPDOWN_STATE;
+	}
+
 	UpdateSprite(en->sp, dt);//update enemy spriteanimation
-	if (!move || !en->sp->go.isAlive)
+	if (!move || !en->sp->go.isAlive || en->b_combat)
 		return;
-	
+
+
+
 	if (en->enemyState == PATROL_UPDOWN_STATE)
 	{
 		int steps = en->steps;
@@ -30,7 +66,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->b_direction = !en->b_direction;
 			en->movement = 0;
 		}
-		
+
 	}
 	else if (en->enemyState == PATROL_LEFTRIGHT_STATE)
 	{
@@ -53,54 +89,44 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 		}
 	}
 
-	if (en->sp->go.position.x == get_character()->sp->go.position.x)
+	if (en->enemyState == PATROL_UPDOWN_STATE)
 	{
-		if (en->sp->go.position.y == get_character()->sp->go.position.y)
-		{
+		if (!en->b_direction && charPos.y + 1 == enemyPos.y && charPos.x == enemyPos.x)
+		{//player is on top of enemy and enemy is facing ontop
+			en->b_combat = true;
+			en->enemyState = ATTACK_STATE;
+			declare_combatants(en, en->enemyState);
+		}
+		else if (en->b_direction && charPos.y - 1 == enemyPos.y && charPos.x == enemyPos.x)
+		{//player is on top of enemy and enemy is facing ontop
+			en->b_combat = true;
+			en->enemyState = ATTACK_STATE;
+		}
+	}
+	else if (en->enemyState == PATROL_LEFTRIGHT_STATE)
+	{
+		if (!en->b_direction && charPos.y == enemyPos.y && charPos.x + 1 == enemyPos.x)
+		{//player is on top of enemy and enemy is facing ontop
+			en->b_combat = true;
+		}
+		else if (en->b_direction && charPos.y == enemyPos.y && charPos.x - 1 == enemyPos.x)
+		{//player is on top of enemy and enemy is facing ontop
 			en->b_combat = true;
 		}
 	}
-	if (en->sp->go.position.x + 1 == get_character()->sp->go.position.x || en->sp->go.position.x - 1 == get_character()->sp->go.position.x)
+	else if (en->enemyState != ATTACK_STATE)
 	{
-		if (en->sp->go.position.y == get_character()->sp->go.position.y)
-		{
-			en->b_combat = true;
-		}
+		en->b_combat = false;
+		en->enemyState = PATROL_UPDOWN_STATE;
 	}
-	if (en->sp->go.position.x == get_character()->sp->go.position.x)
-	{
-		if (en->sp->go.position.y + 1 == get_character()->sp->go.position.y || en->sp->go.position.y - 1 == get_character()->sp->go.position.y)
-		{
-			en->b_combat = true;
-		}
-	}
-
 	
 }
-
 void UpdateCombat(Enemy* en, float dt)
 {
 	if (!en->b_combat || !en->sp->go.isAlive)
 		return;
 
-
-	if (en->energy <= get_character()->energy)
-	{//defend
-		// currently heals it 0.0
-		en->enemyState = DEFEND_STATE;
-		//en->hp += en->energy;
-	}
-	else
-	{// attack
-		en->enemyState = ATTACK_STATE;
-		//get_character()->hp -= en->energy;
-	}
-
 	declare_combatants(en, en->enemyState);
-//	for (; get_character()->hp > 0 && en->hp > 0; --get_character()->energy)
-//	{
-		combat_phase();
-//	}
 
 	//dont need change enemy state back to patrol as its either
 	//player die or enemy die
