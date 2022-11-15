@@ -77,7 +77,7 @@ void game_update(void)
 
 	combat_phase();
 
-	*/
+	
 	//RENDER
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Vector vec = {CP_System_GetWindowWidth() / 4.5,0};
