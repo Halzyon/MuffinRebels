@@ -19,6 +19,7 @@ bool b_paused = false;
 extern asset matte;
 extern int brightposx;
 extern bool sub;
+CP_BOOL combatStart = false;
 void game_init(void)
 {
 	// set draw settings
@@ -96,6 +97,12 @@ void game_update(void)
 	combat_phase();
 
 	
+	if (enemy[i].b_combat && !combatStart)
+	{
+		GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
+		combatStart = true;
+	}
+
 	//RENDER
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Vector vec = {CP_System_GetWindowWidth() / 4.5,0};
@@ -119,4 +126,10 @@ void game_exit(void)
 	free_char();
 	for(int i = 0; i < ENEMYSIZE; ++i)
 		FreeEnemy(enemy[i]);
+}
+
+
+unsigned char getEnemyState()
+{
+	return enemy->enemyState;
 }

@@ -41,7 +41,7 @@ void GameStateSetNextScene(SCENES scne)
 	}
 	if (foundScene)
 	{
-		LOG("SETTING %d NEXT SCENE\n", scne)
+		LOG("SETTING %d NEXT SCENE\n", scne);
 		if(temp)
 		CP_Engine_SetNextGameState(*temp->fnc[0], *temp->fnc[1], *temp->fnc[2]);
 	}
@@ -71,7 +71,7 @@ void GameStateSetNextSubScene(SCENES scne, bool forced)
 	}
 		if (foundScene)
 		{
-			LOG("SETTING NEXT SUB SCENE %d\n", scne)
+			LOG("SETTING NEXT SUB SCENE %d\n", scne);
 				if(!forced)
 				if(gsm.m_subScene->fnc[0])
 					gsm.m_subScene->fnc[0]();
@@ -107,6 +107,7 @@ void GameStateRun(void)
 {
 	gsm.b_subScene = false;
 	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
+	//GameStateAddScene(SPLASHSCREEN_SCENE, editor_init, editor_update, editor_exit);
 	GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
 	GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
 	GameStateAddScene(COMBAT_OVERLAY_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);	//GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);

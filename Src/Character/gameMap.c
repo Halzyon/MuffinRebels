@@ -4,7 +4,7 @@
 
 #pragma warning(disable : 6011)
 #ifndef _MSC_VER // for linux/all other compilers and apparently release mode
-#define FILEPATH "../../Assets/tiles/"
+#define FILEPATH "Assets/tiles/"
 #endif
 
 #ifdef _MSC_VER // for visual studios/microsoft compiler

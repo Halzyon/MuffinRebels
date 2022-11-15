@@ -19,7 +19,7 @@
 #include "../FileIO/encode.h"
 
 #ifndef _MSC_VER // for linux/all other compilers and apparently release mode
-#define FILEPATH "../../Assets/tiles/"
+#define FILEPATH "Assets/tiles/"
 #endif
 
 #ifdef _MSC_VER // for visual studios/microsoft compiler
@@ -51,7 +51,7 @@ void editor_init(void)
 			loadNewMap(*map);
 			for (int i = 0; i < size; ++i)
 			{
-				map->map_arr[i] = GROUND;
+				map->map_arr[i] = GROUND_1;
 			}
 			gridsize = WINDOW_HEIGHT / map->height;
 		}

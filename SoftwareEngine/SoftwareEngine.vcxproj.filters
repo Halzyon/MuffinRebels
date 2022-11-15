@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c" >
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Character\charMovement.c">
@@ -55,6 +55,10 @@
     <ClCompile Include="..\Src\Character\gameEnemy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
+    <ClCompile Include="..\Src\Combat\combat_scene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c">
@@ -81,7 +85,7 @@
     <ClInclude Include="..\Src\Character\diceHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\UI\CombatOverlayUI\combat_overlay.h" >
+    <ClInclude Include="..\Src\UI\CombatOverlayUI\combat_overlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\FileIO\encode.h">
@@ -146,6 +150,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Character\gameEnemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Combat\combat_scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Level Editor\lvl_editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

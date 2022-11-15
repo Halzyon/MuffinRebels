@@ -13,7 +13,7 @@
 
 
 #ifndef _MSC_VER // for linux/all other compilers and apparently release mode
-#define FILEPATH "../../Assets/GameData/"
+#define FILEPATH "Assets/GameData/"
 #endif
 
 #ifdef _MSC_VER // for visual studios/microsoft compiler
