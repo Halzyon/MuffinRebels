@@ -7,6 +7,8 @@
 asset exitsetting_icon; 
 asset settingsbg;
 asset brightness_icon;
+asset brightnesslow_icon;
+asset brightnesshigh_icon;
 asset save_icon;
 asset SoundOn_icon;
 asset savehover;
@@ -46,6 +48,8 @@ void settings_init(void){
 	get_image_size_set("Assets/soundoffscaled.png", &soundoffscaled);
 	get_image_size_set("Assets/soundscaled.png", &soundscaled);
 	get_image_size_set("Assets/matte.png", &matte);
+	get_image_size_set("Assets/brightnesslow_icon.png", &brightnesslow_icon);
+	get_image_size_set("Assets/brightnesshigh_icon.png", &brightnesshigh_icon);
 
 	CP_System_SetWindowSize(1280, 720);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -82,6 +86,12 @@ void settings_init(void){
 
 	brightnessSlider.position.x = CP_System_GetWindowWidth() - 635;
 	brightnessSlider.position.y = 360;
+
+	brightnesslow_icon.position.x = CP_System_GetWindowWidth() - 800;
+	brightnesslow_icon.position.y = 360; 
+
+	brightnesshigh_icon.position.x = CP_System_GetWindowWidth() - 470;
+	brightnesshigh_icon.position.y = 360;
 
 	//txt 
 	brightnesstxt.position.x = CP_System_GetWindowWidth() - 635;
@@ -136,6 +146,8 @@ void settings_update(void)
 	if (brightness_icon.clicked)
 	{
 		RenderAsset(brightnesstxt, 255);
+		RenderAsset(brightnesslow_icon, 255);
+		RenderAsset(brightnesshigh_icon, 255);
 		RenderAsset(brightnesshover_icon, 255);
 		RenderAsset(brightnessSlider, 255);
 		RenderAsset(brightnessSlidercircle, 255);
