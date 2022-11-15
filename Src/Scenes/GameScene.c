@@ -97,7 +97,7 @@ void game_update(void)
 	combat_phase();
 
 	
-	if (enemy[i].b_combat && !combatStart)
+	if (enemy[0]->b_combat && !combatStart)
 	{
 		GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
 		combatStart = true;
@@ -131,5 +131,5 @@ void game_exit(void)
 
 unsigned char getEnemyState()
 {
-	return enemy->enemyState;
+	return enemy[0]->enemyState;
 }
