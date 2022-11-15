@@ -1,6 +1,7 @@
 #include "combat_overlay.h"
 #include "../UtilsUI/ui_utils.h"
 #include <time.h>
+#include "second_combat.h"
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -189,7 +190,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 	}
 	if (dice_button.clicked)	// Draws the window pop up for player to choose dice to roll
 	{
-		init_dicePos();
+		second_init_dicePos();
 		inventory_window(3, dice_button.position.x);
 		for (int d = 0; d < 3; d++)
 		{
