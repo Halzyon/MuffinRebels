@@ -6,7 +6,6 @@
 asset pausedpopup;
 asset arrowicon;
 asset exit_icon;
-asset settings_icon;
 asset gamepaused; 
 asset resume;
 asset restart;
@@ -54,7 +53,6 @@ void gamepaused_init(void) {
 void gamepaused_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	RenderAsset(settings_icon, 255);
 	RenderAsset(pausedpopup, 255);
 	RenderAsset(gamepaused, 255);
 

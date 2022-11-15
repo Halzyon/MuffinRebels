@@ -10,7 +10,7 @@ asset button2;
 asset button2pressed;
 asset button3;
 asset button3pressed;
-asset settings_icon;
+asset settings;
 asset creditstxt;
 asset exittxtlarge;
 asset startxt;
@@ -24,7 +24,7 @@ void mainmenu_init() {
 	get_image_size_set("Assets/button1pressed.png", &button1pressed);
 	get_image_size_set("Assets/button2pressed.png", &button2pressed);
 	get_image_size_set("Assets/button3pressed.png", &button3pressed);
-	get_image_size_set("Assets/settings_icon.png", &settings_icon);
+	get_image_size_set("Assets/combat_overlay_ui/settings.png", &settings);
 	get_image_size_set("Assets/creditstxt.png", &creditstxt);
 	get_image_size_set("Assets/exittxtlarge.png", &exittxtlarge);
 	get_image_size_set("Assets/startxt.png", &startxt);
@@ -32,8 +32,8 @@ void mainmenu_init() {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 
 	//positions
-	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
-	settings_icon.position.y = 50;
+	settings.position.x = CP_System_GetWindowWidth() - 50;
+	settings.position.y = 50;
 
 	button.position.x = CP_System_GetWindowWidth() - 640;
 	button.position.y = 220;
@@ -71,7 +71,7 @@ void mainmenu_update() {
 
 	//SETTINGS ICON - open settings_ui
 
-	RenderAsset(settings_icon, 255);
+	RenderAsset(settings, 255);
 	//if (mouse_in_rect(settings_icon.position.x, settings_icon.position.y, settings_icon.size.x, settings_icon.size.y) == 1)
 	//{
 	//	//open settings pop up
