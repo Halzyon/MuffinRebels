@@ -67,6 +67,7 @@ void combat_overlay_init(void)
 
 void combat_overlay_update(void)											// STILL NEED TO ADD MORE STUFF
 {
+	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	dice_powerup(5);
 	health_bar(4);

@@ -49,6 +49,7 @@ void game_init(void)
 
 void game_update(void)
 {
+	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	//UPDATE
 	float dt = CP_System_GetDt();
 
@@ -72,18 +73,9 @@ void game_update(void)
 	else
 		UpdateEnemy(enemy, dt, false);
 	UpdateCombat(enemy, dt);
+	
 
-
-	/*if (enemy->enemyState == ATTACK_STATE)
-	{
-		declare_combatants(enemy, enemy->enemyState);
-		for (; get_character()->energy >= 0; --get_character()->energy) //keep fighting until someone dies or loses energy
-		{
-			combat_phase();
-			if (get_character()->hp == 0 || enemy->hp == 0)
-				break;
-		}
-	}
+	combat_phase();
 
 	*/
 	//RENDER
