@@ -122,5 +122,4 @@ void move_to(CP_Vector* curr, CP_Vector dst)
 		curr->x += dir.x * speedowagon2 * dt;
 		curr->y += dir.y * speedowagon2 * dt;
 	}
-	
 }

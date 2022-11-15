@@ -74,7 +74,6 @@ void game_update(void)
 		UpdateEnemy(enemy, dt, false);
 	UpdateCombat(enemy, dt);
 
-
 	/*if (enemy->enemyState == ATTACK_STATE)
 	{
 		declare_combatants(enemy, enemy->enemyState);
@@ -110,4 +109,10 @@ void game_exit(void)
 	free(Level);
 	free_char();
 	FreeEnemy(enemy);
+}
+
+
+unsigned char getEnemyState()
+{
+	return enemy->enemyState;
 }

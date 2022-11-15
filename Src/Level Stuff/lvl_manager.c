@@ -83,7 +83,7 @@ void newMapIndex(char i,game_map map)
 			mapPool[i]->map_arr = tmp;
 			if (!map.map_arr)
 			{
-				memset(mapPool[i]->map_arr, GROUND, strlen(mapPool[i]->map_arr));
+				memset(mapPool[i]->map_arr, GROUND_1, strlen(mapPool[i]->map_arr));
 			}
 			else
 			{
