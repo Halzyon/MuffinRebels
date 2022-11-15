@@ -104,7 +104,7 @@ void GameStateRun(void)
 	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
 	GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
 	//GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
-	GameStateAddScene(GAME_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);
+	GameStateAddScene(GAME_SCENE, second_init, second_update, second_exit);
 	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
 
 	GameStateSetNextScene(GAME_SCENE);

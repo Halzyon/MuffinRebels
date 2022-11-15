@@ -26,6 +26,7 @@ int movement_clicked;
 int combat_clicked;
 int individual_mov_roll[2];
 int warning_clicked[2];
+float powerup_scale;
 clock_t start_time;
 
 void combat_overlay_init(void)
@@ -99,7 +100,6 @@ void combat_overlay_update(void)
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	start_time = clock();
 	int combat_dice[3] = { 2,3,4 };
-	//timer_ui();
 	dice_powerup(&rng_mov, &rng_combat, turns, combat_dice);
 	if (CP_Input_KeyDown(KEY_1))
 	{
@@ -125,7 +125,6 @@ void combat_overlay_update(void)
 	{
 		turns++;
 	}
-	health_bar(80);
 	settings_button();
 }
 
@@ -385,6 +384,7 @@ void choose_powerup(int turns_left)
 			powerup[hp]. clicked = 0;
 			powerup[extra_d4].clicked = 0;
 			powerup_button.clicked = !powerup_button.clicked;
+			powerup_scale = 1.0f;
 		}
 		else if (mouse_in_rect(powerup[hp].position.x, powerup[hp].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked())
 		{
@@ -392,6 +392,7 @@ void choose_powerup(int turns_left)
 			powerup[hp].clicked = !powerup[hp].clicked;
 			powerup[extra_d4].clicked = 0;
 			powerup_button.clicked = !powerup_button.clicked;
+			powerup_scale = 1.0f;
 		}
 		else if (mouse_in_rect(powerup[extra_d4].position.x, powerup[extra_d4].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked())
 		{
@@ -399,6 +400,7 @@ void choose_powerup(int turns_left)
 			powerup[hp].clicked = 0;
 			powerup[extra_d4].clicked = !powerup[extra_d4].clicked;
 			powerup_button.clicked = !powerup_button.clicked;
+			powerup_scale = 1.0f;
 		}
 		
 	}
@@ -407,13 +409,18 @@ void choose_powerup(int turns_left)
 	{
 		if (powerup[i].clicked == 1)
 		{
-			if (powerup_timer < 1.5f)
+			powerup_timer += CP_System_GetDt();
+			if (powerup_timer < 1.0f)
 			{
-				go_to_animation(60.0f, 200.0f, &powerup[i].position);
-				CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x, powerup[i].size.y, 255);
-				powerup_timer += CP_System_GetDt();
+				go_to_animation(CP_System_GetWindowWidth() / 2, 500.0f, &powerup[i].position);
+				shrinking_animation(0.5f, &powerup_scale);
+				CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x * powerup_scale, powerup[i].size.y * powerup_scale, 255);
 			}
-			else if (powerup_timer > 1.5f)
+			else if (powerup_timer > 1.0f && powerup_timer < 2.0f)
+			{
+				CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, 500.0f, 20.0f);
+			}
+			else if (powerup_timer > 2.0f)
 			{
 				powerup[i].side_display = 1;
 				powerup_timer = 0;

@@ -55,6 +55,10 @@
     <ClCompile Include="..\Src\UI\CombatOverlayUI\second_combat.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\time_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c">

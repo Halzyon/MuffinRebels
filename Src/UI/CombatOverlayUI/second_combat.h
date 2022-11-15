@@ -17,6 +17,8 @@ void second_dice_powerup(int* rng_num, int num_dice[], int powerup_turns);
 
 void second_choose_to_roll_dice(int* num_roll, int num_dice[]);
 
+void bottom_display(int player_roll, int enemy_roll);
+
 void generate_dice(int num_roll, asset dice, float dice_posX, float dice_posY, float scale);
 
 void health_bar(int remaining_hp);

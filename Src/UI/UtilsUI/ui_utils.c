@@ -39,6 +39,12 @@ void go_to_animation(float targetX, float targetY, CP_Vector *pos_to_change)
 	*pos_to_change = CP_Vector_Add(*pos_to_change, damped_displacement);
 }
 
+void shrinking_animation(float target, float* to_change)
+{
+	float shrink_ps = 0.1 * (*to_change - target);
+	*to_change -= shrink_ps;
+}
+
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)
 {
 	float minX = obj.position.x - (obj.scale.x * obj.size.x * 0.5f);

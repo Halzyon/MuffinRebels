@@ -15,7 +15,8 @@ typedef struct
 	int side_display;
 	dice_types type;
 	int warning;
-	int used;
+	char no_dice[1];
+
 }asset;
 
 enum powerup
@@ -59,8 +60,6 @@ void inventory_window(int num_item, float rightmost_box_positionX);
 
 // renders the window for movement
 void movement_window(int movement, float x, float y, float scale);
-
-//void timer_ui(void);
 
 // frees all images
 void combat_overlay_exit(void);

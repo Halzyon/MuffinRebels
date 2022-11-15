@@ -121,6 +121,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
     <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c" />
     <ClCompile Include="..\Src\UI\CombatOverlayUI\second_combat.c" />
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\time_ui.c" />
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c" />
     <ClCompile Include="..\Src\utils.c" />
   </ItemGroup>
