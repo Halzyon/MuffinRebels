@@ -14,6 +14,8 @@ typedef struct
 	const char* desc;
 	int side_display;
 	dice_types type;
+	int warning;
+	int used;
 }asset;
 
 enum powerup
@@ -33,9 +35,6 @@ enum dice
 // initialize assets, finds their sizes, sets all text alighnment and image alignment and initializes dice randomiser
 void combat_overlay_init(void);
 
-// initialize d6 d20 dice positions
-void init_dicePos(void);
-
 // initialize rolling position
 void init_rollPos(void);
 
@@ -44,21 +43,13 @@ void combat_overlay_update(void);
 // constantly updates the combat overlay based on player interaction with it - num_roll is pregenerated number that the player rolls
 void dice_powerup(int *rng_mov, int *rng_combat, int powerup_turns, int combat_dice[]);
 
-// runs if player chooses to roll dice
+// runs if player chooses to roll dice for movement
 void choose_to_roll_movement(int *mov_num);
-
-//void choose_to_roll_combat(int *combat_num, int combat_dice[]);
 
 void side_display(int* mov_num, int turns_left);
 
 // runs if player chooses to select a powerup
 void choose_powerup(int turns_left);
-
-// draws dice (d6 or d20) with number corresponding to value num_roll
-void generate_dice(int num_roll, asset dice, float dice_posX, float dice_posY, float scale);
-
-// draws hit points of player
-void health_bar(int remaining_hp);
 
 // draws settings icon - player can pause the game with this
 void settings_button(void);
