@@ -1,5 +1,6 @@
 #include "combat_overlay.h"
 #include "../UtilsUI/ui_utils.h"
+#include "GameStateManager.h"
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -415,15 +416,7 @@ void settings_button(void)		//	draws settings icon
 	CP_Image_Draw(settings.image, settings.position.x, settings.position.y, settings.size.x, settings.size.y, 255);
 	if ((mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1) && CP_Input_MouseClicked())
 	{
-		settings.clicked = !settings.clicked;
-	}
-	if (settings.clicked == 1)
-	{
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 500.0f, 500.0f);	//	placeholder menu
-		if (CP_Input_KeyDown(KEY_ESCAPE))
-		{
-			settings.clicked = !settings.clicked;
-		}
+		GameStateSetNextSubScene(SETTINGS_SCENE, true);
 	}
 }
 

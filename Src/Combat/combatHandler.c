@@ -105,7 +105,7 @@ int combat_phase(void)
 			}
 			//else it will be a perfect parry
 
-			printf("%d, %d, %d, %d\n", get_character()->hp, the_enemy->hp);
+			printf("Player HP: %d,Enemy HP: %d\n", get_character()->hp, the_enemy->hp);
 
 			//reset state
 			combatants_present = 0;

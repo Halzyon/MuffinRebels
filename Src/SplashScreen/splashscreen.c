@@ -40,7 +40,7 @@ void splash_screen_update(void)
 	logo->go.alpha = alpha;
 	if (oldalpha > alpha)
 	{
-		GameStateSetNextScene(GAME_SCENE);
+		GameStateSetNextScene(MAINMENU_SCENE);
 	}
 	//Render
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));

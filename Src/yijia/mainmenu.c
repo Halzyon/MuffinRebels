@@ -3,6 +3,7 @@
 #include "../UI/UtilsUI/ui_utils.h"
 #include "../yijia/mainmenu.h"
 #include "../UI/CombatOverlayUI/combat_overlay.h"
+#include "GameStateManager.h"
 
 asset button;
 asset button1pressed;
@@ -15,6 +16,9 @@ asset creditstxt;
 asset exittxtlarge;
 asset startxt;
 int alpha; 
+extern asset matte;
+extern int brightposx;
+bool sub = false;
 
 void mainmenu_init() {
 	
@@ -62,6 +66,8 @@ void mainmenu_init() {
 	exittxtlarge.position.x = CP_System_GetWindowWidth() - 640;
 	exittxtlarge.position.y = 515;
 	
+	GameStateSetNextSubScene(SETTINGS_SCENE, false);
+	GameStateSetNextSubScene(MAX_SCENE, false);
 }
 
 
@@ -72,22 +78,23 @@ void mainmenu_update() {
 	//SETTINGS ICON - open settings_ui
 
 	RenderAsset(settings_icon, 255);
-	//if (mouse_in_rect(settings_icon.position.x, settings_icon.position.y, settings_icon.size.x, settings_icon.size.y) == 1)
-	//{
-	//	//open settings pop up
-	//}
+	if (mouse_in_rect(settings_icon.position.x, settings_icon.position.y, settings_icon.size.x, settings_icon.size.y) == 1)
+	{
+		if (CP_Input_MouseClicked())
+		{
+			GameStateSetNextSubScene(SETTINGS_SCENE, true);
+			sub = true;
+		}
+	}
 	RenderAsset(button, 255);
 	if (mouse_in_rect(button.position.x, button.position.y, button.size.x - 200, button.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
 	{
 		RenderAsset(button1pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
-			button.clicked = !button.clicked;
+			GameStateSetNextScene(GAME_SCENE);
 		}
-		//if (button.clicked == 1 )
-		//{
-		//	//level 1 
-		//}
+		
 	}
 
 	//LVL 2 BUTTON 
@@ -97,7 +104,7 @@ void mainmenu_update() {
 		RenderAsset(button2pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
-			button2.clicked = !button2.clicked;
+			GameStateSetNextScene(CREDITS_SCENE);
 		}
 		//if (button2.clicked == 1 )
 		//{
@@ -111,7 +118,7 @@ void mainmenu_update() {
 		RenderAsset(button3pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
-			button3.clicked = !button3.clicked;
+			CP_Engine_Terminate();
 		}
 		//if (button3.clicked == 1 )
 		//{
@@ -123,7 +130,9 @@ void mainmenu_update() {
 	RenderAsset(startxt, 255);
 	RenderAsset(exittxtlarge, 255);
 	RenderAsset(creditstxt, 255);
-
+	
+	if(!sub)
+		RenderAsset(matte, 255 - brightposx);
 }
 
 

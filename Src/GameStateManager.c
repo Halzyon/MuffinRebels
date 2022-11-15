@@ -109,17 +109,12 @@ void GameStateRun(void)
 	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
 	GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
 	GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
-	GameStateAddScene(COMBAT_OVERLAY_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);
-	//GameStateAddScene(GAME_SCENE, editor_init,editor_update, editor_exit);
-	//GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
-	//GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
-	//GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
-	//GameStateAddScene(GAME_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);
-	//GameStateAddScene(GAME_SCENE, settings_init, settings_update, settings_shutdown);
-	//GameStateAddScene(GAME_SCENE, overworld_init, overworld_update, overworld_shutdown);
-	//GameStateAddScene(GAME_SCENE, gamepaused_init, gamepaused_update, gamepaused_shutdown);
-    //GameStateAddScene(GAME_SCENE, mainmenu_init, mainmenu_update, mainmenu_exit);
-	//GameStateAddScene(GAME_SCENE, credits_init, credits_update, credits_exit);
+	GameStateAddScene(COMBAT_OVERLAY_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);	//GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
+	GameStateAddScene(SETTINGS_SCENE, settings_init, settings_update, settings_shutdown);
+	GameStateAddScene(OVERWORLD_UI_SCENE, overworld_init, overworld_update, overworld_shutdown);
+	GameStateAddScene(PAUSE_SCENE, gamepaused_init, gamepaused_update, gamepaused_shutdown);
+    GameStateAddScene(MAINMENU_SCENE, mainmenu_init, mainmenu_update, mainmenu_exit);
+	GameStateAddScene(CREDITS_SCENE, credits_init, credits_update, credits_exit);
 	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
 
 	//set first scene
@@ -127,4 +122,16 @@ void GameStateRun(void)
 	CP_Engine_Run();
 
 	freeArray(&gsm.Scenes);
+}
+
+void ManualUpdate(SCENES scne)
+{
+	for (int i = 0; i < gsm.Scenes.used; ++i)
+	{
+		if (gsm.Scenes.array[i].scne != scne)
+			continue;
+
+		gsm.Scenes.array[i].fnc[1]();
+
+	}
 }

@@ -3,6 +3,7 @@
 #include "../UI/UtilsUI/ui_utils.h"
 #include "SpriteAnimation/spriteAnimation.h"
 #include "settings_ui.h"
+#include "GameStateManager.h"
 
 asset exitsetting_icon; 
 asset settingsbg;
@@ -22,9 +23,10 @@ asset progresstxt;
 asset soundoffscaled;
 asset soundscaled;
 asset matte;
+int brightposx = 255;
 int alpha;
 int bright_clicked = false;
-int brightposx = 255;
+extern bool sub;
 
 void settings_init(void){
 
@@ -119,8 +121,17 @@ void settings_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	
+	//Exit Settings icon
 	RenderAsset(settingsbg, 255);
 	RenderAsset(exitsetting_icon, 255);
+	if (mouse_in_rect(exitsetting_icon.position.x, exitsetting_icon.position.y, exitsetting_icon.size.x, exitsetting_icon.size.y))	// Settings hover
+	{
+		if (CP_Input_MouseClicked())
+		{
+			GameStateSetNextSubScene(MAX_SCENE,true);
+			sub = false;
+		}
+	}
 
 	//BRIGHTNESS ICON
 	RenderAsset(brightness_icon, 255);
@@ -220,6 +231,7 @@ void settings_update(void)
 			}
 		}
 	}
+
 	RenderAsset(matte, 255 - brightposx);
 
 }

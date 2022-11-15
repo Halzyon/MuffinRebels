@@ -8,10 +8,17 @@
 #include "../Character/gameMap.h"
 #include "../FileIO/fileIO.h"
 
+#define ENEMYSIZE 1
+
 Sprite* ash;
 game_map* Level;
-Enemy* enemy;
+Enemy* enemy[ENEMYSIZE];
 bool b_paused = false;
+
+
+extern asset matte;
+extern int brightposx;
+extern bool sub;
 void game_init(void)
 {
 	// set draw settings
@@ -34,17 +41,24 @@ void game_init(void)
 	fclose(getFile("map.dat"));
 
 	//creating and initialise 1 enemy
-	enemy = CreateEnemy();
-	enemy->sp->go.position.x = 12;
-	enemy->sp->go.position.y = 5;
-	enemy->sp->go.scale.x = 0.5;
-	enemy->sp->go.scale.y = 0.5;
+	for (int i = 0; i < ENEMYSIZE; ++i)
+	{
+		enemy[i] = CreateEnemy();
+		enemy[i]->sp->go.position.x = 12;
+		enemy[i]->sp->go.position.y = 5;
+		enemy[i]->sp->go.scale.x = 0.5;
+		enemy[i]->sp->go.scale.y = 0.5;
 
-	enemy->steps = 1;
+		enemy[i]->steps = 1;
+	}
 	loadSprites();
+
 	//set sub scenes to run 
+	GameStateSetNextSubScene(PAUSE_SCENE, false);
 	GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
-	//GameStateSetNextSubScene(MAX_SCENE, false); // to stop sub scene from running*/
+	GameStateSetNextSubScene(OVERWORLD_UI_SCENE, false);
+	GameStateSetNextSubScene(MAX_SCENE, true);
+
 }
 
 void game_update(void)
@@ -58,8 +72,10 @@ void game_update(void)
 	{
 		CP_Engine_Terminate();
 	}
-
-	//GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, true);
+	if (CP_Input_KeyDown(KEY_P))
+	{
+		GameStateSetNextSubScene(PAUSE_SCENE, true);
+	}
 
 
 	//get player input
@@ -67,13 +83,15 @@ void game_update(void)
 	//update player pos
 	UpdateSprite(get_character()->sp, dt);
 
-	//set logic for enemy temporary
-	if(get_character()->sp->moved)
-		UpdateEnemy(enemy, dt, true);
-	else
-		UpdateEnemy(enemy, dt, false);
-	UpdateCombat(enemy, dt);
-	
+	for (int i = 0; i < ENEMYSIZE; ++i)
+	{
+		//set logic for enemy temporary
+		if (get_character()->sp->moved)
+			UpdateEnemy(enemy[i], dt, true);
+		else
+			UpdateEnemy(enemy[i], dt, false);
+		UpdateCombat(enemy[i], dt);
+	}
 
 	combat_phase();
 
@@ -87,12 +105,18 @@ void game_update(void)
 	RenderSpriteOnMap(get_character()->sp, Level);
 
 	//render enemy
-	RenderSpriteOnMap(enemy->sp, Level);
+	for(int i = 0; i < ENEMYSIZE;++i)
+		RenderSpriteOnMap(enemy[i]->sp, Level);
+
+	ManualUpdate(COMBAT_OVERLAY_SCENE);
+	if (!sub)
+		RenderAsset(matte, 255 - brightposx);
 }
 
 void game_exit(void)
 {
 	free(Level);
 	free_char();
-	FreeEnemy(enemy);
+	for(int i = 0; i < ENEMYSIZE; ++i)
+		FreeEnemy(enemy[i]);
 }

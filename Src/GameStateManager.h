@@ -24,6 +24,11 @@ typedef enum
 	SPLASHSCREEN_SCENE,
 	SPRITEANIMATION_SCENE,
 	COMBAT_OVERLAY_SCENE,
+	OVERWORLD_UI_SCENE,
+	MAINMENU_SCENE,
+	SETTINGS_SCENE,
+	CREDITS_SCENE,
+	PAUSE_SCENE,
 	GAME_SCENE,
 	MAX_SCENE
 } SCENES;
@@ -57,7 +62,7 @@ struct GameStateManager
 static struct GameStateManager gsm;
 
 void GameStateRun(void);
-
+void ManualUpdate(SCENES scne);
 void GameStateAddScene(SCENES scne, FunctionPtr init, FunctionPtr update, FunctionPtr exit);
 void GameStateSetNextScene(SCENES scne);
 
