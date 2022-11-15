@@ -15,7 +15,7 @@ typedef struct
 	int side_display;
 	dice_types type;
 	int warning;
-	char no_dice[1];
+	char num[1];
 
 }asset;
 
@@ -23,7 +23,7 @@ enum powerup
 {
 	atk = 0,
 	hp = 1,
-	extra_d4 = 2
+	movement = 2
 };
 
 enum dice
@@ -50,13 +50,10 @@ void choose_to_roll_movement(int *mov_num);
 void side_display(int* mov_num, int turns_left);
 
 // runs if player chooses to select a powerup
-void choose_powerup(int turns_left);
+void choose_powerup(int turns_left, int num_powerups[]);
 
 // draws settings icon - player can pause the game with this
 void settings_button(void);
-
-// draws square boxes for items to be inside. num_item is number of boxes to draw, rightmost_box_positionX is the X position of the rightmost inventory window spawned
-void inventory_window(int num_item, float rightmost_box_positionX);
 
 // renders the window for movement
 void movement_window(int movement, float x, float y, float scale);

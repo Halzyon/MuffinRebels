@@ -27,6 +27,7 @@ int combat_clicked;
 int individual_mov_roll[2];
 int warning_clicked[2];
 float powerup_scale;
+int powerups[3];
 clock_t start_time;
 
 void combat_overlay_init(void)
@@ -41,7 +42,7 @@ void combat_overlay_init(void)
 	get_image_size("cursor.png", &cursor);
 	get_image_size("powerup[atk].png", &powerup[atk]);
 	get_image_size("powerup[hp].png", &powerup[hp]);
-	get_image_size("powerup[extra_d4].png", &powerup[extra_d4]);
+	get_image_size("powerup[movement].png", &powerup[movement]);
 	get_image_size("desc_panel.png", &desc_panel);
 	font = CP_Font_Load("Assets/Kenney_Pixel.ttf");
 
@@ -66,12 +67,17 @@ void combat_overlay_init(void)
 
 	turns = 3;
 
+	for (int d = 1; d <= 3; d++)
+	{								//	TODO: replace with number of powerups left accordingly
+		powerups[d - 1] = d;
+	}
+
 	display_side_dice[0] = display_side_dice[1] = 0;
 	
 	// initialize description
 	powerup[atk].desc = "Increases damage dealt for 3 turns.";
 	powerup[hp].desc = "Increases Max HP for 3 turns";
-	powerup[extra_d4].desc = "Increase movement by 3.";
+	powerup[movement].desc = "Increase movement by 3.";
 	
 	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
@@ -217,7 +223,7 @@ void dice_powerup(int *rng_mov, int *rng_combat, int powerup_turns, int combat_d
 		}
 		*/
 	}
-	choose_powerup(powerup_turns);
+	choose_powerup(powerup_turns, powerups);
 	
 }
 
@@ -319,7 +325,7 @@ void side_display(int *mov_num, int turns_left)
 
 }
 
-void choose_powerup(int turns_left)
+void choose_powerup(int turns_left, int num_powerups[])
 {
 	char* turns[1];
 	turns[0] = '0' + turns_left;
@@ -334,7 +340,7 @@ void choose_powerup(int turns_left)
 			else
 			{
 				powerup_button.clicked = !powerup_button.clicked;
-				powerup[atk].clicked = powerup[hp].clicked = powerup[extra_d4].clicked = 0;
+				powerup[atk].clicked = powerup[hp].clicked = powerup[movement].clicked = 0;
 				powerup_timer = 0;
 			}
 		}
@@ -368,7 +374,12 @@ void choose_powerup(int turns_left)
 		}
 		for (int i = 0; i < 3; i++)
 		{
+			*powerup[i].num = '0' + num_powerups[i];
 			//float x = powerup_button.position.x - ((float)i * (128.0f));
+			CP_Image_Draw(desc_panel.image, powerup[i].position.x - 50.0f, powerup[i].position.y + 50.0f, desc_panel.size.x * 0.4, desc_panel.size.y * 0.4, 255);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Settings_TextSize(40.0f);
+			CP_Font_DrawText(powerup[i].num, powerup[i].position.x - 50.0f, powerup[i].position.y + 50.0f);
 			if (mouse_in_rect(powerup[i].position.x, powerup[i].position.y, 80.0f, 80.0f))
 			{
 				CP_Image_Draw(cursor.image, powerup[i].position.x - 80.0f, powerup[i].position.y, cursor.size.x, cursor.size.y, 255);
@@ -378,28 +389,28 @@ void choose_powerup(int turns_left)
 				CP_Font_DrawTextBox(powerup[i].desc, powerup[i].position.x - 274.0f, powerup[i].position.y - 15.0f, 170.0f);
 			}
 		}
-		if (mouse_in_rect(powerup[atk].position.x, powerup[atk].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked())
+		if (mouse_in_rect(powerup[atk].position.x, powerup[atk].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[atk])
 		{
 			powerup[atk].clicked = !powerup[atk].clicked;
-			powerup[hp]. clicked = 0;
-			powerup[extra_d4].clicked = 0;
+			powerup[hp]. clicked = powerup[movement].clicked = 0;
 			powerup_button.clicked = !powerup_button.clicked;
+			num_powerups[atk]--;
 			powerup_scale = 1.0f;
 		}
-		else if (mouse_in_rect(powerup[hp].position.x, powerup[hp].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked())
+		else if (mouse_in_rect(powerup[hp].position.x, powerup[hp].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[hp])
 		{
-			powerup[atk].clicked = 0;
+			powerup[atk].clicked = powerup[movement].clicked = 0;
 			powerup[hp].clicked = !powerup[hp].clicked;
-			powerup[extra_d4].clicked = 0;
 			powerup_button.clicked = !powerup_button.clicked;
+			num_powerups[hp]--;
 			powerup_scale = 1.0f;
 		}
-		else if (mouse_in_rect(powerup[extra_d4].position.x, powerup[extra_d4].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked())
+		else if (mouse_in_rect(powerup[movement].position.x, powerup[movement].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[movement])
 		{
-			powerup[atk].clicked = 0;
-			powerup[hp].clicked = 0;
-			powerup[extra_d4].clicked = !powerup[extra_d4].clicked;
+			powerup[atk].clicked = powerup[hp].clicked = 0;
+			powerup[movement].clicked = !powerup[movement].clicked;
 			powerup_button.clicked = !powerup_button.clicked;
+			num_powerups[movement]--;
 			powerup_scale = 1.0f;
 		}
 		
@@ -412,7 +423,7 @@ void choose_powerup(int turns_left)
 			powerup_timer += CP_System_GetDt();
 			if (powerup_timer < 1.0f)
 			{
-				go_to_animation(CP_System_GetWindowWidth() / 2, 500.0f, &powerup[i].position);
+				go_to_animation(CP_System_GetWindowWidth() / 2, 500.0f, &powerup[i].position);		//	TODO: change position to player position
 				shrinking_animation(0.5f, &powerup_scale);
 				CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x * powerup_scale, powerup[i].size.y * powerup_scale, 255);
 			}
@@ -497,6 +508,6 @@ void combat_overlay_exit(void)
 	CP_Image_Free(&cursor.image);
 	CP_Image_Free(&powerup[atk].image);
 	CP_Image_Free(&powerup[hp].image);
-	CP_Image_Free(&powerup[extra_d4].image);
+	CP_Image_Free(&powerup[movement].image);
 	CP_Image_Free(&desc_panel.image);
 }

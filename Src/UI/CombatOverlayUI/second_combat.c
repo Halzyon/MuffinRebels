@@ -30,6 +30,7 @@ int attacking;
 float dice_scale;
 int combat_dice[3];
 int count_rolls;
+int powerups[3];
 
 void second_init(void)
 {
@@ -46,7 +47,7 @@ void second_init(void)
 	get_image_size("alive_hp.png", &alive_hp);
 	get_image_size("powerup[atk].png", &powerup[atk]);
 	get_image_size("powerup[hp].png", &powerup[hp]);
-	get_image_size("powerup[extra_d4].png", &powerup[extra_d4]);
+	get_image_size("powerup[movement].png", &powerup[movement]);
 	get_image_size("desc_panel.png", &desc_panel);
 	get_image_size("sword.png", &sword);
 	get_image_size("shield.png", &shield);
@@ -87,14 +88,15 @@ void second_init(void)
 	// initialize description
 	powerup[atk].desc = "Increases damage dealt for 3 turns.";
 	powerup[hp].desc = "Increases Max HP for 3 turns";
-	powerup[extra_d4].desc = "Increase movement by 3.";
+	powerup[movement].desc = "Increase movement by 3.";
 
 	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
 
 	for (int d = 1; d <= 3; d++)
 	{
-		combat_dice[d-1] = d;
+		combat_dice[d-1] = d;		//	TODO: replace with number of dice left accordingly
+		powerups[d-1] = d;
 	}
 
 	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
@@ -131,7 +133,7 @@ void second_init_rollPos(void)
 void second_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	int enemy = 25;
+	int enemy = 25;													// TODO: replace with enemy's total damage
 	second_dice_powerup(&num_roll, combat_dice, turns);
 	bottom_display(num_roll, enemy);
 	if (CP_Input_KeyDown(KEY_A))
@@ -143,7 +145,7 @@ void second_update(void)
 		turns++;
 	}
 
-	health_bar(50);
+	health_bar(80);					//	TODO: replace with remaining hp
 	settings_button();
 }
 
@@ -157,14 +159,14 @@ void second_dice_powerup(int *rng_num, int num_dice[], int powerup_turns)
 	// branch out to decide if player rolls or not
 
 	second_choose_to_roll_dice(rng_num, num_dice);
-	choose_powerup(powerup_turns);
+	choose_powerup(powerup_turns, powerups);
 }
 
 void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 {
 	for (int d = 0; d < 3; d++)
 	{
-		*dice[d].no_dice = '0' + num_dice[d];
+		*dice[d].num = '0' + num_dice[d];
 		if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked && !dice[d].clicked && count_rolls < 3)	//	checks if user clicked the dice button
 		{
 			dice_button.clicked = !dice_button.clicked;
@@ -201,10 +203,10 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 		{
 			CP_Image_Draw(dice[d].image, dice[d].position.x, dice[d].position.y, dice[d].size.x * 0.95, dice[d].size.y * 0.95, 255);
 			dice[d].inButton = mouse_in_rect(dice[d].position.x, dice[d].position.y, dice[d].size.x - 30.0f, dice[d].size.y - 30.0f);
-			CP_Image_Draw(desc_panel.image, dice[d].position.x - 50.0f, dice[d].position.y - 50.0f, desc_panel.size.x * 0.6, desc_panel.size.y * 0.6, 255);
+			CP_Image_Draw(desc_panel.image, dice[d].position.x - 50.0f, dice[d].position.y + 50.0f, desc_panel.size.x * 0.4, desc_panel.size.y * 0.4, 255);
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-			CP_Settings_TextSize(50.0f);
-			CP_Font_DrawText(dice[d].no_dice, dice[d].position.x - 50.0f, dice[d].position.y - 50.0f);
+			CP_Settings_TextSize(40.0f);
+			CP_Font_DrawText(dice[d].num, dice[d].position.x - 50.0f, dice[d].position.y + 50.0f);
 			if (dice[d].inButton)
 			{
 				CP_Image_Draw(cursor.image, dice[d].position.x - 80.0f, dice[d].position.y, cursor.size.x, cursor.size.y, 255);
@@ -302,6 +304,21 @@ void bottom_display(int player_roll, int enemy_roll)
 		CP_Image_Draw(sword.image, sword.position.x + 200.0f, sword.position.y, sword.size.x, sword.size.y, 255);
 		CP_Font_DrawText(enemy, sword.position.x + 240.0f, sword.position.y - 2.5f);
 	}
+	/*if (attacking && (*player_roll - *enemy_roll) > 0 && count_rolls > 2)
+	{
+		dice_timer += CP_System_GetDt();
+		if (dice_timer < 2.0f)
+		{
+			CP_Image_Draw(sword.image, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, sword.size.x * 0.8, sword.size.y * 0.8, 255);
+			char damage[3] = { '-', '0' + ((*player_roll - *enemy_roll) / 10), '0' + ((*player_roll - *enemy_roll) % 10) };
+			CP_Font_DrawText(damage, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2);
+		}
+		else
+		{
+			*player_roll = 0;
+			*enemy_roll = 0;
+		}
+	}*/
 }
 
 void generate_dice(int num_roll, asset dice, float dice_posX, float dice_posY, float scale) // draws dice (dice[d6] or d20) with number corresponding to value num_roll
@@ -309,43 +326,42 @@ void generate_dice(int num_roll, asset dice, float dice_posX, float dice_posY, f
 	float text_posX = dice_posX + 2.0f * scale;
 	float text_posY = dice_posY;
 	CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
+	CP_Image_Draw(dice.image, dice_posX, dice_posY, dice.size.x * scale, dice.size.y * scale, 255);
 	switch (dice.type)
 	{
-	case e_std_D4:
-	{
-		CP_Image_Draw(dice.image, dice_posX, dice_posY, dice.size.x * scale, dice.size.y * scale, 255);
-		char num_text[1] = { '0' + num_roll };
-		CP_Font_DrawText(num_text, text_posX + (2.0f * scale), text_posY + 12.5f);
-		break;
-	}
-	case e_std_D6:
-	{
-		CP_Image_Draw(dice.image, dice_posX, dice_posY, dice.size.x * scale, dice.size.y * scale, 255);
-		char num_text[1] = { '0' + num_roll };
-		CP_Font_DrawText(num_text, text_posX, text_posY);
-		break;
-	}
-	case e_std_D20:
-	{
-		CP_Image_Draw(dice.image, dice_posX, dice_posY, dice.size.x * scale, dice.size.y * scale, 255);
-		if (num_roll >= 10)
+		case e_std_D4:
 		{
-			char num_text[2] = { '0' + (num_roll / 10), '0' + (num_roll % 10) };
-			CP_Font_DrawText(num_text, text_posX, text_posY);
+			char num_text[1] = { '0' + num_roll };
+			CP_Font_DrawText(num_text, text_posX + (2.0f * scale), text_posY + 12.5f);
+			break;
 		}
-		else
+		case e_std_D6:
 		{
 			char num_text[1] = { '0' + num_roll };
 			CP_Font_DrawText(num_text, text_posX, text_posY);
+			break;
 		}
-	}
-	default:
-	{
-		CP_Image_Draw(dice.image, dice_posX, dice_posY, dice.size.x * scale, dice.size.y * scale, 255);
-		char num_text[1] = { '0' + num_roll };
-		CP_Font_DrawText(num_text, text_posX, text_posY);
-		break;
-	}
+		case e_std_D20:
+		{
+			if (num_roll >= 10)
+			{
+				char num_text[2] = { '0' + (num_roll / 10), '0' + (num_roll % 10) };
+				CP_Font_DrawText(num_text, text_posX, text_posY);
+			}
+			else
+			{
+				char num_text[1] = { '0' + num_roll };
+				CP_Font_DrawText(num_text, text_posX, text_posY);
+			}
+			break;
+		}
+		default:
+		{
+			CP_Image_Draw(dice.image, dice_posX, dice_posY, dice.size.x * scale, dice.size.y * scale, 255);
+			char num_text[1] = { '0' + num_roll };
+			CP_Font_DrawText(num_text, text_posX, text_posY);
+			break;
+		}
 	}
 }
 
@@ -385,7 +401,7 @@ void second_exit(void)
 	CP_Image_Free(&alive_hp.image);
 	CP_Image_Free(&powerup[atk].image);
 	CP_Image_Free(&powerup[hp].image);
-	CP_Image_Free(&powerup[extra_d4].image);
+	CP_Image_Free(&powerup[movement].image);
 	CP_Image_Free(&desc_panel.image);
 	CP_Image_Free(&sword.image);
 	CP_Image_Free(&shield.image);
