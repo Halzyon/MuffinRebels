@@ -42,10 +42,14 @@ void init_rollPos(void);
 void combat_overlay_update(void);
 
 // constantly updates the combat overlay based on player interaction with it - num_roll is pregenerated number that the player rolls
-void dice_powerup(int num_roll, int powerup_turns);
+void dice_powerup(int *rng_mov, int *rng_combat, int powerup_turns, int combat_dice[]);
 
 // runs if player chooses to roll dice
-void choose_to_roll_dice(int num_roll);
+void choose_to_roll_movement(int *mov_num);
+
+//void choose_to_roll_combat(int *combat_num, int combat_dice[]);
+
+void side_display(int* mov_num, int turns_left);
 
 // runs if player chooses to select a powerup
 void choose_powerup(int turns_left);
@@ -62,7 +66,10 @@ void settings_button(void);
 // draws square boxes for items to be inside. num_item is number of boxes to draw, rightmost_box_positionX is the X position of the rightmost inventory window spawned
 void inventory_window(int num_item, float rightmost_box_positionX);
 
-void timer_ui(void);
+// renders the window for movement
+void movement_window(int movement, float x, float y, float scale);
+
+//void timer_ui(void);
 
 // frees all images
 void combat_overlay_exit(void);
