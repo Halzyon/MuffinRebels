@@ -23,7 +23,7 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 		newSprite->renderMode = 0;
 		newSprite->moved = false;
 		newSprite->go.isAlive = true;
-	newSprite->go.alpha = 255;
+		newSprite->go.alpha = 255;
 	}
 		
 
@@ -35,6 +35,7 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 
 	return newSprite;
 }
+
 void UpdateSprite(Sprite* sprite, float dt)
 {
 	if (sprite == NULL || !sprite->go.isAlive)

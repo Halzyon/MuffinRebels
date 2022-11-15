@@ -36,6 +36,7 @@ const double speedowagon2 = 1500.0;
 
 void combat_scene_init()
 {
+
 	//do stuff
 	// load images!
 	transition_img = CP_Image_Load(FILEPATH "transition.png");
@@ -72,7 +73,7 @@ void combat_scene_update()
 		{
 			if (!CP_Vector_Distance(playerPos, targetPlayerPos) && !CP_Vector_Distance(enemyPos, targetEnemyPos))
 			{
-				sceneSet = 1;
+				sceneSet = true;
 			}
 			else
 			{
@@ -116,9 +117,10 @@ void move_to(CP_Vector* curr, CP_Vector dst)
 	}
 	else
 	{
+		double dt = CP_System_GetDt();
 		CP_Vector dir = CP_Vector_Normalize(CP_Vector_Set(dst.x - curr->x, dst.y - curr->y));
-		curr->x += dir.x * speedowagon2 * CP_System_GetDt();
-		curr->y += dir.y * speedowagon2 * CP_System_GetDt();
+		curr->x += dir.x * speedowagon2 * dt;
+		curr->y += dir.y * speedowagon2 * dt;
 	}
 	
 }

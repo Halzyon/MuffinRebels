@@ -12,6 +12,7 @@ Sprite* ash;
 game_map* Level;
 Enemy* enemy;
 bool b_paused = false;
+CP_BOOL combatStart = false;
 void game_init(void)
 {
 	// set draw settings
@@ -43,7 +44,7 @@ void game_init(void)
 	enemy->steps = 1;
 	loadSprites();
 	//set sub scenes to run 
-	GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
+	GameStateSetNextSubScene(WORLD_OVERLAY_SCENE, false);
 	//GameStateSetNextSubScene(MAX_SCENE, false); // to stop sub scene from running*/
 }
 
@@ -86,6 +87,12 @@ void game_update(void)
 	}
 
 	*/
+	if (enemy->b_combat && !combatStart)
+	{
+		GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
+		combatStart = true;
+	}
+
 	//RENDER
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Vector vec = {CP_System_GetWindowWidth() / 4.5,0};
