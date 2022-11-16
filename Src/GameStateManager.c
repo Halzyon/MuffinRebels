@@ -116,6 +116,8 @@ void GameStateRun(void)
 	GameStateAddScene(PAUSE_SCENE, gamepaused_init, gamepaused_update, gamepaused_shutdown);
     GameStateAddScene(MAINMENU_SCENE, mainmenu_init, mainmenu_update, mainmenu_exit);
 	GameStateAddScene(CREDITS_SCENE, credits_init, credits_update, credits_exit);
+	//GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
+	//GameStateAddScene(GAME_SCENE, second_init, second_update, second_exit); // @TODO add this later
 	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
 
 	//set first scene

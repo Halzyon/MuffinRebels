@@ -127,6 +127,8 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\yijia\settings_ui.c" />
     <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c" />
     <ClCompile Include="..\Src\Scenes\GameScene.c" />
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\second_combat.c" />
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\time_ui.c" />
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c" />
     <ClCompile Include="..\Src\utils.c" />
   </ItemGroup>
@@ -160,6 +162,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\SplashScreen\splashscreen.h" />
     <ClInclude Include="..\Src\SpriteAnimation\spriteAnimation.h" />
     <ClInclude Include="..\Src\SpriteAnimation\SpriteScene.h" />
+    <ClInclude Include="..\Src\UI\CombatOverlayUI\second_combat.h" />
     <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
