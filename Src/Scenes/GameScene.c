@@ -87,10 +87,24 @@ void game_update(void)
 
 	if (combatStart && !combatOver)
 	{
+		for (int i = 0; i < ENEMYSIZE; ++i)
+		{
+			UpdateCombat(enemy[i], dt);
+		}
+
 		ManualUpdate(BATTLE_SCENE);
 		ManualUpdate(BATTLE_SCENE_UI);
 		// if enemy dead/player dead do smth
-		if (CP_Input_KeyDown(KEY_2))
+
+		for (int i = 0; i < ENEMYSIZE; ++i)
+		{
+			if (enemy[i]->hp <= 0)
+         {
+             battleEnd();
+         }
+		}
+
+		if (get_character()->hp <= 0)
 		{
 			battleEnd();
 		}
@@ -114,9 +128,6 @@ void game_update(void)
 				UpdateEnemy(enemy[i], dt, false);
 			UpdateCombat(enemy[i], dt);
 		}
-
-		combat_phase();
-
 
 		if ((enemy[0]->b_combat && !combatStart) || CP_Input_KeyDown(KEY_1))
 		{

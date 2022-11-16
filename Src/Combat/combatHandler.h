@@ -4,6 +4,12 @@
 #include "../Character/gameChar.h"
 #include "../Character/gameEnemy.h"
 
+int attacker_sum;
+int defender_sum;
+
+int max_combat_size;
+int def_max_size;
+
 Enemy* the_enemy;
 int combatants_present;
 
@@ -21,6 +27,5 @@ void declare_combatants(Enemy* const enemy, int enemy_combat_mode);
  * @return integer of whether the combat phase went ok
 */
 int combat_phase(void);
-
 
 #endif // !COMBAT_HANDLER_H

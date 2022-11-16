@@ -172,6 +172,8 @@ void battleEnd()
 	battleOver = true;
 	sceneSet = false;
 	transitionEnd = false;
+
+	combatants_present = 0;
 }
 
 CP_BOOL getCombatState()

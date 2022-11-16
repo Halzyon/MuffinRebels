@@ -72,15 +72,9 @@ void hardware_handler(void)
 	else
 		get_character()->sp->moved = 0;
 
-	//TODO: check if dice clicked. Roll dice. Update values
-	if (/* clicked dice on screen */CP_Input_MouseTriggered(MOUSE_BUTTON_RIGHT))
+	// GOD MODE
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_MIDDLE))
 	{
-		get_character()->energy = roll_dice(e_std_D6);
-		printf("%d\n", get_character()->energy);
-	}
-	if (/* clicked dice on screen */CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
-	{
-		get_character()->energy = roll_dice(e_std_D20);
-		printf("%d\n", get_character()->energy);
+		get_character()->energy += 20;
 	}
 }
