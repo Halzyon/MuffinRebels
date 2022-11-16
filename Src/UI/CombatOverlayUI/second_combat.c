@@ -1,6 +1,7 @@
 #include "combat_overlay.h"
 #include "../UtilsUI/ui_utils.h"
 #include "second_combat.h"
+#include "../../GameStateManager.h"
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -132,6 +133,7 @@ void second_init_rollPos(void)
 
 void second_update(void)
 {
+	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	int enemy = 25;													// TODO: replace with enemy's total damage
 	second_dice_powerup(&num_roll, combat_dice, turns);

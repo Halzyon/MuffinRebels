@@ -20,6 +20,7 @@ extern asset matte;
 extern int brightposx;
 extern bool sub;
 CP_BOOL combatStart = false;
+CP_BOOL combatOver = false;
 void game_init(void)
 {
 	// set draw settings
@@ -58,6 +59,7 @@ void game_init(void)
 	GameStateSetNextSubScene(PAUSE_SCENE, false);
 	GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
 	GameStateSetNextSubScene(OVERWORLD_UI_SCENE, false);
+	
 	GameStateSetNextSubScene(MAX_SCENE, true);
 
 }
@@ -79,45 +81,64 @@ void game_update(void)
 	}
 
 
+
 	//get player input
 	hardware_handler();
-	//update player pos
-	UpdateSprite(get_character()->sp, dt);
 
-	for (int i = 0; i < ENEMYSIZE; ++i)
+	if (combatStart && !combatOver)
 	{
-		//set logic for enemy temporary
-		if (get_character()->sp->moved)
-			UpdateEnemy(enemy[i], dt, true);
-		else
-			UpdateEnemy(enemy[i], dt, false);
-		UpdateCombat(enemy[i], dt);
+		ManualUpdate(BATTLE_SCENE);
+		ManualUpdate(BATTLE_SCENE_UI);
+		// if enemy dead/player dead do smth
+		if (CP_Input_KeyDown(KEY_2))
+		{
+			battleEnd();
+		}
 	}
+	else
+	{
+		//update player pos
+		UpdateSprite(get_character()->sp, dt);
 
-	combat_phase();
+		for (int i = 0; i < ENEMYSIZE; ++i)
+		{
+			//set logic for enemy temporary
+			if (get_character()->sp->moved)
+				UpdateEnemy(enemy[i], dt, true);
+			else
+				UpdateEnemy(enemy[i], dt, false);
+			UpdateCombat(enemy[i], dt);
+		}
 
+		combat_phase();
+
+
+		if ((enemy[0]->b_combat && !combatStart) || CP_Input_KeyDown(KEY_1))
+		{
+			GameStateSetNextSubScene(BATTLE_SCENE, false);
+			GameStateSetNextSubScene(BATTLE_SCENE_UI, false);
+			combatStart = true;
+		}
+
+
+
+		//RENDER
+		CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
+		render_map(Level, vec);
+
+		//render player
+		RenderSpriteOnMap(get_character()->sp, Level);
+
+		//render enemy
+		for (int i = 0; i < ENEMYSIZE; ++i)
+			RenderSpriteOnMap(enemy[i]->sp, Level);
+
+		ManualUpdate(COMBAT_OVERLAY_SCENE);
+		if (!sub)
+			RenderAsset(matte, 255 - brightposx);
+	}
 	
-	if (enemy[0]->b_combat && !combatStart)
-	{
-		GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
-		combatStart = true;
-	}
-
-	//RENDER
-	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	CP_Vector vec = {CP_System_GetWindowWidth() / 4.5,0};
-	render_map(Level,vec);
-
-	//render player
-	RenderSpriteOnMap(get_character()->sp, Level);
-
-	//render enemy
-	for(int i = 0; i < ENEMYSIZE;++i)
-		RenderSpriteOnMap(enemy[i]->sp, Level);
-
-	ManualUpdate(COMBAT_OVERLAY_SCENE);
-	if (!sub)
-		RenderAsset(matte, 255 - brightposx);
 }
 
 void game_exit(void)

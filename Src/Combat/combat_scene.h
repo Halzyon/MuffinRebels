@@ -13,4 +13,7 @@ void combat_scene_exit();
 
 void start_combat_scene();
 
+void battleEnd();
+CP_BOOL getCombatState();
+
 #endif // !COMBAT_SCENE_H
