@@ -1,7 +1,7 @@
 #include "cprocessing.h"
 #include "SpriteAnimation/spriteAnimation.h"
 #include "../UI/UtilsUI/ui_utils.h"
-#include"../yijia/pause_ui .h"
+#include"../yijia/pause_ui.h"
 
 asset pausedpopup;
 asset arrowicon;
@@ -13,8 +13,8 @@ asset restart;
 asset exittxt;
 int alpha;
 
-void gamepaused_init(void) {
-
+void gamepaused_init(void) 
+{
 	//get_image_size_set("Assets/settings_icon.png", &settings_icon);
 	get_image_size_set("Assets/pausedpopup.png", &pausedpopup);
 	get_image_size_set("Assets/exit_icon.png", &exit_icon);

@@ -1,7 +1,7 @@
 #include "GameStateManager.h"
 #include "yijia/settings_ui.h"
 #include "../Src/yijia/overworld_ui.h"
-#include"../Src/yijia/pause_ui .h"
+#include"../Src/yijia/pause_ui.h"
 #include "../Src/yijia/mainmenu.h"
 #include "../Src/yijia/credits.h"
 

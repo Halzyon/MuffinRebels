@@ -143,7 +143,6 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\FileIO\encode.h" />
     <ClInclude Include="..\Src\FileIO\fileIO.h" />
     <ClInclude Include="..\Src\FileIO\serialization.h" />
-    <ClInclude Include="..\Src\Level Editor\lvl_editor.h" />
     <ClInclude Include="..\Src\UI\CombatOverlayUI\combat_overlay.h" />
     <ClInclude Include="..\Src\Level Stuff\lvl_editor.h" />
     <ClInclude Include="..\Src\Level Stuff\lvl_manager.h" />
@@ -151,8 +150,6 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\yijia\credits.h" />
     <ClInclude Include="..\Src\yijia\mainmenu.h" />
     <ClInclude Include="..\Src\yijia\overworld_ui.h" />
-    <ClInclude Include="..\Src\yijia\pause_ui .h" />
-    <ClInclude Include="..\Src\yijia\pause_ui.h" />
     <ClInclude Include="..\Src\yijia\settings_ui.h" />
     <ClInclude Include="..\Src\GameStateManager.h" />
     <ClInclude Include="..\Src\Scenes\GameScene.h" />
