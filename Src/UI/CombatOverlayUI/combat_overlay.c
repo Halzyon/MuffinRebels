@@ -137,24 +137,24 @@ void combat_overlay_update(void)
 	settings_button();
 }
 
-void init_dicePos(void)
-{
-	// set location where choosable d6 and d20 die are after player selects the dice button
-
-	d20.position.x = buttons_centerpointX + 80.0f;
-	d6.position.y =  d20.position.y = buttons_centerpointY - 150.0f;
-	d6.position.x = d20.position.x - 125.0f;
-}
-
-void init_rollPos(void)
-{
-	// set location where the selected dice rolls
-
-	roll_pos.x = buttons_centerpointX + 20.0f;
-	roll_pos.y = buttons_centerpointY - 200.0f;
-	d6.position.x = d6.position.y = d20.position.x = d20.position.y = 0.0f;
-	CP_Settings_TextSize(100.0f);
-}
+//void init_dicePos(void)
+//{
+//	// set location where choosable d6 and d20 die are after player selects the dice button
+//
+//	d20.position.x = buttons_centerpointX + 80.0f;
+//	d6.position.y =  d20.position.y = buttons_centerpointY - 150.0f;
+//	d6.position.x = d20.position.x - 125.0f;
+//}
+//
+//void init_rollPos(void)
+//{
+//	// set location where the selected dice rolls
+//
+//	roll_pos.x = buttons_centerpointX + 20.0f;
+//	roll_pos.y = buttons_centerpointY - 200.0f;
+//	d6.position.x = d6.position.y = d20.position.x = d20.position.y = 0.0f;
+//	CP_Settings_TextSize(100.0f);
+//}
 
 void dice_powerup(int *rng_mov, int *rng_combat, int powerup_turns, int combat_dices[])
 {
