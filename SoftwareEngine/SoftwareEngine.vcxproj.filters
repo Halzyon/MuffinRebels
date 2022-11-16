@@ -55,8 +55,16 @@
     <ClCompile Include="..\Src\Character\gameEnemy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c" />
     <ClCompile Include="..\Src\Combat\combat_scene.c">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\second_combat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\time_ui.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +164,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Level Editor\lvl_editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\UI\CombatOverlayUI\second_combat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
