@@ -171,7 +171,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 		*dice[d].num = '0' + num_dice[d];
 		if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked && !dice[d].clicked && count_rolls < 3)	//	checks if user clicked the dice button
 		{
-			dice_button.clicked = !dice_button.clicked;
+			dice_button.clicked = 1;
 			dice[d].clicked = 0;
 			dice[d].side_display = 0;
 		}
