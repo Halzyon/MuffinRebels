@@ -46,8 +46,8 @@ void combat_scene_init()
 	transition_img = CP_Image_Load(FILEPATH "transition.png");
 	transitionSize.x = CP_Image_GetWidth(transition_img);
 	transitionSize.y = CP_Image_GetHeight(transition_img);
-	/*transitionPos.x = transitionSize.x / 2;
-	transitionPos.y = transitionSize.y / 2;*/
+	transitionPos.x = 0;
+	transitionPos.y = 0;
 
 	playerPos = CP_Vector_Set(CP_System_GetWindowWidth() + 100, CP_System_GetWindowHeight() - CP_System_GetWindowHeight() / 5);
 	enemyPos = CP_Vector_Set(-100.f ,0.f);
@@ -55,6 +55,9 @@ void combat_scene_init()
 	targetPlayerPos = CP_Vector_Set(CP_System_GetWindowWidth() / 5, CP_System_GetWindowHeight() - CP_System_GetWindowHeight() / 5);
 	targetEnemyPos = CP_Vector_Set(CP_System_GetWindowWidth() - CP_System_GetWindowWidth() / 5, 0.f);
 
+	transitionEnd = false;
+	sceneSet = false;
+	battleOver = false;
 	isInit = true;
 }
 
@@ -128,13 +131,11 @@ void combat_scene_update()
 				sceneSet = true;
 			}
 		}
-		else
-		{
-			combat_scene_exit();
-		}
-
 	}
-	
+	if (getCombatState())
+	{
+		combat_scene_exit();
+	}
 }
 
 void combat_scene_exit()
@@ -171,4 +172,9 @@ void battleEnd()
 	battleOver = true;
 	sceneSet = false;
 	transitionEnd = false;
+}
+
+CP_BOOL getCombatState()
+{
+	return sceneSet == transitionEnd ? battleOver : battleOver;
 }

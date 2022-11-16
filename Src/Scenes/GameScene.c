@@ -59,9 +59,9 @@ void game_init(void)
 	GameStateSetNextSubScene(PAUSE_SCENE, false);
 	GameStateSetNextSubScene(COMBAT_OVERLAY_SCENE, false);
 	GameStateSetNextSubScene(OVERWORLD_UI_SCENE, false);
-	
+	GameStateSetNextSubScene(BATTLE_SCENE, false);
+	GameStateSetNextSubScene(BATTLE_SCENE_UI, false);
 	GameStateSetNextSubScene(MAX_SCENE, true);
-
 }
 
 void game_update(void)
@@ -94,6 +94,11 @@ void game_update(void)
 		{
 			battleEnd();
 		}
+		if (getCombatState())
+		{
+			combatStart = false;
+			combatOver = true;
+		}
 	}
 	else
 	{
@@ -115,9 +120,10 @@ void game_update(void)
 
 		if ((enemy[0]->b_combat && !combatStart) || CP_Input_KeyDown(KEY_1))
 		{
-			GameStateSetNextSubScene(BATTLE_SCENE, false);
-			GameStateSetNextSubScene(BATTLE_SCENE_UI, false);
+			second_init();
+			combat_scene_init();
 			combatStart = true;
+			combatOver = false;
 		}
 
 
