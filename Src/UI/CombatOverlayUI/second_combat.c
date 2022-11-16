@@ -24,7 +24,7 @@ float powerup_timer;
 int num_roll;
 int display_side_dice;
 int turns;
-int warning_clicked[2];		// subscript 0: dice_button, subscript 1: powerup_button
+bool warning_clicked[2];		// subscript 0: dice_button, subscript 1: powerup_button
 int individual_roll;
 int attacking;
 float dice_scale;
@@ -81,7 +81,7 @@ void second_init(void)
 
 	num_roll = 0;
 	turns = 3;
-	attacking = 0;
+	attacking = 1;
 	count_rolls = 0;
 	display_side_dice = 0;
 
@@ -304,6 +304,27 @@ void bottom_display(int player_roll, int enemy_roll)
 		CP_Image_Draw(sword.image, sword.position.x + 200.0f, sword.position.y, sword.size.x, sword.size.y, 255);
 		CP_Font_DrawText(enemy, sword.position.x + 240.0f, sword.position.y - 2.5f);
 	}
+	/*if (count_rolls > 2 && dice_timer < 2.0f)
+	{	
+		CP_Vector text_pos;
+		text_pos.x = CP_System_GetWindowWidth() / 2;
+		text_pos.y = buttons_centerpointY;
+		go_to_animation(text_pos.x, text_pos.y - 100.f, &text_pos);
+		if (attacking && player_roll >= enemy_roll)
+		{
+			CP_Image_Draw(sword.image, text_pos.x - 10.0f, text_pos.y, sword.size.x * 0.8, sword.size.y * 0.8, 255);
+			char damage[3] = { '0' + ((player_roll - enemy_roll) / 10), '0' + ((player_roll - enemy_roll) % 10) };
+			CP_Font_DrawText(damage, text_pos.x, text_pos.y);
+		}
+		else if (attacking && player_roll < enemy_roll)
+		{
+			CP_Font_DrawText("Attack failed", text_pos.x, text_pos.y);
+		}
+		else if (!attacking && player_roll >= enemy_roll)
+		{
+
+		}
+	}*/
 	/*if (attacking && (*player_roll - *enemy_roll) > 0 && count_rolls > 2)
 	{
 		dice_timer += CP_System_GetDt();

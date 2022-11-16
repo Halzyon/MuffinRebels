@@ -11,6 +11,7 @@
 #include "Scenes/GameScene.h"
 #include "UI/CombatOverlayUI/combat_overlay.h"
 #include "UI/CombatOverlayUI/second_combat.h"
+#include "UI/CombatOverlayUI/time_ui.h"
 
 #ifdef _DEBUG
 #define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));
