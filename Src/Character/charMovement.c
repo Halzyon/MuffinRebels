@@ -6,6 +6,7 @@
 #include "gameChar.h"
 #include "diceHandler.h"
 #include "../Combat/combatHandler.h"
+#include "../UI/CombatOverlayUI/combat_overlay.h"
 
 int check_limits(void)
 {
@@ -22,7 +23,7 @@ void hardware_handler(void)
 	if (combatants_present)
 		return;
 
-	if (get_character()->energy)
+	if (get_character()->energy && !movement_clicked)
 	{
 		if (CP_Input_KeyTriggered(KEY_W))
 		{

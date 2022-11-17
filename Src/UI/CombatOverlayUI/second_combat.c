@@ -4,6 +4,7 @@
 #include "../../GameStateManager.h"
 #include "../../Combat/combatHandler.h"
 #include "../../Combat/combat_scene.h"
+#include "../../Scenes/GameScene.h"
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -27,7 +28,6 @@ float powerup_timer;
 int num_roll;
 int turns;
 int warning_clicked[2];		// subscript 0: dice_button, subscript 1: powerup_button
-int individual_roll;
 float dice_scale;
 int combat_dice[3];
 int count_rolls;
@@ -86,10 +86,6 @@ void second_init(void)
 	dice[d4].type = e_std_D4;
 	dice[d6].type = e_std_D6;
 	dice[d20].type = e_std_D20;
-
-	// initialise hp
-	player_hp = 100;
-	enemy_hp = 100;
 
 	num_roll = 0;
 	turns = 3;
@@ -151,19 +147,18 @@ void second_update(void)
 	}
 	else if (enemy_turn)
 	{
-		//enemy_ui(getEnemyPos(), the_enemy->dice, enemys_roll, 1.0f);
+		enemy_ui(getWorldPos(the_enemy->sp->go.position, getMap()), e_std_D20, 12, 1.0f);
 	}
 	else if (fight)
 	{
 		cut_in();
 	}
-	if (num_roll)
+	/*if (num_roll)
 	{
 		//attacker's roll
 		if (get_character()->combat_mode == CHAR_ATTACKING)
 		{
 			attacker_sum = num_roll;
-			num_roll = 0;
 		}
 		else if (the_enemy->enemyState == ATTACK_STATE)
 		{
@@ -175,7 +170,6 @@ void second_update(void)
 		if (get_character()->combat_mode == CHAR_DEFENDING)
 		{
 			defender_sum = num_roll;
-			num_roll = 0;
 		}
 		else if (the_enemy->enemyState == DEFEND_STATE)
 		{
@@ -193,11 +187,11 @@ void second_update(void)
 			the_enemy->enemyState = DEFEND_STATE;
 		else if (the_enemy->enemyState == DEFEND_STATE)
 			the_enemy->enemyState = ATTACK_STATE;
-	}
+	}*/
 
 	bottom_display(num_roll, enemys_roll);
 	health_bar(get_character()->hp);					//	TODO: replace with remaining hp
-	enemy_health_bar(the_enemy->hp, getEnemyPos());
+	enemy_health_bar(the_enemy->hp, getWorldPos(the_enemy->sp->go.position, getMap()));
 	settings_button();
 }
 
@@ -276,9 +270,8 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			dice[d4].clicked = !dice[d4].clicked;
 			second_init_rollPos();
 			inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
-			individual_roll = roll_dice(dice[d4].type);
+			*num_roll = roll_dice(dice[d4].type);
 			num_dice[d4]--;
-			count_rolls++;
 		}
 		else if ((dice[d6].inButton == 1) && CP_Input_MouseClicked() && !dice[d20].clicked && !dice[d4].clicked && num_dice[d6])	//	checks if user selected to roll dice[d6] dice
 		{
@@ -286,9 +279,8 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			dice[d6].clicked = !dice[d6].clicked;
 			second_init_rollPos();
 			inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
-			individual_roll = roll_dice(dice[d6].type);
+			*num_roll = roll_dice(dice[d6].type);
 			num_dice[d6]--;
-			count_rolls++;
 		}
 		else if ((dice[d20].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d4].clicked && num_dice[d20])	//	checks if user selected dice[d20] dice
 		{
@@ -296,37 +288,38 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			dice[d20].clicked = !dice[d20].clicked;
 			second_init_rollPos();
 			inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
-			individual_roll = roll_dice(dice[d20].type);
+			*num_roll = roll_dice(dice[d20].type);
 			num_dice[d20]--;
-			count_rolls++;
 		}
 
-		/*if (individual_roll)
+		if (num_roll)
 		{
 			//attacker's roll
 			if (get_character()->combat_mode == CHAR_ATTACKING)
 			{
-				attacker_sum = individual_roll;
-				individual_roll = 0;
+				attacker_sum = num_roll;
+				num_roll = 0;
 			}
 			else if (the_enemy->enemyState == ATTACK_STATE)
 			{
 				attacker_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
+				enemys_roll = attacker_sum;
 			}
 
 			//defender's roll
 			if (get_character()->combat_mode == CHAR_DEFENDING)
 			{
-				defender_sum = individual_roll;
-				individual_roll = 0;
+				defender_sum = num_roll;
+				num_roll = 0;
 			}
 			else if (the_enemy->enemyState == DEFEND_STATE)
 			{
 				defender_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
+				enemys_roll = defender_sum;
 			}
 
 			combat_phase();
-		}*/
+		}
 	}
 	if (inventory.side_display)
 	{
@@ -344,25 +337,26 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			}
 			if (3.0f > dice_timer && dice_timer > 2.0f)
 			{
-				generate_dice(individual_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
+				generate_dice(*num_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
 			}
 			if (dice_timer > 3.0f)
 			{
 				inventory.side_display = 0;
 				go_to_animation(((CP_System_GetWindowWidth()/2) - 200.0f), buttons_centerpointY, &roll_pos);
 				shrinking_animation(0.8f, &dice_scale);
-				generate_dice(individual_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
+				generate_dice(*num_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
 			}
 			if (dice_timer > 4.0f)
 			{
 				dice_timer = 0;
 				dice[d].clicked = !dice[d].clicked;
 				enemy_turn = !enemy_turn;
+				count_rolls++;
 			}
 		}
 	}
 
-	/*if (count_rolls >= max_combat_size) //reached the end of this combat phase, so we alternate
+	if (count_rolls >= max_combat_size) //reached the end of this combat phase, so we alternate
 	{
 		count_rolls = 0;
 
@@ -370,7 +364,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			the_enemy->enemyState = DEFEND_STATE;
 		else if (the_enemy->enemyState == DEFEND_STATE)
 			the_enemy->enemyState = ATTACK_STATE;
-	}*/
+	}
 }
 
 void bottom_display(int player_roll, int enemy_roll)
@@ -393,21 +387,6 @@ void bottom_display(int player_roll, int enemy_roll)
 		CP_Image_Draw(sword.image, sword.position.x + 200.0f, sword.position.y, sword.size.x, sword.size.y, 255);
 		CP_Font_DrawText(enemy, sword.position.x + 240.0f, sword.position.y - 2.5f);
 	}
-	/*if (attacking && (*player_roll - *enemy_roll) > 0 && count_rolls > 2)
-	{
-		dice_timer += CP_System_GetDt();
-		if (dice_timer < 2.0f)
-		{
-			CP_Image_Draw(sword.image, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, sword.size.x * 0.8, sword.size.y * 0.8, 255);
-			char damage[3] = { '-', '0' + ((*player_roll - *enemy_roll) / 10), '0' + ((*player_roll - *enemy_roll) % 10) };
-			CP_Font_DrawText(damage, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2);
-		}
-		else
-		{
-			*player_roll = 0;
-			*enemy_roll = 0;
-		}
-	}*/
 }
 
 void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float dice_posY, float scale) // draws dice (dice[d6] or d20) with number corresponding to value num_roll

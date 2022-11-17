@@ -50,7 +50,7 @@ void game_init(void)
 		enemy[i]->sp->go.position.y = 5;
 		enemy[i]->sp->go.scale.x = 0.5;
 		enemy[i]->sp->go.scale.y = 0.5;
-
+		enemy[i]->hp = 60;
 		enemy[i]->steps = 1;
 	}
 	loadSprites();
@@ -177,4 +177,9 @@ void game_exit(void)
 unsigned char getEnemyState()
 {
 	return enemy[0]->enemyState;
+}
+
+const game_map* getMap()
+{
+	return Level;
 }
