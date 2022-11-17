@@ -6,7 +6,8 @@
 
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
-
+	if (!en->sp->go.isAlive)
+		return;
 	CP_Vector charPos = get_character()->sp->go.position;
 	CP_Vector enemyPos = en->sp->go.position;
 

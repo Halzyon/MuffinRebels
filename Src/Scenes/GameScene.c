@@ -92,14 +92,19 @@ void game_update(void)
 			UpdateCombat(enemy[i], dt);
 		}
 
-		ManualUpdate(BATTLE_SCENE);
 		ManualUpdate(BATTLE_SCENE_UI);
+		ManualUpdate(BATTLE_SCENE);
+		
 		// if enemy dead/player dead do smth
 
 		for (int i = 0; i < ENEMYSIZE; ++i)
 		{
+			if (!enemy[i]->b_combat)
+				continue;
 			if (enemy[i]->hp <= 0)
 			{
+				enemy[i]->sp->go.isAlive = false;
+				enemy[i]->b_combat = false;
 				battleEnd();
 			}
 		}
