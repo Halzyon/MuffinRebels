@@ -15,7 +15,7 @@ int init_char(class_select char_select)
 		the_player->hp = 100;
 
 		the_player->dice[0] = e_std_D6;
-		the_player->dice_size = MAX_DICE;
+		the_player->dice_size = 1;
 
 		for (int i = 1; i < MAX_DICE; ++i)
 		{

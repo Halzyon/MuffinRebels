@@ -2,6 +2,7 @@
 #include "../UtilsUI/ui_utils.h"
 #include "second_combat.h"
 #include "../../GameStateManager.h"
+#include "../../Combat/combatHandler.h"
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -250,6 +251,33 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			num_dice[d20]--;
 			count_rolls++;
 		}
+
+		if (individual_roll)
+		{
+			//attacker's roll
+			if (get_character()->combat_mode == CHAR_ATTACKING)
+			{
+				attacker_sum = individual_roll;
+				individual_roll = 0;
+			}
+			else if (the_enemy->enemyState == ATTACK_STATE)
+			{
+				attacker_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
+			}
+
+			//defender's roll
+			if (get_character()->combat_mode == CHAR_DEFENDING)
+			{
+				defender_sum = individual_roll;
+				individual_roll = 0;
+			}
+			else if (the_enemy->enemyState == DEFEND_STATE)
+			{
+				defender_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
+			}
+
+			combat_phase();
+		}
 	}
 	if (inventory.side_display)
 	{
@@ -283,6 +311,16 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 				*num_roll += individual_roll;
 			}
 		}
+	}
+
+	if (count_rolls >= max_combat_size) //reached the end of this combat phase, so we alternate
+	{
+		count_rolls = 0;
+
+		if (the_enemy->enemyState == ATTACK_STATE)
+			the_enemy->enemyState = DEFEND_STATE;
+		else if (the_enemy->enemyState == DEFEND_STATE)
+			the_enemy->enemyState = ATTACK_STATE;
 	}
 }
 

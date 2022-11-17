@@ -6,7 +6,8 @@
 
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
-
+	if (!en->sp->go.isAlive)
+		return;
 	CP_Vector charPos = get_character()->sp->go.position;
 	CP_Vector enemyPos = en->sp->go.position;
 
@@ -132,11 +133,11 @@ void UpdateCombat(Enemy* en, float dt)
 
 	//dont need change enemy state back to patrol as its either
 	//player die or enemy die
-		if (en->hp <= 0)
-		{
-			en->sp->go.isAlive = false;
-			combatants_present = 0;
-		}
+	if (en->hp <= 0)
+	{
+		en->sp->go.isAlive = false;
+		combatants_present = 0;
+	}
 }
 
 Enemy* CreateEnemy(void)
@@ -148,7 +149,7 @@ Enemy* CreateEnemy(void)
 		newEnemy->hp = 5;
 		newEnemy->energy = 2;
 		newEnemy->dice[0] = e_std_D6;
-		newEnemy->dice_size = MAX_DICE;
+		newEnemy->dice_size = 1; //number of usable dice
 
 		for (int i = 1; i < MAX_DICE; ++i)
 		{

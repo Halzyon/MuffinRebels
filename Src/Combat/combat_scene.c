@@ -132,10 +132,10 @@ void combat_scene_update()
 			}
 		}
 	}
-	if (getCombatState())
-	{
-		combat_scene_exit();
-	}
+	//if (getCombatState())
+	//{
+	//	combat_scene_exit();
+	//}
 }
 
 void combat_scene_exit()
@@ -172,9 +172,11 @@ void battleEnd()
 	battleOver = true;
 	sceneSet = false;
 	transitionEnd = false;
+
+	combatants_present = 0;
 }
 
 CP_BOOL getCombatState()
 {
-	return sceneSet == transitionEnd ? battleOver : battleOver;
+	return battleOver;
 }
