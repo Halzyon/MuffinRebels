@@ -180,3 +180,8 @@ CP_BOOL getCombatState()
 {
 	return battleOver;
 }
+
+CP_Vector getEnemyPos()
+{
+	return enemyPos;
+}

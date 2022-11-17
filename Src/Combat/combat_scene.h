@@ -16,5 +16,7 @@ void start_combat_scene();
 void battleEnd();
 CP_BOOL getCombatState();
 
+CP_Vector getEnemyPos();
+
 
 #endif // !COMBAT_SCENE_H
