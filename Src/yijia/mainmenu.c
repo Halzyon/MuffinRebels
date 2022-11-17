@@ -11,10 +11,12 @@ asset button2;
 asset button2pressed;
 asset button3;
 asset button3pressed;
-asset settings_icon;
+asset settings;
 asset creditstxt;
 asset exittxtlarge;
 asset startxt;
+asset bg;
+asset dicerebellogo;
 int alpha; 
 extern asset matte;
 extern int brightposx;
@@ -28,43 +30,52 @@ void mainmenu_init() {
 	get_image_size_set("Assets/button1pressed.png", &button1pressed);
 	get_image_size_set("Assets/button2pressed.png", &button2pressed);
 	get_image_size_set("Assets/button3pressed.png", &button3pressed);
-	get_image_size_set("Assets/settings_icon.png", &settings_icon);
+	get_image_size_set("Assets/combat_overlay_ui/settings.png", &settings);
 	get_image_size_set("Assets/creditstxt.png", &creditstxt);
 	get_image_size_set("Assets/exittxtlarge.png", &exittxtlarge);
 	get_image_size_set("Assets/startxt.png", &startxt);
+	get_image_size_set("Assets/bg.png", &bg);
+	get_image_size_set("Assets/dicerebellogo.png", &dicerebellogo);
 	CP_System_SetWindowSize(1280, 720);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 
 	//positions
-	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
-	settings_icon.position.y = 50;
+	settings.position.x = CP_System_GetWindowWidth() - 50;
+	settings.position.y = 50;
 
 	button.position.x = CP_System_GetWindowWidth() - 640;
-	button.position.y = 220;
+	button.position.y = 280;
 
 	button2.position.x = CP_System_GetWindowWidth() - 640;
-	button2.position.y = 370;
+	button2.position.y = 430;
 
 	button3.position.x = CP_System_GetWindowWidth() - 640;
-	button3.position.y = 520;
+	button3.position.y = 580;
 
-	button1pressed.position.x = CP_System_GetWindowWidth() - 640;
-	button1pressed.position.y = 220;
+	button1pressed.position.x = button.position.x;
+	button1pressed.position.y = button.position.y;
 
-	button2pressed.position.x = CP_System_GetWindowWidth() - 640;
-	button2pressed.position.y = 370;
+	button2pressed.position.x = button2.position.x;
+	button2pressed.position.y = button2.position.y;
 
-	button3pressed.position.x = CP_System_GetWindowWidth() - 640;
-	button3pressed.position.y = 520;
+	button3pressed.position.x = button3.position.x;
+	button3pressed.position.y = button3.position.y;
 
 	creditstxt.position.x = CP_System_GetWindowWidth() - 640;
-	creditstxt.position.y = 365;
+	creditstxt.position.y = 425;
 
 	startxt.position.x = CP_System_GetWindowWidth() - 640;
-	startxt.position.y = 215;
+	startxt.position.y = 275;
 
 	exittxtlarge.position.x = CP_System_GetWindowWidth() - 640;
-	exittxtlarge.position.y = 515;
+	exittxtlarge.position.y = 575;
+
+	bg.position.x = CP_System_GetWindowWidth() - 640;
+	bg.position.y = 360;
+
+	dicerebellogo.position.x= CP_System_GetWindowWidth() - 640;
+	dicerebellogo.position.y = 150;
+
 	
 	GameStateSetNextSubScene(SETTINGS_SCENE, false);
 	GameStateSetNextSubScene(MAX_SCENE, false);
@@ -74,6 +85,8 @@ void mainmenu_init() {
 void mainmenu_update() {
 
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	RenderAsset(bg, 255);
+	RenderAsset(dicerebellogo, 255);
 
 	//SETTINGS ICON - open settings_ui
 
@@ -126,7 +139,7 @@ void mainmenu_update() {
 		//}
 
 	}
-
+	
 	RenderAsset(startxt, 255);
 	RenderAsset(exittxtlarge, 255);
 	RenderAsset(creditstxt, 255);
