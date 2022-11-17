@@ -110,10 +110,10 @@ void GameStateRun(void)
 	//GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
 	//GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
 	//GameStateAddScene(GAME_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);
-	GameStateAddScene(GAME_SCENE, settings_init, settings_update, settings_shutdown);
+	//GameStateAddScene(GAME_SCENE, settings_init, settings_update, settings_shutdown);
 	//GameStateAddScene(GAME_SCENE, overworld_init, overworld_update, overworld_shutdown);
 	//GameStateAddScene(GAME_SCENE, gamepaused_init, gamepaused_update, gamepaused_shutdown);
-    //GameStateAddScene(GAME_SCENE, mainmenu_init, mainmenu_update, mainmenu_exit);
+    GameStateAddScene(GAME_SCENE, mainmenu_init, mainmenu_update, mainmenu_exit);
 	//GameStateAddScene(GAME_SCENE, credits_init, credits_update, credits_exit);
 	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
 

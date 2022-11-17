@@ -27,8 +27,6 @@ void gamepaused_init(void) {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 
 	//POSITIONS
-	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
-	settings_icon.position.y = 50;
 
 	pausedpopup.position.x = CP_System_GetWindowWidth() - 640;
 	pausedpopup.position.y = 360;
