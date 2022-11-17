@@ -50,7 +50,7 @@ void game_init(void)
 		enemy[i]->sp->go.position.y = 5;
 		enemy[i]->sp->go.scale.x = 0.5;
 		enemy[i]->sp->go.scale.y = 0.5;
-		enemy[i]->hp = 60;
+		enemy[i]->hp = 10;
 		enemy[i]->steps = 1;
 	}
 	loadSprites();

@@ -40,6 +40,8 @@ int player_hp;
 int enemys_roll;
 float cutin_timer;
 
+
+
 void second_init(void)
 {
 	//	loads images and finds their sizes
@@ -113,6 +115,8 @@ void second_init(void)
 	dice_button.position.y = powerup_button.position.y = sword.position.y = shield.position.y = buttons_centerpointY;	// y position of both power up and dice button are the same
 	powerup_button.position.x = buttons_centerpointX - 60.0f;
 	sword.position.x = shield.position.x = CP_System_GetWindowWidth()/2;
+	playerRolled = false;
+	enemyRolled = false;
 }
 
 void second_init_dicePos(void)
@@ -153,7 +157,7 @@ void second_update(void)
 	{
 		cut_in();
 	}
-	/*if (num_roll)
+	if (num_roll)
 	{
 		//attacker's roll
 		if (get_character()->combat_mode == CHAR_ATTACKING)
@@ -187,7 +191,7 @@ void second_update(void)
 			the_enemy->enemyState = DEFEND_STATE;
 		else if (the_enemy->enemyState == DEFEND_STATE)
 			the_enemy->enemyState = ATTACK_STATE;
-	}*/
+	}
 
 	bottom_display(num_roll, enemys_roll);
 	health_bar(get_character()->hp);					//	TODO: replace with remaining hp
@@ -292,13 +296,12 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			num_dice[d20]--;
 		}
 
-		if (num_roll)
+		if (*num_roll)
 		{
 			//attacker's roll
 			if (get_character()->combat_mode == CHAR_ATTACKING)
 			{
-				attacker_sum = num_roll;
-				num_roll = 0;
+				attacker_sum = *num_roll;
 			}
 			else if (the_enemy->enemyState == ATTACK_STATE)
 			{
@@ -309,15 +312,13 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			//defender's roll
 			if (get_character()->combat_mode == CHAR_DEFENDING)
 			{
-				defender_sum = num_roll;
-				num_roll = 0;
+				defender_sum = *num_roll;
 			}
 			else if (the_enemy->enemyState == DEFEND_STATE)
 			{
 				defender_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
-				enemys_roll = defender_sum;
+				enemys_roll = defender_sum;	
 			}
-
 			combat_phase();
 		}
 	}
@@ -344,6 +345,8 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 				inventory.side_display = 0;
 				go_to_animation(((CP_System_GetWindowWidth()/2) - 200.0f), buttons_centerpointY, &roll_pos);
 				shrinking_animation(0.8f, &dice_scale);
+				//printf("rollder: %d\n", *num_roll);
+				//*num_roll = 0;
 				generate_dice(*num_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
 			}
 			if (dice_timer > 4.0f)

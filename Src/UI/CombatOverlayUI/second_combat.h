@@ -5,6 +5,9 @@
 #include "../../Character/diceHandler.h"
 #include "combat_overlay.h"
 
+CP_BOOL playerRolled;
+CP_BOOL enemyRolled;
+
 void second_init(void);
 
 void second_init_dicePos(void);
