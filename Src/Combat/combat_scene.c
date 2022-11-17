@@ -132,10 +132,10 @@ void combat_scene_update()
 			}
 		}
 	}
-	if (getCombatState())
-	{
-		combat_scene_exit();
-	}
+	//if (getCombatState())
+	//{
+	//	combat_scene_exit();
+	//}
 }
 
 void combat_scene_exit()
@@ -178,5 +178,5 @@ void battleEnd()
 
 CP_BOOL getCombatState()
 {
-	return sceneSet == transitionEnd ? battleOver : battleOver;
+	return battleOver;
 }

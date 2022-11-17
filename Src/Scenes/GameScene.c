@@ -99,9 +99,9 @@ void game_update(void)
 		for (int i = 0; i < ENEMYSIZE; ++i)
 		{
 			if (enemy[i]->hp <= 0)
-         {
-             battleEnd();
-         }
+			{
+				battleEnd();
+			}
 		}
 
 		if (get_character()->hp <= 0)
