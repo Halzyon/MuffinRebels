@@ -21,6 +21,7 @@ int alpha;
 extern asset matte;
 extern int brightposx;
 bool sub = false;
+extern int currentScene;
 
 void mainmenu_init() {
 	
@@ -90,8 +91,8 @@ void mainmenu_update() {
 
 	//SETTINGS ICON - open settings_ui
 
-	RenderAsset(settings_icon, 255);
-	if (mouse_in_rect(settings_icon.position.x, settings_icon.position.y, settings_icon.size.x, settings_icon.size.y) == 1)
+	RenderAsset(settings, 255);
+	if (mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1)
 	{
 		if (CP_Input_MouseClicked())
 		{
@@ -117,6 +118,7 @@ void mainmenu_update() {
 		RenderAsset(button2pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
+			currentScene = 0;
 			GameStateSetNextScene(CREDITS_SCENE);
 		}
 		//if (button2.clicked == 1 )
