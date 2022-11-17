@@ -90,8 +90,8 @@ void mainmenu_update() {
 
 	//SETTINGS ICON - open settings_ui
 
-	RenderAsset(settings_icon, 255);
-	if (mouse_in_rect(settings_icon.position.x, settings_icon.position.y, settings_icon.size.x, settings_icon.size.y) == 1)
+	RenderAsset(settings, 255);
+	if (mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1)
 	{
 		if (CP_Input_MouseClicked())
 		{
