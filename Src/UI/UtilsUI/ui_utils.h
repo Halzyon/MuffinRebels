@@ -4,6 +4,7 @@
 #include "../../GameObject/gameObject.h"
 #include "cprocessing.h"
 #include "../CombatOverlayUI/combat_overlay.h"
+#include "../../Character/gameMap.h"
 #include <math.h>
 #define PI 3.142857
 int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_height);
@@ -25,4 +26,5 @@ void shrinking_animation(float target, float* to_change);
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position);
 int IsAreaClickedCorner(const GameObject obj, const CP_Vector position);
 
+CP_Vector getWorldPos(CP_Vector gridPos, const game_map* gm);
 #endif // !H_UTILS_H

@@ -92,6 +92,5 @@ void RenderSpriteOnMap(Sprite* sprite, game_map* gm)
 		CP_Image_DrawSubImage(sprite->go.image, x, y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y,255);
 
 	}
-
 }
 
