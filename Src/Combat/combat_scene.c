@@ -40,7 +40,6 @@ const double speedowagon2 = 1500.0;
 
 void combat_scene_init()
 {
-
 	//do stuff
 	// load images!
 	transition_img = CP_Image_Load(FILEPATH "transition.png");

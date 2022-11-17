@@ -31,9 +31,12 @@ void game_init(void)
 	init_dice();
 	init_char(Warrior);
 	get_character()->sp->go.position.x = 4;
+	get_character()->sp->go.position.y = 4;
 	//creating map data
 	Level = malloc(sizeof(game_map));
 	init_map_obj(Level, 10, 10, CP_System_GetWindowHeight(), CP_System_GetWindowHeight());
+	int numtileswidth = (int)(CP_System_GetWindowWidth() / (int)(CP_System_GetWindowHeight() / Level->height));
+	mapOffset = (numtileswidth - Level->height) / 2 + 1;
 	Buffer* b = newBuffer();
 	b->data = readFile("map.dat");
 	size_t len = 0;
@@ -175,4 +178,10 @@ void game_exit(void)
 unsigned char getEnemyState()
 {
 	return enemy[0]->enemyState;
+}
+
+
+const game_map* getMap()
+{
+	return Level;
 }
