@@ -78,32 +78,32 @@ void combat_scene_update()
 				transitionEnd = true;
 			}
 		}
-		else
-		{
-			if (!sceneSet)
-			{
-				if (!CP_Vector_Distance(playerPos, targetPlayerPos) && !CP_Vector_Distance(enemyPos, targetEnemyPos))
-				{
-					sceneSet = true;
-				}
-				else
-				{
-					move_to(&playerPos, targetPlayerPos);
-					move_to(&enemyPos, targetEnemyPos);
-				}
-			}
-			else
-			{
-				// combat logic?
-				// draw combat UI?
-			}
-			// do other combat stuff
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-			CP_Graphics_DrawRect(playerPos.x, playerPos.y, 100, 200);
+		//else
+		//{
+		//	if (!sceneSet)
+		//	{
+		//		if (!CP_Vector_Distance(playerPos, targetPlayerPos) && !CP_Vector_Distance(enemyPos, targetEnemyPos))
+		//		{
+		//			sceneSet = true;
+		//		}
+		//		else
+		//		{
+		//			move_to(&playerPos, targetPlayerPos);
+		//			move_to(&enemyPos, targetEnemyPos);
+		//		}
+		//	}
+		//	else
+		//	{
+		//		// combat logic?
+		//		// draw combat UI?
+		//	}
+		//	// do other combat stuff
+		//	CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
+		//	CP_Graphics_DrawRect(playerPos.x, playerPos.y, 100, 200);
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-			CP_Graphics_DrawRect(enemyPos.x, enemyPos.y, 100, 200);
-		}
+		//	CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+		//	CP_Graphics_DrawRect(enemyPos.x, enemyPos.y, 100, 200);
+		//}
 	}
 	else
 	{
