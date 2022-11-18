@@ -2,7 +2,7 @@
 #include "../UtilsUI/ui_utils.h"
 #include "GameStateManager.h"
 #include "second_combat.h"
-#include <time.h>
+#include "../../Character/gameChar.h"
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -23,13 +23,11 @@ int selecting_action;
 int rng_mov, rng_combat;
 int display_side_dice[2];	// subscript 0: movement, 1: combat
 int turns;
-int movement_clicked;
 int combat_clicked;
 int individual_mov_roll[2];
 int warning_clicked[2];
 float powerup_scale;
 int powerups[3];
-clock_t start_time;
 
 void combat_overlay_init(void)
 {
@@ -107,33 +105,10 @@ void combat_overlay_update(void)
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	start_time = clock();
 	int combat_dice[3] = { 2,3,4 };
-	dice_powerup(&rng_mov, &rng_combat, turns, combat_dice);
-	if (CP_Input_KeyDown(KEY_1))
-	{
-		rng_mov++;
-	}
-	else if (CP_Input_KeyDown(KEY_2))
-	{
-		rng_mov--;
-	}
-	if (CP_Input_KeyDown(KEY_3))
-	{
-		rng_combat++;
-	}
-	else if (CP_Input_KeyDown(KEY_4))
-	{
-		rng_combat--;
-	}
-	if (CP_Input_KeyDown(KEY_A))
-	{
-		turns--;
-	}
-	if (CP_Input_KeyDown(KEY_W))
-	{
-		turns++;
-	}
+	dice_powerup(turns, combat_dice);
+	side_display(get_character()->energy, turns);
+
 	settings_button();
 }
 
@@ -156,14 +131,14 @@ void combat_overlay_update(void)
 //	CP_Settings_TextSize(100.0f);
 //}
 
-void dice_powerup(int *rng_mov, int *rng_combat, int powerup_turns, int combat_dices[])
+void dice_powerup(int powerup_turns, int combat_dices[])
 {
 	// draws the interactable buttons based on the set locations
 
 	CP_Image_Draw(dice_button.image, dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y, 255);
 	CP_Image_Draw(powerup_button.image, powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y, 255);
 
-	side_display(rng_mov, rng_combat, powerup_turns);
+	side_display(powerup_turns);
 
 	// branch out to decide if player rolls or not
 	for (int d = 0; d < 3; d++)
@@ -215,13 +190,13 @@ void dice_powerup(int *rng_mov, int *rng_combat, int powerup_turns, int combat_d
 			{
 				combat_clicked = !combat_clicked;
 				mov_dice.side_display = 0;
-				*rng_mov = 0;
+				get_character()->energy = 0;
 			}
 		}
 	}
 	if (movement_clicked)
 	{
-		choose_to_roll_movement(rng_mov);
+		choose_to_roll_movement();
 	}
 	else if (combat_clicked)
 	{
@@ -246,13 +221,12 @@ void dice_powerup(int *rng_mov, int *rng_combat, int powerup_turns, int combat_d
 		*/
 	}
 	choose_powerup(powerup_turns, powerups);
-	
 }
 
-void choose_to_roll_movement(int *mov_num)
+void choose_to_roll_movement()
 {
-	*mov_num = 0;
-	*mov_num += individual_mov_roll[0] + individual_mov_roll[1];
+	get_character()->energy = 0;
+	get_character()->energy += individual_mov_roll[0] + individual_mov_roll[1];
 	if (mov_dice.side_display && !mov_dice.warning)
 	{
 		mov_dice.warning = !mov_dice.warning;
@@ -293,24 +267,24 @@ void choose_to_roll_movement(int *mov_num)
 		{
 			for (int d = 0; d < 2; d++)
 			{
-				generate_dice(roll_dice(e_std_D6), mov_dice, mov_dice.position.x + (d * 100.0f), mov_dice.position.y + (d * 100.0f), 1.0f);
+				generate_dice(roll_dice(e_std_D6), mov_dice.type, mov_dice.position.x + (d * 100.0f), mov_dice.position.y + (d * 100.0f), 1.0f);
 			}
 		}
 		if (3.5f > dice_timer && dice_timer > 2.0f)
 		{
 			for (int d = 0; d < 2; d++)
 			{
-				generate_dice(individual_mov_roll[d], mov_dice, mov_dice.position.x + (d * 100.0f), mov_dice.position.y + (d * 100.0f), 1.0f);
+				generate_dice(individual_mov_roll[d], mov_dice.type, mov_dice.position.x + (d * 100.0f), mov_dice.position.y + (d * 100.0f), 1.0f);
 			}
 			CP_Settings_TextSize(50.0f);
-			movement_window(*mov_num, mov_dice.position.x + 50.0f, mov_dice.position.y - 100.0f, 0.8);
+			movement_window(get_character()->energy, mov_dice.position.x + 50.0f, mov_dice.position.y - 100.0f, 0.8);
 		}
 		if (dice_timer > 3.5f)
 		{
 			inventory.side_display = 0;
 			go_to_animation(side_display_pos.x - 58.0f, side_display_pos.y + 202.5f, &mov_dice.position);
 			CP_Settings_TextSize(50.0f);
-			movement_window(*mov_num, mov_dice.position.x+50.0f, mov_dice.position.y-100.0f, 0.8);
+			movement_window(get_character()->energy, mov_dice.position.x + 50.0f, mov_dice.position.y - 100.0f, 0.8);
 		}
 		if (dice_timer > 4.5f)
 		{
@@ -322,16 +296,17 @@ void choose_to_roll_movement(int *mov_num)
 	}
 }
 
-void side_display(int *mov_num, int turns_left)
+void side_display(int turns_left)
 {
 	// for movement side display
 	
 	if (mov_dice.side_display == 1)
 	{
 		CP_Settings_TextSize(50.0f);
-		movement_window(*mov_num, side_display_pos.x, side_display_pos.y + 100.0f, 0.8f);
-		if (*mov_num <= 0)
+		movement_window(get_character()->energy, side_display_pos.x, side_display_pos.y + 100.0f, 0.8f);
+		if (get_character()->energy <= 0)
 		{
+			get_character()->energy = 0;
 			CP_Settings_TextSize(40.0f);
 			CP_Font_DrawText("No movement left!", side_display_pos.x + 200.0f, side_display_pos.y + 100.0f);
 			

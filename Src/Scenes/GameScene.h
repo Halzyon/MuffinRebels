@@ -12,8 +12,11 @@ void game_exit(void);
 
 unsigned char getEnemyState();
 
+<<<<<<< HEAD
 int mapOffset;
 
+=======
+>>>>>>> Features
 const game_map* getMap();
 
 #endif

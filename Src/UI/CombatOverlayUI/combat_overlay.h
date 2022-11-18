@@ -33,6 +33,8 @@ enum dice
 	d20 = 0
 };
 
+int movement_clicked;
+
 // initialize assets, finds their sizes, sets all text alighnment and image alignment and initializes dice randomiser
 void combat_overlay_init(void);
 
@@ -42,12 +44,12 @@ void init_rollPos(void);
 void combat_overlay_update(void);
 
 // constantly updates the combat overlay based on player interaction with it - num_roll is pregenerated number that the player rolls
-void dice_powerup(int *rng_mov, int *rng_combat, int powerup_turns, int combat_dice[]);
+void dice_powerup(int powerup_turns, int combat_dice[]);
 
 // runs if player chooses to roll dice for movement
-void choose_to_roll_movement(int *mov_num);
+void choose_to_roll_movement(void);
 
-void side_display(int* mov_num, int turns_left);
+void side_display(int turns_left);
 
 // runs if player chooses to select a powerup
 void choose_powerup(int turns_left, int num_powerups[]);
