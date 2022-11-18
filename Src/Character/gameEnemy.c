@@ -3,6 +3,7 @@
 #include "gameEnemy.h"
 #include "gameChar.h"
 #include "../Combat/combatHandler.h"
+#include "../Scenes/GameScene.h"
 
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
@@ -48,11 +49,30 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 	if (!move || !en->sp->go.isAlive || en->b_combat)
 		return;
 
-
-
+	do {
+		int temp = rand() % 4;
+		switch (temp)
+		{
+		case 0:
+			en->enemyState = PATROL_UPDOWN_STATE;
+			break;
+		case 1:
+			en->enemyState = PATROL_LEFTRIGHT_STATE;
+			break;
+		case 2:
+			en->enemyState = PATROL_LEFTRIGHT_STATE;
+			en->b_direction = !en->b_direction;
+			break;
+		default:
+			en->enemyState = PATROL_LEFTRIGHT_STATE;
+			en->b_direction = !en->b_direction;
+			break;
+		}
+	} while (!enemyLimit(en));
 	if (en->enemyState == PATROL_UPDOWN_STATE)
 	{
 		int steps = en->steps;
+		
 
 		if (en->b_direction)
 		{
@@ -193,4 +213,36 @@ void FreeEnemy(Enemy* en)
 	CP_Image_Free(en->sp->go.image);
 	free(en->sp);
 	free(en);
+}
+
+bool enemyLimit(Enemy* en)
+{
+	CP_Vector dir = en->sp->go.position;
+	dir.x -= mapOffset;
+	if (en->enemyState == PATROL_LEFTRIGHT_STATE)
+		if (en->b_direction)
+			dir.x += -en->steps;
+		else
+			dir.x += en->steps;
+
+	if (en->enemyState == PATROL_UPDOWN_STATE)
+		if (en->b_direction)
+			dir.y += -en->steps;
+		else
+			dir.y += en->steps;
+
+
+	if (dir.x >= 0 && dir.x < getMap()->width && dir.y >= 0 && dir.y < getMap()->height) // check dwithin bounds before checking tile types
+	{
+		char var = getMap()->map_arr[map_get_index(dir.x, dir.y, getMap()->width)];
+		if ((var >= WALL_1 && var <= WALL_17) || (var >= WALL_19 && var <= WALL_22))
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	return 0;
 }

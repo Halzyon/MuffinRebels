@@ -49,13 +49,19 @@ void game_init(void)
 	for (int i = 0; i < ENEMYSIZE; ++i)
 	{
 		enemy[i] = CreateEnemy();
-		enemy[i]->sp->go.position.x = 12;
-		enemy[i]->sp->go.position.y = 5;
+		enemy[i]->sp->go.position.x = 13;
+		enemy[i]->sp->go.position.y = 3;
 		enemy[i]->sp->go.scale.x = 0.5;
 		enemy[i]->sp->go.scale.y = 0.5;
-		enemy[i]->hp = 10;
+		enemy[i]->hp = 25;
 		enemy[i]->steps = 1;
 	}
+	/*enemy[1]->sp->go.position.x = 8;
+	enemy[1]->sp->go.position.y = 7;
+	ChangeState(enemy[1], PATROL_LEFTRIGHT_STATE);
+	enemy[2]->sp->go.position.x = 5;
+	enemy[2]->sp->go.position.y = 2;
+	ChangeState(enemy[2], PATROL_LEFTRIGHT_STATE);*/
 	loadSprites();
 
 	//set sub scenes to run 

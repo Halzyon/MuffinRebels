@@ -5,6 +5,7 @@
 #include "../SpriteAnimation/spriteAnimation.h"
 #include "../Character/diceHandler.h"
 
+
 #define MAX_DICE 5
 
 
@@ -41,6 +42,7 @@ void UpdateCombat(Enemy* en, float dt);
 void ChangeState(Enemy* en, ENEMY_STATE state);
 
 Enemy* CreateEnemy(void);
+bool enemyLimit(Enemy* en);
 void FreeEnemy(Enemy*);
 
 #endif // !GAME_ENEMY_H
