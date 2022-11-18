@@ -49,7 +49,7 @@ void game_init(void)
 	for (int i = 0; i < ENEMYSIZE; ++i)
 	{
 		enemy[i] = CreateEnemy();
-		enemy[i]->sp->go.position.x = 12;
+		enemy[i]->sp->go.position.x = 13;
 		enemy[i]->sp->go.position.y = 5;
 		enemy[i]->sp->go.scale.x = 0.5;
 		enemy[i]->sp->go.scale.y = 0.5;
