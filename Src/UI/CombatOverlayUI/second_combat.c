@@ -157,35 +157,14 @@ void second_update(void)
 	{
 		cut_in();
 	}
-	if (num_roll)
-	{
-		//attacker's roll
-		if (get_character()->combat_mode == CHAR_ATTACKING)
-		{
-			attacker_sum = num_roll;
-		}
-		else if (the_enemy->enemyState == ATTACK_STATE)
-		{
-			attacker_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
-			enemys_roll = attacker_sum;
-		}
 
-		//defender's roll
-		if (get_character()->combat_mode == CHAR_DEFENDING)
-		{
-			defender_sum = num_roll;
-		}
-		else if (the_enemy->enemyState == DEFEND_STATE)
-		{
-			defender_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
-			enemys_roll = defender_sum;
-		}
+	combat_phase();
 
-		combat_phase();
-	}
 	if (count_rolls >= max_combat_size) //reached the end of this combat phase, so we alternate
 	{
 		count_rolls = 0;
+		combatants_present = 0;
+		num_roll = 0;
 
 		if (the_enemy->enemyState == ATTACK_STATE)
 			the_enemy->enemyState = DEFEND_STATE;
@@ -319,7 +298,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 				defender_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
 				enemys_roll = defender_sum;	
 			}
-			combat_phase();
+			++count_rolls;
 		}
 	}
 	if (inventory.side_display)
@@ -357,16 +336,6 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 				count_rolls++;
 			}
 		}
-	}
-
-	if (count_rolls >= max_combat_size) //reached the end of this combat phase, so we alternate
-	{
-		count_rolls = 0;
-
-		if (the_enemy->enemyState == ATTACK_STATE)
-			the_enemy->enemyState = DEFEND_STATE;
-		else if (the_enemy->enemyState == DEFEND_STATE)
-			the_enemy->enemyState = ATTACK_STATE;
 	}
 }
 

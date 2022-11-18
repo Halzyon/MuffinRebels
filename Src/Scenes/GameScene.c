@@ -100,12 +100,15 @@ void game_update(void)
 			UpdateCombat(enemy[i], dt);
 		}
 
-		if ((enemy[0]->b_combat && !combatStart) || CP_Input_KeyDown(KEY_1))
+		for (int i = 0; i < ENEMYSIZE; ++i)
 		{
-			second_init();
-			combat_scene_init();
-			combatStart = true;
-			combatOver = false;
+			if ((enemy[i]->b_combat && !combatStart))
+			{
+				second_init();
+				combat_scene_init();
+				combatStart = true;
+				combatOver = false;
+			}
 		}
 
 
