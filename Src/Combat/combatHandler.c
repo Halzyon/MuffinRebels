@@ -1,7 +1,6 @@
 #include "combatHandler.h"
 #include "../Character/diceHandler.h"
 #include "../Character/gameEnemy.h"
-#include "../UI/CombatOverlayUI/second_combat.h"
 void declare_combatants(Enemy* const enemy, int enemy_combat_mode)
 {
 	if (combatants_present)
@@ -75,10 +74,9 @@ int combat_phase(void)
 				{
 					the_enemy->hp += (attacker_sum - defender_sum);
 				}
-				
 			}
 			//else it will be a perfect parry
-			
+
 			printf("Your health: %d, enemy health: %d\n", get_character()->hp, the_enemy->hp);
 
 			//reset state

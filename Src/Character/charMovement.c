@@ -6,12 +6,8 @@
 #include "gameChar.h"
 #include "diceHandler.h"
 #include "../Combat/combatHandler.h"
-<<<<<<< HEAD
 #include "gameMap.h"
 #include "../Scenes/GameScene.h"
-=======
-#include "../UI/CombatOverlayUI/combat_overlay.h"
->>>>>>> Features
 
 int check_limits(CP_Vector dir)
 {
@@ -43,7 +39,7 @@ void hardware_handler(void)
 	if (combatants_present)
 		return;
 
-	if (get_character()->energy && !movement_clicked)
+	if (get_character()->energy)
 	{
 		if (CP_Input_KeyTriggered(KEY_W) && check_limits(CP_Vector_Set(0,-1)))
 		{

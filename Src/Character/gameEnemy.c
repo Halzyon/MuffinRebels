@@ -17,9 +17,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 		{//player is on top of enemy and enemy is facing ontop
 			en->b_combat = true;
 			en->enemyState = ATTACK_STATE;
-
-			if (!combatants_present)
-				declare_combatants(en, en->enemyState);
+			declare_combatants(en, en->enemyState);
 		}
 		else if (en->b_direction && charPos.y - 1 == enemyPos.y && charPos.x == enemyPos.x)
 		{//player is on top of enemy and enemy is facing ontop
@@ -100,8 +98,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 		{//player is on top of enemy and enemy is facing ontop
 			en->b_combat = true;
 			en->enemyState = ATTACK_STATE;
-			if (!combatants_present)
-				declare_combatants(en, en->enemyState);
+			declare_combatants(en, en->enemyState);
 		}
 		else if (en->b_direction && charPos.y - 1 == enemyPos.y && charPos.x == enemyPos.x)
 		{//player is on top of enemy and enemy is facing ontop

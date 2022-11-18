@@ -7,7 +7,7 @@
 
 asset credit[5]; 
 int currentScene = 0;
-int alpha = 255;
+int alpha;
 
 
 void credits_init() {
@@ -33,7 +33,7 @@ credit[3].position.y = credit[0].position.y;
 
 credit[4].position.x = credit[0].position.x;
 credit[4].position.y = credit[0].position.y;
- alpha = 255;
+
 }
 
 
@@ -46,11 +46,6 @@ void credits_update() {
 	{
 		alpha = 255;
 		++currentScene; 
-		if (currentScene > 4)
-		{
-			GameStateSetNextScene(MAINMENU_SCENE);
-			return;
-		}
 	}
 
 	RenderAsset(credit[currentScene], alpha);

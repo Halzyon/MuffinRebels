@@ -21,7 +21,6 @@ int alpha;
 extern asset matte;
 extern int brightposx;
 bool sub = false;
-extern int currentScene;
 
 void mainmenu_init() {
 	
@@ -118,7 +117,6 @@ void mainmenu_update() {
 		RenderAsset(button2pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
-			currentScene = 0;
 			GameStateSetNextScene(CREDITS_SCENE);
 		}
 		//if (button2.clicked == 1 )

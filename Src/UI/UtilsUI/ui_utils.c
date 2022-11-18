@@ -75,9 +75,3 @@ int IsAreaClickedCorner(const GameObject obj, const CP_Vector position)
 			return 1;
 	return 0;
 }
-
-CP_Vector getWorldPos(CP_Vector gridPos, const game_map* gm)
-{
-	float gridsize = CP_System_GetWindowHeight() / gm->height;
-	return CP_Vector_Set(gridPos.x * gridsize, gridPos.y * gridsize);
-}

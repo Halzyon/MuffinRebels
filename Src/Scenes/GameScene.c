@@ -53,7 +53,7 @@ void game_init(void)
 		enemy[i]->sp->go.position.y = 5;
 		enemy[i]->sp->go.scale.x = 0.5;
 		enemy[i]->sp->go.scale.y = 0.5;
-		enemy[i]->hp = 10;
+
 		enemy[i]->steps = 1;
 	}
 	loadSprites();
@@ -88,8 +88,42 @@ void game_update(void)
 	//get player input
 	hardware_handler();
 
-	
+	if (combatStart && !combatOver)
+	{
+		for (int i = 0; i < ENEMYSIZE; ++i)
+		{
+			UpdateCombat(enemy[i], dt);
+		}
 
+		ManualUpdate(BATTLE_SCENE_UI);
+		ManualUpdate(BATTLE_SCENE);
+		
+		// if enemy dead/player dead do smth
+
+		for (int i = 0; i < ENEMYSIZE; ++i)
+		{
+			if (!enemy[i]->b_combat)
+				continue;
+			if (enemy[i]->hp <= 0)
+			{
+				enemy[i]->sp->go.isAlive = false;
+				enemy[i]->b_combat = false;
+				battleEnd();
+			}
+		}
+
+		if (get_character()->hp <= 0)
+		{
+			battleEnd();
+		}
+		if (getCombatState())
+		{
+			combatStart = false;
+			combatOver = true;
+		}
+	}
+	else
+	{
 		//update player pos
 		UpdateSprite(get_character()->sp, dt);
 
@@ -103,15 +137,12 @@ void game_update(void)
 			UpdateCombat(enemy[i], dt);
 		}
 
-		for (int i = 0; i < ENEMYSIZE; ++i)
+		if ((enemy[0]->b_combat && !combatStart) || CP_Input_KeyDown(KEY_1))
 		{
-			if ((enemy[i]->b_combat && !combatStart))
-			{
-				second_init();
-				combat_scene_init();
-				combatStart = true;
-				combatOver = false;
-			}
+			second_init();
+			combat_scene_init();
+			combatStart = true;
+			combatOver = false;
 		}
 
 
@@ -128,46 +159,10 @@ void game_update(void)
 		for (int i = 0; i < ENEMYSIZE; ++i)
 			RenderSpriteOnMap(enemy[i]->sp, Level);
 
-		if (!combatStart)
-			ManualUpdate(COMBAT_OVERLAY_SCENE);
+		ManualUpdate(COMBAT_OVERLAY_SCENE);
 		if (!sub)
 			RenderAsset(matte, 255 - brightposx);
-	
-
-		if (combatStart && !combatOver)
-		{
-			for (int i = 0; i < ENEMYSIZE; ++i)
-			{
-				UpdateCombat(enemy[i], dt);
-			}
-
-			ManualUpdate(BATTLE_SCENE_UI);
-			ManualUpdate(BATTLE_SCENE);
-
-			// if enemy dead/player dead do smth
-
-			for (int i = 0; i < ENEMYSIZE; ++i)
-			{
-				if (!enemy[i]->b_combat)
-					continue;
-				if (enemy[i]->hp <= 0)
-				{
-					enemy[i]->sp->go.isAlive = false;
-					enemy[i]->b_combat = false;
-					battleEnd();
-				}
-			}
-
-			if (get_character()->hp <= 0)
-			{
-				battleEnd();
-			}
-			if (getCombatState())
-			{
-				combatStart = false;
-				combatOver = true;
-			}
-		}
+	}
 	
 }
 
@@ -185,10 +180,7 @@ unsigned char getEnemyState()
 	return enemy[0]->enemyState;
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> Features
 const game_map* getMap()
 {
 	return Level;
