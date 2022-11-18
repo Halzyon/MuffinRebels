@@ -42,8 +42,8 @@ enum TILE_TYPE
 	WALL_13,
 	WALL_14,
 	WALL_15,
-	WALL_16,
-	WALL_17,
+	WALL_16, 
+	WALL_17,// this is not a hard thinggy
 	WALL_18,
 	WALL_19,
 	WALL_20,
