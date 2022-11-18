@@ -158,18 +158,27 @@ void second_update(void)
 		cut_in();
 	}
 
-	combat_phase();
-
-	if (count_rolls >= max_combat_size) //reached the end of this combat phase, so we alternate
+	if (enemy_timer == 0.0f) //TODO
 	{
-		count_rolls = 0;
-		combatants_present = 0;
-		num_roll = 0;
+		combat_phase();
 
-		if (the_enemy->enemyState == ATTACK_STATE)
-			the_enemy->enemyState = DEFEND_STATE;
-		else if (the_enemy->enemyState == DEFEND_STATE)
-			the_enemy->enemyState = ATTACK_STATE;
+		if (count_rolls >= max_combat_size) //reached the end of this combat phase, so we alternate
+		{
+			count_rolls = 0;
+			combatants_present = 0;
+			num_roll = 0;
+
+			if (the_enemy->enemyState == ATTACK_STATE)
+				the_enemy->enemyState = DEFEND_STATE;
+			else if (the_enemy->enemyState == DEFEND_STATE)
+				the_enemy->enemyState = ATTACK_STATE;
+
+			for (int d = 1; d <= 3; d++)
+			{
+				combat_dice[d - 1] = d;		//	TODO: replace with number of dice left accordingly
+				powerups[d - 1] = d;
+			}
+		}
 	}
 
 	bottom_display(num_roll, enemys_roll);
