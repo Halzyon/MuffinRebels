@@ -153,15 +153,15 @@ void second_update(void)
 	
 	if (get_character()->combat_mode == CHAR_ATTACKING)
 	{
-		CP_Settings_TextSize(40.0f);
+		CP_Settings_TextSize(50.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawTextBox("You are Attacking", 50.0f, 100.0f, 200);
+		CP_Font_DrawText("Attacking...", 150.0f, 150.0f);
 	}
 	else
 	{
-		CP_Settings_TextSize(40.0f);
+		CP_Settings_TextSize(50.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawTextBox("You are Defending", 50.0f, 100.0f, 200);
+		CP_Font_DrawText("Defending...", 150.0f, 150.0f);
 	}
 
 	if (enemy_turn)
@@ -196,6 +196,7 @@ void second_update(void)
 			defender_sum = roll_dice(the_enemy->dice[count_rolls - 1]);
 			enemys_roll = defender_sum;
 		}
+
 		++count_rolls;
 		combat_phase();
 
@@ -221,7 +222,6 @@ void second_update(void)
 	//{
 		//player_roll = num_roll;
 	//}
-
 	bottom_display(num_roll, enemys_roll);
 	health_bar(get_character()->hp);					//	TODO: replace with remaining hp
 	enemy_health_bar(the_enemy->hp, getWorldPos(the_enemy->sp->go.position, getMap()));
@@ -369,14 +369,14 @@ void bottom_display(int player_roll, int enemy_roll)
 	char enemy[2] = { '0' + (enemy_roll / 10), '0' + (enemy_roll % 10) };
 	CP_Settings_TextSize(65.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	if (get_character()->combat_mode == CHAR_ATTACKING)
+	if (the_enemy->enemyState == DEFEND_STATE)
 	{
 		CP_Image_Draw(sword.image, sword.position.x - 200.0f, sword.position.y, sword.size.x, sword.size.y, 255);
 		CP_Font_DrawText(player, sword.position.x - 160.0f, sword.position.y - 2.5f);
 		CP_Image_Draw(shield.image, shield.position.x + 200.0f, shield.position.y, shield.size.x, shield.size.y, 255);
 		CP_Font_DrawText(enemy, shield.position.x + 240.0f, sword.position.y - 2.5f);
 	}
-	else if (get_character()->combat_mode == CHAR_DEFENDING)
+	else if (the_enemy->enemyState == ATTACK_STATE)
 	{
 		CP_Image_Draw(shield.image, shield.position.x - 200.0f, shield.position.y, shield.size.x, shield.size.y, 255);
 		CP_Font_DrawText(player, shield.position.x - 160.0f, shield.position.y - 2.5f);
@@ -433,8 +433,8 @@ void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float 
 
 void enemy_ui(CP_Vector position, dice_types enemy_dice, int enemy_roll, float enemy_dice_scale)
 {
-	//enemy_timer += CP_System_GetDt();
-	//CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
+	enemy_timer += CP_System_GetDt();
+	CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
 	/*if (enemy_timer < 2.0f)
 	{
 		switch (enemy_dice)
@@ -482,10 +482,10 @@ void enemy_ui(CP_Vector position, dice_types enemy_dice, int enemy_roll, float e
 		}*/
 		//if (enemy_timer > 1.0f)
 		//{
-	fight = !fight;
-	enemy_timer = 0.0f;
-	enemy_turn = !enemy_turn;
-	enemy_turn_end = 1;
+			fight = !fight;
+			enemy_timer = 0.0f;
+			enemy_turn = !enemy_turn;
+			enemy_turn_end = 1;
 		//}
 	//}
 }
