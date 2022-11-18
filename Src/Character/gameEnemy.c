@@ -38,11 +38,11 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->b_combat = true;
 		}
 	}
-	else if (en->enemyState != ATTACK_STATE)
+	/*else if (en->enemyState != ATTACK_STATE || en->enemyState != DEFEND_STATE)
 	{
 		en->b_combat = false;
 		en->enemyState = PATROL_UPDOWN_STATE;
-	}
+	}*/
 
 	UpdateSprite(en->sp, dt);//update enemy spriteanimation
 	if (!move || !en->sp->go.isAlive || en->b_combat)
@@ -92,7 +92,11 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->movement = 0;
 		}
 	}
-
+	/*else if (en->enemyState != ATTACK_STATE)
+	{
+		en->b_combat = false;
+		en->enemyState = PATROL_UPDOWN_STATE;
+	}*/
 
 	if (en->enemyState == PATROL_UPDOWN_STATE)
 	{
@@ -120,11 +124,11 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->b_combat = true;
 		}
 	}
-	else if (en->enemyState != ATTACK_STATE)
+	/*else if (en->enemyState != ATTACK_STATE)
 	{
 		en->b_combat = false;
 		en->enemyState = PATROL_UPDOWN_STATE;
-	}
+	}*/
 	
 }
 void UpdateCombat(Enemy* en, float dt)
