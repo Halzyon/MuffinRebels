@@ -153,15 +153,15 @@ void second_update(void)
 	
 	if (get_character()->combat_mode == CHAR_ATTACKING)
 	{
-		CP_Settings_TextSize(50.0f);
+		CP_Settings_TextSize(40.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawTextBox("You are attacking", 150.0f, 150.0f, 100.0f);
+		CP_Font_DrawTextBox("You are attacking", 50.0f, 120.0f, 200.0f);
 	}
 	else
 	{
-		CP_Settings_TextSize(50.0f);
+		CP_Settings_TextSize(40.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawTextBox("You are defending", 150.0f, 150.0f, 100.0f);
+		CP_Font_DrawTextBox("You are defending", 50.0f, 120.0f, 200.0f);
 	}
 
 	if (enemy_turn)
