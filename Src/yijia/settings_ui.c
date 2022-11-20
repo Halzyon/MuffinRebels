@@ -129,6 +129,7 @@ void settings_init(void){
 
 void settings_update(void) 
 {
+	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	
 	//Exit Settings icon
