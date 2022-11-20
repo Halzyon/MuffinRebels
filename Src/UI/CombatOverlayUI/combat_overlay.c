@@ -263,14 +263,14 @@ void choose_to_roll_movement()
 		CP_Settings_TextSize(80.0f);
 		CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
 		dice_timer += CP_System_GetDt();
-		if (dice_timer < 2.0f)
+		if (dice_timer < 1.5f)
 		{
 			for (int d = 0; d < 2; d++)
 			{
 				generate_dice(roll_dice(e_std_D6), mov_dice.type, mov_dice.position.x + (d * 100.0f), mov_dice.position.y + (d * 100.0f), 1.0f);
 			}
 		}
-		if (3.5f > dice_timer && dice_timer > 2.0f)
+		if (2.5f > dice_timer && dice_timer > 1.5f)
 		{
 			for (int d = 0; d < 2; d++)
 			{
@@ -279,14 +279,14 @@ void choose_to_roll_movement()
 			CP_Settings_TextSize(50.0f);
 			movement_window(get_character()->energy, mov_dice.position.x + 50.0f, mov_dice.position.y - 100.0f, 0.8);
 		}
-		if (dice_timer > 3.5f)
+		if (dice_timer > 2.5f)
 		{
 			inventory.side_display = 0;
 			go_to_animation(side_display_pos.x - 58.0f, side_display_pos.y + 202.5f, &mov_dice.position);
 			CP_Settings_TextSize(50.0f);
 			movement_window(get_character()->energy, mov_dice.position.x + 50.0f, mov_dice.position.y - 100.0f, 0.8);
 		}
-		if (dice_timer > 4.5f)
+		if (dice_timer > 3.5f)
 		{
 			dice_timer = 0;
 			mov_dice.clicked = !mov_dice.clicked;
@@ -326,7 +326,7 @@ void choose_powerup(int turns_left, int num_powerups[])
 {
 	char* turns[1];
 	turns[0] = '0' + turns_left;
-	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && !dice_button.clicked && !warning_clicked[1])	//	checks if user clicked the dice button
+	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && !dice_button.clicked && !powerup_button.warning)	//	checks if user clicked the dice button
 	{
 		for (int i = 0; i < 3; i++)
 		{
@@ -418,17 +418,19 @@ void choose_powerup(int turns_left, int num_powerups[])
 		if (powerup[i].clicked == 1)
 		{
 			powerup_timer += CP_System_GetDt();
-			if (powerup_timer < 1.0f)
+			CP_Vector pos = getWorldPos(get_character()->sp->go.position, getMap());
+			if (powerup_timer < 0.8f)
 			{
-				go_to_animation(CP_System_GetWindowWidth() / 2, 500.0f, &powerup[i].position);		//	TODO: change position to player position
+				go_to_animation(pos.x + 20.0f, pos.y + 40.0f, &powerup[i].position);		//	TODO: change position to player position
 				shrinking_animation(0.5f, &powerup_scale);
 				CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x * powerup_scale, powerup[i].size.y * powerup_scale, 255);
 			}
-			else if (powerup_timer > 1.0f && powerup_timer < 2.0f)
+			else if (powerup_timer > 0.8f && powerup_timer < 1.5f)
 			{
-				CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, 500.0f, 20.0f);
+				CP_Settings_TextSize(30.0f);
+				CP_Font_DrawText("Power up!", pos.x + 40.0f, pos.y);
 			}
-			else if (powerup_timer > 2.0f)
+			else if (powerup_timer > 1.5f)
 			{
 				powerup[i].side_display = 1;
 				powerup_timer = 0;

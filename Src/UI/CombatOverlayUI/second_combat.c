@@ -336,15 +336,15 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 		{
 			CP_Settings_TextSize(62.5f*dice_scale);
 			dice_timer += CP_System_GetDt();
-			if (dice_timer < 2.0f)
+			if (dice_timer < 1.5f)
 			{
 				generate_dice(roll_dice(dice[d].type), dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
 			}
-			if (3.0f > dice_timer && dice_timer > 2.0f)
+			if (2.5f > dice_timer && dice_timer > 1.5f)
 			{
 				generate_dice(*num_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
 			}
-			if (dice_timer > 3.0f)
+			if (dice_timer > 2.5f)
 			{
 				inventory.side_display = 0;
 				go_to_animation(((CP_System_GetWindowWidth()/2) - 200.0f), buttons_centerpointY, &roll_pos);
@@ -353,7 +353,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 				//*num_roll = 0;
 				generate_dice(*num_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
 			}
-			if (dice_timer > 4.0f)
+			if (dice_timer > 3.5f)
 			{
 				dice_timer = 0;
 				dice[d].clicked = !dice[d].clicked;
