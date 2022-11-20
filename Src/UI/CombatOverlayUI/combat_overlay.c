@@ -513,7 +513,7 @@ void settings_button(void)		//	draws settings icon
 
 void movement_window(int movement, float x, float y, float scale)
 {
-	char total[2] = { '0' + (movement / 10), '0' + (movement % 10) };
+	char total[3] = { '0' + (movement / 10), '0' + (movement % 10), '\0'};
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Image_Draw(desc_panel.image, x, y, desc_panel.size.x * scale, desc_panel.size.y * scale, 255);
 	CP_Font_DrawText(total, x, y);

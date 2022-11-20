@@ -155,13 +155,13 @@ void second_update(void)
 	{
 		CP_Settings_TextSize(50.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText("Attacking...", 150.0f, 150.0f);
+		CP_Font_DrawTextBox("You are attacking", 150.0f, 150.0f, 100.0f);
 	}
 	else
 	{
 		CP_Settings_TextSize(50.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText("Defending...", 150.0f, 150.0f);
+		CP_Font_DrawTextBox("You are defending", 150.0f, 150.0f, 100.0f);
 	}
 
 	if (enemy_turn)
@@ -365,8 +365,8 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 
 void bottom_display(int player_roll, int enemy_roll)
 {
-	char player[2] = { '0' + (player_roll / 10), '0' + (player_roll % 10) };
-	char enemy[2] = { '0' + (enemy_roll / 10), '0' + (enemy_roll % 10) };
+	char player[3] = { '0' + (player_roll / 10), '0' + (player_roll % 10), '\0'};
+	char enemy[3] = { '0' + (enemy_roll / 10), '0' + (enemy_roll % 10), '\0'};
 	CP_Settings_TextSize(65.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	if (the_enemy->enemyState == DEFEND_STATE)
@@ -395,14 +395,14 @@ void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float 
 		case e_std_D4:
 		{
 			CP_Image_Draw(dice[d4].image, dice_posX, dice_posY, dice[d4].size.x * scale, dice[d4].size.y * scale, 255);
-			char num_text[1] = { '0' + num_roll };
+			char num_text[2] = { '0' + num_roll, '\0'};
 			CP_Font_DrawText(num_text, text_posX + (2.0f * scale), text_posY + 12.5f);
 			break;
 		}
 		case e_std_D6:
 		{
 			CP_Image_Draw(dice[d6].image, dice_posX, dice_posY, dice[d6].size.x * scale, dice[d6].size.y * scale, 255);
-			char num_text[1] = { '0' + num_roll };
+			char num_text[2] = { '0' + num_roll, '\0'};
 			CP_Font_DrawText(num_text, text_posX, text_posY);
 			break;
 		}
@@ -411,12 +411,12 @@ void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float 
 			CP_Image_Draw(dice[d20].image, dice_posX, dice_posY, dice[d20].size.x * scale, dice[d20].size.y * scale, 255);
 			if (num_roll >= 10)
 			{
-				char num_text[2] = { '0' + (num_roll / 10), '0' + (num_roll % 10) };
+				char num_text[3] = { '0' + (num_roll / 10), '0' + (num_roll % 10), '\0'};
 				CP_Font_DrawText(num_text, text_posX, text_posY);
 			}
 			else
 			{
-				char num_text[1] = { '0' + num_roll };
+				char num_text[2] = { '0' + num_roll, '\0'};
 				CP_Font_DrawText(num_text, text_posX, text_posY);
 			}
 			break;
@@ -424,7 +424,7 @@ void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float 
 		default:
 		{
 			CP_Image_Draw(dice[d6].image, dice_posX, dice_posY, dice[d20].size.x * scale, dice[d20].size.y * scale, 255);
-			char num_text[1] = { '0' + num_roll };
+			char num_text[2] = { '0' + num_roll, '\0'};
 			CP_Font_DrawText(num_text, text_posX, text_posY);
 			break;
 		}
