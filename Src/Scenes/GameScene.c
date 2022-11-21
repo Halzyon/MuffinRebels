@@ -8,7 +8,7 @@
 #include "../Character/gameMap.h"
 #include "../FileIO/fileIO.h"
 
-#define ENEMYSIZE 1
+#define ENEMYSIZE 2
 
 Sprite* ash;
 game_map* Level;
@@ -30,8 +30,7 @@ void game_init(void)
 	// create and initialise cplayer
 	init_dice();
 	init_char(Warrior);
-	get_character()->sp->go.position.x = 4;
-	get_character()->sp->go.position.y = 4;
+	
 	//creating map data
 	Level = malloc(sizeof(game_map));
 	init_map_obj(Level, 10, 10, CP_System_GetWindowHeight(), CP_System_GetWindowHeight());
@@ -49,13 +48,16 @@ void game_init(void)
 	for (int i = 0; i < ENEMYSIZE; ++i)
 	{
 		enemy[i] = CreateEnemy();
-		enemy[i]->sp->go.position.x = 13;
-		enemy[i]->sp->go.position.y = 5;
+		enemy[i]->sp->go.position.x = i * (9) + mapOffset;
+		enemy[i]->sp->go.position.y = 4;
 		enemy[i]->sp->go.scale.x = 0.5;
 		enemy[i]->sp->go.scale.y = 0.5;
 		enemy[i]->hp = 10;
 		enemy[i]->steps = 1;
+		enemy[i]->b_combat = false;
 	}
+	get_character()->sp->go.position.x = mapOffset + 4;
+	get_character()->sp->go.position.y = 9;
 	loadSprites();
 
 	//set sub scenes to run 
@@ -188,4 +190,19 @@ unsigned char getEnemyState()
 const game_map* getMap()
 {
 	return Level;
+}
+
+void engage_enemy(CP_Vector dir)
+{
+	CP_Vector tmp = get_character()->sp->go.position;
+	tmp = CP_Vector_Add(tmp, dir);
+	for (int i = 0; i < ENEMYSIZE; ++i)
+	{
+		if (tmp.x == enemy[i]->sp->go.position.x && tmp.y == enemy[i]->sp->go.position.y)
+		{
+			// fight
+			enemy[i]->b_combat = true;
+			enemy[i]->enemyState = DEFEND_STATE;
+		}
+	}
 }

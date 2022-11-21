@@ -188,6 +188,10 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 			}
 			else if (mouse_in_rect(dice_button.position.x - 20.0f, dice_button.position.y - 150.0f, inventory.size.x * 1.6, inventory.size.y) && CP_Input_MouseClicked())
 			{
+				fprintf(stdout, "%lf %lf", get_character()->sp->go.direction.x, get_character()->sp->go.direction.y);
+
+				engage_enemy(get_character()->sp->go.direction);
+
 				combat_clicked = !combat_clicked;
 				mov_dice.side_display = 0;
 				get_character()->energy = 0;
@@ -548,3 +552,5 @@ void combat_overlay_exit(void)
 	CP_Image_Free(&powerup[movement].image);
 	CP_Image_Free(&desc_panel.image);
 }
+
+

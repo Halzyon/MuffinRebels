@@ -16,4 +16,6 @@ int mapOffset;
 
 const game_map* getMap();
 
+void engage_enemy(CP_Vector dir);
+
 #endif

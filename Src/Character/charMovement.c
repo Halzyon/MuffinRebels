@@ -44,6 +44,7 @@ void hardware_handler(void)
 	{
 		if (CP_Input_KeyTriggered(KEY_W) && check_limits(CP_Vector_Set(0,-1)))
 		{
+			get_character()->sp->go.direction = CP_Vector_Set(0.0f, -1.0f);
 			get_character()->sp->go.position.y -= 1;
 			--get_character()->energy;
 			
@@ -54,6 +55,7 @@ void hardware_handler(void)
 		}
 		else if (CP_Input_KeyTriggered(KEY_S) && check_limits(CP_Vector_Set(0, 1)))
 		{
+			get_character()->sp->go.direction = CP_Vector_Set(0.0f, 1.0f);
 			get_character()->sp->go.position.y += 1;
 			--get_character()->energy;
 
@@ -64,6 +66,8 @@ void hardware_handler(void)
 		}
 		else if (CP_Input_KeyTriggered(KEY_A) && check_limits(CP_Vector_Set(-1, 0)))
 		{
+			get_character()->sp->go.direction = CP_Vector_Set(-1.0f, 0.0f);
+
 			get_character()->sp->go.position.x -= 1;
 			--get_character()->energy;
 
@@ -74,6 +78,9 @@ void hardware_handler(void)
 		}
 		else if (CP_Input_KeyTriggered(KEY_D) && check_limits(CP_Vector_Set(1,0)))
 		{
+			get_character()->sp->go.direction = CP_Vector_Set(1.0f, 0.0f);
+
+
 			get_character()->sp->go.position.x += 1;
 			--get_character()->energy;
 

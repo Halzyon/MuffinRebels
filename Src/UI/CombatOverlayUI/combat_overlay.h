@@ -63,4 +63,6 @@ void movement_window(int movement, float x, float y, float scale);
 // frees all images
 void combat_overlay_exit(void);
 
+
+
 #endif //COMBAT_OVERLAY_H
