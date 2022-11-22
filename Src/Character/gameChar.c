@@ -13,7 +13,6 @@ int init_char(class_select char_select)
 		the_player->char_class = char_select;
 		the_player->energy = 0;
 		the_player->hp = 100;
-		the_player->turn_done = 0;
 
 		the_player->dice[0] = e_std_D6;
 		the_player->dice_size = 1;

@@ -12,7 +12,7 @@
 
 int check_limits(CP_Vector dir)
 {
-	dir.x += get_character()->sp->go.position.x - mapOffset;
+	dir.x += get_character()->sp->go.position.x - mapOffset[currLvl];
 	dir.y += get_character()->sp->go.position.y;
 
 	if (dir.x >= 0 && dir.x < getMap()->width && dir.y >= 0 && dir.y < getMap()->height) // check within bounds before checking tile types

@@ -86,10 +86,12 @@ void RenderSpriteOnMap(Sprite* sprite, game_map* gm)
 	if (sprite != NULL && sprite->go.isAlive)
 	{
 		float gridsize = CP_System_GetWindowHeight() / gm->height;
-		float x = sprite->go.position.x * gridsize;
-		float y = sprite->go.position.y * gridsize;
-		
-		CP_Image_DrawSubImage(sprite->go.image, x, y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y,255);
+		float x = sprite->go.position.x * gridsize + (gridsize / 2);
+		float y = sprite->go.position.y * gridsize + (gridsize / 2);
+		//float width = gridsize / (sprite->go.size.x * sprite->go.scale.x);
+		//float height = gridsize / (sprite->go.size.x * sprite->go.scale.y);
+		CP_Settings_ImageMode(CP_POSITION_CENTER);
+		CP_Image_DrawSubImage(sprite->go.image, x, y, gridsize, gridsize, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y,255);
 
 	}
 }

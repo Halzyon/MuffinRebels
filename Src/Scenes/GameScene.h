@@ -6,13 +6,20 @@
 #include "../GameStateManager.h"
 #include "../SpriteAnimation/spriteAnimation.h"
 
+#define MAP1_SIZE 15
+#define MAP2_SIZE 20
+#define MAP3_SIZE 30
+#define NUM_MAPS 3
+
 void game_init(void);
 void game_update(void);
 void game_exit(void);
 
 unsigned char getEnemyState();
 
-int mapOffset;
+int mapOffset[NUM_MAPS];
+char currLvl;
+
 
 const game_map* getMap();
 

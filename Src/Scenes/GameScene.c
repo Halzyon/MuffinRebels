@@ -9,17 +9,13 @@
 #include "../FileIO/fileIO.h"
 
 #define ENEMYSIZE 2
-#define MAP1_SIZE 15
-#define MAP2_SIZE 20
-#define MAP3_SIZE 30
-#define NUM_MAPS 3;
+
 
 Sprite* ash;
 game_map* Level;
 Enemy* enemy[ENEMYSIZE];
 bool b_paused = false;
 
-char currLvl = 0;
 
 
 extern asset matte;
@@ -29,6 +25,7 @@ CP_BOOL combatStart = false;
 CP_BOOL combatOver = false;
 void game_init(void)
 {
+	currLvl = 0;
 	// set draw settings
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
@@ -51,8 +48,11 @@ void game_init(void)
 		load_map_file(Level, b->data);
 		clearBuffer(b);
 		fclose(getFile("map1.dat"));
+		int numtileswidth = (int)(CP_System_GetWindowWidth() / (int)(CP_System_GetWindowHeight() / Level[0].height));
+		mapOffset[0] = (numtileswidth - Level[0].height) / 2 + 1;
 
 
+		
 		b = newBuffer();
 		b->data = readFile("map2.dat");
 		//size_t len = strlen(b->data);
@@ -61,7 +61,10 @@ void game_init(void)
 		load_map_file(Level + 1, b->data);
 		clearBuffer(b);
 		fclose(getFile("map2.dat"));
+		numtileswidth = (int)(CP_System_GetWindowWidth() / (int)(CP_System_GetWindowHeight() / Level[1].height));
+		mapOffset[1] = (numtileswidth - Level[1].height) / 2 + 1;
 
+		
 		b = newBuffer();
 		b->data = readFile("map3.dat");
 		//size_t len = strlen(b->data);
@@ -70,6 +73,8 @@ void game_init(void)
 		load_map_file(Level + 2, b->data);
 		clearBuffer(b);
 		fclose(getFile("map3.dat"));
+		numtileswidth = (int)(CP_System_GetWindowWidth() / (int)(CP_System_GetWindowHeight() / Level[2].height));
+		mapOffset[2] = (numtileswidth - Level[2].height) / 2 + 1;
 	}
 
 	
@@ -77,15 +82,14 @@ void game_init(void)
 
 	//load_map_file(Level, b->data);
 
-	int numtileswidth = (int)(CP_System_GetWindowWidth() / (int)(CP_System_GetWindowHeight() / Level->height));
-	mapOffset = (numtileswidth - Level->height) / 2 + 1;
+	
 	
 
 	//creating and initialise 1 enemy
 	for (int i = 0; i < ENEMYSIZE; ++i)
 	{
 		enemy[i] = CreateEnemy();
-		enemy[i]->sp->go.position.x = i * (9) + mapOffset;
+		enemy[i]->sp->go.position.x = i * (9) + mapOffset[currLvl];
 		enemy[i]->sp->go.position.y = 4;
 		enemy[i]->sp->go.scale.x = 0.5;
 		enemy[i]->sp->go.scale.y = 0.5;
@@ -93,7 +97,7 @@ void game_init(void)
 		enemy[i]->steps = 1;
 		enemy[i]->b_combat = false;
 	}
-	get_character()->sp->go.position.x = mapOffset + 4;
+	get_character()->sp->go.position.x = mapOffset[currLvl] + 4;
 	get_character()->sp->go.position.y = 9;
 	loadSprites();
 
@@ -184,11 +188,11 @@ void game_update(void)
 		render_map(Level + currLvl, vec);
 
 		//render player
-		RenderSpriteOnMap(get_character()->sp, Level);
+		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
 
 		//render enemy
 		for (int i = 0; i < ENEMYSIZE; ++i)
-			RenderSpriteOnMap(enemy[i]->sp, Level);
+			RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
 
 		if (!combatStart)
 			ManualUpdate(COMBAT_OVERLAY_SCENE);
