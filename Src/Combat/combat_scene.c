@@ -22,8 +22,8 @@ CP_BOOL battleOver = false;
 
 void move_to(CP_Vector* curr, CP_Vector dst);
 
-const double speedowagon = 1500.0; // transition speed
-const double speedowagon2 = 1500.0;
+const double speedowagon = 4000.0; // transition speed
+const double speedowagon2 = 5000.0;
 
 #ifndef _MSC_VER // for linux/all other compilers and apparently release mode
 #define FILEPATH "Assets/"
@@ -109,7 +109,7 @@ void combat_scene_update()
 		if (!transitionEnd)
 		{
 			// move the transition thing back onto screen
-			transitionPos.x += speedowagon * CP_System_GetDt();
+			transitionPos.x += (float)speedowagon * CP_System_GetDt();
 
 			// continue doing the transition
 			CP_Image_Draw(transition_img, transitionPos.x, transitionPos.y, transitionSize.x, transitionSize.y, 255);
@@ -121,7 +121,7 @@ void combat_scene_update()
 		else if (!sceneSet)
 		{
 			// move away 
-			transitionPos.x -= speedowagon * CP_System_GetDt();
+			transitionPos.x -= (float)speedowagon * CP_System_GetDt();
 
 			// continue doing the transition
 			CP_Image_Draw(transition_img, transitionPos.x, transitionPos.y, transitionSize.x, transitionSize.y, 255);
@@ -161,8 +161,8 @@ void move_to(CP_Vector* curr, CP_Vector dst)
 	{
 		double dt = CP_System_GetDt();
 		CP_Vector dir = CP_Vector_Normalize(CP_Vector_Set(dst.x - curr->x, dst.y - curr->y));
-		curr->x += dir.x * speedowagon2 * dt;
-		curr->y += dir.y * speedowagon2 * dt;
+		curr->x += dir.x * (float)speedowagon2 * dt;
+		curr->y += dir.y * (float)speedowagon2 * dt;
 	}
 }
 
