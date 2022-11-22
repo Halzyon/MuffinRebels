@@ -2,6 +2,7 @@
 #include "SpriteAnimation/spriteAnimation.h"
 #include "../UI/UtilsUI/ui_utils.h"
 #include"../yijia/pause_ui.h"
+#include "GameStateManager.h"
 
 asset pausedpopup;
 asset arrowicon;
@@ -60,10 +61,10 @@ void gamepaused_update(void) {
 		arrowicon.position.x = resume.position.x -100;
 		arrowicon.position.y = resume.position.y;
 		RenderAsset(arrowicon, 255);
-		/*if (CP_Input_MouseClicked())
+		if (CP_Input_MouseClicked())
 		{
-		resumes
-		}*/
+			GameStateSetNextSubScene(MAX_SCENE,true);	
+		}
 	}
 
 	RenderAsset(restart, 255);
@@ -71,10 +72,11 @@ void gamepaused_update(void) {
 		arrowicon.position.x = restart.position.x - 100;
 		arrowicon.position.y = restart.position.y;
 		RenderAsset(arrowicon, 255);
-		/*if (CP_Input_MouseClicked())
-			{
-			restarts
-			}*/
+		if (CP_Input_MouseClicked())
+		{
+			GameStateSetNextScene(GAME_SCENE);
+			GameStateSetNextSubScene(MAX_SCENE, true);
+		}
 	}
 	
 	RenderAsset(exittxt, 255);
@@ -82,10 +84,11 @@ void gamepaused_update(void) {
 		arrowicon.position.x = exittxt.position.x - 60;
 		arrowicon.position.y = exittxt.position.y;
 		RenderAsset(arrowicon, 255);
-		/*if (CP_Input_MouseClicked())
+		if (CP_Input_MouseClicked())
 		{
-			exits
-		}*/
+			GameStateSetNextScene(MAINMENU_SCENE);
+			GameStateSetNextSubScene(MAX_SCENE, true);
+		}
 	}
 
 	RenderAsset(exit_icon, 255); //not very necessary 

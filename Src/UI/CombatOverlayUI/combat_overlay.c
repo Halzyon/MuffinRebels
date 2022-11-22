@@ -455,7 +455,7 @@ void settings_button(void)		//	draws settings icon
 	if ((mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1) && CP_Input_MouseClicked())
 	{
 		CP_Sound_Play(click);
-		GameStateSetNextSubScene(SETTINGS_SCENE, true);
+		GameStateSetNextSubScene(PAUSE_SCENE, true);
 	}
 }
 
