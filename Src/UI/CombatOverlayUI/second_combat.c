@@ -5,6 +5,7 @@
 #include "../../Combat/combatHandler.h"
 #include "../../Combat/combat_scene.h"
 #include "../../Scenes/GameScene.h"
+#include <stdio.h>
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -20,9 +21,18 @@ asset powerup[3];
 asset desc_panel;
 asset sword;
 asset shield;
+asset clash1;
+asset clash2;
+asset slash;
+asset parried;
 CP_Vector roll_pos;
 CP_Vector side_display_pos;
 CP_Font font;
+CP_Vector rect;
+CP_Sound dice_throw;
+CP_Sound dice_shuffle;
+CP_Sound attack;
+CP_Sound parry;
 float dice_timer;
 float powerup_timer;
 int num_roll;
@@ -40,6 +50,7 @@ int enemy_hp;
 int player_hp;
 int enemys_roll;
 float cutin_timer;
+float fighting_timer;
 //int player_roll;
 
 
@@ -63,6 +74,10 @@ void second_init(void)
 	get_image_size("desc_panel.png", &desc_panel);
 	get_image_size("sword.png", &sword);
 	get_image_size("shield.png", &shield);
+	get_image_size("clash1.png", &clash1);
+	get_image_size("clash2.png", &clash2);
+	get_image_size("slash.png", &slash);
+	get_image_size("parried.png", &parried);
 	font = CP_Font_Load("Assets/Kenney_Pixel.ttf");
 
 	// init inbutton values to 0
@@ -121,7 +136,16 @@ void second_init(void)
 	enemyRolled = false;
 	enemy_timer = 0.0f;
 	//player_roll = 0;
-	
+	second_sfx_init();
+}
+
+void second_sfx_init(void)
+{
+	dice_throw = CP_Sound_Load("Assets/SFX/dice_throw.ogg");
+	dice_shuffle = CP_Sound_Load("Assets/SFX/dice_shuffle.ogg");
+	attack = CP_Sound_Load("Assets/SFX/attack.ogg");
+	parry = CP_Sound_Load("Assets/SFX/parry.ogg");
+	footsteps = CP_Sound_Load("Assets/SFX/footsteps.ogg");
 }
 
 void second_init_dicePos(void)
@@ -145,8 +169,16 @@ void second_init_rollPos(void)
 	CP_Settings_TextSize(100.0f);
 }
 
+void clash_init(void)
+{
+	clash1.position.x = clash2.position.x = CP_System_GetWindowWidth() / 2;
+	clash1.position.y = clash2.position.y = rect.y = CP_System_GetWindowHeight() / 2;
+	rect.x = -10.0f;
+}
+
 void second_update(void)
 {
+	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	second_dice_powerup(&num_roll, combat_dice, turns);				// TODO: replace turns with turns left for powerup
@@ -163,16 +195,14 @@ void second_update(void)
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		CP_Font_DrawTextBox("You are defending", 50.0f, 120.0f, 200.0f);
 	}
-
 	if (enemy_turn)
 	{
-		enemy_ui(getWorldPos(the_enemy->sp->go.position, getMap()), e_std_D20, 12, 1.0f);
+		enemy_ui(getWorldPos(the_enemy->sp->go.position, getMap()), e_std_D6, 12, 1.0f);
 	}
-	/*if (fight)
+	if (fight)
 	{
-		cut_in();
-	}*/
-
+		fighting_animation(num_roll, enemys_roll);
+	}
 	if (enemy_turn_end) //TODO
 	{
 		//attacker's roll
@@ -218,13 +248,10 @@ void second_update(void)
 		}
 		enemy_turn_end = !enemy_turn_end;
 	}
-	//if (enemy_turn_end)
-	//{
-		//player_roll = num_roll;
-	//}
-	bottom_display(num_roll, enemys_roll);
+	CP_Settings_RectMode(CP_POSITION_CORNER);
 	health_bar(get_character()->hp);					//	TODO: replace with remaining hp
 	enemy_health_bar(the_enemy->hp, getWorldPos(the_enemy->sp->go.position, getMap()));
+	bottom_display(num_roll, enemys_roll);
 	settings_button();
 }
 
@@ -336,6 +363,11 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 		{
 			CP_Settings_TextSize(62.5f*dice_scale);
 			dice_timer += CP_System_GetDt();
+			if (dice_timer == CP_System_GetDt())
+			{
+				CP_Sound_Play(dice_throw);
+				CP_Sound_Play(dice_shuffle);
+			}
 			if (dice_timer < 1.5f)
 			{
 				generate_dice(roll_dice(dice[d].type), dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
@@ -435,7 +467,9 @@ void enemy_ui(CP_Vector position, dice_types enemy_dice, int enemy_roll, float e
 {
 	enemy_timer += CP_System_GetDt();
 	CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
-	/*if (enemy_timer < 2.0f)
+	position.x += 20.0f;
+	position.y += 20.0f;
+	if (enemy_timer < 2.0f)
 	{
 		switch (enemy_dice)
 		{
@@ -462,11 +496,11 @@ void enemy_ui(CP_Vector position, dice_types enemy_dice, int enemy_roll, float e
 				break;
 			}
 		}
-	}*/
-	/*else if (enemy_timer > 2.0f)
+	}
+	else if (enemy_timer > 2.0f)
 	{
 		CP_Settings_TextSize(62.5f);
-		if (enemy_timer < 4.0f)
+		if (enemy_timer > 2.0f && enemy_timer < 4.0f)
 		{
 			generate_dice(roll_dice(enemy_dice), enemy_dice, position.x, position.y, enemy_dice_scale);
 		}
@@ -478,26 +512,135 @@ void enemy_ui(CP_Vector position, dice_types enemy_dice, int enemy_roll, float e
 		{
 			go_to_animation(((CP_System_GetWindowWidth() / 2) + 200.0f), buttons_centerpointY, &position);
 			shrinking_animation(0.8f, &enemy_dice_scale);
-			generate_dice(enemy_roll, enemy_dice, roll_pos.x, roll_pos.y, enemy_dice_scale);
-		}*/
-		//if (enemy_timer > 1.0f)
-		//{
+			generate_dice(enemy_roll, enemy_dice, position.x, position.y, enemy_dice_scale);
+		}
+		if (enemy_timer > 6.0f)
+		{
 			fight = !fight;
-			enemy_timer = 0.0f;
 			enemy_turn = !enemy_turn;
 			enemy_turn_end = 1;
-		//}
-	//}
+			clash_init();
+			enemy_timer = 0.0f;
+		}
+	}
 }
 
-/*void cut_in()
+void fighting_animation(int num_roll, int enemys_roll)
 {
-	cutin_timer += CP_System_GetDt();
-	if (cutin_timer < 2.0f)
+	fighting_timer += CP_System_GetDt();
+	CP_Vector player_pos = getWorldPos(get_character()->sp->go.position, getMap());
+	CP_Vector enemy_pos = getWorldPos(the_enemy->sp->go.position, getMap());
+	if (num_roll == enemys_roll)
 	{
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight(), 10.0f, 10.0f);
+		if (fighting_timer == CP_System_GetDt())
+		{
+			CP_Sound_Play(parry);
+		}
+		if (fighting_timer < 1.0f)
+		{
+			if (enemy_pos.x > player_pos.x || player_pos.x > enemy_pos.x)
+			{
+				CP_Image_Draw(parried.image, (player_pos.x + enemy_pos.x) / 2, player_pos.y + 40.0f, parried.size.x, parried.size.y, 255);
+			}
+			else if (enemy_pos.y > player_pos.y || player_pos.y > enemy_pos.y)
+			{
+				CP_Image_Draw(parried.image, player_pos.x + 40.0f, (player_pos.y + enemy_pos.y)/2, parried.size.x, parried.size.y, 255);
+			}
+		}
 	}
 	else
+	{
+		if (fighting_timer == CP_System_GetDt())
+		{
+			CP_Sound_Play(attack);
+		}
+		if (fighting_timer < 1.0f)
+		{
+			if (num_roll < enemys_roll)
+			{
+				CP_Image_Draw(slash.image, player_pos.x + 40.0f, player_pos.y + 40.0f, slash.size.x, slash.size.y, 255);
+			}
+			else if (enemys_roll < num_roll)
+			{
+				CP_Image_Draw(slash.image, enemy_pos.x + 40.0f, enemy_pos.y + 40.0f, slash.size.x, slash.size.y, 255);
+			}
+		}
+	}
+	if (fighting_timer > 3.0f)
+	{
+		fighting_timer = 0;
+		fight = !fight;
+	}
+}
+
+/*void cut_in(int num_roll, int enemys_roll)
+{
+	cutin_timer += CP_System_GetDt();
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	if (cutin_timer < 2.0f)
+	{
+		if (the_enemy->enemyState == DEFEND_STATE)
+		{
+			CP_Graphics_DrawRect(rect.x, rect.y, CP_System_GetWindowWidth(), 200.0f);
+			CP_Image_Draw(clash1.image, rect.x, rect.y, clash1.size.x, clash1.size.y, 255);
+			go_to_animation(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, &rect);
+		}
+		else if (the_enemy->enemyState == ATTACK_STATE)
+		{
+			CP_Graphics_DrawRect(rect.x, rect.y, CP_System_GetWindowWidth(), 200.0f);
+			CP_Image_Draw(clash2.image, rect.x, rect.y, clash2.size.x, clash2.size.y, 255);
+			go_to_animation(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, &rect);
+		}
+	}
+	if (cutin_timer > 2.0f && cutin_timer < 4.0f)
+	{
+		if (the_enemy->enemyState == DEFEND_STATE)
+		{
+			if (num_roll < enemys_roll)
+			{
+				CP_Graphics_DrawRect(rect.x, rect.y, CP_System_GetWindowWidth(), 200.0f);
+				CP_Image_Draw(clash1.image, clash1.position.x, clash1.position.y, clash1.size.x, clash1.size.y, 255);
+				go_to_animation(CP_System_GetWindowWidth(), CP_System_GetWindowHeight() / 2, &clash1.position);
+				go_to_animation(CP_System_GetWindowWidth(), CP_System_GetWindowHeight() / 2, &rect);
+			}
+			else if (enemys_roll > num_roll)
+			{
+				CP_Graphics_DrawRect(rect.x, rect.y, CP_System_GetWindowWidth(), 200.0f);
+				CP_Image_Draw(clash1.image, clash1.position.x, clash1.position.y, clash1.size.x, clash1.size.y, 255);
+				go_to_animation(0.0f, CP_System_GetWindowHeight() / 2, &clash1.position);
+				go_to_animation(0.0f, CP_System_GetWindowHeight() / 2, &rect);
+			}
+			else
+			{
+				CP_Graphics_DrawRect(rect.x, rect.y, CP_System_GetWindowWidth(), 200.0f);
+				CP_Image_Draw(clash1.image, clash1.position.x, clash1.position.y, clash1.size.x, clash1.size.y, 255);
+			}
+		}
+		else if (the_enemy->enemyState == ATTACK_STATE)
+		{
+			if (num_roll < enemys_roll)
+			{
+				CP_Graphics_DrawRect(rect.x, rect.y, CP_System_GetWindowWidth(), 200.0f);
+				CP_Image_Draw(clash2.image, clash2.position.x, clash2.position.y, clash2.size.x, clash2.size.y, 255);
+				go_to_animation(CP_System_GetWindowWidth(), CP_System_GetWindowHeight() / 2, &clash2.position);
+				go_to_animation(CP_System_GetWindowWidth(), CP_System_GetWindowHeight() / 2, &rect);
+			}
+			else if (enemys_roll > num_roll)
+			{
+				CP_Graphics_DrawRect(rect.x, rect.y, CP_System_GetWindowWidth(), 200.0f);
+				CP_Image_Draw(clash2.image, clash2.position.x, clash2.position.y, clash2.size.x, clash2.size.y, 255);
+				go_to_animation(0.0f, CP_System_GetWindowHeight() / 2, &clash2.position);
+				go_to_animation(0.0f, CP_System_GetWindowHeight() / 2, &rect);
+			}
+			else
+			{
+				CP_Graphics_DrawRect(rect.x, rect.y, CP_System_GetWindowWidth(), 200.0f);
+				CP_Image_Draw(clash2.image, clash2.position.x, clash2.position.y, clash2.size.x, clash2.size.y, 255);
+			}
+		}
+	}
+	else if (cutin_timer > 4.0f)
 	{
 		cutin_timer = 0;
 		fight = !fight;
@@ -552,6 +695,8 @@ void second_exit(void)
 	CP_Image_Free(&desc_panel.image);
 	CP_Image_Free(&sword.image);
 	CP_Image_Free(&shield.image);
+	CP_Image_Free(&clash1.image);
+	CP_Image_Free(&clash2.image);
 }
 
 /*

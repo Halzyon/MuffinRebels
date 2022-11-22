@@ -52,6 +52,12 @@ void shrinking_animation(float target, float* to_change)
 	*to_change -= shrink_ps;
 }
 
+void extend(float targetW, float* to_changeW)
+{
+	float extend = 0.1 * (*to_changeW - targetW);
+	*to_changeW += extend;
+}
+
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)
 {
 	float minX = obj.position.x - (obj.scale.x * obj.size.x * 0.5f);

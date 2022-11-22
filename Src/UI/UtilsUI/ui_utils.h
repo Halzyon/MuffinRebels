@@ -19,6 +19,8 @@ static float EaseOutSine(float start, float end, float value)
 	return end * sinf(value * (PI * 0.5f)) + start;
 }
 
+void extend(float targetW, float* to_changeW);
+
 void go_to_animation(float targetX, float targetY, CP_Vector* pos_to_change);
 
 void shrinking_animation(float target, float* to_change);
