@@ -17,6 +17,7 @@ asset exittxtlarge;
 asset startxt;
 asset bg;
 asset dicerebellogo;
+CP_Sound click;
 int alpha; 
 extern asset matte;
 extern int brightposx;
@@ -39,7 +40,7 @@ void mainmenu_init() {
 	get_image_size_set("Assets/dicerebellogo.png", &dicerebellogo);
 	CP_System_SetWindowSize(1280, 720);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
-
+	second_sfx_init();
 	//positions
 	settings.position.x = CP_System_GetWindowWidth() - 50;
 	settings.position.y = 50;
@@ -96,6 +97,7 @@ void mainmenu_update() {
 	{
 		if (CP_Input_MouseClicked())
 		{
+			CP_Sound_Play(click);
 			GameStateSetNextSubScene(SETTINGS_SCENE, true);
 			sub = true;
 		}
@@ -106,6 +108,7 @@ void mainmenu_update() {
 		RenderAsset(button1pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
+			CP_Sound_Play(click);
 			GameStateSetNextScene(GAME_SCENE);
 		}
 		
@@ -118,6 +121,7 @@ void mainmenu_update() {
 		RenderAsset(button2pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
+			CP_Sound_Play(click);
 			currentScene = 0;
 			GameStateSetNextScene(CREDITS_SCENE);
 		}
@@ -133,6 +137,7 @@ void mainmenu_update() {
 		RenderAsset(button3pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
+			CP_Sound_Play(click);
 			CP_Engine_Terminate();
 		}
 		//if (button3.clicked == 1 )

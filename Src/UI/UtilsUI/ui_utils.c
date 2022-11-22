@@ -3,6 +3,9 @@
 #include "../CombatOverlayUI/combat_overlay.h"
 #include <string.h>
 
+float blinkTimer;
+float timer;
+int alpha;
 
 int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_height)
 {
@@ -52,10 +55,26 @@ void shrinking_animation(float target, float* to_change)
 	*to_change -= shrink_ps;
 }
 
-void extend(float targetW, float* to_changeW)
+int rumbling_animation(void)
 {
-	float extend = 0.1 * (*to_changeW - targetW);
-	*to_changeW += extend;
+	blinkTimer += CP_System_GetDt();
+	timer += CP_System_GetDt();
+	if (timer < 3.0)     // lets say blink for 2 sec
+	{
+		if (blinkTimer > 0.5)   // flip every 0.5 seconds
+		{
+			if (!alpha)
+			{
+				alpha = 255; // max alpha
+				timer = 0;
+			}
+			else
+			{
+				alpha = 0;
+				timer = 0;
+			}
+		}
+	}
 }
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)

@@ -51,6 +51,8 @@ void gamepaused_init(void)
 void gamepaused_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
+
+
 	RenderAsset(pausedpopup, 255);
 	RenderAsset(gamepaused, 255);
 
