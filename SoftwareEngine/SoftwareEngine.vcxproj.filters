@@ -144,9 +144,6 @@
     <ClInclude Include="..\Src\yijia\overworld_ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\yijia\pause_ui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\UI\CombatOverlayUI\second_combat.h">
       <Filter>Header Files</Filter>
     </ClInclude>

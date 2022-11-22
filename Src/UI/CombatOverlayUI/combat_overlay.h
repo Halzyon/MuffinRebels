@@ -4,6 +4,8 @@
 #include "cprocessing.h"
 #include "../../Character/diceHandler.h"
 
+CP_Sound footsteps;
+
 typedef struct
 {
 	CP_Image image;
@@ -59,6 +61,9 @@ void settings_button(void);
 
 // renders the window for movement
 void movement_window(int movement, float x, float y, float scale);
+
+// detects if enemy is near for UI
+void isEnemyNearUI(CP_Vector dir);
 
 // frees all images
 void combat_overlay_exit(void);

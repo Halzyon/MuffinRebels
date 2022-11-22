@@ -48,6 +48,8 @@ void hardware_handler(void)
 
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[FORWARD];
 
+			CP_Sound_Play(footsteps);
+
 			printf("walked up 1, energy left: %d\n", get_character()->energy);
 		}
 		else if (CP_Input_KeyTriggered(KEY_S) && check_limits(CP_Vector_Set(0, 1)))
@@ -57,6 +59,8 @@ void hardware_handler(void)
 			--get_character()->energy;
 
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[BACKWARD];
+
+			CP_Sound_Play(footsteps);
 
 			printf("walked down 1, energy left: %d\n", get_character()->energy);
 		}
@@ -69,6 +73,8 @@ void hardware_handler(void)
 
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[LEFT];
 
+			CP_Sound_Play(footsteps);
+
 			printf("walked left 1, energy left: %d\n", get_character()->energy);
 		}
 		else if (CP_Input_KeyTriggered(KEY_D) && check_limits(CP_Vector_Set(1, 0)))
@@ -80,6 +86,8 @@ void hardware_handler(void)
 			--get_character()->energy;
 
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[RIGHT];
+
+			CP_Sound_Play(footsteps);
 
 			printf("walked right 1, energy left: %d\n", get_character()->energy);
 		}

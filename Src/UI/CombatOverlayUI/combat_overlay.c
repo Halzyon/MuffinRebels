@@ -3,6 +3,10 @@
 #include "GameStateManager.h"
 #include "second_combat.h"
 #include "../../Character/gameChar.h"
+#include "../../Scenes/GameScene.h"
+
+#define ENEMYSIZE 1
+Enemy* enemy[ENEMYSIZE];
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -17,6 +21,9 @@ asset desc_panel;
 CP_Vector roll_pos;
 CP_Vector side_display_pos;
 CP_Font font;
+CP_Sound dice_throw;
+CP_Sound dice_shuffle;
+CP_Sound click;
 float dice_timer;
 float powerup_timer;
 int selecting_action;
@@ -88,6 +95,8 @@ void combat_overlay_init(void)
 	dice_button.position.x = buttons_centerpointX + 60.0f;
 	dice_button.position.y = powerup_button.position.y = buttons_centerpointY;	// y position of both power up and dice button are the same
 	powerup_button.position.x = buttons_centerpointX - 60.0f;
+
+	second_sfx_init();
 }
 
 void init_rollPos(void)
@@ -112,25 +121,6 @@ void combat_overlay_update(void)
 	settings_button();
 }
 
-//void init_dicePos(void)
-//{
-//	// set location where choosable d6 and d20 die are after player selects the dice button
-//
-//	d20.position.x = buttons_centerpointX + 80.0f;
-//	d6.position.y =  d20.position.y = buttons_centerpointY - 150.0f;
-//	d6.position.x = d20.position.x - 125.0f;
-//}
-//
-//void init_rollPos(void)
-//{
-//	// set location where the selected dice rolls
-//
-//	roll_pos.x = buttons_centerpointX + 20.0f;
-//	roll_pos.y = buttons_centerpointY - 200.0f;
-//	d6.position.x = d6.position.y = d20.position.x = d20.position.y = 0.0f;
-//	CP_Settings_TextSize(100.0f);
-//}
-
 void dice_powerup(int powerup_turns, int combat_dices[])
 {
 	// draws the interactable buttons based on the set locations
@@ -145,6 +135,7 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 	{
 		if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked && !mov_dice.clicked && !mov_dice.warning && !powerup_button.warning)	//	checks if user clicked the dice button
 		{
+			CP_Sound_Play(click);
 			selecting_action = !selecting_action;
 			dice_timer = 0;
 		}
@@ -173,9 +164,11 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 						CP_Font_DrawTextBox("Roll 2 d6 dice to move around on the map.", dice_button.position.x - 298.0f, y - 22.5f - (i*inventory.size.y), desc_panel.size.x * 1.6);
 					}
 				}
+				isEnemyNearUI(get_character()->sp->go.direction);
 			}
 			if (mouse_in_rect(dice_button.position.x - 20.0f, dice_button.position.y - 150.0f - inventory.size.y, inventory.size.x * 1.6, inventory.size.y) && CP_Input_MouseClicked())
 			{
+				CP_Sound_Play(click);
 				movement_clicked = 1;
 				selecting_action = 0;
 				mov_dice.position.x = dice_button.position.x - inventory.size.x + 15.0f;
@@ -188,9 +181,12 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 			}
 			else if (mouse_in_rect(dice_button.position.x - 20.0f, dice_button.position.y - 150.0f, inventory.size.x * 1.6, inventory.size.y) && CP_Input_MouseClicked())
 			{
+
 				fprintf(stdout, "%lf %lf", get_character()->sp->go.direction.x, get_character()->sp->go.direction.y);
 
 				engage_enemy(get_character()->sp->go.direction);
+
+				CP_Sound_Play(click);
 
 				combat_clicked = !combat_clicked;
 				mov_dice.side_display = 0;
@@ -201,28 +197,6 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 	if (movement_clicked)
 	{
 		choose_to_roll_movement();
-	}
-	else if (combat_clicked)
-	{
-		/*if (within combat range)
-		{
-			change to second combat game scene
-		else
-		{
-			CP_Image_Draw(desc_panel.image, dice_button.position.x - 20.0f, dice_button.position.y - 150.0f, desc_panel.size.x * 1.7, desc_panel.size.y, 255);
-			CP_Settings_TextSize(25.0f);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-			dice_timer += CP_System_GetDt();
-			if (dice_timer < 2.5f)
-			{
-				CP_Font_DrawTextBox("Not close enough to the enemy to attack!", dice_button.position.x - 90.0f, dice_button.position.y - 175.0f, 150.0f);
-			}
-			else
-			{
-				dice_timer = 0;
-			}
-		}
-		*/
 	}
 	choose_powerup(powerup_turns, powerups);
 }
@@ -269,6 +243,11 @@ void choose_to_roll_movement()
 		CP_Settings_TextSize(80.0f);
 		CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
 		dice_timer += CP_System_GetDt();
+		if (dice_timer == CP_System_GetDt())
+		{
+			CP_Sound_Play(dice_throw);
+			CP_Sound_Play(dice_shuffle);
+		}
 		if (dice_timer < 1.5f)
 		{
 			for (int d = 0; d < 2; d++)
@@ -334,6 +313,7 @@ void choose_powerup(int turns_left, int num_powerups[])
 	turns[0] = '0' + turns_left;
 	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && !dice_button.clicked && !powerup_button.warning)	//	checks if user clicked the dice button
 	{
+		CP_Sound_Play(click);
 		for (int i = 0; i < 3; i++)
 		{
 			if (powerup[i].side_display == 1 && !powerup_button.warning)
@@ -435,6 +415,10 @@ void choose_powerup(int turns_left, int num_powerups[])
 			{
 				CP_Settings_TextSize(30.0f);
 				CP_Font_DrawText("Power up!", pos.x + 40.0f, pos.y);
+				if (powerup_timer > 0.8f && powerup_timer < 0.81f)
+				{
+					CP_Sound_Play(poweredup);
+				}
 			}
 			else if (powerup_timer > 1.5f)
 			{
@@ -462,59 +446,15 @@ void choose_powerup(int turns_left, int num_powerups[])
 	}
 }
 
-// void generate_dice(int num_roll, dice_types dice, float dice_posX, float dice_posY, float scale) // draws dice (d6 or d20) with number corresponding to value num_roll
-// {
-// 	float text_posX = dice_posX + 2.0f * scale;
-// 	float text_posY = dice_posY;
-// 	char num_ones = '0' + num_roll;
-// 	char num_tens;
-// 	CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
-// 	CP_Font_Set(font);
-// 	if (dice == e_std_D6)
-// 	{
-// 		CP_Image_Draw(d6.image, dice_posX, dice_posY, d6.size.x * scale, d6.size.y * scale, 255);
-// 		CP_Font_DrawText(&num_ones, text_posX, text_posY);
-// 	}
-// 	else if (dice == e_std_D20)
-// 	{
-// 		CP_Image_Draw(d20.image, dice_posX, dice_posY, d20.size.x * scale, d20.size.y * scale, 255);
-// 		if (num_roll / 10 != 0)
-// 		{
-// 			num_ones = '0' + (num_roll % 10);
-// 			num_tens = '0' + (num_roll / 10);
-// 			CP_Font_DrawText(&num_ones, text_posX + 25, text_posY);
-// 			CP_Font_DrawText(&num_tens, text_posX - 25, text_posY);
-// 		}
-// 		else
-// 		{
-// 			CP_Font_DrawText(&num_ones, text_posX, text_posY);
-// 		}
-// 	}
-// }
-
-// void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
-// {	
-// 	float positionX;
-// 	float positionY = 50.0f;
-// 	for (int j = 5; j > remaining_hp; j--)
-// 	{
-// 		positionX = 50.0f + ((float)(j-1) * 80.0f);
-// 		CP_Image_Draw(dead_hp.image, positionX, positionY, dead_hp.size.x, dead_hp.size.y, 255);
-// 	}
-// 	for (int i = 0; i < remaining_hp; i++)
-// 	{
-// 		positionX = 50.0f + ((float)i * 80.0f);
-// 		CP_Image_Draw(alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, 255);
-// 	}
-// }
 
 void settings_button(void)		//	draws settings icon
 {
-	settings.position.x = CP_System_GetWindowWidth() - 50.0f;
-	settings.position.y = 50.0f;
+	settings.position.x = 50.0f;
+	settings.position.y = CP_System_GetWindowHeight() - 50.0f;
 	CP_Image_Draw(settings.image, settings.position.x, settings.position.y, settings.size.x, settings.size.y, 255);
 	if ((mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1) && CP_Input_MouseClicked())
 	{
+		CP_Sound_Play(click);
 		GameStateSetNextSubScene(SETTINGS_SCENE, true);
 	}
 }
@@ -527,18 +467,20 @@ void movement_window(int movement, float x, float y, float scale)
 	CP_Font_DrawText(total, x, y);
 }
 
-/*void timer_ui(void)
+void isEnemyNearUI(CP_Vector dir)
 {
-	clock_t difference = clock() - start_time;
-	clock_t remaining_time = 600 - difference;
-	char minutes[50];
-	sprintf(minutes, "%d", remaining_time / 60);
-	char seconds[50];
-	sprintf(seconds, "%d", remaining_time % 60);
-	strcat(minutes, seconds);
-	CP_Font_DrawText(minutes, CP_System_GetWindowWidth() / 2, 20.0f);
-}*/
-
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+	CP_Vector tmp = get_character()->sp->go.position;
+	tmp = CP_Vector_Add(tmp, dir);
+	for (int i = 0; i < ENEMYSIZE; ++i)
+	{
+		if (tmp.x != enemy[i]->sp->go.position.x && tmp.y != enemy[i]->sp->go.position.y)
+		{
+			CP_Graphics_DrawRect(dice_button.position.x - 20.0f, (dice_button.position.y - 125.0f) - (i * inventory.size.y), inventory.size.x * 1.6, inventory.size.y, 100);
+		}
+	}
+}
 
 void combat_overlay_exit(void)
 {

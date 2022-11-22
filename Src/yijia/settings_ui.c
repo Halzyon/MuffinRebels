@@ -137,7 +137,7 @@ void settings_update(void)
 	RenderAsset(exitsetting_icon, 255);
 	if (mouse_in_rect(exitsetting_icon.position.x, exitsetting_icon.position.y, exitsetting_icon.size.x, exitsetting_icon.size.y))	// Settings hover
 	{
-		if (CP_Input_MouseClicked())
+		if (CP_Input_MouseClicked() && MAINMENU_SCENE)
 		{
 			GameStateSetNextSubScene(MAX_SCENE,true);
 			sub = false;
