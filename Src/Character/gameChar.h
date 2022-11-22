@@ -21,6 +21,7 @@ typedef struct
 	int hp;
 	int energy;
 	unsigned int char_class;
+	bool turn_done;
 
 	unsigned int dice_size;
 	dice_types dice[MAX_DICE];

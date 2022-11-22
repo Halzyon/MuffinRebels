@@ -140,31 +140,41 @@ void game_update(void)
 	//get player input
 	hardware_handler();
 
-	
+	//update player pos
+	UpdateSprite(get_character()->sp, dt);
 
-		//update player pos
-		UpdateSprite(get_character()->sp, dt);
-
-		for (int i = 0; i < ENEMYSIZE; ++i)
+	for (int i = 0; i < ENEMYSIZE; ++i)
+	{
+		//set logic for enemy temporary
+		if (get_character()->sp->moved)
 		{
-			//set logic for enemy temporary
-			if (get_character()->sp->moved)
-				UpdateEnemy(enemy[i], dt, true);
-			else
-				UpdateEnemy(enemy[i], dt, false);
-			UpdateCombat(enemy[i], dt);
-		}
-
-		for (int i = 0; i < ENEMYSIZE; ++i)
-		{
-			if ((enemy[i]->b_combat && !combatStart))
+			for (int j = 0; j <= 20; ++j)
 			{
-				second_init();
-				combat_scene_init();
-				combatStart = true;
-				combatOver = false;
+				UpdateEnemy(enemy[i], dt, true);
 			}
 		}
+		else
+			UpdateEnemy(enemy[i], dt, false);
+
+		if ((i == ENEMYSIZE - 1) && get_character()->sp->moved)
+		{
+			get_character()->sp->moved = 0;
+			get_character()->turn_done = 0;
+		}
+		
+		UpdateCombat(enemy[i], dt);
+	}
+
+	for (int i = 0; i < ENEMYSIZE; ++i)
+	{
+		if ((enemy[i]->b_combat && !combatStart))
+		{
+			second_init();
+			combat_scene_init();
+			combatStart = true;
+			combatOver = false;
+		}
+	}
 
 
 

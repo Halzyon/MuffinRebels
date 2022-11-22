@@ -30,26 +30,23 @@ int check_limits(CP_Vector dir)
 	return 0;
 }
 
-int check_enemy(void)
-{
-
-}
-
 void hardware_handler(void)
 {
 	if (combatants_present)
 		return;
 
-	if (get_character()->energy && !movement_clicked)
+	//while the player has energy, we will say that the player has not completed their turn
+	if (get_character()->energy && !movement_clicked && !get_character()->turn_done)
 	{
-		if (CP_Input_KeyTriggered(KEY_W) && check_limits(CP_Vector_Set(0,-1)))
+		get_character()->sp->moved = 0;
+
+		if (CP_Input_KeyTriggered(KEY_W) && check_limits(CP_Vector_Set(0, -1)))
 		{
 			get_character()->sp->go.direction = CP_Vector_Set(0.0f, -1.0f);
 			get_character()->sp->go.position.y -= 1;
 			--get_character()->energy;
-			
+
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[FORWARD];
-			get_character()->sp->moved = 1;
 
 			printf("walked up 1, energy left: %d\n", get_character()->energy);
 		}
@@ -60,7 +57,6 @@ void hardware_handler(void)
 			--get_character()->energy;
 
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[BACKWARD];
-			get_character()->sp->moved = 1;
 
 			printf("walked down 1, energy left: %d\n", get_character()->energy);
 		}
@@ -72,11 +68,10 @@ void hardware_handler(void)
 			--get_character()->energy;
 
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[LEFT];
-			get_character()->sp->moved = 1;
 
 			printf("walked left 1, energy left: %d\n", get_character()->energy);
 		}
-		else if (CP_Input_KeyTriggered(KEY_D) && check_limits(CP_Vector_Set(1,0)))
+		else if (CP_Input_KeyTriggered(KEY_D) && check_limits(CP_Vector_Set(1, 0)))
 		{
 			get_character()->sp->go.direction = CP_Vector_Set(1.0f, 0.0f);
 
@@ -85,17 +80,19 @@ void hardware_handler(void)
 			--get_character()->energy;
 
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[RIGHT];
-			get_character()->sp->moved = 1;
 
 			printf("walked right 1, energy left: %d\n", get_character()->energy);
 		}
-		else
+
+		if (!get_character()->energy)
 		{
-			get_character()->sp->moved = 0;
+			get_character()->turn_done = 1;
 		}
 	}
-	else
-		get_character()->sp->moved = 0;
+	else if (!get_character()->energy && get_character()->turn_done)
+	{
+		get_character()->sp->moved = 1;
+	}
 
 	// GOD MODE
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_MIDDLE))
