@@ -58,11 +58,15 @@ int map_get_x(int index, int width)
 	return index % width;    // % is the "modulo operator", the remainder of i / width;
 }
 
+float map_get_tile_size(game_map* in_map)
+{
+	return (float)(in_map->world_height / in_map->height);
+}
+
 void free_map_obj(game_map* map_obj)
 {
 	free(map_obj->map_arr);
 }
-
 
 void load_map_file(game_map* dst, const char* src)
 {

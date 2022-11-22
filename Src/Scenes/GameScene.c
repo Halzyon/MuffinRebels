@@ -147,26 +147,30 @@ void game_update(void)
 	//update player pos
 	UpdateSprite(get_character()->sp, dt);
 
+	int reset = 1;
 	for (int i = 0; i < ENEMYSIZE; ++i)
 	{
 		//set logic for enemy temporary
 		if (get_character()->sp->moved)
 		{
-			for (int j = 0; j <= 20; ++j)
-			{
-				UpdateEnemy(enemy[i], dt, true);
-			}
+			UpdateEnemy(enemy[i], dt, true);
 		}
 		else
-			UpdateEnemy(enemy[i], dt, false);
-
-		if ((i == ENEMYSIZE - 1) && get_character()->sp->moved)
 		{
-			get_character()->sp->moved = 0;
-			get_character()->turn_done = 0;
+			enemy[i]->energy = 8;
+			UpdateEnemy(enemy[i], dt, false);
 		}
+
+		if (enemy[i]->energy > 0)
+			reset = 0;
 		
 		UpdateCombat(enemy[i], dt);
+	}
+
+	if (get_character()->sp->moved && reset)
+	{
+		get_character()->sp->moved = 0;
+		get_character()->turn_done = 0;
 	}
 
 	for (int i = 0; i < ENEMYSIZE; ++i)

@@ -115,6 +115,8 @@ float map_get_world_x(int x, game_map* in_map);
 */
 float map_get_world_y(int y, game_map* in_map);
 
+float map_get_tile_size(game_map* in_map);
+
 /*!
  * @brief destructor to be called in exit
  * @param map_obj map object and its contents to be deleted

@@ -3,6 +3,9 @@
 #include "gameEnemy.h"
 #include "gameChar.h"
 #include "../Combat/combatHandler.h"
+#include "gameMap.h"
+
+double wait_delta;
 
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
@@ -38,17 +41,20 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->b_combat = true;
 		}
 	}
-	/*else if (en->enemyState != ATTACK_STATE || en->enemyState != DEFEND_STATE)
-	{
-		en->b_combat = false;
-		en->enemyState = PATROL_UPDOWN_STATE;
-	}*/
 
 	UpdateSprite(en->sp, dt);//update enemy spriteanimation
-	if (!move || !en->sp->go.isAlive || en->b_combat)
+	if (!move || !en->sp->go.isAlive || en->b_combat || en->energy <= 0)
 		return;
 
+	if (wait_delta < 1.0)
+	{
+		wait_delta += dt * 2.0;
+		return;
+	}
+	else
+		wait_delta = 0.0;
 
+	--en->energy;
 
 	if (en->enemyState == PATROL_UPDOWN_STATE)
 	{
@@ -92,11 +98,6 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->movement = 0;
 		}
 	}
-	/*else if (en->enemyState != ATTACK_STATE)
-	{
-		en->b_combat = false;
-		en->enemyState = PATROL_UPDOWN_STATE;
-	}*/
 
 	if (en->enemyState == PATROL_UPDOWN_STATE)
 	{
@@ -124,13 +125,9 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->b_combat = true;
 		}
 	}
-	/*else if (en->enemyState != ATTACK_STATE)
-	{
-		en->b_combat = false;
-		en->enemyState = PATROL_UPDOWN_STATE;
-	}*/
 	
 }
+
 void UpdateCombat(Enemy* en, float dt)
 {
 	if (!en->b_combat || !en->sp->go.isAlive)
@@ -154,7 +151,7 @@ Enemy* CreateEnemy(void)
 	if (newEnemy)
 	{
 		newEnemy->hp = 5;
-		newEnemy->energy = 2;
+		newEnemy->energy = 8;
 		newEnemy->dice[0] = e_std_D6;
 		newEnemy->dice_size = 1; //number of usable dice
 
