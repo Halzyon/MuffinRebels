@@ -119,7 +119,6 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\main.c" />
     <ClCompile Include="..\Src\SplashScreen\splashscreen.c" />
     <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c" />
-    <ClCompile Include="..\Src\yijia\combat_ui.c" />
     <ClCompile Include="..\Src\yijia\credits.c" />
     <ClCompile Include="..\Src\yijia\mainmenu.c" />
     <ClCompile Include="..\Src\yijia\overworld_ui.c" />

@@ -10,9 +10,6 @@
     <ClCompile Include="..\Src\Combat\combat_scene.c">
       <Filter>Soruce Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\yijia\combat_ui.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Combat\combatHandler.c">
       <Filter>Soruce Files</Filter>
     </ClCompile>
@@ -142,9 +139,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\yijia\overworld_ui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\yijia\pause_ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\UI\CombatOverlayUI\second_combat.h">
