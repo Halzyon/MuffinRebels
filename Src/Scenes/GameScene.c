@@ -9,6 +9,7 @@
 #include "../FileIO/fileIO.h"
 
 #define ENEMYSIZE 2
+#define FILEPATH "Assets/"
 
 
 Sprite* ash;
@@ -16,16 +17,28 @@ game_map* Level;
 Enemy* enemy[ENEMYSIZE];
 bool b_paused = false;
 
+bool goNextLvl = false;
+bool transitionOver = false;
 
+CP_Image transition_img;
+CP_Vector transitionPos;
+CP_Vector transitionSize;
 
 extern asset matte;
 extern int brightposx;
 extern bool sub;
 CP_BOOL combatStart = false;
 CP_BOOL combatOver = false;
+
+void resetTransition();
+
 void game_init(void)
 {
 	currLvl = 0;
+	transition_img = CP_Image_Load(FILEPATH "transition.png");
+	transitionSize = CP_Vector_Set(CP_Image_GetWidth(transition_img), CP_Image_GetHeight(transition_img));
+	transitionPos = CP_Vector_Set(transitionSize.x, transitionSize.y);
+
 	// set draw settings
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
@@ -97,6 +110,7 @@ void game_init(void)
 		enemy[i]->steps = 1;
 		enemy[i]->b_combat = false;
 	}
+
 	get_character()->sp->go.position.x = mapOffset[currLvl] + 4;
 	get_character()->sp->go.position.y = 9;
 	loadSprites();
@@ -138,7 +152,7 @@ void game_update(void)
 	{
 		currLvl = 2;
 	}
-
+	transitionPos.x -= dt * 500;
 
 
 	//get player input
@@ -234,7 +248,8 @@ void game_update(void)
 				combatOver = true;
 			}
 		}
-	
+		CP_Settings_ImageMode(CP_POSITION_CORNER);
+		CP_Image_Draw(transition_img, transitionPos.x, transitionPos.y, transitionSize.x, transitionSize.y, 255);
 }
 
 void game_exit(void)
@@ -269,4 +284,10 @@ void engage_enemy(CP_Vector dir)
 			enemy[i]->enemyState = DEFEND_STATE;
 		}
 	}
+}
+
+void resetTransition()
+{
+	transitionPos = CP_Vector_Set(0, 0);
+	transitionOver = false;
 }
