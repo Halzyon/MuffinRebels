@@ -51,10 +51,10 @@ void go_to_animation(float targetX, float targetY, CP_Vector *pos_to_change)
 
 void shrinking_animation(float target, float* to_change)
 {
-	float shrink_ps = 0.1 * (*to_change - target);
+	float shrink_ps = 0.2 * (*to_change - target);
 	*to_change -= shrink_ps;
 }
-
+/*
 int rumbling_animation(void)
 {
 	blinkTimer += CP_System_GetDt();
@@ -75,7 +75,7 @@ int rumbling_animation(void)
 			}
 		}
 	}
-}
+}*/
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)
 {
