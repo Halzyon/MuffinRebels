@@ -160,17 +160,8 @@ void game_update(void)
 			enemy[i]->energy = 8;
 			UpdateEnemy(enemy[i], dt, false);
 		}
-
-		if (enemy[i]->energy > 0)
-			reset = 0;
 		
 		UpdateCombat(enemy[i], dt);
-	}
-
-	if (get_character()->sp->moved && reset)
-	{
-		get_character()->sp->moved = 0;
-		get_character()->turn_done = 0;
 	}
 
 	for (int i = 0; i < ENEMYSIZE; ++i)
@@ -184,60 +175,64 @@ void game_update(void)
 		}
 	}
 
+	//RENDER
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
+	render_map(Level + currLvl, vec);
 
+	//render player
+	RenderSpriteOnMap(get_character()->sp, Level + currLvl);
 
-		//RENDER
-		CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
-		render_map(Level + currLvl, vec);
+	//render enemy
+	for (int i = 0; i < ENEMYSIZE; ++i)
+		RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
 
-		//render player
-		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
-
-		//render enemy
-		for (int i = 0; i < ENEMYSIZE; ++i)
-			RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
-
-		if (!combatStart)
-			ManualUpdate(COMBAT_OVERLAY_SCENE);
-		if (!sub)
-			RenderAsset(matte, 255 - brightposx);
+	if (!combatStart)
+		ManualUpdate(COMBAT_OVERLAY_SCENE);
+	if (!sub)
+		RenderAsset(matte, 255 - brightposx);
 	
 
-		if (combatStart && !combatOver)
+	if (combatStart && !combatOver)
+	{
+		for (int i = 0; i < ENEMYSIZE; ++i)
 		{
-			for (int i = 0; i < ENEMYSIZE; ++i)
+			UpdateCombat(enemy[i], dt);
+		}
+
+		ManualUpdate(BATTLE_SCENE_UI);
+		ManualUpdate(BATTLE_SCENE);
+
+		// if enemy dead/player dead do smth
+
+		for (int i = 0; i < ENEMYSIZE; ++i)
+		{
+			if (!enemy[i]->b_combat)
+				continue;
+			if (enemy[i]->hp <= 0)
 			{
-				UpdateCombat(enemy[i], dt);
-			}
-
-			ManualUpdate(BATTLE_SCENE_UI);
-			ManualUpdate(BATTLE_SCENE);
-
-			// if enemy dead/player dead do smth
-
-			for (int i = 0; i < ENEMYSIZE; ++i)
-			{
-				if (!enemy[i]->b_combat)
-					continue;
-				if (enemy[i]->hp <= 0)
-				{
-					enemy[i]->sp->go.isAlive = false;
-					enemy[i]->b_combat = false;
-					battleEnd();
-				}
-			}
-
-			if (get_character()->hp <= 0)
-			{
+				enemy[i]->sp->go.isAlive = false;
+				enemy[i]->b_combat = false;
 				battleEnd();
-			}
-			if (getCombatState())
-			{
-				combatStart = false;
-				combatOver = true;
+
+				get_character()->sp->moved = 0;
+				get_character()->turn_done = 0;
 			}
 		}
+
+		if (get_character()->hp <= 0)
+		{
+			battleEnd();
+
+			get_character()->sp->moved = 0;
+			get_character()->turn_done = 0;
+		}
+		if (getCombatState())
+		{
+			combatStart = false;
+			combatOver = true;
+		}
+	}
 	
 }
 

@@ -231,6 +231,8 @@ void choose_to_roll_movement()
 {
 	get_character()->energy = 0;
 	get_character()->energy += individual_mov_roll[0] + individual_mov_roll[1];
+	//get_character()->sp->moved = 0;
+	get_character()->turn_done = 0;
 	if (mov_dice.side_display && !mov_dice.warning)
 	{
 		mov_dice.warning = !mov_dice.warning;
