@@ -74,6 +74,7 @@ void second_init(void)
 	get_image_size("settings.png", &settings);
 	get_image_size("cursor.png", &cursor);
 	get_image_size("alive_hp.png", &alive_hp);
+	get_image_size("enemy_alive_hp.png", &enemy_alive_hp);
 	get_image_size("powerup[atk].png", &powerup[atk]);
 	get_image_size("powerup[hp].png", &powerup[hp]);
 	get_image_size("powerup[movement].png", &powerup[movement]);
@@ -705,21 +706,14 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 
 void enemy_health_bar(int enemy_hp, CP_Vector position)
 {
-	float width = 65.0f;
-	if(num_roll > enemys_roll && fight)
-	{
-		CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
-		CP_Graphics_DrawRect(position.x, position.y, width, 10.0f);
-		CP_Settings_Fill(CP_Color_Create(50, 50, 200, alpha));
-		CP_Graphics_DrawRect(position.x, position.y, ((float)enemy_hp / 100) * width, 10.0f);
-	}
-	else
-	{
-		CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
-		CP_Graphics_DrawRect(position.x, position.y, width, 10.0f);
-		CP_Settings_Fill(CP_Color_Create(50, 50, 200, 255));
-		CP_Graphics_DrawRect(position.x, position.y, ((float)enemy_hp / 100) * width, 10.0f);
-	}
+	float positionX = 700.f;
+	float positionY = 50.0f;
+	float width = CP_System_GetWindowWidth() * 0.30f;
+	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+	CP_Graphics_DrawRect(positionX, positionY - 20.0f, width, 50.0f);
+	CP_Settings_Fill(CP_Color_Create(50, 50, 200, 255));
+	CP_Graphics_DrawRect(positionX, positionY - 20.0f, ((float)enemy_hp / 20) * width, 50.0f);
+	CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, 255);
 }
 
 void inventory_window(int num_item, float position_X)
@@ -751,6 +745,7 @@ void second_exit(void)
 	CP_Image_Free(&shield.image);
 	CP_Image_Free(&clash1.image);
 	CP_Image_Free(&clash2.image);
+	CP_Image_Free(&enemy_alive_hp.image);
 }
 
 /*

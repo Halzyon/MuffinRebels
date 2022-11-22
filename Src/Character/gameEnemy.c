@@ -169,10 +169,10 @@ Enemy* CreateEnemy(void)
 		newEnemy->b_combat = false;
 
 		//sprite animation init
-		newEnemy->sp->spriteStates[RIGHT] = 3;
-		newEnemy->sp->spriteStates[BACKWARD] = 0;
-		newEnemy->sp->spriteStates[LEFT] = 2;
-		newEnemy->sp->spriteStates[FORWARD] = 1;
+		newEnemy->sp->spriteStates[RIGHT] = 2;
+		newEnemy->sp->spriteStates[BACKWARD] = 1;
+		newEnemy->sp->spriteStates[LEFT] = 3;
+		newEnemy->sp->spriteStates[FORWARD] = 0;
 	}
 	return newEnemy;
 }

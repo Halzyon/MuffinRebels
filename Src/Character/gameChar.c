@@ -28,9 +28,9 @@ int init_char(class_select char_select)
 
 		//sprite animation init
 		the_player->sp->spriteStates[RIGHT] = 2;
-		the_player->sp->spriteStates[BACKWARD] = 0;
-		the_player->sp->spriteStates[LEFT] = 1;
-		the_player->sp->spriteStates[FORWARD] = 3;
+		the_player->sp->spriteStates[BACKWARD] = 1;
+		the_player->sp->spriteStates[LEFT] = 3;
+		the_player->sp->spriteStates[FORWARD] = 0;
 	}
 
 	return the_player;
