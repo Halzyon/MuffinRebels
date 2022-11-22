@@ -58,22 +58,22 @@ int combat_phase(void)
 			{
 				if (get_character()->combat_mode == CHAR_ATTACKING)
 				{
-					the_enemy->hp -= (attacker_sum - defender_sum);
+					the_enemy->hp -= (attacker_sum - defender_sum); // call animation here?
 				}
 				else if (the_enemy->enemyState == ATTACK_STATE)
 				{
-					get_character()->hp -= (attacker_sum - defender_sum);
+					get_character()->hp -= (attacker_sum - defender_sum); // call animation here?
 				}
 			}
 			else if (attacker_sum < defender_sum) //defender damage delt
 			{
 				if (get_character()->combat_mode == CHAR_ATTACKING)
 				{
-					get_character()->hp += (attacker_sum - defender_sum);
+					get_character()->hp += (attacker_sum - defender_sum); // call animation here?
 				}
 				else if (the_enemy->enemyState == ATTACK_STATE)
 				{
-					the_enemy->hp += (attacker_sum - defender_sum);
+					the_enemy->hp += (attacker_sum - defender_sum); // call animation here?
 				}
 				
 			}

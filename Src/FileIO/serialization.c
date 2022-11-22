@@ -302,10 +302,10 @@ void serializeMap(char* c, Buffer* b)
 *//*______________________________________________________________________*/
 void clearBuffer(Buffer* b)
 {
-    if (b == NULL)
-        return;
-    
-    if (b->data != NULL)
-        free(b->data);
-    free(b);
+    if (b != NULL)
+    {
+        if (b->data != NULL)
+            free(b->data);
+        free(b);
+    }
 }

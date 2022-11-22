@@ -66,8 +66,8 @@ void free_map_obj(game_map* map_obj)
 
 void load_map_file(game_map* dst, const char* src)
 {
-	int len = strlen(src);
-	dst->world_height = dst->world_width = (int)sqrt(len);
+	int len = dst->width * dst->width;
+	//dst->world_height = dst->world_width = (int)sqrt(len);
 	
 	for (int i = 0; i < len; ++i)
 	{
@@ -82,7 +82,7 @@ void render_map(game_map* map, CP_Vector offset)
 	{
 		double gridsize = CP_System_GetWindowHeight() / map->height;
 		CP_Settings_ImageMode(CP_POSITION_CORNER);
-		CP_Image_Draw(level_sprites[map->map_arr[i] - 1], (float)(map_get_y((int)i, map->width) * gridsize) + offset.x, (float)(map_get_x((float)i, map->height) * gridsize) + offset.y, gridsize, gridsize, 255);
+		CP_Image_Draw(level_sprites[map->map_arr[i] - 1], (float)(map_get_y((int)i, map->width) * gridsize) + offset.x, (float)(map_get_x((float)i, map->height) * gridsize) + offset.y, gridsize, gridsize - 0.5f, 255);
 	}
 }
 

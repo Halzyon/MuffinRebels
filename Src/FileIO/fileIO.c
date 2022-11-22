@@ -160,21 +160,27 @@ const unsigned char* readFile(const unsigned char *name)
         fseek(getFile(name), 0L, SEEK_SET); // move back to start of file
         buffer = newBuffer();
         reserveSpace(buffer, sz * sizeof(unsigned char));
+        memset(buffer->data, '\0', sz);
         //buffer = malloc(sz * sizeof(unsigned char));
-        unsigned char* buffer2 = malloc(sz * sizeof(unsigned char));
-        if (buffer && buffer2)
+        //unsigned char* buffer2 = malloc(sz * sizeof(unsigned char));
+        size_t tmp = 0;
+        if (buffer)
         {
+            size_t i = 0;
             //int c = getc(getFile(name));
-            while (ftell(getFile(name)) + 1 != sz)
+            while (i < sz)
             {
-                
+                //fseek(getFile(name), -1L, SEEK_CUR);
+                *(buffer->data + i) = fgetc(getFile(name));
                 //fputs(c, getFile(name));
-                fgets(buffer2, (int)sz, getFile(name));
-                strcat(buffer->data, buffer2);
+                char tmp2 = *(buffer->data + i);
+
+                ++i;
                 //buffer2 = getc(getFile(name));
+                tmp = strlen(buffer->data);
             }
             //fseek(getFile(name), 0L, SEEK_SET); // move back to start of file
-            free(buffer2);
+            //free(buffer2);
             return buffer->data;
         }
     }
@@ -207,7 +213,9 @@ int writeFile(const unsigned char *name, const unsigned char* input, const unsig
     strcat(tmp1, name);
     if (addFile(tmp1, mode, name, TYPE_1) != MAXFILES + 1)
     {
-        return fputs(input, getFile(name));
+        int tmp = fputs(input, getFile(name));
+        fputc('\0', getFile(name));
+        return tmp;
     }
     return 0;
 }

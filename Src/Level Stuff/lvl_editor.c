@@ -30,7 +30,7 @@
 #endif  
 
 
-#define WINDOW_HEIGHT 1080
+#define WINDOW_HEIGHT 1440
 #define LEVEL_EDITOR
 game_map* map;
 int gridsize;
@@ -45,13 +45,13 @@ void editor_init(void)
 
 	if (map = malloc(sizeof(map)))
 	{
-		if (init_map_obj(map, 10, 10, WINDOW_HEIGHT, WINDOW_HEIGHT))
+		if (init_map_obj(map, 30,30, WINDOW_HEIGHT, WINDOW_HEIGHT))
 		{
 			int size = map->height * map->width;
 			loadNewMap(*map);
 			for (int i = 0; i < size; ++i)
 			{
-				map->map_arr[i] = GROUND_1;
+				map->map_arr[i] = GROUND_3;
 			}
 			gridsize = WINDOW_HEIGHT / map->height;
 		}
@@ -87,20 +87,20 @@ void editor_update(void)
 			serializeMap(map->map_arr, b);
 			size_t encodedLen = 0;
 			//b->data = b64_encode(b->data, strlen(b->data), &encodedLen);
- 			writeFile("map.dat", b->data, "w");
+ 			writeFile("map3.dat", b->data, "w");
 			clearBuffer(b);
-			fclose(getFile("map.dat"));
+			fclose(getFile("map3.dat"));
 		}
 	}
 	if (CP_Input_KeyTriggered(KEY_L))
 	{
 		Buffer* b = newBuffer();
-		b->data = readFile("map.dat");
-		size_t len = 0;
+		b->data = readFile("map3.dat");
+		size_t len =  strlen(b->data);
 		//b->data = b64_decode(b->data, strlen(b->data), &len);
 		load_map_file(map, b->data);
 		clearBuffer(b);
-		fclose(getFile("map.dat"));
+		fclose(getFile("map3.dat"));
 	}
 
 #endif // LEVEL_EDITOR inputs
