@@ -33,6 +33,8 @@ typedef enum POWERUPS
 int current_item;
 int current_powerup;
 
+void randomise_all(void);
+
 void reset_items(void);
 
 void reset_modifier(void);

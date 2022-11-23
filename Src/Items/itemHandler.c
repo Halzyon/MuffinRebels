@@ -1,4 +1,56 @@
+#include <stdlib.h>
+
 #include "itemHandler.h"
+
+void randomise_all(void)
+{
+	time_t t;
+	srand((unsigned)time(&t));
+
+	int choice = rand() % (NUM_ITEMS + NUM_POWERUPS);
+
+	switch (choice)
+	{
+		case 0:
+			init_woodensword();
+			break;
+		case 1:
+			init_woodenshield();
+			break;
+		case 2:
+			init_ironsword();
+			break;
+		case 3:
+			init_ironshield();
+			break;
+		case 4:
+			init_goldsword();
+			break;
+		case 5:
+			init_goldshield();
+			break;
+		case 6:
+			init_diamondsword();
+			break;
+		case 7:
+			init_diamondshield();
+			break;
+		case 8:
+			init_mastersword();
+			break;
+		case 9:
+			modifier_strongarm();
+			break;
+		case 10:
+			modifier_leatherskin();
+			break;
+		case 11:
+			modifier_healthpot();
+			break;
+		default:
+			break;
+	}
+}
 
 void reset_items(void)
 {

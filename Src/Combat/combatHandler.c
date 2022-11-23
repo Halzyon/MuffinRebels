@@ -17,15 +17,18 @@ void declare_combatants(Enemy* const enemy, int enemy_combat_mode)
 	{
 		case ATTACK_STATE:
 			get_character()->combat_mode = CHAR_DEFENDING;
-			max_combat_size = the_enemy->dice_size;
+			max_combat_size = get_character()->dice_size - 1;
 			break;
 		case DEFEND_STATE:
 			get_character()->combat_mode = CHAR_ATTACKING;
-			max_combat_size = get_character()->dice_size;
+			max_combat_size = the_enemy->dice_size - 1;
 			break;
 		default:
 			break;
 	}
+
+	if (max_combat_size <= 0)
+		max_combat_size = 1;
 	
 	combatants_present = 1;
 
