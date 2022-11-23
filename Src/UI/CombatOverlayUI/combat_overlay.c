@@ -35,6 +35,7 @@ int individual_mov_roll[2];
 int warning_clicked[2];
 float powerup_scale;
 int powerups[3];
+extern b_paused;
 
 void combat_overlay_init(void)
 {
@@ -181,7 +182,6 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 			}
 			else if (mouse_in_rect(dice_button.position.x - 20.0f, dice_button.position.y - 150.0f, inventory.size.x * 1.6, inventory.size.y) && CP_Input_MouseClicked())
 			{
-
 				fprintf(stdout, "%lf %lf", get_character()->sp->go.direction.x, get_character()->sp->go.direction.y);
 
 				engage_enemy(get_character()->sp->go.direction);
@@ -455,7 +455,7 @@ void settings_button(void)		//	draws settings icon
 	if ((mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1) && CP_Input_MouseClicked())
 	{
 		CP_Sound_Play(click);
-		GameStateSetNextSubScene(SETTINGS_SCENE, true);
+		GameStateSetNextSubScene(PAUSE_SCENE, true);
 	}
 }
 

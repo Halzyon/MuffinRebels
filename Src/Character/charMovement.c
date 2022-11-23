@@ -91,7 +91,7 @@ void hardware_handler(void)
 
 			printf("walked right 1, energy left: %d\n", get_character()->energy);
 		}
-
+		check_Chest(get_character()->sp->go.position);
 		if (!get_character()->energy)
 		{
 			get_character()->turn_done = 1;
@@ -107,4 +107,14 @@ void hardware_handler(void)
 	{
 		get_character()->energy += 20;
 	}
+}
+
+void check_Chest(CP_Vector pos)
+{
+	pos.x -= mapOffset[currLvl];
+	char var = getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)];
+		if (var == CHEST_1)
+		{
+			getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)] = CHEST_2;
+		}
 }

@@ -86,71 +86,75 @@ void mainmenu_init() {
 
 void mainmenu_update() {
 
+	
+	//SETTINGS ICON - open settings_ui
+
+	if (!sub)
+	{
+		if (mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1)
+		{
+			if (CP_Input_MouseClicked())
+			{
+				CP_Sound_Play(click);
+				GameStateSetNextSubScene(SETTINGS_SCENE, true);
+				sub = true;
+			}
+		}
+
+		if (mouse_in_rect(button.position.x, button.position.y, button.size.x - 200, button.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
+		{
+			RenderAsset(button1pressed, 255);
+			if (CP_Input_MouseClicked())
+			{
+				CP_Sound_Play(click);
+				GameStateSetNextScene(GAME_SCENE);
+			}
+
+		}
+
+		//LVL 2 BUTTON 
+
+		if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x - 200, button2.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
+		{
+			RenderAsset(button2pressed, 255);
+			if (CP_Input_MouseClicked())
+			{
+				CP_Sound_Play(click);
+				currentScene = 0;
+				GameStateSetNextScene(CREDITS_SCENE);
+			}
+			//if (button2.clicked == 1 )
+			//{
+			//	//level 2
+			//}
+		}
+
+
+		if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x - 200, button3.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
+		{
+			RenderAsset(button3pressed, 255);
+			if (CP_Input_MouseClicked())
+			{
+				CP_Sound_Play(click);
+				CP_Engine_Terminate();
+			}
+			//if (button3.clicked == 1 )
+			//{
+			//	//level 3
+			//}
+
+		}
+	}
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	RenderAsset(bg, 255);
 	RenderAsset(dicerebellogo, 255);
-
-	//SETTINGS ICON - open settings_ui
-
 	RenderAsset(settings, 255);
-	if (mouse_in_rect(settings.position.x, settings.position.y, settings.size.x, settings.size.y) == 1)
-	{
-		if (CP_Input_MouseClicked())
-		{
-			CP_Sound_Play(click);
-			GameStateSetNextSubScene(SETTINGS_SCENE, true);
-			sub = true;
-		}
-	}
 	RenderAsset(button, 255);
-	if (mouse_in_rect(button.position.x, button.position.y, button.size.x - 200, button.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
-	{
-		RenderAsset(button1pressed, 255);
-		if (CP_Input_MouseClicked())
-		{
-			CP_Sound_Play(click);
-			GameStateSetNextScene(GAME_SCENE);
-		}
-		
-	}
-
-	//LVL 2 BUTTON 
 	RenderAsset(button2, 255);
-	if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x - 200, button2.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
-	{
-		RenderAsset(button2pressed, 255);
-		if (CP_Input_MouseClicked())
-		{
-			CP_Sound_Play(click);
-			currentScene = 0;
-			GameStateSetNextScene(CREDITS_SCENE);
-		}
-		//if (button2.clicked == 1 )
-		//{
-		//	//level 2
-		//}
-	}
-
 	RenderAsset(button3, 255);
-	if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x - 200, button3.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
-	{
-		RenderAsset(button3pressed, 255);
-		if (CP_Input_MouseClicked())
-		{
-			CP_Sound_Play(click);
-			CP_Engine_Terminate();
-		}
-		//if (button3.clicked == 1 )
-		//{
-		//	//level 3
-		//}
-
-	}
-	
 	RenderAsset(startxt, 255);
 	RenderAsset(exittxtlarge, 255);
 	RenderAsset(creditstxt, 255);
-	
 	if(!sub)
 		RenderAsset(matte, 255 - brightposx);
 }

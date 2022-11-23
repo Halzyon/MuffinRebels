@@ -89,11 +89,11 @@ void game_init(void)
 	for (int i = 0; i < ENEMYSIZE; ++i)
 	{
 		enemy[i] = CreateEnemy();
-		enemy[i]->sp->go.position.x = i * (9) + mapOffset[currLvl];
-		enemy[i]->sp->go.position.y = 4;
+		enemy[i]->sp->go.position.x = i * (9) + mapOffset[currLvl] + 1;
+		enemy[i]->sp->go.position.y = 7;
 		enemy[i]->sp->go.scale.x = 0.5;
 		enemy[i]->sp->go.scale.y = 0.5;
-		enemy[i]->hp = 10;
+		enemy[i]->hp = 20;
 		enemy[i]->steps = 1;
 		enemy[i]->b_combat = false;
 	}
