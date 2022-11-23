@@ -2,6 +2,8 @@
 #include "../Character/diceHandler.h"
 #include "../Character/gameEnemy.h"
 #include "../UI/CombatOverlayUI/second_combat.h"
+#include "../Items/itemHandler.h"
+
 void declare_combatants(Enemy* const enemy, int enemy_combat_mode)
 {
 	if (combatants_present)
@@ -15,15 +17,18 @@ void declare_combatants(Enemy* const enemy, int enemy_combat_mode)
 	{
 		case ATTACK_STATE:
 			get_character()->combat_mode = CHAR_DEFENDING;
-			max_combat_size = the_enemy->dice_size;
+			max_combat_size = get_character()->dice_size - 1;
 			break;
 		case DEFEND_STATE:
 			get_character()->combat_mode = CHAR_ATTACKING;
-			max_combat_size = get_character()->dice_size;
+			max_combat_size = the_enemy->dice_size - 1;
 			break;
 		default:
 			break;
 	}
+
+	if (max_combat_size <= 0)
+		max_combat_size = 1;
 	
 	combatants_present = 1;
 
@@ -58,22 +63,34 @@ int combat_phase(void)
 			{
 				if (get_character()->combat_mode == CHAR_ATTACKING)
 				{
-					the_enemy->hp -= (attacker_sum - defender_sum); // call animation here?
+					if (current_powerup == LEATHER_SKIN)
+						the_enemy->hp -= (attacker_sum - defender_sum);
+					else
+						the_enemy->hp -= (attacker_sum - defender_sum) + get_character()->modifier; // call animation here?
 				}
 				else if (the_enemy->enemyState == ATTACK_STATE)
 				{
-					get_character()->hp -= (attacker_sum - defender_sum); // call animation here?
+					if (get_character()->modifier > 0 && current_powerup == LEATHER_SKIN)
+						get_character()->modifier -= (attacker_sum - defender_sum);
+					else
+						get_character()->hp -= (attacker_sum - defender_sum); // call animation here?
 				}
 			}
 			else if (attacker_sum < defender_sum) //defender damage delt
 			{
 				if (get_character()->combat_mode == CHAR_ATTACKING)
 				{
-					get_character()->hp += (attacker_sum - defender_sum); // call animation here?
+					if (get_character()->modifier > 0 && current_powerup == LEATHER_SKIN)
+						get_character()->modifier += (attacker_sum - defender_sum);
+					else
+						get_character()->hp += (attacker_sum - defender_sum); // call animation here?
 				}
 				else if (the_enemy->enemyState == ATTACK_STATE)
 				{
-					the_enemy->hp += (attacker_sum - defender_sum); // call animation here?
+					if (current_powerup == LEATHER_SKIN)
+						the_enemy->hp += (attacker_sum - defender_sum);
+					else
+						the_enemy->hp += (attacker_sum - defender_sum) + get_character()->modifier; // call animation here?
 				}
 				
 			}

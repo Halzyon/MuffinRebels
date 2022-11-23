@@ -4,17 +4,18 @@
 #include "gameChar.h"
 
 my_character* the_player;
-int init_char(class_select char_select)
+int init_char(void)
 {
 	the_player = malloc(sizeof(my_character));
 	if (the_player)
 	{
 		the_player->sp = CreateSprite("Assets/poke.png", 4, 4, true, false);
-		the_player->char_class = char_select;
 		the_player->energy = 0;
 		the_player->hp = 100;
 		the_player->sp->moved = 0;
 		the_player->turn_done = 0;
+		the_player->modifier = 0;
+		the_player->mod_duration = 0;
 
 		the_player->dice[0] = e_std_D6;
 		the_player->dice_size = 1;
@@ -28,9 +29,9 @@ int init_char(class_select char_select)
 
 		//sprite animation init
 		the_player->sp->spriteStates[RIGHT] = 2;
-		the_player->sp->spriteStates[BACKWARD] = 0;
-		the_player->sp->spriteStates[LEFT] = 1;
-		the_player->sp->spriteStates[FORWARD] = 3;
+		the_player->sp->spriteStates[BACKWARD] = 1;
+		the_player->sp->spriteStates[LEFT] = 3;
+		the_player->sp->spriteStates[FORWARD] = 0;
 	}
 
 	return the_player;

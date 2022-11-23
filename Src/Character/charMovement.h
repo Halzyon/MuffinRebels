@@ -5,4 +5,6 @@ int check_limits(CP_Vector dir);
 
 void hardware_handler(void);
 
+void check_Chest(CP_Vector pos);
+
 #endif // !CHAR_MOVEMENT_H

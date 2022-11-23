@@ -55,7 +55,7 @@ void game_init(void)
 
 	// create and initialise cplayer
 	init_dice();
-	init_char(Warrior);
+	init_char();
 	
 	//creating map data
 	int width = MAP1_SIZE;
