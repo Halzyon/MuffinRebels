@@ -35,6 +35,7 @@ void hardware_handler(void)
 {
 	if (combatants_present)
 		return;
+
 	//while the player has energy, we will say that the player has not completed their turn
 	if (get_character()->energy && !movement_clicked && !get_character()->turn_done)
 	{

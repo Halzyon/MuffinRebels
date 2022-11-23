@@ -72,7 +72,7 @@ void editor_update(void)
 	}
 	if (CP_Input_MouseWheel())
 	{
-		mouse_cursor += (char)CP_Input_MouseWheel();
+		mouse_cursor += CP_Input_MouseWheel();
 		if (mouse_cursor < 1)
 			mouse_cursor = NUM_TYPES_TILE - 1;
 		if (mouse_cursor > NUM_TYPES_TILE - 1)
