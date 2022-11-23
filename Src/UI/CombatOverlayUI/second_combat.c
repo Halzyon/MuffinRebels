@@ -130,8 +130,9 @@ void second_init(void)
 	powerup[hp].desc = "Increases Max HP for 3 turns";
 	powerup[movement].desc = "Increase movement by 3.";
 
-	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
+
+	// initializes the counter for the dice and powerups
 
 	for (int d = 0; d < MAX_DICE; d++)
 	{
@@ -159,6 +160,8 @@ void second_init(void)
 		}
 		}
 	}
+	// TODO: Add powerup counter
+
 
 	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
 
@@ -270,17 +273,43 @@ void second_update(void)
 		{
 			count_rolls = 0;
 			combatants_present = 0;
+			for (int d = 0; d < 3; d++)
+			{
+				combat_dice[d] = 0;
+			}
 
 			if (the_enemy->enemyState == ATTACK_STATE)
 				the_enemy->enemyState = DEFEND_STATE;
 			else if (the_enemy->enemyState == DEFEND_STATE)
 				the_enemy->enemyState = ATTACK_STATE;
 
-			for (int d = 1; d <= 3; d++)
+			for (int d = 0; d < MAX_DICE; d++)
 			{
-				combat_dice[d - 1] = d;		//	TODO: replace with number of dice left accordingly
-				powerups[d - 1] = d;
+				switch (get_character()->dice[d])
+				{
+				case e_std_D4:
+				{
+					combat_dice[d4]++;
+					break;
+				}
+				case e_std_D6:
+				{
+					combat_dice[d6]++;
+					break;
+				}
+				case e_std_D20:
+				{
+					combat_dice[d20]++;
+					break;
+				}
+				default:
+				{
+					d = MAX_DICE;
+					break;
+				}
+				}
 			}
+			//TODO: add powerup counter
 		}
 		enemy_turn_end = !enemy_turn_end;
 	}
@@ -314,7 +343,7 @@ void second_update(void)
 	settings_button();
 }
 
-void second_dice_powerup(int *rng_num, int num_dice[], int powerup_turns)
+void second_dice_powerup(int *rng_num, int powerup_turns)
 {
 	// draws the interactable buttons based on the set locations
 
@@ -323,15 +352,15 @@ void second_dice_powerup(int *rng_num, int num_dice[], int powerup_turns)
 
 	// branch out to decide if player rolls or not
 
-	second_choose_to_roll_dice(rng_num, num_dice);
+	second_choose_to_roll_dice(rng_num);
 	choose_powerup(powerup_turns, powerups);
 }
 
-void second_choose_to_roll_dice(int *num_roll, int num_dice[])
+void second_choose_to_roll_dice(int *num_roll)
 {
 	for (int d = 0; d < 3; d++)
 	{
-		*dice[d].num = '0' + num_dice[d];
+		*dice[d].num = '0' + combat_dice[d];
 		if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked && !dice[d].clicked && !enemy_turn)	//	checks if user clicked the dice button
 		{
 			CP_Sound_Play(click);
@@ -390,7 +419,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			}
 		}
 		CP_Settings_RectMode(CP_POSITION_CENTER);
-		if ((dice[d4].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d20].clicked && num_dice[d4] && combat_dice[d4] != 0)			//	checks if user selected to roll dice[d4] dice
+		if ((dice[d4].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d20].clicked && combat_dice[d4] != 0)			//	checks if user selected to roll dice[d4] dice
 		{
 			CP_Sound_Play(click);
 			dice_button.clicked = dice[d6].clicked = dice[d20].clicked = 0;
@@ -398,9 +427,8 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			second_init_rollPos();
 			inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
 			*num_roll = roll_dice(dice[d4].type);
-			num_dice[d4]--;
 		}
-		else if ((dice[d6].inButton == 1) && CP_Input_MouseClicked() && !dice[d20].clicked && !dice[d4].clicked && num_dice[d6] && combat_dice[d6] != 0)	//	checks if user selected to roll dice[d6] dice
+		else if ((dice[d6].inButton == 1) && CP_Input_MouseClicked() && !dice[d20].clicked && !dice[d4].clicked && combat_dice[d6] != 0)	//	checks if user selected to roll dice[d6] dice
 		{
 			CP_Sound_Play(click);
 			dice_button.clicked = dice[d4].clicked = dice[d20].clicked = 0;
@@ -408,9 +436,8 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			second_init_rollPos();
 			inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
 			*num_roll = roll_dice(dice[d6].type);
-			num_dice[d6]--;
 		}
-		else if ((dice[d20].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d4].clicked && num_dice[d20] && combat_dice[d20] != 0)	//	checks if user selected dice[d20] dice
+		else if ((dice[d20].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d4].clicked && combat_dice[d20] != 0)	//	checks if user selected dice[d20] dice
 		{
 			CP_Sound_Play(click);
 			dice_button.clicked = dice[d6].clicked = dice[d4].clicked = 0;
@@ -418,7 +445,6 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			second_init_rollPos();
 			inventory.side_display = !inventory.side_display;	// this is for the 'floor' that the dice rolls on
 			*num_roll = roll_dice(dice[d20].type);
-			num_dice[d20]--;
 		}
 
 	}
