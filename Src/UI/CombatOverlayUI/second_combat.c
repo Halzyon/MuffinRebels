@@ -125,10 +125,31 @@ void second_init(void)
 	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
 
-	for (int d = 1; d <= 3; d++)
+	for (int d = 0; d < MAX_DICE; d++)
 	{
-		combat_dice[d-1] = d;		//	TODO: replace with number of dice left accordingly
-		powerups[d-1] = d;
+		switch (get_character()->dice[d])
+		{
+		case e_std_D4:
+		{
+			combat_dice[d4]++;
+			break;
+		}
+		case e_std_D6:
+		{
+			combat_dice[d6]++;
+			break;
+		}
+		case e_std_D20:
+		{
+			combat_dice[d20]++;
+			break;
+		}
+		default:
+		{
+			d = MAX_DICE;
+			break;
+		}
+		}
 	}
 
 	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
@@ -340,6 +361,17 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 		{
 			CP_Image_Draw(dice[d].image, dice[d].position.x, dice[d].position.y, dice[d].size.x * 0.95, dice[d].size.y * 0.95, 255);
 			dice[d].inButton = mouse_in_rect(dice[d].position.x, dice[d].position.y, dice[d].size.x - 30.0f, dice[d].size.y - 30.0f);
+			CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
+			CP_Settings_TextSize(45.0f);
+			CP_Font_DrawText("d4", dice[d4].position.x, dice[d4].position.y + 12.5f);
+			CP_Font_DrawText("d6", dice[d6].position.x, dice[d6].position.y);
+			CP_Font_DrawText("d20", dice[d20].position.x, dice[d20].position.y);
+			if (combat_dice[d] == 0)
+			{
+				CP_Settings_RectMode(CP_POSITION_CENTER);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+				CP_Graphics_DrawRect(dice[d].position.x, dice[d].position.y, inventory.size.x, inventory.size.y);
+			}
 			CP_Image_Draw(desc_panel.image, dice[d].position.x - 50.0f, dice[d].position.y + 50.0f, desc_panel.size.x * 0.4, desc_panel.size.y * 0.4, 255);
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Settings_TextSize(40.0f);
@@ -349,13 +381,8 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 				CP_Image_Draw(cursor.image, dice[d].position.x - 80.0f, dice[d].position.y, cursor.size.x, cursor.size.y, 255);
 			}
 		}
-		CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
-		CP_Settings_TextSize(45.0f);
-		CP_Font_DrawText("d4", dice[d4].position.x, dice[d4].position.y + 12.5f);
-		CP_Font_DrawText("d6", dice[d6].position.x, dice[d6].position.y);
-		CP_Font_DrawText("d20", dice[d20].position.x, dice[d20].position.y);
-
-		if ((dice[d4].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d20].clicked && num_dice[d4])			//	checks if user selected to roll dice[d4] dice
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		if ((dice[d4].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d20].clicked && num_dice[d4] && combat_dice[d4] != 0)			//	checks if user selected to roll dice[d4] dice
 		{
 			CP_Sound_Play(click);
 			dice_button.clicked = dice[d6].clicked = dice[d20].clicked = 0;
@@ -365,7 +392,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			*num_roll = roll_dice(dice[d4].type);
 			num_dice[d4]--;
 		}
-		else if ((dice[d6].inButton == 1) && CP_Input_MouseClicked() && !dice[d20].clicked && !dice[d4].clicked && num_dice[d6])	//	checks if user selected to roll dice[d6] dice
+		else if ((dice[d6].inButton == 1) && CP_Input_MouseClicked() && !dice[d20].clicked && !dice[d4].clicked && num_dice[d6] && combat_dice[d6] != 0)	//	checks if user selected to roll dice[d6] dice
 		{
 			CP_Sound_Play(click);
 			dice_button.clicked = dice[d4].clicked = dice[d20].clicked = 0;
@@ -375,7 +402,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			*num_roll = roll_dice(dice[d6].type);
 			num_dice[d6]--;
 		}
-		else if ((dice[d20].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d4].clicked && num_dice[d20])	//	checks if user selected dice[d20] dice
+		else if ((dice[d20].inButton == 1) && CP_Input_MouseClicked() && !dice[d6].clicked && !dice[d4].clicked && num_dice[d20] && combat_dice[d20] != 0)	//	checks if user selected dice[d20] dice
 		{
 			CP_Sound_Play(click);
 			dice_button.clicked = dice[d6].clicked = dice[d4].clicked = 0;
