@@ -6,10 +6,6 @@
 #include "../../Combat/combat_scene.h"
 #include "../../Scenes/GameScene.h"
 #include <stdio.h>
-#include <string.h>
-#ifdef _MSC_VER // for visual studios/microsoft compiler
-#pragma warning(disable : 4996)
-#endif
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -422,7 +418,7 @@ void second_choose_to_roll_dice(int *num_roll, int num_dice[])
 			{
 				inventory.side_display = 0;
 				go_to_animation(((CP_System_GetWindowWidth()/2) - 200.0f), buttons_centerpointY, &roll_pos);
-				shrinking_animation(0.1f, &dice_scale);
+				shrinking_animation(0.8f, &dice_scale);
 				generate_dice(*num_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
 			}
 			if (dice_timer > 3.5f)
@@ -509,7 +505,7 @@ void enemy_ui(dice_types enemy_dice, int enemy_roll, float enemy_dice_scale)
 	enemy_timer += CP_System_GetDt();
 	CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
 	CP_Settings_TextSize(50.0f);
-	if (enemy_timer < 1.0f)
+	if (enemy_timer < 2.0f)
 	{
 		switch (enemy_dice)
 		{
@@ -537,24 +533,24 @@ void enemy_ui(dice_types enemy_dice, int enemy_roll, float enemy_dice_scale)
 			}
 		}
 	}
-	else if (enemy_timer > 1.0f)
+	else if (enemy_timer > 2.0f)
 	{
 		CP_Settings_TextSize(62.5f);
-		if (enemy_timer > 1.0f && enemy_timer < 3.0f)
+		if (enemy_timer > 2.0f && enemy_timer < 4.0f)
 		{
 			generate_dice(roll_dice(enemy_dice), enemy_dice, enemy_dice_pos.x, enemy_dice_pos.y, enemy_dice_scale);
 		}
-		if (4.0f > enemy_timer && enemy_timer > 3.0f)
+		if (5.0f > enemy_timer && enemy_timer > 4.0f)
 		{
-			generate_dice(enemy_roll, enemy_dice, enemy_dice_pos.x, enemy_dice_pos.y, enemy_dice_scale);
-		}
-		if (enemy_timer > 4.0f)
-		{
-			go_to_animation(((CP_System_GetWindowWidth() / 2) + 200.0f), buttons_centerpointY, &enemy_dice_pos);
-			shrinking_animation(0.1f, &enemy_dice_scale);
 			generate_dice(enemy_roll, enemy_dice, enemy_dice_pos.x, enemy_dice_pos.y, enemy_dice_scale);
 		}
 		if (enemy_timer > 5.0f)
+		{
+			go_to_animation(((CP_System_GetWindowWidth() / 2) + 200.0f), buttons_centerpointY, &enemy_dice_pos);
+			shrinking_animation(0.8f, &enemy_dice_scale);
+			generate_dice(enemy_roll, enemy_dice, enemy_dice_pos.x, enemy_dice_pos.y, enemy_dice_scale);
+		}
+		if (enemy_timer > 6.0f)
 		{
 			fight = !fight;
 			enemy_turn = !enemy_turn;
@@ -689,13 +685,7 @@ void fighting_animation(int num_roll, int enemys_roll)
 
 void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 {
-	/*char hp_text[3] = {'0' + remaining_hp / 100, '0' + ((remaining_hp % 100) / 10), '0' + (remaining_hp % 10)};
-	char full_hp_text[100] = "Player HP:";
-	char end_hp_text[5] = "/100";
-	strcat(full_hp_text, hp_text);
-	strcat(full_hp_text, end_hp_text);
-	CP_Font_DrawText((const char*)full_hp_text, 50.0f, 120.0f);*/
-	float width = CP_System_GetWindowWidth() * 0.30f;
+	float width = CP_System_GetWindowWidth() * 0.40f;
 	if (num_roll < enemys_roll && fight)
 	{
 		//rumbling_animation(alpha);
@@ -719,13 +709,13 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 
 void enemy_health_bar(int enemy_hp, CP_Vector position)
 {
-	float positionX = CP_System_GetWindowWidth() - 50.0f;
+	float positionX = 700.f;
 	float positionY = 50.0f;
 	float width = CP_System_GetWindowWidth() * 0.30f;
 	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
-	CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
+	CP_Graphics_DrawRect(positionX, positionY - 20.0f, width, 50.0f);
 	CP_Settings_Fill(CP_Color_Create(50, 50, 200, 255));
-	CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / 20) * width, 50.0f);
+	CP_Graphics_DrawRect(positionX, positionY - 20.0f, ((float)enemy_hp / 20) * width, 50.0f);
 	CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, 255);
 }
 
