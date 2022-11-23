@@ -88,6 +88,9 @@
     <ClCompile Include="..\Src\utils.c">
       <Filter>Soruce Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\Items\itemHandler.c">
+      <Filter>Soruce Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\Character\charMovement.h">
@@ -163,6 +166,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Items\itemHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
