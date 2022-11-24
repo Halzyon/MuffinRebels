@@ -10,9 +10,6 @@
     <ClCompile Include="..\Src\Combat\combat_scene.c">
       <Filter>Soruce Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\yijia\combat_ui.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Combat\combatHandler.c">
       <Filter>Soruce Files</Filter>
     </ClCompile>
@@ -89,6 +86,7 @@
       <Filter>Soruce Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Items\itemHandler.c">
+    <ClCompile Include="..\Src\yijia\tutorial.c">
       <Filter>Soruce Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -169,6 +167,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Items\itemHandler.h">
+    <ClInclude Include="..\Src\yijia\tutorial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
