@@ -6,6 +6,7 @@
 #include "../../Scenes/GameScene.h"
 #include "../../Items/itemHandler.h"
 #include "../../Character/charMovement.h"
+#include <stdio.h>
 
 #define ENEMYSIZE 1
 Enemy* enemy[ENEMYSIZE];
@@ -23,13 +24,14 @@ asset dice_item[maxDiceItems];
 asset desc_panel;
 CP_Vector roll_pos;
 CP_Vector side_display_pos;
-static CP_Vector item_pos;
+CP_Vector item_pos;
 CP_Font font;
 CP_Sound dice_throw;
 CP_Sound dice_shuffle;
 CP_Sound click;
 float dice_timer;
 float powerup_timer;
+float item_timer;
 int selecting_action;
 int rng_mov, rng_combat;
 int display_side_dice[2];	// subscript 0: movement, 1: combat
@@ -40,8 +42,9 @@ int warning_clicked[2];
 int near_enemy;
 float powerup_scale;
 int powerups[3];
-static int chest;
-float item_timer;
+int chest;
+int item_num;
+bool chest_item;
 extern b_paused;
 
 void combat_overlay_init(void)
@@ -54,12 +57,22 @@ void combat_overlay_init(void)
 	get_image_size("dice[d6].png", &mov_dice);
 	get_image_size("settings.png", &settings);
 	get_image_size("cursor.png", &cursor);
+	get_image_size("desc_panel.png", &desc_panel);
+	font = CP_Font_Load("Assets/Kenney_Pixel.ttf");
+
+	// loads items and finds their sizes
+	get_image_size("dice_item[woodensword].png", &dice_item[woodensword]);
+	get_image_size("dice_item[woodenshield].png", &dice_item[woodenshield]);
+	get_image_size("dice_item[ironsword].png", &dice_item[ironsword]);
+	get_image_size("dice_item[ironshield].png", &dice_item[ironshield]);
+	get_image_size("dice_item[goldsword].png", &dice_item[goldshield]);
+	get_image_size("dice_item[diamondsword].png", &dice_item[diamondsword]);
+	get_image_size("dice_item[diamondshield].png", &dice_item[diamondshield]);
+	get_image_size("dice_item[mastersword].png", &dice_item[mastersword]);
+
 	get_image_size("powerup[atk].png", &powerup[strongarm]);
 	get_image_size("powerup[hp].png", &powerup[leatherskin]);
 	get_image_size("powerup[movement].png", &powerup[healthpot]);
-	get_image_size("desc_panel.png", &desc_panel);
-	get_image_size("dice_item[woodenshield].png", &dice_item[woodenshield]);
-	font = CP_Font_Load("Assets/Kenney_Pixel.ttf");
 
 	//	when image is drawn, it will place center of image at the specified location. when text is drawn, center of text will be placed at the location
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -113,6 +126,12 @@ void combat_overlay_init(void)
 	dice_button.position.y = powerup_button.position.y = buttons_centerpointY;	// y position of both power up and dice button are the same
 	powerup_button.position.x = buttons_centerpointX - 60.0f;
 
+	item_timer = 0;
+	dice_timer = 0;
+	powerup_timer = 0;
+
+	chest_item = false;
+
 	second_sfx_init();
 }
 
@@ -130,7 +149,6 @@ void combat_overlay_update(void)
 {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	int combat_dice[3] = { 2,3,4 };
 	dice_powerup(turns, combat_dice);
 	side_display(get_character()->energy, turns);
@@ -138,8 +156,14 @@ void combat_overlay_update(void)
 	
 	if (chest)
 	{
-		item_pos.x = get_character()->sp->go.position.x - 25.0f;
-		item_pos.y = get_character()->sp->go.position.y;
+		item_pos.x = get_character()->sp->go.position.x;
+		item_pos.y = get_character()->sp->go.position.y - 25.0f;
+		chest_item = true;
+		item_num = chest;
+	}
+
+	if (chest_item)
+	{
 		item_to_inventory(1);
 	}
 
@@ -519,12 +543,12 @@ void item_to_inventory(int item_code)
 	if (item_code >= 0 && item_code <= 8)
 	{
 		
-		for (int i = 0; i < maxDiceItems; i++) // for items that give dice
+		for (int i = 1; i < 2; i++) // for items that give dice
 		{
 			if (item_timer < 2.0f)
 			{
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-				CP_Image_Draw(dice_item[i].image, item_pos.x, item_pos.y, dice_item[i].size.x, dice_item[i].size.y, 255);
+				CP_Image_Draw(dice_item[i].image, item_pos.x, item_pos.y, dice_item[i].size.x * 10, dice_item[i].size.y * 10, 255);
 				CP_Font_DrawText(dice_item[i].name, get_character()->sp->go.position.x, get_character()->sp->go.position.y - 40.0f);
 			}
 			if (item_timer > 2.0f && item_timer < 3.0f)
@@ -537,7 +561,8 @@ void item_to_inventory(int item_code)
 			}
 			else
 			{
-				chest = 0;
+				chest_item = false;
+				item_timer = 0;
 			}
 		}
 	}
@@ -557,7 +582,8 @@ void item_to_inventory(int item_code)
 			}
 			else
 			{
-				chest = 0;
+				chest_item = false;
+				item_timer = 0;
 			}
 		}
 	}

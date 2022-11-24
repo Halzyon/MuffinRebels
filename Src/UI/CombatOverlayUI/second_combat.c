@@ -221,13 +221,13 @@ void second_update(void)
 	{
 		CP_Settings_TextSize(40.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText("State: Attacking", 100.0f, 150.0f);
+		CP_Font_DrawText("State: Attacking", 150.0f, 150.0f);
 	}
 	else
 	{
 		CP_Settings_TextSize(40.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText("State: Defending", 100.0f, 150.0f);
+		CP_Font_DrawText("State: Defending", 150.0f, 150.0f);
 	}
 	if (enemy_turn)
 	{
@@ -732,10 +732,10 @@ void fighting_animation(int num_roll, int enemys_roll)
 
 void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 {
-	char hp_text[50] = {'P', 'l', 'a', 'y', 'e', 'r', 'H', 'P', ':', ' ',
+	char hp_text[50] = {'P', 'l', 'a', 'y', 'e', 'r', ' ', 'H', 'P', ':', ' ',
 						'0' + remaining_hp / 100, '0' + ((remaining_hp % 100) / 10), '0' + (remaining_hp % 10),
 						'/', '1', '0', '0'};
-	CP_Font_DrawText((const char*)hp_text, 50.0f, 120.0f);
+	CP_Font_DrawText((const char*)hp_text, 150.0f, 120.0f);
 
 	float width = CP_System_GetWindowWidth() * 0.30f;
 	if (num_roll < enemys_roll && fight)

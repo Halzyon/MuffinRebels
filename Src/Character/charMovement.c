@@ -92,7 +92,7 @@ void hardware_handler(void)
 
 			printf("walked right 1, energy left: %d\n", get_character()->energy);
 		}
-		check_Chest(get_character()->sp->go.position);
+		//check_Chest(get_character()->sp->go.position);
 		if (!get_character()->energy)
 		{
 			get_character()->turn_done = 1;
