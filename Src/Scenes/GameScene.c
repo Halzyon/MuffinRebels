@@ -210,7 +210,7 @@ void game_update(void)
 		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
 
 		render_map(Level + currLvl, vec);
-
+		render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3 + currLvl, mapOffset[currLvl]);
 		//render player
 		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
 
@@ -250,6 +250,7 @@ void game_update(void)
 		//RENDER
 		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
 		render_map(Level + currLvl, vec);
+
 		//update player pos
 
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
@@ -294,6 +295,9 @@ void game_update(void)
 		//render enemy
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 			RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
+
+		render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3 + currLvl, mapOffset[currLvl]);
+
 		//render player
 		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
 
