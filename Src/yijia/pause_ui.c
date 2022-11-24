@@ -92,9 +92,12 @@ void gamepaused_update(void) {
 	}
 
 	RenderAsset(exit_icon, 255); //not very necessary 
-	/*if (CP_Input_MouseClicked()) {
-	   close pop up = resume 
-	}*/
+	if (mouse_in_rect(exit_icon.position.x, exit_icon.position.y, exit_icon.size.x, exit_icon.size.y))
+	{
+		if (CP_Input_MouseClicked()) {
+			GameStateSetNextSubScene(MAX_SCENE, true);
+		}
+	}
 }
 
 

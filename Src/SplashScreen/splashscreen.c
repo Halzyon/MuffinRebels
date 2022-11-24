@@ -32,11 +32,6 @@ void splash_screen_update(void)
 	int oldalpha = alpha;
 	alpha += speed * dt;
 
-	//To Quit the game
-	if (CP_Input_KeyDown(KEY_ESCAPE) || CP_Input_KeyDown(KEY_Q))
-	{
-		CP_Engine_Terminate();
-	}
 	logo->go.alpha = alpha;
 	if (oldalpha > alpha)
 	{
@@ -49,8 +44,7 @@ void splash_screen_update(void)
 	RenderSprite(logo);
 
 	//RENDER CIRCLE
-	CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-	CP_Graphics_DrawCircle(CP_Input_GetMouseX(), CP_Input_GetMouseY(), 50.f);
+	
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 
 	if (CP_Input_KeyTriggered(KEY_P))
