@@ -17,11 +17,21 @@ void declare_combatants(Enemy* const enemy, int enemy_combat_mode)
 	{
 		case ATTACK_STATE:
 			get_character()->combat_mode = CHAR_DEFENDING;
-			max_combat_size = get_character()->dice_size - 1;
+			if (get_character()->dice_size - 1 <= the_enemy->dice_size)
+			{
+				max_combat_size = get_character()->dice_size - 1;
+			}
+			else
+				max_combat_size = the_enemy->dice_size;
 			break;
 		case DEFEND_STATE:
 			get_character()->combat_mode = CHAR_ATTACKING;
-			max_combat_size = the_enemy->dice_size - 1;
+			if (the_enemy->dice_size - 1 <= get_character()->dice_size)
+			{
+				max_combat_size = the_enemy->dice_size - 1;
+			}
+			else
+				max_combat_size = get_character()->dice_size;
 			break;
 		default:
 			break;
@@ -34,8 +44,6 @@ void declare_combatants(Enemy* const enemy, int enemy_combat_mode)
 
 	attacker_sum = 0;
 	defender_sum = 0;
-
-	def_max_size = max_combat_size - 1;
 }
 
 int combat_phase(void)
