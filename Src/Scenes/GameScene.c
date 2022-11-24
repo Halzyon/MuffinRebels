@@ -23,6 +23,7 @@ extern int brightposx;
 extern bool sub;
 CP_BOOL combatStart = false;
 CP_BOOL combatOver = false;
+int enemykilled = 0;
 void game_init(void)
 {
 	currLvl = 0;
@@ -139,7 +140,10 @@ void game_update(void)
 		currLvl = 2;
 	}
 
-
+	if (enemykilled == ENEMYSIZE)
+	{
+		GameStateSetNextScene(OVERWORLD_UI_SCENE);
+	}
 
 	//get player input
 	hardware_handler();
@@ -212,6 +216,7 @@ void game_update(void)
 			if (enemy[i]->hp <= 0)
 			{
 				enemy[i]->sp->go.isAlive = false;
+					++enemykilled;
 				enemy[i]->b_combat = false;
 				battleEnd();
 

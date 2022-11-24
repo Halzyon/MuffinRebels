@@ -107,7 +107,7 @@ void mainmenu_update() {
 			if (CP_Input_MouseClicked())
 			{
 				CP_Sound_Play(click);
-				GameStateSetNextScene(GAME_SCENE);
+				GameStateSetNextScene(OVERWORLD_UI_SCENE);
 			}
 
 		}
