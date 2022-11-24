@@ -6,7 +6,7 @@
 #include "gameMap.h"
 
 double wait_delta;
-
+extern int enemykilled;
 void UpdateEnemy(Enemy* en, float dt, bool move)
 {
 	if (!en->sp->go.isAlive)
@@ -140,6 +140,7 @@ void UpdateCombat(Enemy* en, float dt)
 	if (en->hp <= 0)
 	{
 		en->sp->go.isAlive = false;
+		++enemykilled;
 		combatants_present = 0;
 	}
 }

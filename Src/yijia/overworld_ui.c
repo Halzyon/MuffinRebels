@@ -3,6 +3,7 @@
 #include "../yijia/overworld_ui.h"
 #include <stdbool.h>
 #include "../UI/UtilsUI/ui_utils.h"
+#include "GameStateManager.h"
 
 asset button;
 asset button2;
@@ -15,7 +16,10 @@ asset lvl1icon;
 asset lvl2icon;
 asset lvl3icon; 
 int alpha; 
-
+extern asset matte;
+extern int brightposx;
+extern bool sub;
+extern int enemykilled;
 void overworld_init(void) {
 	
 	CP_System_SetWindowSize(1280, 720); 
@@ -65,6 +69,7 @@ void overworld_init(void) {
 	lvl3icon.position.x = CP_System_GetWindowWidth() - 640;
 	lvl3icon.position.y = 520;
 
+
 }
 
 
@@ -87,10 +92,12 @@ void overworld_update(void) {
 		{
 			button.clicked = !button.clicked;
 		}
-		//if (button.clicked == 1 )
-		//{
-		//	//level 1 
-		//}
+		if (button.clicked == 1 )
+		{
+			enemykilled = 0;
+			GameStateSetNextScene(GAME_SCENE);
+			
+		}
 	}
 
 	//LVL 2 BUTTON 
@@ -102,10 +109,12 @@ void overworld_update(void) {
 		{
 			button2.clicked = !button2.clicked;
 		}
-		//if (button2.clicked == 1 )
-		//{
-		//	//level 2
-		//}
+		if (button2.clicked == 1 )
+		{
+			// 2level
+			enemykilled = 0;
+			GameStateSetNextScene(GAME_SCENE);
+		}
 	}
 
 	RenderAsset(button3, 255);
@@ -116,15 +125,19 @@ void overworld_update(void) {
 		{
 			button3.clicked = !button3.clicked;
 		}
-		//if (button3.clicked == 1 )
-		//{
-		//	//level 3
-		//}
+		if (button3.clicked == 1 )
+		{
+			//level 3
+			enemykilled = 0;
+			GameStateSetNextScene(GAME_SCENE);
+		}
 	}
 	RenderAsset(lvl1icon, 255);
 	RenderAsset(lvl2icon, 255);
 	RenderAsset(lvl3icon, 255);
-
+	
+	if (!sub)
+		RenderAsset(matte, 255 - brightposx);
 
 }
 
