@@ -8,8 +8,8 @@
 #include "../../Character/charMovement.h"
 #include <stdio.h>
 
-#define ENEMYSIZE 1
-Enemy* enemy[ENEMYSIZE];
+#define MAXENEMIES 1
+Enemy* enemy[MAXENEMIES];
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -522,7 +522,8 @@ int isEnemyNearUI(CP_Vector dir)
 	CP_Vector tmp = get_character()->sp->go.position;
 	tmp = CP_Vector_Add(tmp, dir);
 	int check;
-	for (int i = 0; i < ENEMYSIZE; ++i)
+	
+	for (int i = 0; i < MAXENEMIES; ++i)
 	{
 		if (tmp.x != enemy[i]->sp->go.position.x && tmp.y != enemy[i]->sp->go.position.y)
 		{

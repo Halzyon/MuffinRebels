@@ -15,6 +15,7 @@
 #endif  
 
 CP_Image level_sprites[NUM_TYPES_TILE];
+CP_Image fog;
 
 int init_map_obj(game_map* out_obj, unsigned int width_size, unsigned int height_size, float world_width, float world_height)
 {
@@ -90,6 +91,27 @@ void render_map(game_map* map, CP_Vector offset)
 	}
 }
 
+void render_mapFog(game_map* map, CP_Vector offset, CP_Vector pos, int range, int mapoffset)
+{
+	double gridsize = CP_System_GetWindowHeight() / map->height;
+	CP_Settings_ImageMode(CP_POSITION_CORNER);
+	pos.x -= mapoffset;
+	for (int i = 0; i < map->height * map->width; ++i)
+	{
+		int y = map_get_x((int)i, map->width);
+		int x = map_get_y((float)i, map->height);
+		if (x >= pos.x - range && x <= pos.x + range)
+		{
+			if (y >= pos.y - range && y <= pos.y + range)
+			{
+				continue;
+			}
+		}
+		CP_Image_Draw(fog, (float)(map_get_y((int)i, map->width) * gridsize) + offset.x, (float)(map_get_x((float)i, map->height) * gridsize) + offset.y, gridsize, gridsize - 0.5f, 245);
+
+	}
+}
+
 void loadSprites(void)
 {
 	int i = 0;
@@ -104,4 +126,8 @@ void loadSprites(void)
 		level_sprites[i] = CP_Image_Load(tmp1);
 		++i;
 	}
+	char tem[] = FILEPATH "tile_fog.png";
+
+
+	fog = CP_Image_Load(tem);
 }

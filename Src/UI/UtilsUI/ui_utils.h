@@ -29,4 +29,5 @@ int IsAreaClickedCentre(const GameObject obj, const CP_Vector position);
 int IsAreaClickedCorner(const GameObject obj, const CP_Vector position);
 
 CP_Vector getWorldPos(CP_Vector gridPos, const game_map* gm);
+int mouse_in_rect_lvl(float rect_x, float rect_y, float rect_width, float rect_height);
 #endif // !H_UTILS_H

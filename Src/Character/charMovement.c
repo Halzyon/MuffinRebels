@@ -19,7 +19,7 @@ int check_limits(CP_Vector dir)
 	if (dir.x >= 0 && dir.x < getMap()->width && dir.y >= 0 && dir.y < getMap()->height) // check within bounds before checking tile types
 	{
 		char var = getMap()->map_arr[map_get_index(dir.x, dir.y, getMap()->width)];
-		if ((var >= WALL_1 && var <= WALL_17) || (var >= WALL_19 && var <= WALL_22))
+		if ((var >= WALL_1 && var <= WALL_17) || (var >= WALL_19 && var <= WALL_20))
 		{
 			return 0;
 		}

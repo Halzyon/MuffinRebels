@@ -35,6 +35,7 @@ typedef enum
 	CREDITS_SCENE,
 	PAUSE_SCENE,
 	GAME_SCENE,
+	TUTORIAL_SCENE,
 	MAX_SCENE
 } SCENES;
 typedef struct {
