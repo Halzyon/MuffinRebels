@@ -11,7 +11,7 @@ asset next;
 asset prev; 
 asset exit_icon;
 int alpha;
-
+extern bool sub;
 void tutorial_init() {
 
 	get_image_size_set("Assets/howtoplay1.png", &howtoplay1);
@@ -53,6 +53,7 @@ void tutorial_update() {
 		RenderAsset(exit_icon, 255);
 		if (CP_Input_MouseClicked())
 		{
+			sub = false;
 			//exit
 			GameStateSetNextSubScene(MAX_SCENE,false);
 		}

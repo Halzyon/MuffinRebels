@@ -107,23 +107,23 @@ void freeArray(SceneArray* a) {
 void GameStateRun(void)
 {
 	gsm.b_subScene = false;
-	//GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
-	////GameStateAddScene(SPLASHSCREEN_SCENE, editor_init, editor_update, editor_exit);
-	//GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
-	//GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
-	//GameStateAddScene(COMBAT_OVERLAY_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);	//GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
-	//GameStateAddScene(SETTINGS_SCENE, settings_init, settings_update, settings_shutdown);
-	//GameStateAddScene(OVERWORLD_UI_SCENE, overworld_init, overworld_update, overworld_shutdown);
-	//GameStateAddScene(PAUSE_SCENE, gamepaused_init, gamepaused_update, gamepaused_shutdown);
-	//GameStateAddScene(MAINMENU_SCENE, mainmenu_init, mainmenu_update, mainmenu_exit);
-	//GameStateAddScene(CREDITS_SCENE, credits_init, credits_update, credits_exit);
-	//GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
-	//GameStateAddScene(BATTLE_SCENE, combat_scene_init, combat_scene_update, combat_scene_exit);
-	//GameStateAddScene(BATTLE_SCENE_UI, second_init, second_update, second_exit); 
-	GameStateAddScene(GAME_SCENE, tutorial_init, tutorial_update, tutorial_exit);// @TODO add this later 
+	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
+	//GameStateAddScene(SPLASHSCREEN_SCENE, editor_init, editor_update, editor_exit);
+	GameStateAddScene(SPRITEANIMATION_SCENE, SpriteScene_init, SpriteScene_update, SpriteScene_exit);
+	GameStateAddScene(COMBAT_OVERLAY_SCENE, combat_overlay_init, combat_overlay_update, combat_overlay_exit);	//GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
+	GameStateAddScene(SETTINGS_SCENE, settings_init, settings_update, settings_shutdown);
+	GameStateAddScene(OVERWORLD_UI_SCENE, overworld_init, overworld_update, overworld_shutdown);
+	GameStateAddScene(PAUSE_SCENE, gamepaused_init, gamepaused_update, gamepaused_shutdown);
+	GameStateAddScene(MAINMENU_SCENE, mainmenu_init, mainmenu_update, mainmenu_exit);
+	GameStateAddScene(CREDITS_SCENE, credits_init, credits_update, credits_exit);
+	GameStateAddScene(GAME_SCENE, game_init, game_update, game_exit);
+	GameStateAddScene(BATTLE_SCENE, combat_scene_init, combat_scene_update, combat_scene_exit);
+	GameStateAddScene(BATTLE_SCENE_UI, second_init, second_update, second_exit); // @TODO add this later
+	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
+	GameStateAddScene(TUTORIAL_SCENE, tutorial_init, tutorial_update, tutorial_exit);// @TODO add this later 
 
 	//set first scene
-	GameStateSetNextScene(GAME_SCENE);
+	GameStateSetNextScene(SPLASHSCREEN_SCENE);
 	CP_Engine_Run();
 
 	freeArray(&gsm.Scenes);

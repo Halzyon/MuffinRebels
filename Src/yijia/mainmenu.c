@@ -148,6 +148,15 @@ void mainmenu_update() {
 			//}
 
 		}
+		if (mouse_in_rect(qnmark.position.x, qnmark.position.y, qnmark.size.x , qnmark.size.y) == 1)	 //-100 to reduce the size of area of detection 
+		{
+			if (CP_Input_MouseClicked())
+			{
+				CP_Sound_Play(click);
+				GameStateSetNextSubScene(TUTORIAL_SCENE, false);
+				sub = true;
+			}
+		}
 	}
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	RenderAsset(bg, 255);
@@ -157,38 +166,6 @@ void mainmenu_update() {
 	//SETTINGS ICON - open settings_ui
 
 
-	if(!sub)
-	{
-	if (mouse_in_rect(button.position.x, button.position.y, button.size.x - 200, button.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
-	{
-		RenderAsset(button1pressed, 255);
-		if (CP_Input_MouseClicked())
-		{
-			GameStateSetNextScene(GAME_SCENE);
-		}
-
-	}
-
-	if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x - 200, button2.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
-	{
-		RenderAsset(button2pressed, 255);
-		if (CP_Input_MouseClicked())
-		{
-			currentScene = 0;
-			GameStateSetNextScene(CREDITS_SCENE);
-		}
-	}
-
-	if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x - 200, button3.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
-	{
-		RenderAsset(button3pressed, 255);
-		if (CP_Input_MouseClicked())
-		{
-			CP_Engine_Terminate();
-		}
-
-	}
-	}
 	RenderAsset(settings, 255);
 	RenderAsset(button, 255);
 	RenderAsset(button2, 255);
