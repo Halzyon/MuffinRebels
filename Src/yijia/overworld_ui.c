@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "../UI/UtilsUI/ui_utils.h"
 #include "GameStateManager.h"
+#include "../Scenes/GameScene.h"
 
 asset button;
 asset button2;
@@ -85,7 +86,7 @@ void overworld_update(void) {
 
 	//LVL 1 BUTTON
 	RenderAsset(button, 255);
-	if (mouse_in_rect(button.position.x, button.position.y, button.size.x-100, button.size.y-100) == 1)	 //-100 to reduce the size of area of detection 
+	if (mouse_in_rect_lvl(button.position.x, button.position.y, button.size.x, button.size.y) == 1)	 //-100 to reduce the size of area of detection 
 	{
 		RenderAsset(button1pressed, 255);
 		if (CP_Input_MouseClicked())
@@ -96,13 +97,13 @@ void overworld_update(void) {
 		{
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
-			
+			setNextLvl(0);
 		}
 	}
 
 	//LVL 2 BUTTON 
 	RenderAsset(button2, 255);
-	if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x - 100, button2.size.y - 100) == 1)	 //-100 to reduce the size of area of detection 
+	if (mouse_in_rect_lvl(button2.position.x, button2.position.y, button2.size.x, button2.size.y) == 1)	 //-100 to reduce the size of area of detection 
 	{
 		RenderAsset(button2pressed, 255);
 		if (CP_Input_MouseClicked())
@@ -114,11 +115,12 @@ void overworld_update(void) {
 			// 2level
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
+			setNextLvl(1);
 		}
 	}
 
 	RenderAsset(button3, 255);
-	if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x - 100, button3.size.y - 100) == 1)	 //-100 to reduce the size of area of detection 
+	if (mouse_in_rect_lvl(button3.position.x, button3.position.y, button3.size.x, button3.size.y) == 1)	 //-100 to reduce the size of area of detection 
 	{
 		RenderAsset(button3pressed, 255);
 		if (CP_Input_MouseClicked())
@@ -130,6 +132,7 @@ void overworld_update(void) {
 			//level 3
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
+			setNextLvl(2);
 		}
 	}
 	RenderAsset(lvl1icon, 255);

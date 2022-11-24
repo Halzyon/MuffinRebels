@@ -44,7 +44,7 @@ int init_IO(void)
     }
     // fputs( "suck my cock", file);
     // fclose(file);
-    isInit = 1;
+    isInitIO = 1;
     return 0;
 }
 
@@ -58,7 +58,7 @@ int init_IO(void)
 *//*______________________________________________________________________*/
 int addFile(const unsigned char *filepath, const unsigned char* mode, const unsigned char *name, TYPEFILE type)
 {
-    if (!isInit)
+    if (!isInitIO)
     {
         init_IO();
     }
@@ -116,7 +116,7 @@ int addFile(const unsigned char *filepath, const unsigned char* mode, const unsi
 *//*______________________________________________________________________*/
 FILE *getFile(const unsigned char *name)
 {
-    if (!isInit)
+    if (!isInitIO)
     {
         init_IO();
     }
@@ -142,7 +142,7 @@ FILE *getFile(const unsigned char *name)
 *//*______________________________________________________________________*/
 const unsigned char* readFile(const unsigned char *name)
 {
-    if (!isInit)
+    if (!isInitIO)
     {
         init_IO();
     }
@@ -201,7 +201,7 @@ const unsigned char* readFile(const unsigned char *name)
 *//*______________________________________________________________________*/
 int writeFile(const unsigned char *name, const unsigned char* input, const unsigned char* mode)
 {
-    if (!isInit)
+    if (!isInitIO)
     {
         init_IO();
     }
@@ -241,7 +241,7 @@ void exit_IO(void)
         free(files);
     if (buffer != NULL)
         free(buffer);
-    isInit = 0;
+    isInitIO = 0;
         
 }
 

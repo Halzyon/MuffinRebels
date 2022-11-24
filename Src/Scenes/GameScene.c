@@ -40,11 +40,15 @@ char playerWon = 0; // -1 lose, 1 win;
 bool clearedLevel = false;
 char enemyCount = 0;
 
-void setNextLvl(char next);
+bool isInitScene = false;
+
 void move_transition(CP_Vector* curr, CP_Vector dst);
 
 void game_init(void)
 {
+	if (isInitScene)
+		return;
+
 	currLvl = 0;
 	transition_img = CP_Image_Load(FILEPATH "transition.png");
 	transitionSize = CP_Vector_Set(CP_Image_GetWidth(transition_img), CP_Image_GetHeight(transition_img));
@@ -130,7 +134,7 @@ void game_init(void)
 		//}
 	}
 
-	setNextLvl(targetLevel);
+	
 
 
 	loadSprites();
@@ -142,6 +146,8 @@ void game_init(void)
 	GameStateSetNextSubScene(BATTLE_SCENE, false);
 	GameStateSetNextSubScene(BATTLE_SCENE_UI, false);
 	GameStateSetNextSubScene(MAX_SCENE, true);
+	isInitScene = true;
+	//setNextLvl(targetLevel);
 }
 
 void game_update(void)
@@ -186,11 +192,6 @@ void game_update(void)
 		return;
 	}
 
-	// if (enemykilled == ENEMYSIZE)
-	// {
-	// 	GameStateSetNextScene(OVERWORLD_UI_SCENE);
-	// }
-
 	//get player input
 	hardware_handler();
 
@@ -207,9 +208,9 @@ void game_update(void)
 		}
 		//RENDER
 		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
-		
+
 		render_map(Level + currLvl, vec);
-		
+
 		//render player
 		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
 
@@ -239,7 +240,7 @@ void game_update(void)
 				currLvl = targetLevel;
 			}
 		}
-		
+
 
 		CP_Settings_ImageMode(CP_POSITION_CORNER);
 		CP_Image_Draw(transition_img, transitionPos.x, transitionPos.y, transitionSize.x, transitionSize.y, 255);
@@ -253,49 +254,8 @@ void game_update(void)
 
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
-			second_init();
-			combat_scene_init();
-			combatStart = true;
-			combatOver = false;
-		}
-	}
-
-	//RENDER
-	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
-	render_map(Level + currLvl, vec);
-	
-	//render player
-	RenderSpriteOnMap(get_character()->sp, Level + currLvl);
-
-	//render enemy
-	for (int i = 0; i < ENEMYSIZE; ++i)
-		RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
-	render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3, mapOffset[currLvl]);
-
-	if (!combatStart)
-		ManualUpdate(COMBAT_OVERLAY_SCENE);
-	if (!sub)
-		RenderAsset(matte, 255 - brightposx);
-	
-
-	if (combatStart && !combatOver)
-	{
-		for (int i = 0; i < ENEMYSIZE; ++i)
-		{
-			UpdateCombat(enemy[i], dt);
-		}
-
-		ManualUpdate(BATTLE_SCENE_UI);
-		ManualUpdate(BATTLE_SCENE);
-
-		// if enemy dead/player dead do smth
-
-		for (int i = 0; i < ENEMYSIZE; ++i)
-		{
-			if (!enemy[i]->b_combat)
-				continue;
-			if (enemy[i]->hp <= 0)
+			//set logic for enemy temporary
+			if (get_character()->sp->moved)
 			{
 				for (int j = 0; j <= 20; ++j)
 				{
@@ -329,19 +289,19 @@ void game_update(void)
 		}
 
 
-		//render player
-		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
+		
 
 		//render enemy
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 			RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
-
+		//render player
+		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
 
 		if (!combatStart)
 			ManualUpdate(COMBAT_OVERLAY_SCENE);
 		if (!sub)
 			RenderAsset(matte, 255 - brightposx);
-	
+
 
 		if (combatStart && !combatOver)
 		{
@@ -373,10 +333,8 @@ void game_update(void)
 
 			if (get_character()->hp <= 0)
 			{
-				enemy[i]->sp->go.isAlive = false;
-				enemy[i]->b_combat = false;
 				battleEnd();
-				
+
 				get_character()->sp->moved = 0;
 				get_character()->turn_done = 0;
 				playerWon = -1; // player died
@@ -388,6 +346,8 @@ void game_update(void)
 			}
 		}
 	}
+
+
 }
 
 void game_exit(void)
@@ -426,14 +386,21 @@ void engage_enemy(CP_Vector dir)
 
 void setNextLvl(char next)
 {
+	if (!isInitScene)
+		game_init();
+
 	goNextLvl = true;
 	transitionOver = false;
 	startTransition = true;
 	clearedLevel = false;
 	playerWon = 0;
-
+	combatStart = false;
+	combatOver = true;
 	targetLevel = next;
 	enemyCount = 0;
+
+
+
 
 	for (int i = 0; i < MAXENEMIES; ++i)
 	{
@@ -473,18 +440,64 @@ void setNextLvl(char next)
 		enemy[0]->sp->go.position.x = 7 + mapOffset[targetLevel];
 		enemy[0]->sp->go.position.y = 8;
 		enemy[0]->enemyState = PATROL_LEFTRIGHT_STATE;
+
 		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
 		enemy[1]->sp->go.position.y = 8;
 		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[2]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[2]->sp->go.position.y = 8;
+		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[3]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[3]->sp->go.position.y = 8;
+		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
 	}
 		break;
 	case 2:
 	{
 		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
 		get_character()->sp->go.position.y = 28;
+
+		enemy[0]->sp->go.position.x = 7 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.y = 8;
+		enemy[0]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[1]->sp->go.position.y = 8;
+		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[2]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[2]->sp->go.position.y = 8;
+		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[3]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[3]->sp->go.position.y = 8;
+		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[4]->sp->go.position.x = 7 + mapOffset[targetLevel];
+		enemy[4]->sp->go.position.y = 8;
+		enemy[4]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[5]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[5]->sp->go.position.y = 8;
+		enemy[5]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[6]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[6]->sp->go.position.y = 8;
+		enemy[6]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[7]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[7]->sp->go.position.y = 8;
+		enemy[7]->enemyState = PATROL_LEFTRIGHT_STATE;
 	}
 		break;
 	default:
 		break;
 	}
+}
+
+void setInitScene(bool b)
+{
+	isInitScene = b;
 }

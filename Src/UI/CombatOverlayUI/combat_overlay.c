@@ -5,8 +5,8 @@
 #include "../../Character/gameChar.h"
 #include "../../Scenes/GameScene.h"
 
-#define ENEMYSIZE 1
-Enemy* enemy[ENEMYSIZE];
+#define MAXENEMIES 1
+Enemy* enemy[MAXENEMIES];
 
 float buttons_centerpointX;
 float buttons_centerpointY;
@@ -473,7 +473,7 @@ void isEnemyNearUI(CP_Vector dir)
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 	CP_Vector tmp = get_character()->sp->go.position;
 	tmp = CP_Vector_Add(tmp, dir);
-	for (int i = 0; i < ENEMYSIZE; ++i)
+	for (int i = 0; i < MAXENEMIES; ++i)
 	{
 		if (tmp.x != enemy[i]->sp->go.position.x && tmp.y != enemy[i]->sp->go.position.y)
 		{

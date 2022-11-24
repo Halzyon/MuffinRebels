@@ -42,7 +42,7 @@ fileObj *files;
 bool poolIndex[MAXFILES];
 Buffer* buffer;
 struct stat sb;
-int isInit;
+int isInitIO;
 
 
 
