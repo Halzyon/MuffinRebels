@@ -389,6 +389,8 @@ void setNextLvl(char next)
 	if (!isInitScene)
 		game_init();
 
+	get_character()->combat_mode = CHAR_NONE;
+	combatants_present = false;
 	goNextLvl = true;
 	transitionOver = false;
 	startTransition = true;

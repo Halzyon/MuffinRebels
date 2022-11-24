@@ -91,10 +91,10 @@ void overworld_update(void) {
 		RenderAsset(button1pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
-			button.clicked = !button.clicked;
-		}
-		if (button.clicked == 1 )
-		{
+		//	button.clicked = !button.clicked;
+		//}
+		//if (button.clicked == 1 )
+		//{
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
 			setNextLvl(0);
@@ -108,10 +108,10 @@ void overworld_update(void) {
 		RenderAsset(button2pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
-			button2.clicked = !button2.clicked;
-		}
-		if (button2.clicked == 1 )
-		{
+		//	button2.clicked = !button2.clicked;
+		//}
+		//if (button2.clicked == 1 )
+		//{
 			// 2level
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
@@ -125,10 +125,10 @@ void overworld_update(void) {
 		RenderAsset(button3pressed, 255);
 		if (CP_Input_MouseClicked())
 		{
-			button3.clicked = !button3.clicked;
-		}
-		if (button3.clicked == 1 )
-		{
+		//	button3.clicked = !button3.clicked;
+		//}
+		//if (button3.clicked == 1 )
+		//{
 			//level 3
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
