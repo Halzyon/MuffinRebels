@@ -87,7 +87,7 @@ void tutorial_update() {
 		RenderAsset(howtoplay2,255);
 		RenderAsset(prev, 255);
 	}
-	RenderAsset(exit_icon, 123);
+	RenderAsset(exit_icon, 200);
 
 }
 
