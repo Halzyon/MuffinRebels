@@ -110,7 +110,7 @@ void hardware_handler(void)
 	}
 }
 
-void check_Chest(CP_Vector pos)
+int check_Chest(CP_Vector pos)
 {
 	pos.x -= mapOffset[currLvl];
 	char var = getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)];
@@ -119,6 +119,10 @@ void check_Chest(CP_Vector pos)
 	{
 		getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)] = CHEST_2;
 
-		randomise_all();
+		return randomise_all();
+	}
+	else
+	{
+		return 0;
 	}
 }
