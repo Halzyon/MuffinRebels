@@ -129,5 +129,7 @@ void loadSprites(void);
 
 void render_map(game_map* map, CP_Vector offset);
 
+void render_mapFog(game_map* map, CP_Vector offset, CP_Vector pos, int range, int mapoffset);
+
 
 #endif // !GAME_MAP_H

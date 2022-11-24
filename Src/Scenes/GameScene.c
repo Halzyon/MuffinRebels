@@ -253,8 +253,49 @@ void game_update(void)
 
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
-			//set logic for enemy temporary
-			if (get_character()->sp->moved)
+			second_init();
+			combat_scene_init();
+			combatStart = true;
+			combatOver = false;
+		}
+	}
+
+	//RENDER
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
+	render_map(Level + currLvl, vec);
+	
+	//render player
+	RenderSpriteOnMap(get_character()->sp, Level + currLvl);
+
+	//render enemy
+	for (int i = 0; i < ENEMYSIZE; ++i)
+		RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
+	render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3, mapOffset[currLvl]);
+
+	if (!combatStart)
+		ManualUpdate(COMBAT_OVERLAY_SCENE);
+	if (!sub)
+		RenderAsset(matte, 255 - brightposx);
+	
+
+	if (combatStart && !combatOver)
+	{
+		for (int i = 0; i < ENEMYSIZE; ++i)
+		{
+			UpdateCombat(enemy[i], dt);
+		}
+
+		ManualUpdate(BATTLE_SCENE_UI);
+		ManualUpdate(BATTLE_SCENE);
+
+		// if enemy dead/player dead do smth
+
+		for (int i = 0; i < ENEMYSIZE; ++i)
+		{
+			if (!enemy[i]->b_combat)
+				continue;
+			if (enemy[i]->hp <= 0)
 			{
 				for (int j = 0; j <= 20; ++j)
 				{
@@ -347,8 +388,6 @@ void game_update(void)
 			}
 		}
 	}
-
-
 }
 
 void game_exit(void)
