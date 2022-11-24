@@ -96,6 +96,7 @@ void overworld_update(void) {
 		{
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
+			button.clicked = 0;
 			
 		}
 	}
@@ -114,6 +115,7 @@ void overworld_update(void) {
 			// 2level
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
+			button2.clicked = 0;
 		}
 	}
 
@@ -130,6 +132,7 @@ void overworld_update(void) {
 			//level 3
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
+			button3.clicked = 0;
 		}
 	}
 	RenderAsset(lvl1icon, 255);
