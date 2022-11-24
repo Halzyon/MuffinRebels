@@ -12,6 +12,7 @@ asset resume;
 asset restart;
 asset exittxt;
 int alpha;
+extern bool sub;
 
 void gamepaused_init(void) 
 {
@@ -63,6 +64,7 @@ void gamepaused_update(void) {
 		RenderAsset(arrowicon, 255);
 		if (CP_Input_MouseClicked())
 		{
+			sub = false;
 			GameStateSetNextSubScene(MAX_SCENE,true);	
 		}
 	}
@@ -78,6 +80,7 @@ void gamepaused_update(void) {
 			the_enemy->b_combat = false;
 			setNextLvl(currLvl);
 			GameStateSetNextScene(GAME_SCENE);
+			sub = false;
 			GameStateSetNextSubScene(MAX_SCENE, true);
 		}
 	}
@@ -91,14 +94,19 @@ void gamepaused_update(void) {
 		{
 			setInitScene(false);
 			GameStateSetNextScene(MAINMENU_SCENE);
+			sub = false;
 			GameStateSetNextSubScene(MAX_SCENE, true);
 		}
 	}
 
 	RenderAsset(exit_icon, 255); //not very necessary 
-	/*if (CP_Input_MouseClicked()) {
-	   close pop up = resume 
-	}*/
+	if (mouse_in_rect(exit_icon.position.x, exit_icon.position.y, exit_icon.size.x, exit_icon.size.y))
+	{
+		if (CP_Input_MouseClicked()) {
+			sub = false;
+			GameStateSetNextSubScene(MAX_SCENE, true);
+		}
+	}
 }
 
 
