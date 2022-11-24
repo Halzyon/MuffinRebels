@@ -130,6 +130,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="..\Src\UI\CombatOverlayUI\time_ui.c" />
     <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c" />
     <ClCompile Include="..\Src\utils.c" />
+    <ClCompile Include="..\Src\yijia\tutorial.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\Character\charMovement.h" />
@@ -152,6 +153,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\yijia\settings_ui.h" />
     <ClInclude Include="..\Src\GameStateManager.h" />
     <ClInclude Include="..\Src\Scenes\GameScene.h" />
+    <ClInclude Include="..\Src\yijia\tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\GameObject\gameObject.h" />
