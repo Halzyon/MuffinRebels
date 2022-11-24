@@ -2,92 +2,94 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\Src\Character\charMovement.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\UI\CombatOverlayUI\combat_overlay.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Combat\combat_scene.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Combat\combatHandler.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\yijia\credits.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Character\diceHandler.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\FileIO\encode.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\FileIO\fileIO.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Character\gameChar.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Character\gameEnemy.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Character\gameMap.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Scenes\GameScene.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\GameStateManager.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\Level Stuff\lvl_editor.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\Level Stuff\lvl_manager.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\main.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\yijia\mainmenu.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\yijia\overworld_ui.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\yijia\pause_ui.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\UI\CombatOverlayUI\second_combat.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\FileIO\serialization.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\yijia\settings_ui.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\SplashScreen\splashscreen.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\UI\CombatOverlayUI\time_ui.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c">
-      <Filter>Soruce Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\utils.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Items\itemHandler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Level Stuff\lvl_editor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Level Stuff\lvl_manager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\mainmenu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\pause_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\second_combat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\FileIO\serialization.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\settings_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SplashScreen\splashscreen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteAnimation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\CombatOverlayUI\time_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\Src\yijia\tutorial.c">
-      <Filter>Soruce Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\UI\UtilsUI\ui_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\yijia\overworld_ui.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +135,9 @@
     <ClInclude Include="..\Src\GameStateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Src\Items\itemHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\Src\Level Stuff\lvl_editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -163,20 +168,19 @@
     <ClInclude Include="..\Src\SpriteAnimation\SpriteScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h">
+    <ClInclude Include="..\Src\yijia\tutorial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\Items\itemHandler.h">
-    <ClInclude Include="..\Src\yijia\tutorial.h">
+    <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Soruce Files">
-      <UniqueIdentifier>{a754c6d4-e068-4231-be8a-1c89d4cfe41b}</UniqueIdentifier>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2d6f70fe-8e2f-4ba9-bf4d-7224a1bca7d7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{2c19d5ce-c8e7-44de-b376-96647fd441c4}</UniqueIdentifier>
+      <UniqueIdentifier>{3fd4981c-30c5-49c1-95de-a81f5a6c8dc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

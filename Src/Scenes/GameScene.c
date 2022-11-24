@@ -439,20 +439,20 @@ void setNextLvl(char next)
 		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
 		get_character()->sp->go.position.y = 18;
 
-		enemy[0]->sp->go.position.x = 7 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.x = 8 + mapOffset[targetLevel];
 		enemy[0]->sp->go.position.y = 8;
-		enemy[0]->enemyState = PATROL_LEFTRIGHT_STATE;
+		enemy[0]->enemyState = PATROL_UPDOWN_STATE;
 
 		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
-		enemy[1]->sp->go.position.y = 8;
+		enemy[1]->sp->go.position.y = 9;
 		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[2]->sp->go.position.x = 13 + mapOffset[targetLevel];
-		enemy[2]->sp->go.position.y = 8;
+		enemy[2]->sp->go.position.x = 12 + mapOffset[targetLevel];
+		enemy[2]->sp->go.position.y = 13;
 		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[3]->sp->go.position.x = 13 + mapOffset[targetLevel];
-		enemy[3]->sp->go.position.y = 8;
+		enemy[3]->sp->go.position.x = 15 + mapOffset[targetLevel];
+		enemy[3]->sp->go.position.y = 1;
 		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
 	}
 		break;
@@ -461,36 +461,36 @@ void setNextLvl(char next)
 		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
 		get_character()->sp->go.position.y = 28;
 
-		enemy[0]->sp->go.position.x = 7 + mapOffset[targetLevel];
-		enemy[0]->sp->go.position.y = 8;
-		enemy[0]->enemyState = PATROL_LEFTRIGHT_STATE;
+		enemy[0]->sp->go.position.x = 1 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.y = 6;
+		enemy[0]->enemyState = PATROL_UPDOWN_STATE;
 
-		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
-		enemy[1]->sp->go.position.y = 8;
-		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
+		enemy[1]->sp->go.position.x = 2 + mapOffset[targetLevel];
+		enemy[1]->sp->go.position.y = 12;
+		enemy[1]->enemyState = PATROL_UPDOWN_STATE;
 
-		enemy[2]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[2]->sp->go.position.x = 17 + mapOffset[targetLevel];
 		enemy[2]->sp->go.position.y = 8;
 		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[3]->sp->go.position.x = 13 + mapOffset[targetLevel];
-		enemy[3]->sp->go.position.y = 8;
+		enemy[3]->sp->go.position.x = 18 + mapOffset[targetLevel];
+		enemy[3]->sp->go.position.y = 3;
 		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[4]->sp->go.position.x = 7 + mapOffset[targetLevel];
-		enemy[4]->sp->go.position.y = 8;
+		enemy[4]->sp->go.position.x = 26 + mapOffset[targetLevel];
+		enemy[4]->sp->go.position.y = 22;
 		enemy[4]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[5]->sp->go.position.x = 13 + mapOffset[targetLevel];
-		enemy[5]->sp->go.position.y = 8;
+		enemy[5]->sp->go.position.x = 29 + mapOffset[targetLevel];
+		enemy[5]->sp->go.position.y = 24;
 		enemy[5]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[6]->sp->go.position.x = 13 + mapOffset[targetLevel];
-		enemy[6]->sp->go.position.y = 8;
-		enemy[6]->enemyState = PATROL_LEFTRIGHT_STATE;
+		enemy[6]->sp->go.position.x = 19 + mapOffset[targetLevel];
+		enemy[6]->sp->go.position.y = 19;
+		enemy[6]->enemyState = PATROL_UPDOWN_STATE;
 
 		enemy[7]->sp->go.position.x = 13 + mapOffset[targetLevel];
-		enemy[7]->sp->go.position.y = 8;
+		enemy[7]->sp->go.position.y = 17;
 		enemy[7]->enemyState = PATROL_LEFTRIGHT_STATE;
 	}
 		break;
