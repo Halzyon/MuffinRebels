@@ -14,6 +14,7 @@ typedef struct
 	int inButton;
 	int clicked;
 	const char* desc;
+	const char* desc1;
 	const char* name;
 	int side_display;
 	dice_types type;

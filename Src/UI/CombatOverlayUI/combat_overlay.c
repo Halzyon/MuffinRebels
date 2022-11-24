@@ -65,14 +65,15 @@ void combat_overlay_init(void)
 	get_image_size("dice_item[woodenshield].png", &dice_item[woodenshield]);
 	get_image_size("dice_item[ironsword].png", &dice_item[ironsword]);
 	get_image_size("dice_item[ironshield].png", &dice_item[ironshield]);
-	get_image_size("dice_item[goldsword].png", &dice_item[goldshield]);
+	get_image_size("dice_item[goldsword].png", &dice_item[goldsword]);
+	get_image_size("dice_item[goldshield].png", &dice_item[goldshield]);
 	get_image_size("dice_item[diamondsword].png", &dice_item[diamondsword]);
 	get_image_size("dice_item[diamondshield].png", &dice_item[diamondshield]);
 	get_image_size("dice_item[mastersword].png", &dice_item[mastersword]);
 
-	get_image_size("powerup[atk].png", &powerup[strongarm]);
-	get_image_size("powerup[hp].png", &powerup[leatherskin]);
-	get_image_size("powerup[movement].png", &powerup[healthpot]);
+	get_image_size("powerup[strongarm].png", &powerup[strongarm]);
+	get_image_size("powerup[leatherskin].png", &powerup[leatherskin]);
+	get_image_size("powerup[healthpot].png", &powerup[healthpot]);
 
 	//	when image is drawn, it will place center of image at the specified location. when text is drawn, center of text will be placed at the location
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -93,11 +94,36 @@ void combat_overlay_init(void)
 	init_dice();
 
 	// set names
+	dice_item[woodensword].name = "Wooden Sword";
 	dice_item[woodenshield].name = "Wooden Shield";
+	dice_item[ironsword].name = "Iron Sword";
+	dice_item[ironshield].name = "Iron Shield";
+	dice_item[goldsword].name = "Gold Sword";
+	dice_item[goldshield].name = "Gold Shield";
+	dice_item[diamondsword].name = "Diamond Sword";
+	dice_item[diamondshield].name = "Diamond Shield";
+	dice_item[mastersword].name = "Master Sword";
 	
 
 	// set how many dice each powerup gets
-	dice_item[woodenshield].desc = "+3 D4s";
+	dice_item[woodensword].desc = "+1d6";
+	dice_item[woodensword].desc1 = "+1d4";
+
+	dice_item[woodenshield].desc = "+3d4";
+	dice_item[ironsword].desc = "+2d6";
+
+	dice_item[ironshield].desc = "+1d6";
+	dice_item[ironshield].desc1 = "+3d4";
+	
+	dice_item[goldsword].desc = "+3d6";
+
+	dice_item[goldshield].desc = "+2d6";
+	dice_item[goldshield].desc1 = "+2d4";
+
+	dice_item[diamondsword].desc = "+4d6";
+	dice_item[diamondshield].desc = "+5d6";
+	dice_item[mastersword].desc = "+2d20";
+
 
 	mov_dice.type = e_std_D6;
 
@@ -111,9 +137,9 @@ void combat_overlay_init(void)
 	display_side_dice[0] = display_side_dice[1] = 0;
 	
 	// initialize description
-	powerup[strongarm].desc = "Increases damage dealt for 3 turns.";
-	powerup[leatherskin].desc = "Increases Max HP for 3 turns";
-	powerup[healthpot].desc = "Increase movement by 3.";
+	powerup[strongarm].desc = "Damage +3 for 10 turns";
+	powerup[leatherskin].desc = "Shield +5 for 10 turns";
+	powerup[healthpot].desc = "Heals 10 HP.";
 	
 	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
@@ -150,7 +176,7 @@ void combat_overlay_update(void)
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	int combat_dice[3] = { 2,3,4 };
-	dice_powerup(turns, combat_dice);
+	dice_powerup(get_character()->mod_duration, combat_dice);
 	side_display(get_character()->energy, turns);
 	chest = check_Chest(get_character()->sp->go.position); // double check if it works
 	
@@ -158,14 +184,14 @@ void combat_overlay_update(void)
 	{
 		item_pos = getWorldPos(get_character()->sp->go.position, getMap());
 		item_pos.x += 30.0f;
-		item_pos.y -= 40.0f;
+		item_pos.y -= 50.0f;
 		chest_item = true;
 		item_num = chest;
 	}
 
 	if (chest_item)
 	{
-		item_to_inventory(1);
+		item_to_inventory(item_num);
 	}
 
 	settings_button();
@@ -544,55 +570,80 @@ void item_to_inventory(int item_code)
 
 	if (item_code >= 0 && item_code <= 8)
 	{
-		
-		for (int i = 1; i < 2; i++) // for items that give dice
+		if (item_timer < 2.0f)
 		{
-			if (item_timer < 2.5f)
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Image_Draw(dice_item[item_code].image, item_pos.x, item_pos.y, dice_item[item_code].size.x, dice_item[item_code].size.y, 255);
+		}
+		else if (item_timer > 2.0f && item_timer < 3.0f)
+		{
+			go_to_animation(dice_button.position.x, dice_button.position.y, &item_pos);
+			CP_Image_Draw(dice_item[item_code].image, item_pos.x, item_pos.y, dice_item[item_code].size.x, dice_item[item_code].size.y, 255);
+		}
+		else if (item_timer > 3.0f && item_timer < 4.50f)
+		{
+			switch (item_code)
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-				CP_Image_Draw(dice_item[i].image, item_pos.x, item_pos.y, dice_item[i].size.x, dice_item[i].size.y, 255);
-			}
-			else if (item_timer > 2.5f && item_timer < 3.5f)
+			case (woodensword):
 			{
-				go_to_animation(dice_button.position.x, dice_button.position.y, &item_pos);
-				CP_Image_Draw(dice_item[i].image, item_pos.x, item_pos.y, dice_item[i].size.x, dice_item[i].size.y, 255);
-			}
-			else if (item_timer > 3.5f && item_timer < 5.0f)
-			{
-				//if (item_timer == 3.6f)
-
 				CP_Settings_TextSize(30.0f);
-				CP_Font_DrawText(dice_item[i].name, dice_button.position.x - 25.0f, dice_button.position.y - 150.0f);
+				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 200.0f);
 				CP_Settings_TextSize(50.0f);
-				CP_Font_DrawText(dice_item[i].desc, dice_button.position.x, dice_button.position.y - 100.0f);
+				CP_Font_DrawText(dice_item[item_code].desc, dice_button.position.x, dice_button.position.y - 150.0f);
+				CP_Font_DrawText(dice_item[item_code].desc1, dice_button.position.x, dice_button.position.y - 100.0f);
+				break;
 			}
-			else
+			case (ironshield):
 			{
-				chest_item = false;
-				item_timer = 0;
+				CP_Settings_TextSize(30.0f);
+				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 200.0f);
+				CP_Settings_TextSize(50.0f);
+				CP_Font_DrawText(dice_item[item_code].desc, dice_button.position.x, dice_button.position.y - 150.0f);
+				CP_Font_DrawText(dice_item[item_code].desc1, dice_button.position.x, dice_button.position.y - 100.0f);
+				break;
 			}
+			case (goldshield):
+			{
+				CP_Settings_TextSize(30.0f);
+				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 200.0f);
+				CP_Settings_TextSize(50.0f);
+				CP_Font_DrawText(dice_item[item_code].desc, dice_button.position.x, dice_button.position.y - 150.0f);
+				CP_Font_DrawText(dice_item[item_code].desc1, dice_button.position.x, dice_button.position.y - 100.0f);
+				break;
+			}
+			default:
+			{
+				CP_Settings_TextSize(30.0f);
+				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 150.0f);
+				CP_Settings_TextSize(50.0f);
+				CP_Font_DrawText(dice_item[item_code].desc, dice_button.position.x, dice_button.position.y - 100.0f);
+				break;
+			}
+			}
+		}
+		else
+		{
+			chest_item = false;
+			item_timer = 0;
 		}
 	}
 	else if (item_code >= 9 && item_code <= 11) // for powerups
 	{
-		for (int p = 0; p < maxPowerups; p++)
+		if (item_timer < 2.0f)
 		{
-			if (item_timer < 2.0f)
-			{
-				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-				CP_Image_Draw(powerup[p].image, item_pos.x, item_pos.y, powerup[p].size.x, powerup[p].size.y, 255);
-				CP_Font_DrawText(powerup[p].name, get_character()->sp->go.position.x, get_character()->sp->go.position.y - 40.0f);
-			}
-			else if (item_timer > 2.0f && item_timer < 3.0f)
-			{
-				go_to_animation(powerup_button.position.x, powerup_button.position.y, &item_pos);
-				CP_Image_Draw(powerup[p].image, item_pos.x, item_pos.y, powerup[p].size.x, powerup[p].size.y, 255);
-			}
-			else
-			{
-				chest_item = false;
-				item_timer = 0;
-			}
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Image_Draw(powerup[item_code].image, item_pos.x, item_pos.y, powerup[item_code].size.x, powerup[item_code].size.y, 255);
+			CP_Font_DrawText(powerup[item_code].name, get_character()->sp->go.position.x, get_character()->sp->go.position.y - 40.0f);
+		}
+		else if (item_timer > 2.0f && item_timer < 3.0f)
+		{
+			go_to_animation(powerup_button.position.x, powerup_button.position.y, &item_pos);
+			CP_Image_Draw(powerup[item_code].image, item_pos.x, item_pos.y, powerup[item_code].size.x, powerup[item_code].size.y, 255);
+		}
+		else
+		{
+			chest_item = false;
+			item_timer = 0;
 		}
 	}
 }

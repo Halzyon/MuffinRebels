@@ -5,8 +5,7 @@
 #include "../../Combat/combatHandler.h"
 #include "../../Combat/combat_scene.h"
 #include "../../Scenes/GameScene.h"
-#include <stdio.h>
-#include <string.h>
+#include "../../Items/itemHandler.h"
 #ifdef _MSC_VER // for visual studios/microsoft compiler
 #pragma warning(disable : 4996)
 #endif
@@ -153,7 +152,6 @@ void second_init(void)
 	}
 	// TODO: Add powerup counter
 
-
 	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
 
 	buttons_centerpointX = CP_System_GetWindowWidth() - 140.0f;
@@ -216,18 +214,18 @@ void second_update(void)
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	second_dice_powerup(&num_roll, combat_dice, turns);				// TODO: replace turns with turns left for powerup
+	second_dice_powerup(&num_roll, combat_dice, get_character()->mod_duration);				// TODO: replace turns with turns left for powerup
 	if (get_character()->combat_mode == CHAR_ATTACKING)
 	{
-		CP_Settings_TextSize(40.0f);
+		CP_Settings_TextSize(30.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText("State: Attacking", 150.0f, 150.0f);
+		CP_Font_DrawText("State: Attacking", 160.0f, 145.0f);
 	}
 	else
 	{
-		CP_Settings_TextSize(40.0f);
+		CP_Settings_TextSize(30.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText("State: Defending", 150.0f, 150.0f);
+		CP_Font_DrawText("State: Defending", 160.0f, 145.0f);
 	}
 	if (enemy_turn)
 	{
@@ -735,11 +733,20 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 	char hp_text[50] = {'P', 'l', 'a', 'y', 'e', 'r', ' ', 'H', 'P', ':', ' ',
 						'0' + remaining_hp / 100, '0' + ((remaining_hp % 100) / 10), '0' + (remaining_hp % 10),
 						'/', '1', '0', '0'};
-	CP_Font_DrawText((const char*)hp_text, 150.0f, 120.0f);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_TextSize(30.0f);
+	CP_Font_DrawText((const char*)hp_text, 160.0f, 110.0f);
 
 	float width = CP_System_GetWindowWidth() * 0.30f;
 	if (num_roll < enemys_roll && fight)
 	{
+		if (current_powerup == LEATHER_SKIN)
+		{
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
+			CP_Graphics_DrawRect(player_rumble.x + width, player_rumble.y - 20.0f, get_character()->modifier * 0.5 * width, 50.0f);
+			CP_Settings_Fill(CP_Color_Create(200, 200, 255, alpha));
+			CP_Graphics_DrawRect(player_rumble.x + width, player_rumble.y - 20.0f, get_character()->modifier * 0.5 * width, 50.0f);
+		}
 		//rumbling_animation(alpha);
 		CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
 		CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, width, 50.0f);
@@ -748,7 +755,7 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 		CP_Image_Draw(alive_hp.image, player_rumble.x, player_rumble.y, alive_hp.size.x, alive_hp.size.y, alpha);
 	}
 	else
-	{
+	{		
 		player_rumble.x = 50.0f;
 		player_rumble.y = 50.0f;
 		CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
@@ -756,6 +763,13 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 		CP_Settings_Fill(CP_Color_Create(200, 50, 50, 255));
 		CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, ((float)remaining_hp / 100) * width, 50.0f);
 		CP_Image_Draw(alive_hp.image, player_rumble.x, player_rumble.y, alive_hp.size.x, alive_hp.size.y, 255);
+		if (current_powerup == LEATHER_SKIN)
+		{
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+			CP_Graphics_DrawRect(player_rumble.x + width, player_rumble.y - 20.0f, get_character()->modifier * 10.0f, 50.0f);
+			CP_Settings_Fill(CP_Color_Create(150, 150, 255, 255));
+			CP_Graphics_DrawRect(player_rumble.x + width, player_rumble.y - 20.0f, get_character()->modifier * 10.0f, 50.0f);
+		}
 	}
 }
 
