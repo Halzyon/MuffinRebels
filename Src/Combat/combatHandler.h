@@ -8,7 +8,6 @@ int attacker_sum;
 int defender_sum;
 
 int max_combat_size;
-int def_max_size;
 
 Enemy* the_enemy;
 int combatants_present;

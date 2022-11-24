@@ -7,21 +7,16 @@
 
 #define MAX_DICE 5
 
-typedef enum
-{
-	Warrior,
-	Tank,
-	Rouge
-} class_select;
-
 typedef struct 
 {
 	Sprite* sp;
 
 	int hp;
 	int energy;
-	unsigned int char_class;
 	bool turn_done;
+
+	int modifier;
+	int mod_duration;
 
 	unsigned int dice_size;
 	dice_types dice[MAX_DICE];
@@ -52,7 +47,7 @@ enum rogue_loot
 
 };
 
-int init_char(class_select char_select);
+int init_char(void);
 
 my_character* get_character(void);
 

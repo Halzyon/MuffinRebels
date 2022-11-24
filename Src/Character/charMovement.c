@@ -9,6 +9,7 @@
 #include "../UI/CombatOverlayUI/combat_overlay.h"
 #include "gameMap.h"
 #include "../Scenes/GameScene.h"
+#include "../Items/itemHandler.h"
 
 int check_limits(CP_Vector dir)
 {
@@ -113,8 +114,11 @@ void check_Chest(CP_Vector pos)
 {
 	pos.x -= mapOffset[currLvl];
 	char var = getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)];
-		if (var == CHEST_1)
-		{
-			getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)] = CHEST_2;
-		}
+
+	if (var == CHEST_1)
+	{
+		getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)] = CHEST_2;
+
+		randomise_all();
+	}
 }
