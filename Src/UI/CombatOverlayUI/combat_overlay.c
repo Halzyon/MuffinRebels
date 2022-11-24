@@ -93,7 +93,7 @@ void combat_overlay_init(void)
 	init_dice();
 
 	// set names
-	dice_item[woodenshield].name = "Obtained Wooden Shield";
+	dice_item[woodenshield].name = "Wooden Shield";
 	
 
 	// set how many dice each powerup gets
@@ -156,8 +156,9 @@ void combat_overlay_update(void)
 	
 	if (chest)
 	{
-		item_pos.x = get_character()->sp->go.position.x;
-		item_pos.y = get_character()->sp->go.position.y - 25.0f;
+		item_pos = getWorldPos(get_character()->sp->go.position, getMap());
+		item_pos.x += 30.0f;
+		item_pos.y -= 40.0f;
 		chest_item = true;
 		item_num = chest;
 	}
@@ -545,18 +546,23 @@ void item_to_inventory(int item_code)
 		
 		for (int i = 1; i < 2; i++) // for items that give dice
 		{
-			if (item_timer < 2.0f)
+			if (item_timer < 2.5f)
 			{
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-				CP_Image_Draw(dice_item[i].image, item_pos.x, item_pos.y, dice_item[i].size.x * 10, dice_item[i].size.y * 10, 255);
-				CP_Font_DrawText(dice_item[i].name, get_character()->sp->go.position.x, get_character()->sp->go.position.y - 40.0f);
+				CP_Image_Draw(dice_item[i].image, item_pos.x, item_pos.y, dice_item[i].size.x, dice_item[i].size.y, 255);
 			}
-			if (item_timer > 2.0f && item_timer < 3.0f)
+			else if (item_timer > 2.5f && item_timer < 3.5f)
 			{
 				go_to_animation(dice_button.position.x, dice_button.position.y, &item_pos);
+				CP_Image_Draw(dice_item[i].image, item_pos.x, item_pos.y, dice_item[i].size.x, dice_item[i].size.y, 255);
 			}
-			if (item_timer > 3.0f && item_timer < 4.0f)
+			else if (item_timer > 3.5f && item_timer < 5.0f)
 			{
+				//if (item_timer == 3.6f)
+
+				CP_Settings_TextSize(30.0f);
+				CP_Font_DrawText(dice_item[i].name, dice_button.position.x - 25.0f, dice_button.position.y - 150.0f);
+				CP_Settings_TextSize(50.0f);
 				CP_Font_DrawText(dice_item[i].desc, dice_button.position.x, dice_button.position.y - 100.0f);
 			}
 			else
@@ -576,9 +582,10 @@ void item_to_inventory(int item_code)
 				CP_Image_Draw(powerup[p].image, item_pos.x, item_pos.y, powerup[p].size.x, powerup[p].size.y, 255);
 				CP_Font_DrawText(powerup[p].name, get_character()->sp->go.position.x, get_character()->sp->go.position.y - 40.0f);
 			}
-			if (item_timer > 2.0f && item_timer < 3.0f)
+			else if (item_timer > 2.0f && item_timer < 3.0f)
 			{
 				go_to_animation(powerup_button.position.x, powerup_button.position.y, &item_pos);
+				CP_Image_Draw(powerup[p].image, item_pos.x, item_pos.y, powerup[p].size.x, powerup[p].size.y, 255);
 			}
 			else
 			{
