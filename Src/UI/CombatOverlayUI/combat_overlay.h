@@ -14,6 +14,8 @@ typedef struct
 	int inButton;
 	int clicked;
 	const char* desc;
+	const char* desc1;
+	const char* name;
 	int side_display;
 	dice_types type;
 	int warning;
@@ -23,9 +25,24 @@ typedef struct
 
 enum powerup
 {
-	atk = 0,
-	hp = 1,
-	movement = 2
+	strongarm = 0,
+	leatherskin = 1,
+	healthpot = 2,
+	maxPowerups = 3
+};
+
+enum dice_items
+{
+	woodensword = 0,
+	woodenshield = 1,
+	ironsword = 2,
+	ironshield = 3,
+	goldsword = 4,
+	goldshield = 5,
+	diamondsword = 6,
+	diamondshield = 7,
+	mastersword = 8,
+	maxDiceItems = 9
 };
 
 enum dice
@@ -63,7 +80,9 @@ void settings_button(void);
 void movement_window(int movement, float x, float y, float scale);
 
 // detects if enemy is near for UI
-void isEnemyNearUI(CP_Vector dir);
+int isEnemyNearUI(CP_Vector dir);
+
+void item_to_inventory(int item_code);
 
 // frees all images
 void combat_overlay_exit(void);

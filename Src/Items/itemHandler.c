@@ -2,7 +2,7 @@
 
 #include "itemHandler.h"
 
-void randomise_all(void)
+int randomise_all(void)
 {
 	time_t t;
 	srand((unsigned)time(&t));
@@ -50,6 +50,7 @@ void randomise_all(void)
 		default:
 			break;
 	}
+	return choice;
 }
 
 void reset_items(void)

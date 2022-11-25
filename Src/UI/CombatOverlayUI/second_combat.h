@@ -22,9 +22,9 @@ void clash_init(void);
 
 void second_update(void);
 
-void second_dice_powerup(int* rng_num, int num_dice[], int powerup_turns);
+void second_dice_powerup(int* rng_num, int powerup_turns);
 
-void second_choose_to_roll_dice(int* num_roll, int num_dice[]);
+void second_choose_to_roll_dice(int* num_roll);
 
 void bottom_display(int player_roll, int enemy_roll);
 
