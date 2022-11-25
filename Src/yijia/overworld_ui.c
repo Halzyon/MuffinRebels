@@ -1,4 +1,5 @@
 #include "cprocessing.h"
+#include "GameStateManager.h"
 #include "SpriteAnimation/spriteAnimation.h"
 #include "../yijia/overworld_ui.h"
 #include <stdbool.h>
@@ -90,7 +91,7 @@ void overworld_update(void) {
 	//		//exit
 	//		GameStateSetNextSubScene(MAX_SCENE, false);
 	//	}
-	}
+	
 	RenderAsset(bg, 128); 
 
 	//SETTINGS ICON - open settings_ui
