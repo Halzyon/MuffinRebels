@@ -1,4 +1,5 @@
 #include "cprocessing.h"
+#include "GameStateManager.h"
 #include "SpriteAnimation/spriteAnimation.h"
 #include "../yijia/overworld_ui.h"
 #include <stdbool.h>
@@ -6,16 +7,18 @@
 #include "GameStateManager.h"
 #include "../Scenes/GameScene.h"
 
+asset bg;
 asset button;
 asset button2;
 asset button3;
 asset button1pressed;
 asset button2pressed;
 asset button3pressed;
-asset settings_icon;
+asset settings;
 asset lvl1icon;
 asset lvl2icon;
 asset lvl3icon; 
+asset prev;
 int alpha; 
 extern asset matte;
 extern int brightposx;
@@ -36,12 +39,11 @@ void overworld_init(void) {
 	get_image_size_set("Assets/button1pressed.png", &button1pressed);
 	get_image_size_set("Assets/button3pressed.png", &button3pressed);
 	get_image_size_set("Assets/button2pressed.png", &button2pressed);
-	get_image_size_set("Assets/settings_icon.png", &settings_icon);
+	get_image_size_set("Assets/bg.png", &bg);
+	get_image_size_set("Assets/prevscaled.png", &prev);
 
 	//positions
 
-	settings_icon.position.x = CP_System_GetWindowWidth() - 50;
-	settings_icon.position.y = 50;
 
 	button.position.x = CP_System_GetWindowWidth() - 640;
 	button.position.y = 220;
@@ -70,6 +72,11 @@ void overworld_init(void) {
 	lvl3icon.position.x = CP_System_GetWindowWidth() - 640;
 	lvl3icon.position.y = 520;
 
+	bg.position.x = CP_System_GetWindowWidth() - 640;
+	bg.position.y = 360;
+
+	prev.position.x = CP_System_GetWindowWidth() - 1230;
+	prev.position.y = 670;
 
 }
 
@@ -77,12 +84,18 @@ void overworld_init(void) {
 void overworld_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	
-	//SETTINGS ICON - open settings_ui
-	RenderAsset(settings_icon, 255);
-	//if (mouse_in_rect(settings_icon.position.x, settings_icon.position.y, settings_icon.size.x, settings_icon.size.y) == 1)
-	//{
-	//	//open settings pop up
-	//}
+	RenderAsset(prev, 150);
+	if (mouse_in_rect(prev.position.x, prev.position.y, prev.size.x - 10, prev.size.y - 10) == 1)	 //-100 to reduce the size of area of detection 
+	{
+		RenderAsset(prev, 255);
+		if (CP_Input_MouseClicked())
+		{
+			//exit
+			GameStateSetNextScene(MAINMENU_SCENE);
+		}
+	}
+	RenderAsset(bg, 128); 
+
 
 	//LVL 1 BUTTON
 	RenderAsset(button, 255);

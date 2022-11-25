@@ -1,10 +1,11 @@
 #include "GameStateManager.h"
 #include "yijia/settings_ui.h"
-#include "../Src/yijia/overworld_ui.h"
-#include"../Src/yijia/pause_ui.h"
-#include "../Src/yijia/mainmenu.h"
-#include "../Src/yijia/credits.h"
-#include "../Src/yijia/tutorial.h"
+#include "yijia/overworld_ui.h"
+#include"yijia/pause_ui.h"
+#include "yijia/mainmenu.h"
+#include "yijia/credits.h"
+#include "yijia/tutorial.h"
+#include "yijia/gameOver.h"
 
 
 
@@ -126,6 +127,7 @@ void GameStateRun(void)
 	GameStateAddScene(BATTLE_SCENE_UI, second_init, second_update, second_exit); // @TODO add this later
 	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
 	GameStateAddScene(TUTORIAL_SCENE, tutorial_init, tutorial_update, tutorial_exit);// @TODO add this later 
+	GameStateAddScene(GAMEOVER_SCENE, gameTransition_init, gameTransition_update, gameTransition_shutdown);
 
 	//set first scene
 	GameStateSetNextScene(SPLASHSCREEN_SCENE);

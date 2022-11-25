@@ -40,6 +40,7 @@ char playerWon = 0; // -1 lose, 1 win;
 bool clearedLevel = false;
 char enemyCount = 0;
 
+
 bool isInitScene = false;
 
 void move_transition(CP_Vector* curr, CP_Vector dst);
@@ -161,7 +162,15 @@ void game_update(void)
 	{
 		setNextLvl(currLvl + 1);
 	}
-
+	if ((get_character()->hp <= 0  && !sub) || CP_Input_KeyTriggered(KEY_H) || CP_Input_KeyTriggered(KEY_J))
+	{
+		sub = true;
+		if (!CP_Input_KeyDown(KEY_H))
+			get_character()->hp = 0;
+		else
+			get_character()->hp = 5;
+		GameStateSetNextSubScene(GAMEOVER_SCENE,false);
+	}
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	//UPDATE
 	float dt = CP_System_GetDt();
@@ -251,31 +260,34 @@ void game_update(void)
 		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
 		render_map(Level + currLvl, vec);
 
+		bool enemy_done = false;
 		//update player pos
-
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
 			//set logic for enemy temporary
 			if (get_character()->sp->moved)
 			{
-				for (int j = 0; j <= 20; ++j)
+				if (enemy[i]->energy)
 				{
 					UpdateEnemy(enemy[i], dt, true);
+
+					if (enemy[i]->sp->go.isAlive && enemy[i]->energy == 0)
+						enemy_done = true;
 				}
 			}
 			else
 			{
+				enemy[i]->energy = 8;
 				UpdateEnemy(enemy[i], dt, false);
-
-			}
-
-			if ((i == numEnemies[currLvl] - 1) && get_character()->sp->moved)
-			{
-				get_character()->sp->moved = 0;
-				get_character()->turn_done = 0;
 			}
 
 			UpdateCombat(enemy[i], dt);
+		}
+
+		if (enemy_done)
+		{
+			get_character()->sp->moved = 0;
+			get_character()->turn_done = 0;
 		}
 
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
@@ -288,9 +300,6 @@ void game_update(void)
 				combatOver = false;
 			}
 		}
-
-
-		
 
 		//render enemy
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
@@ -436,6 +445,10 @@ void setNextLvl(char next)
 		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
 		enemy[1]->sp->go.position.y = 8;
 		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 5;
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 5;
 	}
 		break;
 	case 1:
@@ -458,6 +471,14 @@ void setNextLvl(char next)
 		enemy[3]->sp->go.position.x = 15 + mapOffset[targetLevel];
 		enemy[3]->sp->go.position.y = 1;
 		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 5;
+		enemy[2]->maxHP = 10;
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 5;
+		enemy[2]->hp = 10;
+
 	}
 		break;
 	case 2:
@@ -496,6 +517,24 @@ void setNextLvl(char next)
 		enemy[7]->sp->go.position.x = 13 + mapOffset[targetLevel];
 		enemy[7]->sp->go.position.y = 17;
 		enemy[7]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 15;
+		enemy[2]->maxHP = 10;
+		enemy[3]->maxHP = 5;
+		enemy[4]->maxHP = 15;
+		enemy[5]->maxHP = 10;
+		enemy[6]->maxHP = 15;
+		enemy[7]->maxHP = 5;
+		
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 15;
+		enemy[2]->hp = 10;
+		enemy[3]->hp = 5;
+		enemy[4]->hp = 15;
+		enemy[5]->hp = 10;
+		enemy[6]->hp = 15;
+		enemy[7]->hp = 5;
 	}
 		break;
 	default:

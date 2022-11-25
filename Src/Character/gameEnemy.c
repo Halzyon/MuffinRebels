@@ -26,9 +26,12 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 				declare_combatants(en, en->enemyState);
 		}
 		else if (en->b_direction && charPos.y - 1 == enemyPos.y && charPos.x == enemyPos.x)
-		{//player is on top of enemy and enemy is facing ontop
+		{//player is on top of enemy and enemy is facing ontopS
 			en->b_combat = true;
-			en->enemyState = ATTACK_STATE;
+			en->enemyState = DEFEND_STATE;
+
+			/*if (!combatants_present)
+				declare_combatants(en, en->enemyState);*/
 		}
 	}
 	else if (en->enemyState == PATROL_LEFTRIGHT_STATE)
@@ -36,10 +39,18 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 		if (!en->b_direction && charPos.y == enemyPos.y && charPos.x + 1 == enemyPos.x)
 		{//player is on top of enemy and enemy is facing ontop
 			en->b_combat = true;
+			en->enemyState = ATTACK_STATE;
+
+			if (!combatants_present)
+				declare_combatants(en, en->enemyState);
 		}
 		else if (en->b_direction && charPos.y == enemyPos.y && charPos.x - 1 == enemyPos.x)
 		{//player is on top of enemy and enemy is facing ontop
 			en->b_combat = true;
+			en->enemyState = DEFEND_STATE;
+
+			/*if (!combatants_present)
+				declare_combatants(en, en->enemyState);*/
 		}
 	}
 
@@ -156,7 +167,7 @@ Enemy* CreateEnemy(void)
 	{
 		newEnemy->hp = 5;
 		newEnemy->energy = 8;
-		newEnemy->dice[0] = e_std_D6;
+		newEnemy->dice[0] = e_std_D4;
 		newEnemy->dice_size = 1; //number of usable dice
 
 		for (int i = 1; i < MAX_DICE; ++i)

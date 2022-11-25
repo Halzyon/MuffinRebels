@@ -308,7 +308,7 @@ void second_update(void)
 	
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	health_bar(get_character()->hp);					//	TODO: replace with remaining hp
-	enemy_health_bar(the_enemy->hp, getWorldPos(the_enemy->sp->go.position, getMap()));
+	enemy_health_bar(the_enemy->hp, getWorldPos(the_enemy->sp->go.position, getMap()),the_enemy->maxHP);
 	if (fight)
 	{
 		blinkTimer += CP_System_GetDt();
@@ -780,7 +780,7 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 	}
 }
 
-void enemy_health_bar(int enemy_hp, CP_Vector position)
+void enemy_health_bar(int enemy_hp, CP_Vector position, int enemyMaxHp)
 {
 	
 	float positionX = CP_System_GetWindowWidth() - 50.0f;
@@ -791,7 +791,7 @@ void enemy_health_bar(int enemy_hp, CP_Vector position)
 		CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
 		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
 		CP_Settings_Fill(CP_Color_Create(50, 50, 200, alpha));
-		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / 20) * width, 50.0f);
+		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / enemyMaxHp) * width, 50.0f);
 		CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, alpha);
 	}
 	else
@@ -799,7 +799,7 @@ void enemy_health_bar(int enemy_hp, CP_Vector position)
 		CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
 		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
 		CP_Settings_Fill(CP_Color_Create(50, 50, 200, 255));
-		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / 20) * width, 50.0f);
+		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / enemyMaxHp) * width, 50.0f);
 		CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, 255);
 	}
 }
