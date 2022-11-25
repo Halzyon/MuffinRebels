@@ -133,10 +133,12 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 		if (!en->b_direction && charPos.y == enemyPos.y && charPos.x + 1 == enemyPos.x)
 		{//player is on top of enemy and enemy is facing ontop
 			en->b_combat = true;
+			en->enemyState = ATTACK_STATE;
 		}
 		else if (en->b_direction && charPos.y == enemyPos.y && charPos.x - 1 == enemyPos.x)
 		{//player is on top of enemy and enemy is facing ontop
 			en->b_combat = true;
+			en->enemyState = ATTACK_STATE;
 		}
 	}
 	
