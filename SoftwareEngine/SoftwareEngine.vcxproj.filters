@@ -91,6 +91,9 @@
     <ClCompile Include="..\Src\yijia\overworld_ui.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\yijia\gameOver.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\Character\charMovement.h">
@@ -172,6 +175,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\UI\UtilsUI\ui_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\yijia\gameOver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -161,7 +161,11 @@ void game_update(void)
 	{
 		setNextLvl(currLvl + 1);
 	}
-
+	if (get_character()->hp <= 0 || CP_Input_KeyTriggered(KEY_H))
+	{
+		sub = true;
+		GameStateSetNextSubScene(GAMEOVER_SCENE,false);
+	}
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	//UPDATE
 	float dt = CP_System_GetDt();
