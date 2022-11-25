@@ -39,7 +39,7 @@ void gameTransition_init(void) {
 
 void gameTransition_update(void) {
 	//win
-	RenderAsset(win, 255);
+	
 	go_to_animation(overPos.x, overPos.y, &win.position);
 
 	if (win.position.x > overPos.x - 1 && win.position.x < overPos.x + 1)
@@ -56,8 +56,12 @@ void gameTransition_update(void) {
 		}
 	}
 	//gameover
-	RenderAsset(gameover, 255);
+	if(get_character()->hp > 0)
+		RenderAsset(win, 255);
+	else
+		RenderAsset(gameover, 255);
 	go_to_animation(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, &gameover.position); 
+	
 
 }
 
