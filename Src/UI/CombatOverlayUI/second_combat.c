@@ -558,6 +558,7 @@ void enemy_ui(dice_types enemy_dice, int enemy_roll, float enemy_dice_scale)
 			{
 				CP_Image_Draw(dice[d4].image, enemy_dice_pos.x, enemy_dice_pos.y, dice[d4].size.x * enemy_dice_scale, dice[d4].size.y * enemy_dice_scale, 255);
 				CP_Font_DrawText("d4", enemy_dice_pos.x, enemy_dice_pos.y);
+				break;
 			}
 			case e_std_D6:
 			{
