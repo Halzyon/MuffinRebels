@@ -187,8 +187,10 @@ void second_init_dicePos(void)
 		dice[d].position.y = dice_button.position.y - 130.0f - (115.0f * d);
 	}
 	enemy_dice_pos = getWorldPos(the_enemy->sp->go.position, getMap());
-	enemy_dice_pos.x += 40.0f;
-	enemy_dice_pos.y -= 50.0f;
+	float tileSize = CP_System_GetWindowHeight() / getMap()->height;
+
+	enemy_dice_pos.x += tileSize / 2;
+	enemy_dice_pos.y -= tileSize;
 }
 
 void second_init_rollPos(void)
@@ -612,6 +614,8 @@ void fighting_animation(int num_roll, int enemys_roll)
 	fighting_timer += CP_System_GetDt();
 	CP_Vector player_pos = getWorldPos(get_character()->sp->go.position, getMap());
 	CP_Vector enemy_pos = getWorldPos(the_enemy->sp->go.position, getMap());
+	//float tileSize = ;
+	float tileSizeDiv = CP_System_GetWindowHeight() / getMap()->height / 2;
 	if (num_roll == enemys_roll)
 	{
 		if (fighting_timer == CP_System_GetDt())
@@ -622,11 +626,11 @@ void fighting_animation(int num_roll, int enemys_roll)
 		{
 			if (enemy_pos.x > player_pos.x || player_pos.x > enemy_pos.x)
 			{
-				CP_Image_Draw(parried.image, (player_pos.x + enemy_pos.x) / 2 + 27.5f, player_pos.y + 24.0f, parried.size.x, parried.size.y, 255);
+				CP_Image_Draw(parried.image, (player_pos.x + enemy_pos.x) / 2 + tileSizeDiv, player_pos.y + tileSizeDiv, parried.size.x, parried.size.y, 255);
 			}
 			else if (enemy_pos.y > player_pos.y || player_pos.y > enemy_pos.y)
 			{
-				CP_Image_Draw(parried.image, player_pos.x + 27.5f, (player_pos.y + enemy_pos.y)/2 + 24.0f, parried.size.x, parried.size.y, 255);
+				CP_Image_Draw(parried.image, player_pos.x + tileSizeDiv, (player_pos.y + enemy_pos.y)/2 + tileSizeDiv, parried.size.x, parried.size.y, 255);
 			}
 		}
 	}
@@ -640,11 +644,11 @@ void fighting_animation(int num_roll, int enemys_roll)
 		{
 			if (num_roll < enemys_roll)
 			{
-				CP_Image_Draw(slash.image, player_pos.x + 27.5f, player_pos.y + 24.0f, slash.size.x, slash.size.y, 255);
+				CP_Image_Draw(slash.image, player_pos.x + tileSizeDiv, player_pos.y + tileSizeDiv, slash.size.x, slash.size.y, 255);
 			}
 			else if (enemys_roll < num_roll)
 			{
-				CP_Image_Draw(slash.image, enemy_pos.x + 27.5f, enemy_pos.y + 24.0f, slash.size.x, slash.size.y, 255);
+				CP_Image_Draw(slash.image, enemy_pos.x + tileSizeDiv, enemy_pos.y + tileSizeDiv, slash.size.x, slash.size.y, 255);
 			}
 		}
 	}

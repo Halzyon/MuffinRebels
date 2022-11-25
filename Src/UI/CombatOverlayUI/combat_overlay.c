@@ -186,8 +186,9 @@ void combat_overlay_update(void)
 	if (chest)
 	{
 		item_pos = getWorldPos(get_character()->sp->go.position, getMap());
-		item_pos.x += 30.0f;
-		item_pos.y -= 50.0f;
+		float tileSize = CP_System_GetWindowHeight() / getMap()->height;
+		item_pos.x += tileSize / 2;
+		item_pos.y -= tileSize;
 		chest_item = true;
 		item_num = chest;
 	}
@@ -476,9 +477,11 @@ void choose_powerup(int turns_left, int num_powerups[])
 		{
 			powerup_timer += CP_System_GetDt();
 			CP_Vector pos = getWorldPos(get_character()->sp->go.position, getMap());
+			float tileSize = CP_System_GetWindowHeight() / getMap()->height;
+			float tileSizeDiv = tileSize / 2;
 			if (powerup_timer < 0.8f)
 			{
-				go_to_animation(pos.x + 20.0f, pos.y + 40.0f, &powerup[i].position);		//	TODO: change position to player position
+				go_to_animation(pos.x + tileSizeDiv, pos.y + tileSize, &powerup[i].position);		//	TODO: change position to player position
 				shrinking_animation(0.5f, &powerup_scale);
 				CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x * powerup_scale, powerup[i].size.y * powerup_scale, 255);
 			}
@@ -487,19 +490,19 @@ void choose_powerup(int turns_left, int num_powerups[])
 				CP_Settings_TextSize(30.0f);
 				if (powerup[healthpot].clicked)
 				{
-					CP_Font_DrawText("+10HP", pos.x + 25.0f, pos.y - 40.0f);
+					CP_Font_DrawText("+10HP", pos.x + tileSizeDiv, pos.y - tileSize);
 				}
 				else if (powerup[leatherskin].clicked)
 				{
-					CP_Font_DrawText("Equipped", pos.x + 25.0f, pos.y - 40.0f);
+					CP_Font_DrawText("Equipped", pos.x + tileSizeDiv, pos.y - tileSize);
 				}
 				else if (powerup[strongarm].clicked)
 				{
-					CP_Font_DrawText("Attack UP", pos.x + 25.0f, pos.y - 40.0f);
+					CP_Font_DrawText("Attack UP", pos.x + tileSizeDiv, pos.y - tileSize);
 				}
 				else
 				{
-					CP_Font_DrawText("Power up!", pos.x + 25.0f, pos.y - 40.0f);
+					CP_Font_DrawText("Power up!", pos.x + tileSizeDiv, pos.y - tileSize);
 				}
 
 				if (powerup_timer > 0.8f && powerup_timer < 0.81f) // TODO: change this so that it plays all the time but just once
