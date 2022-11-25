@@ -33,7 +33,7 @@ float dice_timer;
 float powerup_timer;
 float item_timer;
 int selecting_action;
-int rng_mov, rng_combat;
+int rng_mov;
 int display_side_dice[2];	// subscript 0: movement, 1: combat
 int turns;
 int combat_clicked;
@@ -103,6 +103,10 @@ void combat_overlay_init(void)
 	dice_item[diamondsword].name = "Diamond Sword";
 	dice_item[diamondshield].name = "Diamond Shield";
 	dice_item[mastersword].name = "Master Sword";
+
+	powerup[strongarm].name = "Attack Booster";
+	powerup[leatherskin].name = "Leather Tunic";
+	powerup[healthpot].name = "Health Pot";
 	
 
 	// set how many dice each powerup gets
@@ -137,9 +141,9 @@ void combat_overlay_init(void)
 	display_side_dice[0] = display_side_dice[1] = 0;
 	
 	// initialize description
-	powerup[strongarm].desc = "Damage +3 for 10 turns";
-	powerup[leatherskin].desc = "Shield +5 for 10 turns";
-	powerup[healthpot].desc = "Heals 10 HP.";
+	powerup[strongarm].desc = " Attack Booster: Damage +3 for 10 turns";
+	powerup[leatherskin].desc = " Leather Tunic: Shield +5 for 10 turns";
+	powerup[healthpot].desc = "    Health Pot:    Heals 10 HP.";
 	
 	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
@@ -176,10 +180,9 @@ void combat_overlay_update(void)
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	int combat_dice[3] = { 2,3,4 };
-	dice_powerup(get_character()->mod_duration, combat_dice);
-	side_display(get_character()->energy, turns);
-	chest = check_Chest(get_character()->sp->go.position); // double check if it works
-	
+
+	chest = check_Chest(get_character()->sp->go.position);
+
 	if (chest)
 	{
 		item_pos = getWorldPos(get_character()->sp->go.position, getMap());
@@ -194,6 +197,17 @@ void combat_overlay_update(void)
 		item_to_inventory(item_num);
 	}
 
+	dice_powerup(10, combat_dice);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_TextSize(30.0f);
+	CP_Font_DrawText("Energy:", side_display_pos.x, side_display_pos.y + 40.0f);
+	CP_Settings_TextSize(50.0f);
+	movement_window(get_character()->energy, side_display_pos.x, side_display_pos.y + 100.0f, 0.8f);
+	//side_display(get_character()->energy, turns);
+	 // double check if it works
+	//movement_window(get_character()->energy, float x, float y, float scale)
+	
+	
 	settings_button();
 }
 
@@ -204,7 +218,7 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 	CP_Image_Draw(dice_button.image, dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y, 255);
 	CP_Image_Draw(powerup_button.image, powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y, 255);
 
-	side_display(powerup_turns);
+	//side_display(powerup_turns);
 
 	// branch out to decide if player rolls or not
 	for (int d = 0; d < 3; d++)
@@ -228,16 +242,16 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 				CP_Font_DrawText("Combat", x + 2.0f, y);
 				if (mouse_in_rect(x + 2.0f, y - (i * inventory.size.y), inventory.size.x * 1.6 * 0.5, inventory.size.y * 0.5))
 				{
-					CP_Settings_TextSize(22.5f);
+					CP_Settings_TextSize(25.0f);
 					CP_Image_Draw(cursor.image, x - 110.0f, y - (i * inventory.size.y), cursor.size.x, cursor.size.y, 255);
-					CP_Image_Draw(desc_panel.image, x - 200.0f, y - (i*inventory.size.y), desc_panel.size.x * 1.7, desc_panel.size.y, 255);
+					CP_Image_Draw(desc_panel.image, x - 225.0f, y - (i*inventory.size.y), desc_panel.size.x * 2.0, desc_panel.size.y * 1.2, 255);
 					if (i == 0)
 					{
-						CP_Font_DrawTextBox("Ends movement turn and initiates combat.", dice_button.position.x - 298.0f, y - 22.5f, desc_panel.size.x * 1.6);
+						CP_Font_DrawTextBox("Ends movement turn and initiates combat if near enemy.", x - 225.0f - desc_panel.size.x + 2.5f, y - 37.5f, desc_panel.size.x * 2.0);
 					}
 					else if (i == 1)
 					{
-						CP_Font_DrawTextBox("Roll 2 d6 dice to move around on the map.", dice_button.position.x - 298.0f, y - 22.5f - (i*inventory.size.y), desc_panel.size.x * 1.6);
+						CP_Font_DrawTextBox("Roll 2 d6 dice to move around on the map.", x - 225.0f - desc_panel.size.x + 2.5f, y - 25.0f - (i * inventory.size.y), desc_panel.size.x * 2.0);
 					}
 				}
 				near_enemy = isEnemyNearUI(get_character()->sp->go.direction);
@@ -330,7 +344,7 @@ void choose_to_roll_movement()
 				generate_dice(roll_dice(e_std_D6), mov_dice.type, mov_dice.position.x + (d * 100.0f), mov_dice.position.y + (d * 100.0f), 1.0f);
 			}
 		}
-		if (2.5f > dice_timer && dice_timer > 1.5f)
+		if (3.0f > dice_timer && dice_timer > 1.5f)
 		{
 			for (int d = 0; d < 2; d++)
 			{
@@ -339,53 +353,35 @@ void choose_to_roll_movement()
 			CP_Settings_TextSize(50.0f);
 			movement_window(get_character()->energy, mov_dice.position.x + 50.0f, mov_dice.position.y - 100.0f, 0.8);
 		}
-		if (dice_timer > 2.5f)
-		{
-			inventory.side_display = 0;
-			go_to_animation(side_display_pos.x - 58.0f, side_display_pos.y + 202.5f, &mov_dice.position);
-			CP_Settings_TextSize(50.0f);
-			movement_window(get_character()->energy, mov_dice.position.x + 50.0f, mov_dice.position.y - 100.0f, 0.8);
-		}
-		if (dice_timer > 3.5f)
+		if (dice_timer > 3.0f)
 		{
 			dice_timer = 0;
 			mov_dice.clicked = !mov_dice.clicked;
-			mov_dice.side_display = !mov_dice.side_display;
 			movement_clicked = 0;
+			inventory.side_display = 0;
 		}
 	}
 }
 
-void side_display(int turns_left)
+/*void side_display(int turns_left)
 {
 	// for movement side display
-	
-	if (mov_dice.side_display == 1)
+	CP_Settings_TextSize(30.0f);
+
+	CP_Settings_TextSize(50.0f);
+	movement_window(get_character()->energy, side_display_pos.x, side_display_pos.y + 100.0f, 0.8f);
+	if (get_character()->energy <= 0)
 	{
-		CP_Settings_TextSize(50.0f);
-		movement_window(get_character()->energy, side_display_pos.x, side_display_pos.y + 100.0f, 0.8f);
-		if (get_character()->energy <= 0)
-		{
-			get_character()->energy = 0;
-			CP_Settings_TextSize(40.0f);
-			CP_Font_DrawText("No movement left!", side_display_pos.x + 200.0f, side_display_pos.y + 100.0f);
-			
-			dice_timer += CP_System_GetDt();
-			if (dice_timer > 2.0f)
-			{
-				mov_dice.side_display = 0;
-			}
-		}
+		get_character()->energy = 0;
 	}
 	
 	// for combat side_display
 
-}
+}*/
 
 void choose_powerup(int turns_left, int num_powerups[])
 {
-	char* turns[1];
-	turns[0] = '0' + turns_left;
+	char turns[2] = { '0' + turns_left / 10, '0' + turns_left % 10 };
 	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && !dice_button.clicked && !powerup_button.warning)	//	checks if user clicked the dice button
 	{
 		CP_Sound_Play(click);
@@ -441,10 +437,10 @@ void choose_powerup(int turns_left, int num_powerups[])
 			if (mouse_in_rect(powerup[i].position.x, powerup[i].position.y, 80.0f, 80.0f))
 			{
 				CP_Image_Draw(cursor.image, powerup[i].position.x - 80.0f, powerup[i].position.y, cursor.size.x, cursor.size.y, 255);
-				CP_Image_Draw(desc_panel.image, powerup[i].position.x - 190.0f, powerup[i].position.y, desc_panel.size.x * 1.9, desc_panel.size.y, 255);
+				CP_Image_Draw(desc_panel.image, powerup[i].position.x - 190.0f, powerup[i].position.y, desc_panel.size.x * 2.0, desc_panel.size.y * 1.2, 255);
 				CP_Settings_Fill(CP_Color_Create(255,255,255,255));
-				CP_Settings_TextSize(22.5f);
-				CP_Font_DrawTextBox(powerup[i].desc, powerup[i].position.x - 274.0f, powerup[i].position.y - 15.0f, 170.0f);
+				CP_Settings_TextSize(25.0f);
+				CP_Font_DrawTextBox(powerup[i].desc, powerup[i].position.x - 285.0f, powerup[i].position.y - 22.5f, desc_panel.size.x * 1.9);
 			}
 		}
 		if (mouse_in_rect(powerup[strongarm].position.x, powerup[strongarm].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[strongarm])
@@ -489,8 +485,24 @@ void choose_powerup(int turns_left, int num_powerups[])
 			else if (powerup_timer > 0.8f && powerup_timer < 1.5f)
 			{
 				CP_Settings_TextSize(30.0f);
-				CP_Font_DrawText("Power up!", pos.x + 40.0f, pos.y);
-				if (powerup_timer > 0.8f && powerup_timer < 0.81f)
+				if (powerup[healthpot].clicked)
+				{
+					CP_Font_DrawText("+10HP", pos.x + 25.0f, pos.y - 40.0f);
+				}
+				else if (powerup[leatherskin].clicked)
+				{
+					CP_Font_DrawText("Equipped", pos.x + 25.0f, pos.y - 40.0f);
+				}
+				else if (powerup[strongarm].clicked)
+				{
+					CP_Font_DrawText("Attack UP", pos.x + 25.0f, pos.y - 40.0f);
+				}
+				else
+				{
+					CP_Font_DrawText("Power up!", pos.x + 25.0f, pos.y - 40.0f);
+				}
+
+				if (powerup_timer > 0.8f && powerup_timer < 0.81f) // TODO: change this so that it plays all the time but just once
 				{
 					CP_Sound_Play(poweredup);
 				}
@@ -504,15 +516,19 @@ void choose_powerup(int turns_left, int num_powerups[])
 		}
 	}
 
-	for (int i = 0; i < maxPowerups; i++)
+	for (int i = 0; i < 2; i++)
 	{	
 		if (powerup[i].side_display == 1 && turns_left > 0)
 		{
-			CP_Settings_TextSize(30.0f);
-			CP_Image_Draw(desc_panel.image, side_display_pos.x, side_display_pos.y + 250.0f, 30.0f, 30.0f, 255);
 			CP_Image_Draw(powerup[i].image, side_display_pos.x, side_display_pos.y + 200.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
+			CP_Settings_TextSize(20.0f);
+			CP_Font_DrawText(powerup[i].name, side_display_pos.x+2.0f, side_display_pos.y + 160.0f);
+			CP_Settings_TextSize(30.0f);
+			CP_Image_Draw(desc_panel.image, side_display_pos.x, side_display_pos.y + 255.0f, 50.0f, 50.0f, 255);
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-			CP_Font_DrawText(turns, side_display_pos.x + 2.0f, side_display_pos.y + 250.0f);
+			CP_Font_DrawText(turns, side_display_pos.x, side_display_pos.y + 255.0f);
+			CP_Settings_TextSize(20.0f);
+			CP_Font_DrawText("Turns left", side_display_pos.x, side_display_pos.y + 300.0f);
 		}
 		else if (turns_left <= 0)
 		{
@@ -554,11 +570,11 @@ int isEnemyNearUI(CP_Vector dir)
 		if (tmp.x != enemy[i]->sp->go.position.x && tmp.y != enemy[i]->sp->go.position.y)
 		{
 			CP_Graphics_DrawRect(dice_button.position.x - 20.0f, (dice_button.position.y - 125.0f) - (i * inventory.size.y), inventory.size.x * 1.6, inventory.size.y, 100);
-			check = 1;
+			check = 0;
 		}
 		else
 		{
-			check = 0;
+			check = 1;
 		}
 	}
 	return check;
@@ -580,45 +596,24 @@ void item_to_inventory(int item_code)
 			go_to_animation(dice_button.position.x, dice_button.position.y, &item_pos);
 			CP_Image_Draw(dice_item[item_code].image, item_pos.x, item_pos.y, dice_item[item_code].size.x, dice_item[item_code].size.y, 255);
 		}
-		else if (item_timer > 3.0f && item_timer < 4.50f)
+		else if (item_timer > 3.0f && item_timer < 5.0f)
 		{
-			switch (item_code)
+			if (item_code == woodensword || item_code == ironshield || item_code == goldshield)
 			{
-			case (woodensword):
-			{
-				CP_Settings_TextSize(30.0f);
+				CP_Image_Draw(dice_item[item_code].image, dice_button.position.x, dice_button.position.y - 250.0f, dice_item[item_code].size.x * 0.6, dice_item[item_code].size.y * 0.6, 255);
+				CP_Settings_TextSize(35.0f);
 				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 200.0f);
 				CP_Settings_TextSize(50.0f);
 				CP_Font_DrawText(dice_item[item_code].desc, dice_button.position.x, dice_button.position.y - 150.0f);
 				CP_Font_DrawText(dice_item[item_code].desc1, dice_button.position.x, dice_button.position.y - 100.0f);
-				break;
 			}
-			case (ironshield):
+			else
 			{
-				CP_Settings_TextSize(30.0f);
-				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 200.0f);
-				CP_Settings_TextSize(50.0f);
-				CP_Font_DrawText(dice_item[item_code].desc, dice_button.position.x, dice_button.position.y - 150.0f);
-				CP_Font_DrawText(dice_item[item_code].desc1, dice_button.position.x, dice_button.position.y - 100.0f);
-				break;
-			}
-			case (goldshield):
-			{
-				CP_Settings_TextSize(30.0f);
-				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 200.0f);
-				CP_Settings_TextSize(50.0f);
-				CP_Font_DrawText(dice_item[item_code].desc, dice_button.position.x, dice_button.position.y - 150.0f);
-				CP_Font_DrawText(dice_item[item_code].desc1, dice_button.position.x, dice_button.position.y - 100.0f);
-				break;
-			}
-			default:
-			{
-				CP_Settings_TextSize(30.0f);
+				CP_Image_Draw(dice_item[item_code].image, dice_button.position.x, dice_button.position.y - 200.0f, dice_item[item_code].size.x, dice_item[item_code].size.y, 255);
+				CP_Settings_TextSize(35.0f);
 				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 150.0f);
 				CP_Settings_TextSize(50.0f);
 				CP_Font_DrawText(dice_item[item_code].desc, dice_button.position.x, dice_button.position.y - 100.0f);
-				break;
-			}
 			}
 		}
 		else
@@ -632,13 +627,13 @@ void item_to_inventory(int item_code)
 		if (item_timer < 2.0f)
 		{
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-			CP_Image_Draw(powerup[item_code].image, item_pos.x, item_pos.y, powerup[item_code].size.x, powerup[item_code].size.y, 255);
-			CP_Font_DrawText(powerup[item_code].name, get_character()->sp->go.position.x, get_character()->sp->go.position.y - 40.0f);
+			CP_Image_Draw(powerup[item_code-9].image, item_pos.x, item_pos.y, powerup[item_code-9].size.x * 0.6, powerup[item_code-9].size.y * 0.6, 255);
+			CP_Font_DrawText(powerup[item_code-9].name, get_character()->sp->go.position.x, get_character()->sp->go.position.y - 40.0f);
 		}
 		else if (item_timer > 2.0f && item_timer < 3.0f)
 		{
 			go_to_animation(powerup_button.position.x, powerup_button.position.y, &item_pos);
-			CP_Image_Draw(powerup[item_code].image, item_pos.x, item_pos.y, powerup[item_code].size.x, powerup[item_code].size.y, 255);
+			CP_Image_Draw(powerup[item_code-9].image, item_pos.x, item_pos.y, powerup[item_code-9].size.x, powerup[item_code-9].size.y, 255);
 		}
 		else
 		{
