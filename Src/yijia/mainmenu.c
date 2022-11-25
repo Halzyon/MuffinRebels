@@ -28,7 +28,12 @@ extern int currentScene;
 void mainmenu_init() {
 	
 	//	loads images and finds their sizes
-	//CP_Sound_PlayAdvanced(*bgm, 0.5f, 1.0f, TRUE, CP_SOUND_GROUP_MUSIC);
+	if (!*getBGM())
+	{
+		*getBGM() = CP_Sound_LoadMusic("Assets/SFX/bgm.mp3");
+		CP_Sound_PlayAdvanced(*getBGM(), 0.5f, 1.0f, TRUE, CP_SOUND_GROUP_MUSIC);
+	}
+	
 
 	get_image_size_set("Assets/button.png", &button);
 	get_image_size_set("Assets/button2.png", &button2);

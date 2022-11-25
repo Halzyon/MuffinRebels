@@ -14,7 +14,7 @@
 #include "Combat/combat_scene.h"
 #include "UI/CombatOverlayUI/second_combat.h"
 
-CP_Sound *bgm;
+
 
 #ifdef _DEBUG
 #define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));
@@ -76,7 +76,7 @@ void GameStateAddScene(SCENES scne, FunctionPtr init, FunctionPtr update, Functi
 void GameStateSetNextScene(SCENES scne);
 
 void GameStateSetNextSubScene(SCENES scne,bool forced);
-
+CP_Sound* getBGM();
 
 
 #endif // !

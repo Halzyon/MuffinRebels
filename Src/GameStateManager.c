@@ -8,7 +8,7 @@
 #include "yijia/gameOver.h"
 
 
-
+CP_Sound bgm;
 
 void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, FunctionPtr exit)
 {
@@ -22,8 +22,6 @@ void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, Functio
 		if (!gsm.Scenes.array)
 			initArray(&gsm.Scenes, 1);	
 		insertArray(&gsm.Scenes, *scne);
-		bgm = malloc(sizeof(CP_Sound));
-		//*bgm = CP_Sound_LoadMusic("Assets/SFX/bgm.mp3");
 
 		LOG("SCENE %d HAVE BEEN ADDED\n", scn);
 	}
@@ -87,6 +85,7 @@ void GameStateSetNextSubScene(SCENES scne, bool forced)
 
 
 void initArray(SceneArray* a, size_t initialSize) {
+
 	a->array = malloc(initialSize * sizeof(Scene));
 	a->used = 0;
 	a->size = initialSize;
@@ -99,7 +98,7 @@ void insertArray(SceneArray* a, Scene element) {
 	if (a->used == a->size) {
 		a->size *= 2;
 		a->array = realloc(a->array, a->size * sizeof(Scene));
-	}
+	} 
 	a->array[a->used++] = element;
 }
 
@@ -107,11 +106,12 @@ void freeArray(SceneArray* a) {
 	free(a->array);
 	a->array = NULL;
 	a->used = a->size = 0;
-	//CP_Sound_Free(bgm);
 }
 
 void GameStateRun(void)
 {
+	
+	
 	gsm.b_subScene = false;
 	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
 	//GameStateAddScene(SPLASHSCREEN_SCENE, editor_init, editor_update, editor_exit);
@@ -131,8 +131,8 @@ void GameStateRun(void)
 
 	//set first scene
 	GameStateSetNextScene(SPLASHSCREEN_SCENE);
-	CP_Engine_Run();
 
+	CP_Engine_Run();
 
 
 	freeArray(&gsm.Scenes);
@@ -148,4 +148,9 @@ void ManualUpdate(SCENES scne)
 		gsm.Scenes.array[i].fnc[1]();
 
 	}
+}
+
+CP_Sound *getBGM()
+{
+	return &bgm;
 }

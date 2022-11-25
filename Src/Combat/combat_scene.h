@@ -18,5 +18,5 @@ CP_BOOL getCombatState();
 
 CP_Vector getEnemyPos();
 
-
+void beginTransition();
 #endif // !COMBAT_SCENE_H

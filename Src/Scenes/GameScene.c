@@ -39,6 +39,7 @@ char targetLevel = 0;
 char playerWon = 0; // -1 lose, 1 win;
 bool clearedLevel = false;
 char enemyCount = 0;
+float timer = 0.f;
 
 
 bool isInitScene = false;
@@ -338,6 +339,7 @@ void game_update(void)
 					enemy[i]->b_combat = false;
 					battleEnd();
 
+
 					get_character()->sp->moved = 0;
 					get_character()->turn_done = 0;
 					--enemyCount;
@@ -354,8 +356,16 @@ void game_update(void)
 			}
 			if (getCombatState())
 			{
-				combatStart = false;
-				combatOver = true;
+				timer += dt;
+				if (timer >= 0.25f)
+				{
+					beginTransition();
+					combatStart = false;
+					combatOver = true;
+					
+					timer = 0.f;
+				}
+
 			}
 		}
 	}
