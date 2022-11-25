@@ -14,6 +14,8 @@
 #include "Combat/combat_scene.h"
 #include "UI/CombatOverlayUI/second_combat.h"
 
+CP_Sound *bgm;
+
 #ifdef _DEBUG
 #define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));
 #else

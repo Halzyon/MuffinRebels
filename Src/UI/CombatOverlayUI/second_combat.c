@@ -42,6 +42,7 @@ CP_Sound parry;
 CP_Sound click;
 CP_Sound footsteps;
 CP_Sound poweredup;
+CP_Sound chest_open;
 float dice_timer;
 float powerup_timer;
 int num_roll;
@@ -176,6 +177,7 @@ void second_sfx_init(void)
 	footsteps = CP_Sound_Load("Assets/SFX/footsteps.ogg");
 	poweredup = CP_Sound_Load("Assets/SFX/poweredup.ogg");
 	click = CP_Sound_Load("Assets/SFX/click.ogg");
+	chest_open = CP_Sound_Load("Assets/SFX/chest_open.ogg");
 }
 
 void second_init_dicePos(void)

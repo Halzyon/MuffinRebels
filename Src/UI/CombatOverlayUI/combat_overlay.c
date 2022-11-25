@@ -8,6 +8,9 @@
 #include "../../Character/charMovement.h"
 #include <stdio.h>
 
+
+
+CP_Sound *sound;
 #define MAXENEMIES 1
 Enemy* enemy[MAXENEMIES];
 
@@ -29,6 +32,7 @@ CP_Font font;
 CP_Sound dice_throw;
 CP_Sound dice_shuffle;
 CP_Sound click;
+CP_Sound chest_open;
 float dice_timer;
 float powerup_timer;
 float item_timer;
@@ -45,12 +49,12 @@ int powerups[3];
 int chest;
 int item_num;
 bool chest_item;
+bool up, upup;
 extern b_paused;
 
 void combat_overlay_init(void)
 {
 	//	loads images and finds their sizes
-	
 	get_image_size("dice_button.png", &dice_button);
 	get_image_size("inventory_block.png", &inventory);
 	get_image_size("powerup_button.png", &powerup_button);
@@ -163,6 +167,7 @@ void combat_overlay_init(void)
 	chest_item = false;
 
 	second_sfx_init();
+
 }
 
 void init_rollPos(void)
@@ -185,6 +190,7 @@ void combat_overlay_update(void)
 
 	if (chest)
 	{
+		CP_Sound_Play(chest_open);
 		item_pos = getWorldPos(get_character()->sp->go.position, getMap());
 		float tileSize = CP_System_GetWindowHeight() / getMap()->height;
 		item_pos.x += tileSize / 2;
@@ -195,7 +201,7 @@ void combat_overlay_update(void)
 
 	if (chest_item)
 	{
-		item_to_inventory(item_num);
+		item_to_inventory(11);
 	}
 
 	dice_powerup(10, combat_dice);
@@ -425,7 +431,7 @@ void choose_powerup(int turns_left, int num_powerups[])
 		{
 			powerup[i].position.x = powerup_button.position.x - 1.0f;
 			powerup[i].position.y = powerup_button.position.y - 132.5f - ((float)i * (115.0f));
-			CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y, powerup[i].size.x, powerup[i].size.y, 255);
+			CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y + 10.0f, powerup[i].size.x, powerup[i].size.y, 255);
 		}
 		for (int i = 0; i < maxPowerups; i++)
 		{
@@ -505,16 +511,24 @@ void choose_powerup(int turns_left, int num_powerups[])
 					CP_Font_DrawText("Power up!", pos.x + tileSizeDiv, pos.y - tileSize);
 				}
 
-				if (powerup_timer > 0.8f && powerup_timer < 0.81f) // TODO: change this so that it plays all the time but just once
+				if (upup == false)
 				{
-					CP_Sound_Play(poweredup);
+					up = true;
+					upup = true;
 				}
+				
 			}
 			else if (powerup_timer > 1.5f)
 			{
 				powerup[i].side_display = 1;
 				powerup_timer = 0;
 				powerup[i].clicked = 0;
+				upup = false;
+			}
+			if (up) // TODO: change this so that it plays all the time but just once
+			{
+				CP_Sound_Play(poweredup);
+				up = false;
 			}
 		}
 	}
@@ -523,12 +537,12 @@ void choose_powerup(int turns_left, int num_powerups[])
 	{	
 		if (powerup[i].side_display == 1 && turns_left > 0)
 		{
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Image_Draw(powerup[i].image, side_display_pos.x, side_display_pos.y + 200.0f, powerup[i].size.x * 0.8f, powerup[i].size.y * 0.8f, 255);
 			CP_Settings_TextSize(20.0f);
-			CP_Font_DrawText(powerup[i].name, side_display_pos.x+2.0f, side_display_pos.y + 160.0f);
+			CP_Font_DrawText(powerup[i].name, side_display_pos.x+5.0f, side_display_pos.y + 160.0f);
 			CP_Settings_TextSize(30.0f);
 			CP_Image_Draw(desc_panel.image, side_display_pos.x, side_display_pos.y + 255.0f, 50.0f, 50.0f, 255);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Font_DrawText(turns, side_display_pos.x, side_display_pos.y + 255.0f);
 			CP_Settings_TextSize(20.0f);
 			CP_Font_DrawText("Turns left", side_display_pos.x, side_display_pos.y + 300.0f);
@@ -603,7 +617,7 @@ void item_to_inventory(int item_code)
 		{
 			if (item_code == woodensword || item_code == ironshield || item_code == goldshield)
 			{
-				CP_Image_Draw(dice_item[item_code].image, dice_button.position.x, dice_button.position.y - 250.0f, dice_item[item_code].size.x * 0.6, dice_item[item_code].size.y * 0.6, 255);
+				CP_Image_Draw(dice_item[item_code].image, dice_button.position.x, dice_button.position.y - 250.0f, dice_item[item_code].size.x, dice_item[item_code].size.y, 255);
 				CP_Settings_TextSize(35.0f);
 				CP_Font_DrawText(dice_item[item_code].name, dice_button.position.x - 25.0f, dice_button.position.y - 200.0f);
 				CP_Settings_TextSize(50.0f);
@@ -636,7 +650,13 @@ void item_to_inventory(int item_code)
 		else if (item_timer > 2.0f && item_timer < 3.0f)
 		{
 			go_to_animation(powerup_button.position.x, powerup_button.position.y, &item_pos);
-			CP_Image_Draw(powerup[item_code-9].image, item_pos.x, item_pos.y, powerup[item_code-9].size.x, powerup[item_code-9].size.y, 255);
+			CP_Image_Draw(powerup[item_code-9].image, item_pos.x, item_pos.y, powerup[item_code-9].size.x * 0.6, powerup[item_code-9].size.y * 0.6, 255);
+		}
+		else if (item_timer > 3.0f && item_timer < 5.0f)
+		{
+			CP_Image_Draw(powerup[item_code - 9].image, powerup_button.position.x, powerup_button.position.y - 140.0f, powerup[item_code - 9].size.x, powerup[item_code - 9].size.y, 255);
+			CP_Settings_TextSize(35.0f);
+			CP_Font_DrawText(powerup[item_code - 9].name, powerup_button.position.x, powerup_button.position.y - 80.0f);
 		}
 		else
 		{

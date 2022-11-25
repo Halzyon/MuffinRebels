@@ -4,6 +4,7 @@
 #include "gameChar.h"
 #include "../Combat/combatHandler.h"
 #include "gameMap.h"
+#include "../UI/CombatOverlayUI/combat_overlay.h"
 
 double wait_delta;
 extern int enemykilled;
@@ -69,6 +70,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->sp->renderMode = en->sp->spriteStates[BACKWARD];
 
 		en->sp->go.position.y += steps;
+		CP_Sound_Play(footsteps);
 
 		++en->movement;
 		if (en->movement >= en->patrolRange)
@@ -90,6 +92,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->sp->renderMode = en->sp->spriteStates[RIGHT];
 
 		en->sp->go.position.x += steps;
+		CP_Sound_Play(footsteps);
 
 		++en->movement;
 		if (en->movement >= en->patrolRange)

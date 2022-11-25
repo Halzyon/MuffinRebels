@@ -7,6 +7,8 @@
 #include "../Src/yijia/tutorial.h"
 
 
+
+
 void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, FunctionPtr exit)
 {
 	Scene* scne = (Scene*)malloc(sizeof(scn) + sizeof(init) + sizeof(update) + sizeof(exit));
@@ -19,8 +21,9 @@ void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, Functio
 		if (!gsm.Scenes.array)
 			initArray(&gsm.Scenes, 1);	
 		insertArray(&gsm.Scenes, *scne);
+		bgm = malloc(sizeof(CP_Sound));
+		//*bgm = CP_Sound_LoadMusic("Assets/SFX/bgm.mp3");
 
-			
 		LOG("SCENE %d HAVE BEEN ADDED\n", scn);
 	}
 	else
@@ -86,6 +89,7 @@ void initArray(SceneArray* a, size_t initialSize) {
 	a->array = malloc(initialSize * sizeof(Scene));
 	a->used = 0;
 	a->size = initialSize;
+	
 }
 
 void insertArray(SceneArray* a, Scene element) {
@@ -102,6 +106,7 @@ void freeArray(SceneArray* a) {
 	free(a->array);
 	a->array = NULL;
 	a->used = a->size = 0;
+	//CP_Sound_Free(bgm);
 }
 
 void GameStateRun(void)
@@ -125,6 +130,8 @@ void GameStateRun(void)
 	//set first scene
 	GameStateSetNextScene(SPLASHSCREEN_SCENE);
 	CP_Engine_Run();
+
+
 
 	freeArray(&gsm.Scenes);
 }
