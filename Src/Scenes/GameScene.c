@@ -251,31 +251,34 @@ void game_update(void)
 		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
 		render_map(Level + currLvl, vec);
 
+		bool enemy_done = false;
 		//update player pos
-
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
 			//set logic for enemy temporary
 			if (get_character()->sp->moved)
 			{
-				for (int j = 0; j <= 20; ++j)
+				if (enemy[i]->energy)
 				{
 					UpdateEnemy(enemy[i], dt, true);
+
+					if (enemy[i]->sp->go.isAlive && enemy[i]->energy == 0)
+						enemy_done = true;
 				}
 			}
 			else
 			{
+				enemy[i]->energy = 8;
 				UpdateEnemy(enemy[i], dt, false);
-
-			}
-
-			if ((i == numEnemies[currLvl] - 1) && get_character()->sp->moved)
-			{
-				get_character()->sp->moved = 0;
-				get_character()->turn_done = 0;
 			}
 
 			UpdateCombat(enemy[i], dt);
+		}
+
+		if (enemy_done)
+		{
+			get_character()->sp->moved = 0;
+			get_character()->turn_done = 0;
 		}
 
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
@@ -288,9 +291,6 @@ void game_update(void)
 				combatOver = false;
 			}
 		}
-
-
-		
 
 		//render enemy
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
