@@ -22,6 +22,7 @@ typedef struct
 	unsigned int patrolRange;
 	int steps;
 	unsigned char b_combat;
+	int maxHP;
 
 } Enemy;
 

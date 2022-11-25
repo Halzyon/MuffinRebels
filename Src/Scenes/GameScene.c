@@ -40,6 +40,7 @@ char playerWon = 0; // -1 lose, 1 win;
 bool clearedLevel = false;
 char enemyCount = 0;
 
+
 bool isInitScene = false;
 
 void move_transition(CP_Vector* curr, CP_Vector dst);
@@ -444,6 +445,10 @@ void setNextLvl(char next)
 		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
 		enemy[1]->sp->go.position.y = 8;
 		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 5;
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 5;
 	}
 		break;
 	case 1:
@@ -466,6 +471,14 @@ void setNextLvl(char next)
 		enemy[3]->sp->go.position.x = 15 + mapOffset[targetLevel];
 		enemy[3]->sp->go.position.y = 1;
 		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 5;
+		enemy[2]->maxHP = 10;
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 5;
+		enemy[2]->hp = 10;
+
 	}
 		break;
 	case 2:
@@ -504,6 +517,24 @@ void setNextLvl(char next)
 		enemy[7]->sp->go.position.x = 13 + mapOffset[targetLevel];
 		enemy[7]->sp->go.position.y = 17;
 		enemy[7]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 15;
+		enemy[2]->maxHP = 10;
+		enemy[3]->maxHP = 5;
+		enemy[4]->maxHP = 15;
+		enemy[5]->maxHP = 10;
+		enemy[6]->maxHP = 15;
+		enemy[7]->maxHP = 5;
+		
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 15;
+		enemy[2]->hp = 10;
+		enemy[3]->hp = 5;
+		enemy[4]->hp = 15;
+		enemy[5]->hp = 10;
+		enemy[6]->hp = 15;
+		enemy[7]->hp = 5;
 	}
 		break;
 	default:

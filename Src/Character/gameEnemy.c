@@ -164,7 +164,7 @@ Enemy* CreateEnemy(void)
 	{
 		newEnemy->hp = 5;
 		newEnemy->energy = 8;
-		newEnemy->dice[0] = e_std_D6;
+		newEnemy->dice[0] = e_std_D4;
 		newEnemy->dice_size = 1; //number of usable dice
 
 		for (int i = 1; i < MAX_DICE; ++i)
