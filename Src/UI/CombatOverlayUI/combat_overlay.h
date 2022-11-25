@@ -63,12 +63,10 @@ void init_rollPos(void);
 void combat_overlay_update(void);
 
 // constantly updates the combat overlay based on player interaction with it - num_roll is pregenerated number that the player rolls
-void dice_powerup(int powerup_turns, int combat_dice[]);
+void dice_powerup(int powerup_turns);
 
 // runs if player chooses to roll dice for movement
 void choose_to_roll_movement(void);
-
-void side_display(int turns_left);
 
 // runs if player chooses to select a powerup
 void choose_powerup(int turns_left, int num_powerups[]);

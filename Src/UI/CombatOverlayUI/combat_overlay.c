@@ -51,6 +51,8 @@ int item_num;
 bool chest_item;
 bool up, upup;
 extern b_paused;
+bool prevent_powerup;
+int powerups[3];
 
 void combat_overlay_init(void)
 {
@@ -137,9 +139,9 @@ void combat_overlay_init(void)
 
 	turns = 3;
 
-	for (int d = 1; d <= 3; d++)
+	for (int d = 0; d < 3; d++)
 	{								//	TODO: replace with number of powerups left accordingly
-		powerups[d - 1] = d;
+		powerups[d] = 0;
 	}
 
 	display_side_dice[0] = display_side_dice[1] = 0;
@@ -167,7 +169,8 @@ void combat_overlay_init(void)
 	chest_item = false;
 
 	second_sfx_init();
-
+	
+	prevent_powerup = false;
 }
 
 void init_rollPos(void)
@@ -182,9 +185,9 @@ void init_rollPos(void)
 
 void combat_overlay_update(void)
 {
+	CP_Sound_SetGroupVolume(CP_SOUND_GROUP_MUSIC, 0.2f);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	int combat_dice[3] = { 2,3,4 };
 
 	chest = check_Chest(get_character()->sp->go.position);
 
@@ -196,18 +199,22 @@ void combat_overlay_update(void)
 		item_pos.x += tileSize / 2;
 		item_pos.y -= tileSize;
 		chest_item = true;
-		item_num = chest;
+		item_num = 9;
+		if (item_num >= 9)
+		{
+			powerups[item_num - 9]++;
+		}
 	}
 
 	if (chest_item)
 	{
-		item_to_inventory(11);
+		item_to_inventory(item_num);
 	}
 
-	dice_powerup(10, combat_dice);
+	dice_powerup(get_character()->mod_duration);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(30.0f);
-	CP_Font_DrawText("Energy:", side_display_pos.x, side_display_pos.y + 40.0f);
+	CP_Font_DrawText("Movement:", side_display_pos.x + 10.0f, side_display_pos.y + 40.0f);
 	CP_Settings_TextSize(50.0f);
 	movement_window(get_character()->energy, side_display_pos.x, side_display_pos.y + 100.0f, 0.8f);
 	//side_display(get_character()->energy, turns);
@@ -218,7 +225,7 @@ void combat_overlay_update(void)
 	settings_button();
 }
 
-void dice_powerup(int powerup_turns, int combat_dices[])
+void dice_powerup(int powerup_turns)
 {
 	// draws the interactable buttons based on the set locations
 
@@ -426,12 +433,20 @@ void choose_powerup(int turns_left, int num_powerups[])
 
 	if (powerup_button.clicked)	// Draws the window pop up for player to choose power up
 	{
+		CP_Settings_TextSize(30.0f);
+		CP_Font_DrawText("Use in combat only", powerup_button.position.x, powerup_button.position.y - (4 * inventory.size.y));
 		inventory_window(3, powerup_button.position.x);
 		for (int i = 0; i < maxPowerups; i++)
 		{
 			powerup[i].position.x = powerup_button.position.x - 1.0f;
 			powerup[i].position.y = powerup_button.position.y - 132.5f - ((float)i * (115.0f));
-			CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y + 10.0f, powerup[i].size.x, powerup[i].size.y, 255);
+			CP_Image_Draw(powerup[i].image, powerup[i].position.x, powerup[i].position.y + 5.0f, powerup[i].size.x, powerup[i].size.y, 255);
+			if (num_powerups[i] == 0)
+			{
+				CP_Settings_RectMode(CP_POSITION_CENTER);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+				CP_Graphics_DrawRect(powerup[i].position.x, powerup[i].position.y, inventory.size.x, inventory.size.y);
+			}
 		}
 		for (int i = 0; i < maxPowerups; i++)
 		{
@@ -450,7 +465,7 @@ void choose_powerup(int turns_left, int num_powerups[])
 				CP_Font_DrawTextBox(powerup[i].desc, powerup[i].position.x - 285.0f, powerup[i].position.y - 22.5f, desc_panel.size.x * 1.9);
 			}
 		}
-		if (mouse_in_rect(powerup[strongarm].position.x, powerup[strongarm].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[strongarm])
+		if (mouse_in_rect(powerup[strongarm].position.x, powerup[strongarm].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[strongarm] && prevent_powerup)
 		{
 			powerup[strongarm].clicked = !powerup[strongarm].clicked;
 			powerup[leatherskin]. clicked = powerup[healthpot].clicked = 0;
@@ -458,7 +473,7 @@ void choose_powerup(int turns_left, int num_powerups[])
 			num_powerups[strongarm]--;
 			powerup_scale = 1.0f;
 		}
-		else if (mouse_in_rect(powerup[leatherskin].position.x, powerup[leatherskin].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[leatherskin])
+		else if (mouse_in_rect(powerup[leatherskin].position.x, powerup[leatherskin].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[leatherskin] && prevent_powerup)
 		{
 			powerup[strongarm].clicked = powerup[healthpot].clicked = 0;
 			powerup[leatherskin].clicked = !powerup[leatherskin].clicked;
@@ -466,7 +481,7 @@ void choose_powerup(int turns_left, int num_powerups[])
 			num_powerups[leatherskin]--;
 			powerup_scale = 1.0f;
 		}
-		else if (mouse_in_rect(powerup[healthpot].position.x, powerup[healthpot].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[healthpot])
+		else if (mouse_in_rect(powerup[healthpot].position.x, powerup[healthpot].position.y, 80.0f, 80.0f) && CP_Input_MouseClicked() && num_powerups[healthpot] && prevent_powerup)
 		{
 			powerup[strongarm].clicked = powerup[leatherskin].clicked = 0;
 			powerup[healthpot].clicked = !powerup[healthpot].clicked;
