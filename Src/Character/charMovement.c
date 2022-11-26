@@ -50,8 +50,6 @@ void hardware_handler(void)
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[FORWARD];
 
 			CP_Sound_Play(footsteps);
-
-			printf("walked up 1, energy left: %d\n", get_character()->energy);
 		}
 		else if (CP_Input_KeyTriggered(KEY_S) && check_limits(CP_Vector_Set(0, 1)))
 		{
@@ -62,8 +60,6 @@ void hardware_handler(void)
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[BACKWARD];
 
 			CP_Sound_Play(footsteps);
-
-			printf("walked down 1, energy left: %d\n", get_character()->energy);
 		}
 		else if (CP_Input_KeyTriggered(KEY_A) && check_limits(CP_Vector_Set(-1, 0)))
 		{
@@ -75,8 +71,6 @@ void hardware_handler(void)
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[LEFT];
 
 			CP_Sound_Play(footsteps);
-
-			printf("walked left 1, energy left: %d\n", get_character()->energy);
 		}
 		else if (CP_Input_KeyTriggered(KEY_D) && check_limits(CP_Vector_Set(1, 0)))
 		{
@@ -89,8 +83,6 @@ void hardware_handler(void)
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[RIGHT];
 
 			CP_Sound_Play(footsteps);
-
-			printf("walked right 1, energy left: %d\n", get_character()->energy);
 		}
 		//check_Chest(get_character()->sp->go.position);
 		if (!get_character()->energy)
@@ -119,7 +111,7 @@ int check_Chest(CP_Vector pos)
 	{
 		getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)] = CHEST_2;
 
-		return randomise_all();
+		return randomise_all(currLvl);
 	}
 	else
 	{

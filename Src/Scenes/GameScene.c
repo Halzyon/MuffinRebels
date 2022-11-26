@@ -279,15 +279,11 @@ void game_update(void)
 		//update player pos
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
-			//set logic for enemy temporary
 			if (get_character()->sp->moved)
 			{
 				if (enemy[i]->energy)
 				{
 					UpdateEnemy(enemy[i], dt, true);
-
-					if (enemy[i]->sp->go.isAlive && enemy[i]->energy == 0)
-						enemy_done = true;
 				}
 			}
 			else
@@ -297,6 +293,23 @@ void game_update(void)
 			}
 
 			UpdateCombat(enemy[i], dt);
+		}
+
+		for (int i = 0; i < numEnemies[currLvl]; ++i)
+		{
+			if (enemy[i]->sp->go.isAlive)
+			{
+				if (get_character()->sp->moved)
+				{
+					if (enemy[i]->energy == 0)
+						enemy_done = true;
+					else
+					{
+						enemy_done = false; //the moment one enemy not done we just leave
+						break;
+					}
+				}
+			}
 		}
 
 		if (enemy_done)

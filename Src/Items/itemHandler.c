@@ -2,16 +2,38 @@
 
 #include "itemHandler.h"
 
-int randomise_all(void)
+int randomise_all(int current_level)
 {
 	time_t t;
 	srand((unsigned)time(&t));
 
-	int choice = rand() % (NUM_ITEMS + NUM_POWERUPS);
+	int upper, lower;
+
+	switch (current_level)
+	{
+		case 0:
+			lower = 0;
+			upper = 6;
+			break;
+		case 1:
+			lower = 7;
+			upper = 13;
+			break;
+		case 2:
+			lower = 14;
+			upper = 19;
+			break;
+		default:
+			lower = 0;
+			upper = NUM_POWERUPS + NUM_ITEMS;
+			break;
+	}
+
+	int choice = (rand() % (upper - lower + 1)) + lower;
 
 	switch (choice)
 	{
-		case 0:
+		case 0:						//level 1
 			init_woodensword();
 			break;
 		case 1:
@@ -24,27 +46,51 @@ int randomise_all(void)
 			init_ironshield();
 			break;
 		case 4:
-			init_goldsword();
-			break;
-		case 5:
-			init_goldshield();
-			break;
-		case 6:
-			init_diamondsword();
-			break;
-		case 7:
-			init_diamondshield();
-			break;
-		case 8:
-			init_mastersword();
-			break;
-		case 9:
 			modifier_strongarm();
 			break;
-		case 10:
+		case 5:
 			modifier_leatherskin();
 			break;
+		case 6:
+			modifier_healthpot();
+			break;
+		case 7:						//level 2
+			init_goldsword();
+			break;
+		case 8:
+			init_goldshield();
+			break;
+		case 9:
+			init_ironsword();
+			break;
+		case 10:
+			init_ironshield();
+			break;
 		case 11:
+			modifier_strongarm();
+			break;
+		case 12:
+			modifier_leatherskin();
+			break;
+		case 13:
+			modifier_healthpot();
+			break;
+		case 14:					//level 3
+			init_diamondsword();
+			break;
+		case 15:
+			init_diamondshield();
+			break;
+		case 16:
+			init_mastersword();
+			break;
+		case 17:
+			modifier_strongarm();
+			break;
+		case 18:
+			modifier_leatherskin();
+			break;
+		case 19:
 			modifier_healthpot();
 			break;
 		default:

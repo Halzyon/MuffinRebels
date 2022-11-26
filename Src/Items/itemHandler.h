@@ -16,6 +16,7 @@ typedef enum ITEMS
 	DIAMOND_SHIELD,
 
 	NUM_ITEMS,
+
 	NONE_ITEMS,
 	MASTER_SWORD
 };
@@ -27,13 +28,14 @@ typedef enum POWERUPS
 	HEALTH_POT,
 
 	NUM_POWERUPS,
+
 	NONE_POWERUPS
 };
 
 int current_item;
 int current_powerup;
 
-int randomise_all(void);
+int randomise_all(int current_level);
 
 void reset_items(void);
 
