@@ -11,7 +11,7 @@
 #define MAXENEMIES 8
 #define FILEPATH "Assets/"
 
-char numEnemies[3] = {2, 4 ,8};
+
 
 double speed = 5000;
 Sprite* ash;
@@ -40,7 +40,7 @@ char playerWon = 0; // -1 lose, 1 win;
 bool clearedLevel = false;
 char enemyCount = 0;
 float timer = 0.f;
-
+int prevHP = 100;
 
 bool isInitScene = false;
 
@@ -50,7 +50,9 @@ void game_init(void)
 {
 	if (isInitScene)
 		return;
-
+	numEnemies[0] = 2;
+	numEnemies[1] = 4;
+	numEnemies[2] = 8;
 	currLvl = 0;
 	transition_img = CP_Image_Load(FILEPATH "transition.png");
 	transitionSize = CP_Vector_Set(CP_Image_GetWidth(transition_img), CP_Image_GetHeight(transition_img));
@@ -432,6 +434,7 @@ void engage_enemy(CP_Vector dir)
 			// fight
 			enemy[i]->b_combat = true;
 			enemy[i]->enemyState = DEFEND_STATE;
+			return;
 		}
 	}
 }
@@ -440,6 +443,14 @@ void setNextLvl(char next)
 {
 	if (!isInitScene)
 		game_init();
+	if (targetLevel != currLvl)
+	{
+		prevHP = get_character()->hp;
+	}
+	else
+	{
+		get_character()->hp = prevHP;
+	}
 
 	get_character()->combat_mode = CHAR_NONE;
 	combatants_present = false;
@@ -453,6 +464,7 @@ void setNextLvl(char next)
 	targetLevel = next;
 	enemyCount = 0;
 
+	get_character()->energy = 0;
 
 
 
@@ -497,7 +509,7 @@ void setNextLvl(char next)
 		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
 		get_character()->sp->go.position.y = 18;
 
-		enemy[0]->sp->go.position.x = 8 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.x = 8 + mapOffset[targetLevel]; 
 		enemy[0]->sp->go.position.y = 8;
 		enemy[0]->enemyState = PATROL_UPDOWN_STATE;
 

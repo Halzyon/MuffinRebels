@@ -262,6 +262,10 @@ void dice_powerup(int powerup_turns, int combat_dices[])
 					}
 				}
 				near_enemy = isEnemyNearUI(get_character()->sp->go.direction);
+				if (!near_enemy && !i)
+				{
+					CP_Graphics_DrawRect(dice_button.position.x - 20.0f, (dice_button.position.y - 125.0f) - (i * inventory.size.y), inventory.size.x * 1.6, inventory.size.y, 100);
+				}
 			}
 			if (mouse_in_rect(dice_button.position.x - 20.0f, dice_button.position.y - 150.0f - inventory.size.y, inventory.size.x * 1.6, inventory.size.y) && CP_Input_MouseClicked())
 			{
@@ -580,18 +584,18 @@ int isEnemyNearUI(CP_Vector dir)
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 	CP_Vector tmp = get_character()->sp->go.position;
 	tmp = CP_Vector_Add(tmp, dir);
-	int check;
+	int check = 0;
 	
-	for (int i = 0; i < MAXENEMIES; ++i)
+	for (int i = 0; i < numEnemies[currLvl]; ++i)
 	{
-		if (tmp.x != enemy[i]->sp->go.position.x && tmp.y != enemy[i]->sp->go.position.y)
+		if (tmp.x == enemy[i]->sp->go.position.x && tmp.y == enemy[i]->sp->go.position.y)
 		{
-			CP_Graphics_DrawRect(dice_button.position.x - 20.0f, (dice_button.position.y - 125.0f) - (i * inventory.size.y), inventory.size.x * 1.6, inventory.size.y, 100);
-			check = 0;
+			check = 1;
+			break;
 		}
 		else
 		{
-			check = 1;
+			check = 0;
 		}
 	}
 	return check;
