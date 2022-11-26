@@ -11,7 +11,7 @@
 #define MAXENEMIES 8
 #define FILEPATH "Assets/"
 
-char numEnemies[3] = {2, 4 ,8};
+
 
 double speed = 5000;
 Sprite* ash;
@@ -28,7 +28,7 @@ CP_Image transition_img;
 CP_Vector transitionPos;
 CP_Vector transitionSize;
 CP_Vector targetPos;
-
+Sprite* portal;
 extern asset matte;
 extern int brightposx;
 extern bool sub;
@@ -40,7 +40,7 @@ char playerWon = 0; // -1 lose, 1 win;
 bool clearedLevel = false;
 char enemyCount = 0;
 float timer = 0.f;
-
+int prevHP = 100;
 
 bool isInitScene = false;
 
@@ -50,11 +50,16 @@ void game_init(void)
 {
 	if (isInitScene)
 		return;
-
+	numEnemies[0] = 2;
+	numEnemies[1] = 4;
+	numEnemies[2] = 8;
 	currLvl = 0;
 	transition_img = CP_Image_Load(FILEPATH "transition.png");
 	transitionSize = CP_Vector_Set(CP_Image_GetWidth(transition_img), CP_Image_GetHeight(transition_img));
 	transitionPos = CP_Vector_Set(transitionSize.x, transitionSize.y);
+
+
+	portal = CreateSprite("Assets/portal.png", 1, 31, true, true);
 
 	// set draw settings
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
@@ -161,7 +166,18 @@ void game_update(void)
 
 	if (playerWon == 1)
 	{
-		setNextLvl(currLvl + 1);
+		
+		if (get_character()->sp->go.position.x == portal->go.position.x)
+		{
+			if (get_character()->sp->go.position.y == portal->go.position.y)
+			{
+				LOG("CHARACTER AND PORTAL COLLIDED\n");
+				if (currLvl + 1 < 3)
+					setNextLvl(currLvl + 1);
+				else
+					GameStateSetNextScene(MAINMENU_SCENE);
+			}
+		}
 	}
 	if ((get_character()->hp <= 0  && !sub) || CP_Input_KeyTriggered(KEY_H) || CP_Input_KeyTriggered(KEY_J))
 	{
@@ -204,11 +220,11 @@ void game_update(void)
 
 	//get player input
 	hardware_handler();
-
+	
 	//update player pos
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	UpdateSprite(get_character()->sp, dt);
-
+	UpdateSprite(portal, dt);
 	if (!transitionOver && startTransition)
 	{
 		// need to update here as well so as to not have the sprite sheet appear
@@ -265,15 +281,11 @@ void game_update(void)
 		//update player pos
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
-			//set logic for enemy temporary
 			if (get_character()->sp->moved)
 			{
 				if (enemy[i]->energy)
 				{
 					UpdateEnemy(enemy[i], dt, true);
-
-					if (enemy[i]->sp->go.isAlive && enemy[i]->energy == 0)
-						enemy_done = true;
 				}
 			}
 			else
@@ -283,6 +295,23 @@ void game_update(void)
 			}
 
 			UpdateCombat(enemy[i], dt);
+		}
+
+		for (int i = 0; i < numEnemies[currLvl]; ++i)
+		{
+			if (enemy[i]->sp->go.isAlive)
+			{
+				if (get_character()->sp->moved)
+				{
+					if (enemy[i]->energy == 0)
+						enemy_done = true;
+					else
+					{
+						enemy_done = false; //the moment one enemy not done we just leave
+						break;
+					}
+				}
+			}
 		}
 
 		if (enemy_done)
@@ -305,6 +334,8 @@ void game_update(void)
 		//render enemy
 		for (int i = 0; i < numEnemies[currLvl]; ++i)
 			RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
+		if (playerWon)
+			RenderSpriteOnMap(portal, Level + currLvl);
 
 		render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3 + currLvl, mapOffset[currLvl]);
 
@@ -370,7 +401,7 @@ void game_update(void)
 		}
 	}
 
-
+	
 }
 
 void game_exit(void)
@@ -403,6 +434,7 @@ void engage_enemy(CP_Vector dir)
 			// fight
 			enemy[i]->b_combat = true;
 			enemy[i]->enemyState = DEFEND_STATE;
+			return;
 		}
 	}
 }
@@ -411,6 +443,14 @@ void setNextLvl(char next)
 {
 	if (!isInitScene)
 		game_init();
+	if (targetLevel != currLvl)
+	{
+		prevHP = get_character()->hp;
+	}
+	else
+	{
+		get_character()->hp = prevHP;
+	}
 
 	get_character()->combat_mode = CHAR_NONE;
 	combatants_present = false;
@@ -424,6 +464,7 @@ void setNextLvl(char next)
 	targetLevel = next;
 	enemyCount = 0;
 
+	get_character()->energy = 0;
 
 
 
@@ -459,6 +500,8 @@ void setNextLvl(char next)
 		enemy[1]->maxHP = 5;
 		enemy[0]->hp = 5;
 		enemy[1]->hp = 5;
+		portal->go.position.x = 13;
+		portal->go.position.y = 3;
 	}
 		break;
 	case 1:
@@ -466,7 +509,7 @@ void setNextLvl(char next)
 		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
 		get_character()->sp->go.position.y = 18;
 
-		enemy[0]->sp->go.position.x = 8 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.x = 8 + mapOffset[targetLevel]; 
 		enemy[0]->sp->go.position.y = 8;
 		enemy[0]->enemyState = PATROL_UPDOWN_STATE;
 
@@ -489,6 +532,8 @@ void setNextLvl(char next)
 		enemy[1]->hp = 5;
 		enemy[2]->hp = 10;
 
+		portal->go.position.x = 25;
+		portal->go.position.y = 2;
 	}
 		break;
 	case 2:
@@ -545,6 +590,8 @@ void setNextLvl(char next)
 		enemy[5]->hp = 10;
 		enemy[6]->hp = 15;
 		enemy[7]->hp = 5;
+		portal->go.position.x = 14;
+		portal->go.position.y = 2;
 	}
 		break;
 	default:

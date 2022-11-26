@@ -77,7 +77,8 @@ void gamepaused_update(void) {
 		if (CP_Input_MouseClicked())
 		{
 			combatants_present = false;
-			the_enemy->b_combat = false;
+			if (the_enemy)
+				the_enemy->b_combat = false;
 			setNextLvl(currLvl);
 			GameStateSetNextScene(GAME_SCENE);
 			sub = false;
