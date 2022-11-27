@@ -1,7 +1,16 @@
+/*---------------------------------------------------------------
+  File: pause_ui.c
+  Project: DICE REBELS
+  Author: Yeo Yi Jia, y.yijia@digipen.edu
+  Co-Author: Liew Yeni, yeni.l@digipen.edu 
+  Co-Author: Muhammad Hazim Bin Gazali, m.bingazali@digipen.edu    
+  Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "cprocessing.h"
 #include "SpriteAnimation/spriteAnimation.h"
 #include "../UI/UtilsUI/ui_utils.h"
-#include"../yijia/pause_ui.h"
+//#include"../yijia/pause_ui.h"
 #include "GameStateManager.h"
 
 asset pausedpopup;
@@ -57,10 +66,11 @@ void gamepaused_update(void) {
 	RenderAsset(pausedpopup, 255);
 	RenderAsset(gamepaused, 255);
 
-	RenderAsset(resume, 255);
+	RenderAsset(resume, 200);
 	if (mouse_in_rect(resume.position.x, resume.position.y, resume.size.x, resume.size.y) == 1) {
-		arrowicon.position.x = resume.position.x -100;
+		arrowicon.position.x = resume.position.x -190;
 		arrowicon.position.y = resume.position.y;
+		RenderAsset(resume, 255);
 		RenderAsset(arrowicon, 255);
 		if (CP_Input_MouseClicked())
 		{
@@ -69,10 +79,11 @@ void gamepaused_update(void) {
 		}
 	}
 
-	RenderAsset(restart, 255);
+	RenderAsset(restart, 200);
 	if (mouse_in_rect(restart.position.x, restart.position.y, restart.size.x, restart.size.y) == 1) {
-		arrowicon.position.x = restart.position.x - 100;
+		arrowicon.position.x = restart.position.x - 130;
 		arrowicon.position.y = restart.position.y;
+		RenderAsset(restart, 255);
 		RenderAsset(arrowicon, 255);
 		if (CP_Input_MouseClicked())
 		{
@@ -86,10 +97,11 @@ void gamepaused_update(void) {
 		}
 	}
 	
-	RenderAsset(exittxt, 255);
+	RenderAsset(exittxt, 200);
 	if (mouse_in_rect(exittxt.position.x, exittxt.position.y, exittxt.size.x, exittxt.size.y) == 1) {
-		arrowicon.position.x = exittxt.position.x - 60;
+		arrowicon.position.x = exittxt.position.x - 100;
 		arrowicon.position.y = exittxt.position.y;
+		RenderAsset(exittxt, 255);
 		RenderAsset(arrowicon, 255);
 		if (CP_Input_MouseClicked())
 		{
@@ -100,7 +112,7 @@ void gamepaused_update(void) {
 		}
 	}
 
-	RenderAsset(exit_icon, 255); //not very necessary 
+	RenderAsset(exit_icon, 255);
 	if (mouse_in_rect(exit_icon.position.x, exit_icon.position.y, exit_icon.size.x, exit_icon.size.y))
 	{
 		if (CP_Input_MouseClicked()) {

@@ -153,6 +153,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="..\Src\yijia\gameOver.h" />
     <ClInclude Include="..\Src\yijia\mainmenu.h" />
     <ClInclude Include="..\Src\yijia\overworld_ui.h" />
+    <ClInclude Include="..\Src\yijia\pause_ui.h" />
     <ClInclude Include="..\Src\yijia\settings_ui.h" />
     <ClInclude Include="..\Src\GameStateManager.h" />
     <ClInclude Include="..\Src\Scenes\GameScene.h" />
