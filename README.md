@@ -42,5 +42,10 @@ value takes damage equal to the difference between both dice.
 This keeps going until the minimum number of dice has been
 rolled. And then the attackers and defenders will swap.
 
-## Map editor
+## CHEATS
 
+Middle Mouse - +20 movement energy
+Keys 1,2,3 - changes to lvl 1,2,3 respectively
+Key M - toggles guaranteed master sword from chest
+Key N - toggles guaranteed 1 dmg
+Key B - toggles guaranteed 20 dmg

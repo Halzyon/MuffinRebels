@@ -1,12 +1,12 @@
-/*!
- @file serialization.c
- @author Foong Jun Wei (f.junwei)
- @course CSD1401
- @section A
- @tutorial 
- @date 2022-10-18
- @brief 
-*//*______________________________________________________________________*/
+/*-------------------------------------------------------------------------------------
+
+	File: serialization.c
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Foong Jun Wei (f.junwei@digipen.edu)
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 
 #ifndef _MSC_VER // for linux/all other compilers and apparently release mode
 #endif

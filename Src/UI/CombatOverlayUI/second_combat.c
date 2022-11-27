@@ -5,7 +5,7 @@
 	Project: 1401 Game Project - Game Name: DiceRebels
 	Author: Liew Yeni (yeni.l@digipen.edu)
 
-	All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved
+	All content ï¿½ 2022 DigiPen Institute of Technology Singapore, all rights reserved
 
 ---------------------------------------------------------------------------------------*/
 
@@ -79,6 +79,8 @@ float fighting_timer;
 bool prevent_powerup;
 bool modifier_start;
 bool growl, growlgrowl;
+bool oneDMG = false;
+bool bigDMG = false;
 
 //int player_roll;
 
@@ -146,7 +148,7 @@ void second_init(void)
 
 	// initializes the counter for the dice and powerups
 
-	for (int d = 0; d < get_character()->dice_size; d++)
+	for (int d = 0; d < MAX_DICE; d++)
 	{
 		switch (get_character()->dice[d])
 		{
@@ -290,7 +292,7 @@ void second_update(void)
 			else if (the_enemy->enemyState == DEFEND_STATE)
 				the_enemy->enemyState = ATTACK_STATE;
 
-			for (int d = 0; d < get_character()->dice_size; d++)
+			for (int d = 0; d < MAX_DICE; d++)
 			{
 				switch (get_character()->dice[d])
 				{
@@ -455,6 +457,14 @@ void second_choose_to_roll_dice(int *num_roll)
 			}
 			else if (2.5f > dice_timer && dice_timer > 1.5f)
 			{
+				if (bigDMG)
+				{
+					*num_roll = 20;
+				}
+				else if (oneDMG)
+				{
+					*num_roll = 1;
+				}
 				generate_dice(*num_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
 			}
 			else if (dice_timer < 3.5 && dice_timer > 2.5f)
@@ -462,7 +472,16 @@ void second_choose_to_roll_dice(int *num_roll)
 				inventory.side_display = 0;
 				go_to_animation(((CP_System_GetWindowWidth()/2) - 200.0f), buttons_centerpointY, &roll_pos);
 				shrinking_animation(0.1f, &dice_scale);
+								if (bigDMG)
+				{
+					*num_roll = 20;
+				}
+				else if (oneDMG)
+				{
+					*num_roll = 1;
+				}
 				generate_dice(*num_roll, dice[d].type, roll_pos.x, roll_pos.y, dice_scale);
+
 			}
 			else if (dice_timer > 3.5f)
 			{
@@ -814,6 +833,7 @@ void enemy_health_bar(int enemy_hp, int enemyMaxHp)
 {
 	if (enemy_hp <= 0)
 	{
+		enemy_hp = 0; // prevent the HP going -ve of the bar
 		char hp_text[] = { 'E', 'n', 'e', 'm', 'y', ' ', 'H', 'P', ':', ' ',
 							'0', '0', '0',
 							'/', '0' + enemyMaxHp / 100, '0' + ((enemyMaxHp % 100) / 10), '0' + (enemyMaxHp % 10),'\0' };
@@ -910,4 +930,14 @@ void second_exit(void)
 	CP_Sound_Free(poweredup);
 	CP_Sound_Free(chest_open);
 	CP_Sound_Free(monster_growl);
+}
+
+void toggleOneDMG(void)
+{
+	oneDMG = !oneDMG;
+}
+
+void toggleBigDMG(void)
+{
+	bigDMG = !bigDMG;
 }

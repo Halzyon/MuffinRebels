@@ -4,12 +4,14 @@
 	Project: 1401 Game Project - Game Name: DiceRebels
 	Author: Alwin Moo (moo.g@digipen.edu)
 
-	All content � 2021 DigiPen Institute of Technology Singapore, all rights reserved
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
 
 ---------------------------------------------------------------------------------------*/
 #include <stdlib.h>
 
 #include "itemHandler.h"
+
+bool masterSW = false;
 
 int randomise_all(int current_level)
 {
@@ -39,7 +41,8 @@ int randomise_all(int current_level)
 	}
 
 	int choice = (rand() % (upper - lower + 1)) + lower;
-
+	if (masterSW)
+		choice = 16;
 	switch (choice)
 	{
 		case 0:						//level 1
@@ -280,4 +283,9 @@ void modifier_healthpot(void)
 {
 	current_powerup = HEALTH_POT;
 	get_character()->modifier = 10;
+}
+
+void toggleMasterSWCheat(void)
+{
+	masterSW = !masterSW;
 }

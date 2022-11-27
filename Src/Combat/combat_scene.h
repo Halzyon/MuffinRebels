@@ -1,3 +1,13 @@
+/*-------------------------------------------------------------------------------------
+
+	File: combat_scene.h
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Foong Jun Wei (f.junwei@digipen.edu)
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
+
 #ifndef COMBAT_SCENE_H
 #define COMBAT_SCENE_H
 

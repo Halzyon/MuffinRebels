@@ -4,7 +4,7 @@
 	Project: 1401 Game Project - Game Name: DiceRebels
 	Author: Alwin Moo (moo.g@digipen.edu)
 
-	All content � 2021 DigiPen Institute of Technology Singapore, all rights reserved
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
 
 ---------------------------------------------------------------------------------------*/
 #ifndef ITEM_HANDLER_H
@@ -85,6 +85,8 @@ void modifier_leatherskin(void);
  * @param  void
 */
 void modifier_healthpot(void);
+
+void toggleMasterSWCheat(void);
 
 #endif // !ITEM_HANDLER_H
 

@@ -1,4 +1,3 @@
-
 /*-------------------------------------------------------------------------------------
 
 	File: ui_utils.c
@@ -7,7 +6,7 @@
 			 Foong Jun Wei (f.junwei@digipen.edu) - mouse_in_rect
 			 Liew Yeni (yeni.l@digipen.edu) - get_image_size, get_image_size_set, go_to_animation, shrinking_animation
 
-	All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved
+	All content ï¿½ 2022 DigiPen Institute of Technology Singapore, all rights reserved
 
 ---------------------------------------------------------------------------------------*/
 

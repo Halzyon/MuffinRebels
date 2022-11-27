@@ -1,3 +1,16 @@
+/*-------------------------------------------------------------------------------------
+
+	File: GameScene.c
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Muhammad Hazim Bin Gazali (m.bingazali@digipen.edu)
+			 Foong Jun Wei (f.junwei@digipen.edu)
+			 Liew Yeni (yeni.l@digipen.edu)
+			 Alwin Moo (moo.g@digpen.edu)
+			 Yeo Yi Jia (y.yijia@digipen.edu)
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 #ifndef H_GAMESCENE_H
 #define H_GAMESCENE_H
 

@@ -1,12 +1,12 @@
-/*!
- @file level_manager.h
- @author Foong Jun Wei (f.junwei)
- @course 
- @section 
- @tutorial 
- @date 2022-10-25
- @brief 
-*//*______________________________________________________________________*/
+/*-------------------------------------------------------------------------------------
+
+	File: lvl_manager.h
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Foong Jun Wei (f.junwei@digipen.edu)
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 
 #ifndef LEVEL_MANAGER_H
 #define LEVEL_MANAGER_H

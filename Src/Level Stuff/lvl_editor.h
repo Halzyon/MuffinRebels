@@ -1,12 +1,12 @@
-/*!
- @file lvl_editor.h
- @author Foong Jun Wei (f.junwei)
- @course 
- @section 
- @tutorial 
- @date 2022-10-24
- @brief 
-*//*______________________________________________________________________*/
+/*-------------------------------------------------------------------------------------
+
+	File: lvl_editor.h
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Foong Jun Wei (f.junwei@digipen.edu)
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 
 #ifndef LVL_EDITOR_H
 #define LVL_EDITOR_H

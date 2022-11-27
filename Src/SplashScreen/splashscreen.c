@@ -3,8 +3,9 @@
 	File: splashscreen.c
 	Project: 1401 Game Project - Game Name: DiceRebels
 	Author: Muhammad Hazim Bin Gazali (m.bingazali@digipen.edu)
+			Foong Jun Wei (f.junwei@digipen.edu)
 
-	All content ? 2021 DigiPen Institute of Technology Singapore, all rights reserved
+	All content ? 2022 DigiPen Institute of Technology Singapore, all rights reserved
 
 ---------------------------------------------------------------------------------------*/
 
@@ -19,9 +20,16 @@ float speed; // speed in seconds
 #define TIMETAKEN 2 //time taken to go from transparent to opaque
 bool paused = false;
 Sprite* logo;
+Sprite* gameLogo;
+bool flip = false;
+bool nextLogo = false;
+bool nextScene = false;
+char logoAlpha = 0;
+
 void splash_screen_init(void)
 {
 	logo = CreateSprite("Assets/DigiPen_Singapore_WEB_RED.png", 1, 1, false, false);
+	gameLogo = CreateSprite("Assets/credit1.png", 1, 1, false, false);
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 	CP_System_SetWindowSize(1280, 720);
@@ -32,6 +40,9 @@ void splash_screen_init(void)
 
 	logo->go.scale = CP_Vector_Set(0.8, 0.8);
 	logo->go.position = CP_Vector_Set(0, 720* 0.5 - logo->go.size.y * 0.5);
+	gameLogo->go.scale = CP_Vector_Set(1, 1);
+	gameLogo->go.position = CP_Vector_Set(CP_System_GetWindowWidth() / 2 - CP_Image_GetWidth(gameLogo->go.image) / 2 , 720 * 0.5 - logo->go.size.y * 0.5);
+	gameLogo->go.alpha = 0;
 }
 
 void splash_screen_update(void)
@@ -43,7 +54,21 @@ void splash_screen_update(void)
 	alpha += speed * dt;
 
 	logo->go.alpha = alpha;
-	if (oldalpha > alpha)
+	if (nextLogo)
+	{
+		 logoAlpha += speed * dt;
+		 gameLogo->go.alpha = abs(logoAlpha) * 2;
+		 if (gameLogo->go.alpha >= 254)
+			 flip = true;
+		 if (gameLogo->go.alpha <= 2 && flip)
+			 nextScene = true;
+	}
+	else if (oldalpha > alpha)
+	{
+		nextLogo = true;
+	}
+	
+	if (nextScene)
 	{
 		GameStateSetNextScene(MAINMENU_SCENE);
 	}
@@ -51,7 +76,10 @@ void splash_screen_update(void)
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	//Render LOGO
-	RenderSprite(logo);
+	if (!nextLogo)
+		RenderSprite(logo);
+	else
+		RenderSprite(gameLogo);
 
 	//RENDER CIRCLE
 	

@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // CProcessing
 //
-// Copyright(c) 2021 DigiPen Institute of Technology
+// Copyright(c) 2022 DigiPen Institute of Technology
 // 
 // https://github.com/DigiPen-Faculty/CProcessing
 //---------------------------------------------------------

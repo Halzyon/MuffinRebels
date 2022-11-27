@@ -5,7 +5,7 @@
 	Author: Muhammad Hazim Bin Gazali (m.bingazali@digipen.edu)
 	Co-Author: Alwin Moo (moo.g@digipen.edu)
 
-	All content � 2021 DigiPen Institute of Technology Singapore, all rights reserved
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
 
 ---------------------------------------------------------------------------------------*/
 #include <stdlib.h>

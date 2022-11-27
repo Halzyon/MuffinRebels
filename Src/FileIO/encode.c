@@ -1,12 +1,15 @@
-/*!
- @file encode.c
- @author Foong Jun Wei (f.junwei)
- @course 
- @section 
- @tutorial 
- @date 2022-10-19
- @brief 
-*//*______________________________________________________________________*/
+/*-------------------------------------------------------------------------------------
+
+	File: encode.c
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Foong Jun Wei (f.junwei@digipen.edu)
+
+	@brief currently only BASE64 encoding and decoding are implemented. 
+	Based off http://web.mit.edu/freebsd/head/contrib/wpa/src/utils/base64.c
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 
 
 #include "encode.h"

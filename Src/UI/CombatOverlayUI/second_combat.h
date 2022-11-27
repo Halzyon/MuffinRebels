@@ -5,7 +5,7 @@
 	Project: 1401 Game Project - Game Name: DiceRebels
 	Author: Liew Yeni (yeni.l@digipen.edu)
 
-	All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved
+	All content ï¿½ 2022 DigiPen Institute of Technology Singapore, all rights reserved
 
 ---------------------------------------------------------------------------------------*/
 
@@ -53,6 +53,11 @@ void enemy_health_bar(int enemy_hp, int enemyMaxHp);
 void inventory_window(int num_item, float position_X);
 
 void second_exit(void);
+
+
+void toggleOneDMG(void);
+
+void toggleBigDMG(void);
 
 
 #endif //!SECOND_COMBAT_H

@@ -1,13 +1,16 @@
-/*---------------------------------------------------------------
-  File: GameScene.c
-  Project: DICE REBELS
-  Author: Muhammad Hazim Bin Gazali, m.bingazali@digipen.edu
-  Co-Author: Yeo Yi Jia, (y.yijia@digipen.edu)
-  Co-Author: Alwin Moo (moo.g@digipen.edu)
-  Co-Author: Liew Yeni, yeni.l@digipen.edu
-  Co-Author: Foong Jun Wei (f.junwei)
-  Copyright: 2022, Digipen Institute of Technology, Singapore
-----------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------
+
+	File: GameScene.c
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Muhammad Hazim Bin Gazali (m.bingazali@digipen.edu)
+			 Foong Jun Wei (f.junwei@digipen.edu)
+			 Liew Yeni (yeni.l@digipen.edu)
+			 Alwin Moo (moo.g@digpen.edu)
+			 Yeo Yi Jia (y.yijia@digipen.edu)
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 
 #include "SpriteAnimation/spriteAnimation.h"
 #include "Character/diceHandler.h"
@@ -234,6 +237,18 @@ void game_update(void)
 		return;
 	}
 
+	if (CP_Input_KeyReleased(KEY_M)) // master sword cheat
+	{
+		toggleMasterSWCheat();
+	}
+	if (CP_Input_KeyReleased(KEY_N)) // for trailer use
+	{
+		toggleOneDMG();
+	}
+	if (CP_Input_KeyReleased(KEY_B)) // for trailer use
+	{
+		toggleBigDMG();
+	}
 	//get player input
 	hardware_handler();
 	

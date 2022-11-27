@@ -1,3 +1,15 @@
+/*-------------------------------------------------------------------------------------
+
+	File: ui_utils.c
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Muhammad Hazim Bin Gazali (m.bingazali@digipen.edu) - IsAreaClickedCentre, IsAreaClickedCorner
+			 Foong Jun Wei (f.junwei@digipen.edu) - mouse_in_rect
+			 Liew Yeni (yeni.l@digipen.edu) - get_image_size, get_image_size_set, go_to_animation, shrinking_animation
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
+
 #ifndef H_UTILS_H
 #define H_UTILS_H
 

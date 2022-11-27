@@ -1,12 +1,12 @@
-/*!
- @file fileIO.h
- @author Foong Jun Wei (f.junwei)
- @course CSD1401
- @section A
- @tutorial 
- @date 2022-10-07
- @brief header file for handling C level File I/O
-*//*______________________________________________________________________*/
+/*-------------------------------------------------------------------------------------
+
+	File: fileIO.h
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Foong Jun Wei (f.junwei@digipen.edu)
+
+	All content � 2022 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 
 
 
