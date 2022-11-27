@@ -196,16 +196,20 @@ void settings_update(void)
 		if (soundscaled.clicked == 1)	// renders large soundon icon
 		{
 			RenderAsset(soundscaled, 255);
+			
 			if (mouse_in_rect(soundscaled.position.x, soundscaled.position.y, soundscaled.size.x, soundscaled.size.y) == 1 && CP_Input_MouseClicked())	// if player clicks icon to mute sound
 			{
+				CP_Sound_PauseAll();
 				soundscaled.clicked = !soundscaled.clicked;
 			}
 		}
 		else	// renders large soundoff icon
 		{
 			RenderAsset(soundoffscaled, 255);
+	
 			if (mouse_in_rect(soundscaled.position.x, soundscaled.position.y, soundscaled.size.x, soundscaled.size.y) == 1 && CP_Input_MouseClicked())	// if player clicked icon to turn on sound
 			{	
+				CP_Sound_ResumeAll();
 				soundscaled.clicked = !soundscaled.clicked;
 			}
 		}
