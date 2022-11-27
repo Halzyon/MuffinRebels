@@ -58,7 +58,7 @@ void gamepaused_update(void) {
 	RenderAsset(gamepaused, 255);
 
 	RenderAsset(resume, 255);
-	if (mouse_in_rect(resume.position.x, resume.position.y, resume.size.x -100, resume.size.y - 100 ) == 1) {
+	if (mouse_in_rect(resume.position.x, resume.position.y, resume.size.x, resume.size.y) == 1) {
 		arrowicon.position.x = resume.position.x -100;
 		arrowicon.position.y = resume.position.y;
 		RenderAsset(arrowicon, 255);
@@ -70,12 +70,16 @@ void gamepaused_update(void) {
 	}
 
 	RenderAsset(restart, 255);
-	if (mouse_in_rect(restart.position.x, restart.position.y, restart.size.x -100, restart.size.y -100) == 1) {
+	if (mouse_in_rect(restart.position.x, restart.position.y, restart.size.x, restart.size.y) == 1) {
 		arrowicon.position.x = restart.position.x - 100;
 		arrowicon.position.y = restart.position.y;
 		RenderAsset(arrowicon, 255);
 		if (CP_Input_MouseClicked())
 		{
+			combatants_present = false;
+			if (the_enemy)
+				the_enemy->b_combat = false;
+			setNextLvl(currLvl);
 			GameStateSetNextScene(GAME_SCENE);
 			sub = false;
 			GameStateSetNextSubScene(MAX_SCENE, true);
@@ -83,12 +87,13 @@ void gamepaused_update(void) {
 	}
 	
 	RenderAsset(exittxt, 255);
-	if (mouse_in_rect(exittxt.position.x, exittxt.position.y, exittxt.size.x -100, exittxt.size.y - 100) == 1) {
+	if (mouse_in_rect(exittxt.position.x, exittxt.position.y, exittxt.size.x, exittxt.size.y) == 1) {
 		arrowicon.position.x = exittxt.position.x - 60;
 		arrowicon.position.y = exittxt.position.y;
 		RenderAsset(arrowicon, 255);
 		if (CP_Input_MouseClicked())
 		{
+			setInitScene(false);
 			GameStateSetNextScene(MAINMENU_SCENE);
 			sub = false;
 			GameStateSetNextSubScene(MAX_SCENE, true);

@@ -1,11 +1,14 @@
 #include "GameStateManager.h"
 #include "yijia/settings_ui.h"
-#include "../Src/yijia/overworld_ui.h"
-#include"../Src/yijia/pause_ui.h"
-#include "../Src/yijia/mainmenu.h"
-#include "../Src/yijia/credits.h"
-#include "../Src/yijia/tutorial.h"
+#include "yijia/overworld_ui.h"
+#include"yijia/pause_ui.h"
+#include "yijia/mainmenu.h"
+#include "yijia/credits.h"
+#include "yijia/tutorial.h"
+#include "yijia/gameOver.h"
 
+
+CP_Sound bgm;
 
 void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, FunctionPtr exit)
 {
@@ -20,7 +23,6 @@ void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, Functio
 			initArray(&gsm.Scenes, 1);	
 		insertArray(&gsm.Scenes, *scne);
 
-			
 		LOG("SCENE %d HAVE BEEN ADDED\n", scn);
 	}
 	else
@@ -83,9 +85,11 @@ void GameStateSetNextSubScene(SCENES scne, bool forced)
 
 
 void initArray(SceneArray* a, size_t initialSize) {
+
 	a->array = malloc(initialSize * sizeof(Scene));
 	a->used = 0;
 	a->size = initialSize;
+	
 }
 
 void insertArray(SceneArray* a, Scene element) {
@@ -94,7 +98,7 @@ void insertArray(SceneArray* a, Scene element) {
 	if (a->used == a->size) {
 		a->size *= 2;
 		a->array = realloc(a->array, a->size * sizeof(Scene));
-	}
+	} 
 	a->array[a->used++] = element;
 }
 
@@ -106,6 +110,8 @@ void freeArray(SceneArray* a) {
 
 void GameStateRun(void)
 {
+	
+	
 	gsm.b_subScene = false;
 	GameStateAddScene(SPLASHSCREEN_SCENE, splash_screen_init, splash_screen_update, splash_screen_exit);
 	//GameStateAddScene(SPLASHSCREEN_SCENE, editor_init, editor_update, editor_exit);
@@ -121,10 +127,13 @@ void GameStateRun(void)
 	GameStateAddScene(BATTLE_SCENE_UI, second_init, second_update, second_exit); // @TODO add this later
 	GameStateAddScene(MAX_SCENE, NULL, NULL, NULL);
 	GameStateAddScene(TUTORIAL_SCENE, tutorial_init, tutorial_update, tutorial_exit);// @TODO add this later 
+	GameStateAddScene(GAMEOVER_SCENE, gameTransition_init, gameTransition_update, gameTransition_shutdown);
 
 	//set first scene
 	GameStateSetNextScene(SPLASHSCREEN_SCENE);
+
 	CP_Engine_Run();
+
 
 	freeArray(&gsm.Scenes);
 }
@@ -139,4 +148,9 @@ void ManualUpdate(SCENES scne)
 		gsm.Scenes.array[i].fnc[1]();
 
 	}
+}
+
+CP_Sound *getBGM()
+{
+	return &bgm;
 }

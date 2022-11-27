@@ -169,8 +169,7 @@ void move_to(CP_Vector* curr, CP_Vector dst)
 void battleEnd()
 {
 	battleOver = true;
-	sceneSet = false;
-	transitionEnd = false;
+	
 
 	combatants_present = 0;
 }
@@ -183,4 +182,10 @@ CP_BOOL getCombatState()
 CP_Vector getEnemyPos()
 {
 	return enemyPos;
+}
+
+void beginTransition()
+{
+	sceneSet = false;
+	transitionEnd = false;
 }

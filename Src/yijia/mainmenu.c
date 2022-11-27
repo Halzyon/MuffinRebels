@@ -27,6 +27,14 @@ extern int currentScene;
 
 void mainmenu_init() {
 	
+	//	loads images and finds their sizes
+	if (!*getBGM())
+	{
+		*getBGM() = CP_Sound_LoadMusic("Assets/SFX/bgm.mp3");
+		CP_Sound_PlayAdvanced(*getBGM(), 0.5f, 1.0f, TRUE, CP_SOUND_GROUP_MUSIC);
+	}
+	
+
 	get_image_size_set("Assets/button.png", &button);
 	get_image_size_set("Assets/button2.png", &button2);
 	get_image_size_set("Assets/button3.png", &button3);
@@ -105,7 +113,7 @@ void mainmenu_update() {
 			}
 		}
 
-		if (mouse_in_rect(button.position.x, button.position.y, button.size.x - 200, button.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
+		if (mouse_in_rect(button.position.x, button.position.y, button.size.x, button.size.y) == 1)	 //-100 to reduce the size of area of detection 
 		{
 			RenderAsset(button1pressed, 255);
 			if (CP_Input_MouseClicked())
@@ -118,7 +126,7 @@ void mainmenu_update() {
 
 		//LVL 2 BUTTON 
 
-		if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x - 200, button2.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
+		if (mouse_in_rect(button2.position.x, button2.position.y, button2.size.x, button2.size.y) == 1)	 //-100 to reduce the size of area of detection 
 		{
 			RenderAsset(button2pressed, 255);
 			if (CP_Input_MouseClicked())
@@ -134,7 +142,7 @@ void mainmenu_update() {
 		}
 
 
-		if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x - 200, button3.size.y - 200) == 1)	 //-100 to reduce the size of area of detection 
+		if (mouse_in_rect(button3.position.x, button3.position.y, button3.size.x, button3.size.y) == 1)	 //-100 to reduce the size of area of detection 
 		{
 			RenderAsset(button3pressed, 255);
 			if (CP_Input_MouseClicked())

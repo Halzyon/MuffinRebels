@@ -9,18 +9,29 @@ int alpha;
 
 int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_height)
 {
-	float mouse_x = CP_Input_GetMouseX();
-	float mouse_y = CP_Input_GetMouseY();
-	float max_dist_rect_sq = ((rect_width / 2) * (rect_width / 2)) + ((rect_height / 2) * (rect_height / 2));	// pythagoras to find diagonal length from center to a corner in the rectangle. value is squared
-	float dist_rect_PointerToCenter_sq = ((rect_x - mouse_x) * (rect_x - mouse_x)) + ((rect_y - mouse_y) * (rect_y - mouse_y));	// distance of pointer from center to pointer. value is squared
-	if (max_dist_rect_sq > dist_rect_PointerToCenter_sq)	// pointer is in the rectangle
-	{
-		return 1;
-	}
-	else	// pointer is outside of rectangle
-	{
-		return 0;
-	}
+	//float mouse_x = CP_Input_GetMouseX();
+	//float mouse_y = CP_Input_GetMouseY();
+	//float max_dist_rect_sq = ((rect_width / 2) * (rect_width / 2)) + ((rect_height / 2) * (rect_height / 2));	// pythagoras to find diagonal length from center to a corner in the rectangle. value is squared
+	//float dist_rect_PointerToCenter_sq = ((rect_x - mouse_x) * (rect_x - mouse_x)) + ((rect_y - mouse_y) * (rect_y - mouse_y));	// distance of pointer from center to pointer. value is squared
+	//if (max_dist_rect_sq > dist_rect_PointerToCenter_sq)	// pointer is in the rectangle
+	//{
+	//	return 1;
+	//}
+	//else	// pointer is outside of rectangle
+	//{
+	//	return 0;
+	//}
+
+	float x = CP_Input_GetMouseX();
+	float y = CP_Input_GetMouseY();
+	float x2 = rect_x - rect_width / 2;
+	float y2 = rect_y - rect_height / 2;
+	float x3 = x2 + rect_width;
+	float y3 = y2 + rect_height;
+	if (x > x2 && x < x3 && y > y2 && y < y3)
+		return true;
+
+	return false;
 }
 
 void get_image_size(const char *filepath, asset* obj)
@@ -51,10 +62,10 @@ void go_to_animation(float targetX, float targetY, CP_Vector *pos_to_change)
 
 void shrinking_animation(float target, float* to_change)
 {
-	float shrink_ps = 0.1 * (*to_change - target);
+	float shrink_ps = 0.2 * (*to_change - target);
 	*to_change -= shrink_ps;
 }
-
+/*
 int rumbling_animation(void)
 {
 	blinkTimer += CP_System_GetDt();
@@ -75,7 +86,7 @@ int rumbling_animation(void)
 			}
 		}
 	}
-}
+}*/
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)
 {
@@ -105,4 +116,18 @@ CP_Vector getWorldPos(CP_Vector gridPos, const game_map* gm)
 {
 	float gridsize = CP_System_GetWindowHeight() / gm->height;
 	return CP_Vector_Set(gridPos.x * gridsize, gridPos.y * gridsize);
+}
+
+int mouse_in_rect_lvl(float rect_x, float rect_y, float rect_width, float rect_height)
+{
+	float x = CP_Input_GetMouseX();
+	float y = CP_Input_GetMouseY();
+	float x2 = rect_x - rect_width / 2;
+	float y2 = rect_y - rect_height / 2;
+	float x3 = x2 + rect_width;
+	float y3 = y2 + rect_height;
+	if (x > x2 && x < x3 && y > y2 && y < y3)
+		return true;
+
+	return false;
 }

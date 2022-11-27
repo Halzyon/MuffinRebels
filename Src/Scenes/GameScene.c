@@ -7,26 +7,61 @@
 #include "../Combat/combatHandler.h"
 #include "../Character/gameMap.h"
 #include "../FileIO/fileIO.h"
+#include "../Items/itemHandler.h"
 
-#define ENEMYSIZE 2
+#define MAXENEMIES 8
+#define FILEPATH "Assets/"
 
 
+
+double speed = 5000;
 Sprite* ash;
 game_map* Level;
-Enemy* enemy[ENEMYSIZE];
+Enemy* enemy[MAXENEMIES];
+
 bool b_paused = false;
+bool goNextLvl = false;
+bool transitionOver = false;
+bool startTransition = true;
+bool flipDir = false;
 
-
-
+CP_Image transition_img;
+CP_Vector transitionPos;
+CP_Vector transitionSize;
+CP_Vector targetPos;
+Sprite* portal;
 extern asset matte;
 extern int brightposx;
 extern bool sub;
 CP_BOOL combatStart = false;
 CP_BOOL combatOver = false;
 int enemykilled = 0;
+char targetLevel = 0;
+char playerWon = 0; // -1 lose, 1 win;
+bool clearedLevel = false;
+char enemyCount = 0;
+float timer = 0.f;
+int prevHP = 100;
+
+bool isInitScene = false;
+
+void move_transition(CP_Vector* curr, CP_Vector dst);
+
 void game_init(void)
 {
+	if (isInitScene)
+		return;
+	numEnemies[0] = 2;
+	numEnemies[1] = 4;
+	numEnemies[2] = 8;
 	currLvl = 0;
+	transition_img = CP_Image_Load(FILEPATH "transition.png");
+	transitionSize = CP_Vector_Set(CP_Image_GetWidth(transition_img), CP_Image_GetHeight(transition_img));
+	transitionPos = CP_Vector_Set(transitionSize.x, transitionSize.y);
+
+
+	portal = CreateSprite("Assets/portal.png", 1, 31, true, true);
+
 	// set draw settings
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
@@ -34,6 +69,10 @@ void game_init(void)
 	// create and initialise cplayer
 	init_dice();
 	init_char();
+
+	// resetting items and powerups
+	reset_items();
+	reset_modifier();
 	
 	//creating map data
 	int width = MAP1_SIZE;
@@ -87,19 +126,29 @@ void game_init(void)
 	
 
 	//creating and initialise 1 enemy
-	for (int i = 0; i < ENEMYSIZE; ++i)
+	for (int i = 0; i < MAXENEMIES; ++i)
 	{
 		enemy[i] = CreateEnemy();
-		enemy[i]->sp->go.position.x = i * (9) + mapOffset[currLvl];
-		enemy[i]->sp->go.position.y = 4;
-		enemy[i]->sp->go.scale.x = 0.5;
-		enemy[i]->sp->go.scale.y = 0.5;
-		enemy[i]->hp = 10;
-		enemy[i]->steps = 1;
-		enemy[i]->b_combat = false;
+				//enemy[i]->sp->go.position.x = i * (9) + mapOffset[currLvl];
+		//enemy[i]->sp->go.position.y = 4;
+		//enemy[i]->sp->go.scale.x = 0.5;
+		//enemy[i]->sp->go.scale.y = 0.5;
+		//enemy[i]->hp = 10;
+		//enemy[i]->steps = 1;
+		//enemy[i]->b_combat = false;
+		//if (i < numEnemies[currLvl])
+		//{
+		//	enemy[i]->sp->go.isAlive = true;
+		//}
+		//else
+		//{
+		//	enemy[i]->sp->go.isAlive = false;
+		//}
 	}
-	get_character()->sp->go.position.x = mapOffset[currLvl] + 4;
-	get_character()->sp->go.position.y = 9;
+
+	
+
+
 	loadSprites();
 
 	//set sub scenes to run 
@@ -109,10 +158,41 @@ void game_init(void)
 	GameStateSetNextSubScene(BATTLE_SCENE, false);
 	GameStateSetNextSubScene(BATTLE_SCENE_UI, false);
 	GameStateSetNextSubScene(MAX_SCENE, true);
+	isInitScene = true;
+	//setNextLvl(targetLevel);
 }
 
 void game_update(void)
 {
+	if (!enemyCount)
+	{
+		playerWon = 1;
+	}
+
+	if (playerWon == 1)
+	{
+		
+		if (get_character()->sp->go.position.x == portal->go.position.x)
+		{
+			if (get_character()->sp->go.position.y == portal->go.position.y)
+			{
+				LOG("CHARACTER AND PORTAL COLLIDED\n");
+				if (currLvl + 1 < 3)
+					setNextLvl(currLvl + 1);
+				else
+					GameStateSetNextScene(MAINMENU_SCENE);
+			}
+		}
+	}
+	if ((get_character()->hp <= 0  && !sub) || CP_Input_KeyTriggered(KEY_H) || CP_Input_KeyTriggered(KEY_J))
+	{
+		sub = true;
+		if (!CP_Input_KeyDown(KEY_H))
+			get_character()->hp = 0;
+		else
+			get_character()->hp = 5;
+		GameStateSetNextSubScene(GAMEOVER_SCENE,false);
+	}
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	//UPDATE
 	float dt = CP_System_GetDt();
@@ -129,123 +209,211 @@ void game_update(void)
 
 	if (CP_Input_KeyDown(KEY_1))
 	{
-		currLvl = 0;
+		setNextLvl(0);
+		return;
 	}
 	if (CP_Input_KeyDown(KEY_2))
 	{
-		currLvl = 1;
+		setNextLvl(1);
+		return;
 	}
 	if (CP_Input_KeyDown(KEY_3))
 	{
-		currLvl = 2;
-	}
-
-	if (enemykilled == ENEMYSIZE)
-	{
-		GameStateSetNextScene(OVERWORLD_UI_SCENE);
+		setNextLvl(2);
+		return;
 	}
 
 	//get player input
 	hardware_handler();
-
+	
 	//update player pos
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	UpdateSprite(get_character()->sp, dt);
-
-	int reset = 1;
-	for (int i = 0; i < ENEMYSIZE; ++i)
+	UpdateSprite(portal, dt);
+	if (!transitionOver && startTransition)
 	{
-		//set logic for enemy temporary
-		if (get_character()->sp->moved)
+		// need to update here as well so as to not have the sprite sheet appear
+		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
-			UpdateEnemy(enemy[i], dt, true);
+			UpdateEnemy(enemy[i], dt, false);
+		}
+		//RENDER
+		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
+
+		render_map(Level + currLvl, vec);
+		render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3 + currLvl, mapOffset[currLvl]);
+		//render player
+		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
+
+
+		//move_transition(&transitionPos, CP_Vector_Set(-transitionSize.x, 0));
+		if (goNextLvl)
+		{
+			flipDir = true;
+			goNextLvl = false;
+		}
+
+		if (!flipDir)
+		{
+			transitionPos.x -= dt * (float)speed;
+			if (transitionPos.x <= -transitionSize.x)
+			{
+				transitionOver = true;
+				startTransition = false;
+			}
 		}
 		else
 		{
-			enemy[i]->energy = 8;
-			UpdateEnemy(enemy[i], dt, false);
+			transitionPos.x += dt * (float)speed;
+			if (transitionPos.x >= 0)
+			{
+				flipDir = false;
+				currLvl = targetLevel;
+			}
 		}
-		
-		UpdateCombat(enemy[i], dt);
+
+
+		CP_Settings_ImageMode(CP_POSITION_CORNER);
+		CP_Image_Draw(transition_img, transitionPos.x, transitionPos.y, transitionSize.x, transitionSize.y, 255);
 	}
-
-	for (int i = 0; i < ENEMYSIZE; ++i)
+	else
 	{
-		if ((enemy[i]->b_combat && !combatStart))
+		//RENDER
+		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
+		render_map(Level + currLvl, vec);
+
+		bool enemy_done = false;
+		//update player pos
+		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
-			second_init();
-			combat_scene_init();
-			combatStart = true;
-			combatOver = false;
-		}
-	}
+			if (get_character()->sp->moved)
+			{
+				if (enemy[i]->energy)
+				{
+					UpdateEnemy(enemy[i], dt, true);
+				}
+			}
+			else
+			{
+				enemy[i]->energy = 8;
+				UpdateEnemy(enemy[i], dt, false);
+			}
 
-	//RENDER
-	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
-	render_map(Level + currLvl, vec);
-	
-	//render player
-	RenderSpriteOnMap(get_character()->sp, Level + currLvl);
-
-	//render enemy
-	for (int i = 0; i < ENEMYSIZE; ++i)
-		RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
-	render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3, mapOffset[currLvl]);
-
-	if (!combatStart)
-		ManualUpdate(COMBAT_OVERLAY_SCENE);
-	if (!sub)
-		RenderAsset(matte, 255 - brightposx);
-	
-
-	if (combatStart && !combatOver)
-	{
-		for (int i = 0; i < ENEMYSIZE; ++i)
-		{
 			UpdateCombat(enemy[i], dt);
 		}
 
-		ManualUpdate(BATTLE_SCENE_UI);
-		ManualUpdate(BATTLE_SCENE);
-
-		// if enemy dead/player dead do smth
-
-		for (int i = 0; i < ENEMYSIZE; ++i)
+		for (int i = 0; i < numEnemies[currLvl]; ++i)
 		{
-			if (!enemy[i]->b_combat)
-				continue;
-			if (enemy[i]->hp <= 0)
+			if (enemy[i]->sp->go.isAlive)
 			{
-				enemy[i]->sp->go.isAlive = false;
-					++enemykilled;
-				enemy[i]->b_combat = false;
+				if (get_character()->sp->moved)
+				{
+					if (enemy[i]->energy == 0)
+						enemy_done = true;
+					else
+					{
+						enemy_done = false; //the moment one enemy not done we just leave
+						break;
+					}
+				}
+			}
+		}
+
+		if (enemy_done)
+		{
+			get_character()->sp->moved = 0;
+			get_character()->turn_done = 0;
+		}
+
+		for (int i = 0; i < numEnemies[currLvl]; ++i)
+		{
+			if ((enemy[i]->b_combat && !combatStart))
+			{
+				second_init();
+				combat_scene_init();
+				combatStart = true;
+				combatOver = false;
+			}
+		}
+
+		//render enemy
+		for (int i = 0; i < numEnemies[currLvl]; ++i)
+			RenderSpriteOnMap(enemy[i]->sp, Level + currLvl);
+		if (playerWon)
+			RenderSpriteOnMap(portal, Level + currLvl);
+
+		render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3 + currLvl, mapOffset[currLvl]);
+
+		//render player
+		RenderSpriteOnMap(get_character()->sp, Level + currLvl);
+
+		if (!combatStart)
+			ManualUpdate(COMBAT_OVERLAY_SCENE);
+		if (!sub)
+			RenderAsset(matte, 255 - brightposx);
+
+
+		if (combatStart && !combatOver)
+		{
+			for (int i = 0; i < numEnemies[currLvl]; ++i)
+			{
+				UpdateCombat(enemy[i], dt);
+			}
+			CP_Settings_ImageMode(CP_POSITION_CENTER);
+			ManualUpdate(BATTLE_SCENE_UI);
+			ManualUpdate(BATTLE_SCENE);
+
+			// if enemy dead/player dead do smth
+
+			for (int i = 0; i < numEnemies[currLvl]; ++i)
+			{
+				if (!enemy[i]->b_combat)
+					continue;
+				if (enemy[i]->hp <= 0)
+				{
+					enemy[i]->sp->go.isAlive = false;
+					enemy[i]->b_combat = false;
+					battleEnd();
+
+
+					get_character()->sp->moved = 0;
+					get_character()->turn_done = 0;
+					--enemyCount;
+				}
+			}
+
+			if (get_character()->hp <= 0)
+			{
 				battleEnd();
 
 				get_character()->sp->moved = 0;
 				get_character()->turn_done = 0;
+				playerWon = -1; // player died
+			}
+			if (getCombatState())
+			{
+				timer += dt;
+				if (timer >= 0.25f)
+				{
+					beginTransition();
+					combatStart = false;
+					combatOver = true;
+					
+					timer = 0.f;
+				}
+
 			}
 		}
-
-		if (get_character()->hp <= 0)
-		{
-			battleEnd();
-
-			get_character()->sp->moved = 0;
-			get_character()->turn_done = 0;
-		}
-		if (getCombatState())
-		{
-			combatStart = false;
-			combatOver = true;
-		}
 	}
+
+	
 }
 
 void game_exit(void)
 {
 	free(Level);
 	free_char();
-	for(int i = 0; i < ENEMYSIZE; ++i)
+	for(int i = 0; i < MAXENEMIES; ++i)
 		FreeEnemy(enemy[i]);
 }
 
@@ -264,13 +432,179 @@ void engage_enemy(CP_Vector dir)
 {
 	CP_Vector tmp = get_character()->sp->go.position;
 	tmp = CP_Vector_Add(tmp, dir);
-	for (int i = 0; i < ENEMYSIZE; ++i)
+	for (int i = 0; i < numEnemies[currLvl]; ++i)
 	{
 		if (tmp.x == enemy[i]->sp->go.position.x && tmp.y == enemy[i]->sp->go.position.y)
 		{
 			// fight
 			enemy[i]->b_combat = true;
 			enemy[i]->enemyState = DEFEND_STATE;
+			return;
 		}
 	}
+}
+
+void setNextLvl(char next)
+{
+	if (!isInitScene)
+		game_init();
+	if (targetLevel != currLvl)
+	{
+		prevHP = get_character()->hp;
+	}
+	else
+	{
+		get_character()->hp = prevHP;
+	}
+
+	get_character()->combat_mode = CHAR_NONE;
+	combatants_present = false;
+	goNextLvl = true;
+	transitionOver = false;
+	startTransition = true;
+	clearedLevel = false;
+	playerWon = 0;
+	combatStart = false;
+	combatOver = true;
+	targetLevel = next;
+	enemyCount = 0;
+
+	get_character()->energy = 0;
+
+
+
+	for (int i = 0; i < MAXENEMIES; ++i)
+	{
+		enemy[i]->hp = 20;
+		enemy[i]->steps = 1;
+		enemy[i]->b_combat = false;
+		if (i < numEnemies[next])
+		{
+			enemy[i]->sp->go.isAlive = true;
+			++enemyCount;
+		}
+		else
+		{
+			enemy[i]->sp->go.isAlive = false;
+		}
+	}
+	switch (next)
+	{
+	case 0:
+	{
+		get_character()->sp->go.position.x = mapOffset[targetLevel] + 7;
+		get_character()->sp->go.position.y = 14;
+
+		enemy[0]->sp->go.position.x = 7 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.y = 8;
+		enemy[0]->enemyState = PATROL_LEFTRIGHT_STATE;
+		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[1]->sp->go.position.y = 8;
+		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 5;
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 5;
+		portal->go.position.x = 13;
+		portal->go.position.y = 3;
+	}
+		break;
+	case 1:
+	{
+		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
+		get_character()->sp->go.position.y = 18;
+
+		enemy[0]->sp->go.position.x = 8 + mapOffset[targetLevel]; 
+		enemy[0]->sp->go.position.y = 8;
+		enemy[0]->enemyState = PATROL_UPDOWN_STATE;
+
+		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[1]->sp->go.position.y = 9;
+		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[2]->sp->go.position.x = 12 + mapOffset[targetLevel];
+		enemy[2]->sp->go.position.y = 13;
+		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[3]->sp->go.position.x = 15 + mapOffset[targetLevel];
+		enemy[3]->sp->go.position.y = 1;
+		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 5;
+		enemy[2]->maxHP = 10;
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 5;
+		enemy[2]->hp = 10;
+
+		portal->go.position.x = 25;
+		portal->go.position.y = 2;
+	}
+		break;
+	case 2:
+	{
+		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
+		get_character()->sp->go.position.y = 28;
+
+		enemy[0]->sp->go.position.x = 1 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.y = 6;
+		enemy[0]->enemyState = PATROL_UPDOWN_STATE;
+
+		enemy[1]->sp->go.position.x = 2 + mapOffset[targetLevel];
+		enemy[1]->sp->go.position.y = 12;
+		enemy[1]->enemyState = PATROL_UPDOWN_STATE;
+
+		enemy[2]->sp->go.position.x = 17 + mapOffset[targetLevel];
+		enemy[2]->sp->go.position.y = 8;
+		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[3]->sp->go.position.x = 18 + mapOffset[targetLevel];
+		enemy[3]->sp->go.position.y = 3;
+		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[4]->sp->go.position.x = 26 + mapOffset[targetLevel];
+		enemy[4]->sp->go.position.y = 22;
+		enemy[4]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[5]->sp->go.position.x = 29 + mapOffset[targetLevel];
+		enemy[5]->sp->go.position.y = 24;
+		enemy[5]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[6]->sp->go.position.x = 19 + mapOffset[targetLevel];
+		enemy[6]->sp->go.position.y = 19;
+		enemy[6]->enemyState = PATROL_UPDOWN_STATE;
+
+		enemy[7]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[7]->sp->go.position.y = 17;
+		enemy[7]->enemyState = PATROL_LEFTRIGHT_STATE;
+
+		enemy[0]->maxHP = 5;
+		enemy[1]->maxHP = 15;
+		enemy[2]->maxHP = 10;
+		enemy[3]->maxHP = 5;
+		enemy[4]->maxHP = 15;
+		enemy[5]->maxHP = 10;
+		enemy[6]->maxHP = 15;
+		enemy[7]->maxHP = 5;
+		
+		enemy[0]->hp = 5;
+		enemy[1]->hp = 15;
+		enemy[2]->hp = 10;
+		enemy[3]->hp = 5;
+		enemy[4]->hp = 15;
+		enemy[5]->hp = 10;
+		enemy[6]->hp = 15;
+		enemy[7]->hp = 5;
+		portal->go.position.x = 14;
+		portal->go.position.y = 2;
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+void setInitScene(bool b)
+{
+	isInitScene = b;
 }

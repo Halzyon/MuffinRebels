@@ -19,7 +19,7 @@ int check_limits(CP_Vector dir)
 	if (dir.x >= 0 && dir.x < getMap()->width && dir.y >= 0 && dir.y < getMap()->height) // check within bounds before checking tile types
 	{
 		char var = getMap()->map_arr[map_get_index(dir.x, dir.y, getMap()->width)];
-		if ((var >= WALL_1 && var <= WALL_17) || (var >= WALL_19 && var <= WALL_22))
+		if ((var >= WALL_1 && var <= WALL_17) || (var >= WALL_19 && var <= WALL_20))
 		{
 			return 0;
 		}
@@ -50,8 +50,6 @@ void hardware_handler(void)
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[FORWARD];
 
 			CP_Sound_Play(footsteps);
-
-			printf("walked up 1, energy left: %d\n", get_character()->energy);
 		}
 		else if (CP_Input_KeyTriggered(KEY_S) && check_limits(CP_Vector_Set(0, 1)))
 		{
@@ -62,8 +60,6 @@ void hardware_handler(void)
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[BACKWARD];
 
 			CP_Sound_Play(footsteps);
-
-			printf("walked down 1, energy left: %d\n", get_character()->energy);
 		}
 		else if (CP_Input_KeyTriggered(KEY_A) && check_limits(CP_Vector_Set(-1, 0)))
 		{
@@ -75,8 +71,6 @@ void hardware_handler(void)
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[LEFT];
 
 			CP_Sound_Play(footsteps);
-
-			printf("walked left 1, energy left: %d\n", get_character()->energy);
 		}
 		else if (CP_Input_KeyTriggered(KEY_D) && check_limits(CP_Vector_Set(1, 0)))
 		{
@@ -89,10 +83,8 @@ void hardware_handler(void)
 			get_character()->sp->renderMode = get_character()->sp->spriteStates[RIGHT];
 
 			CP_Sound_Play(footsteps);
-
-			printf("walked right 1, energy left: %d\n", get_character()->energy);
 		}
-		check_Chest(get_character()->sp->go.position);
+		//check_Chest(get_character()->sp->go.position);
 		if (!get_character()->energy)
 		{
 			get_character()->turn_done = 1;
@@ -110,7 +102,7 @@ void hardware_handler(void)
 	}
 }
 
-void check_Chest(CP_Vector pos)
+int check_Chest(CP_Vector pos)
 {
 	pos.x -= mapOffset[currLvl];
 	char var = getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)];
@@ -119,6 +111,10 @@ void check_Chest(CP_Vector pos)
 	{
 		getMap()->map_arr[map_get_index(pos.x, pos.y, getMap()->width)] = CHEST_2;
 
-		randomise_all();
+		return randomise_all(currLvl);
+	}
+	else
+	{
+		return 0;
 	}
 }

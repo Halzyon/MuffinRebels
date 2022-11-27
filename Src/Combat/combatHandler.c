@@ -74,14 +74,20 @@ int combat_phase(void)
 					if (current_powerup == LEATHER_SKIN)
 						the_enemy->hp -= (attacker_sum - defender_sum);
 					else
-						the_enemy->hp -= (attacker_sum - defender_sum) + get_character()->modifier; // call animation here?
+					{
+						the_enemy->hp -= (attacker_sum - defender_sum) + get_character()->modifier;
+						--get_character()->mod_duration;
+					}
 				}
 				else if (the_enemy->enemyState == ATTACK_STATE)
 				{
 					if (get_character()->modifier > 0 && current_powerup == LEATHER_SKIN)
+					{
 						get_character()->modifier -= (attacker_sum - defender_sum);
+						--get_character()->mod_duration;
+					}
 					else
-						get_character()->hp -= (attacker_sum - defender_sum); // call animation here?
+						get_character()->hp -= (attacker_sum - defender_sum);
 				}
 			}
 			else if (attacker_sum < defender_sum) //defender damage delt
@@ -89,22 +95,26 @@ int combat_phase(void)
 				if (get_character()->combat_mode == CHAR_ATTACKING)
 				{
 					if (get_character()->modifier > 0 && current_powerup == LEATHER_SKIN)
+					{
 						get_character()->modifier += (attacker_sum - defender_sum);
+						--get_character()->mod_duration;
+					}
 					else
-						get_character()->hp += (attacker_sum - defender_sum); // call animation here?
+						get_character()->hp += (attacker_sum - defender_sum);
 				}
 				else if (the_enemy->enemyState == ATTACK_STATE)
 				{
 					if (current_powerup == LEATHER_SKIN)
 						the_enemy->hp += (attacker_sum - defender_sum);
 					else
-						the_enemy->hp += (attacker_sum - defender_sum) + get_character()->modifier; // call animation here?
+					{
+						the_enemy->hp += (attacker_sum - defender_sum) + get_character()->modifier;
+						--get_character()->mod_duration;
+					}
 				}
 				
 			}
 			//else it will be a perfect parry
-			
-			printf("Your health: %d, enemy health: %d\n", get_character()->hp, the_enemy->hp);
 
 			//reset state
 			combatants_present = 0;

@@ -5,6 +5,7 @@
 #include "../../Character/diceHandler.h"
 
 CP_Sound footsteps;
+int powerups[3];
 
 typedef struct
 {
@@ -14,6 +15,8 @@ typedef struct
 	int inButton;
 	int clicked;
 	const char* desc;
+	const char* desc1;
+	const char* name;
 	int side_display;
 	dice_types type;
 	int warning;
@@ -23,9 +26,22 @@ typedef struct
 
 enum powerup
 {
-	atk = 0,
-	hp = 1,
-	movement = 2
+	strongarm = 0,
+	leatherskin = 1,
+	healthpot = 2,
+};
+
+enum dice_items
+{
+	woodensword = 0,
+	woodenshield = 1,
+	ironsword = 2,
+	ironshield = 3,
+	goldsword = 4,
+	goldshield = 5,
+	diamondsword = 6,
+	diamondshield = 7,
+	mastersword = 8,
 };
 
 enum dice
@@ -46,12 +62,10 @@ void init_rollPos(void);
 void combat_overlay_update(void);
 
 // constantly updates the combat overlay based on player interaction with it - num_roll is pregenerated number that the player rolls
-void dice_powerup(int powerup_turns, int combat_dice[]);
+void dice_powerup(int powerup_turns);
 
 // runs if player chooses to roll dice for movement
 void choose_to_roll_movement(void);
-
-void side_display(int turns_left);
 
 // runs if player chooses to select a powerup
 void choose_powerup(int turns_left, int num_powerups[]);
@@ -63,7 +77,9 @@ void settings_button(void);
 void movement_window(int movement, float x, float y, float scale);
 
 // detects if enemy is near for UI
-void isEnemyNearUI(CP_Vector dir);
+int isEnemyNearUI(CP_Vector dir);
+
+void item_to_inventory(int item_code);
 
 // frees all images
 void combat_overlay_exit(void);

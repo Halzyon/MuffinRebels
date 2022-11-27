@@ -14,6 +14,8 @@
 #include "Combat/combat_scene.h"
 #include "UI/CombatOverlayUI/second_combat.h"
 
+
+
 #ifdef _DEBUG
 #define LOG(ERROR_MSG, ...)  (fprintf(stderr, ERROR_MSG, ##__VA_ARGS__));
 #else
@@ -36,6 +38,7 @@ typedef enum
 	PAUSE_SCENE,
 	GAME_SCENE,
 	TUTORIAL_SCENE,
+	GAMEOVER_SCENE,
 	MAX_SCENE
 } SCENES;
 typedef struct {
@@ -73,7 +76,7 @@ void GameStateAddScene(SCENES scne, FunctionPtr init, FunctionPtr update, Functi
 void GameStateSetNextScene(SCENES scne);
 
 void GameStateSetNextSubScene(SCENES scne,bool forced);
-
+CP_Sound* getBGM();
 
 
 #endif // !

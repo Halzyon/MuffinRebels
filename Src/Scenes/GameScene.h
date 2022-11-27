@@ -19,10 +19,13 @@ unsigned char getEnemyState();
 
 int mapOffset[NUM_MAPS];
 char currLvl;
+char numEnemies[3];
 
+void setNextLvl(char next);
 
 const game_map* getMap();
 
 void engage_enemy(CP_Vector dir);
 
+void setInitScene(bool b);
 #endif

@@ -19,12 +19,15 @@ static float EaseOutSine(float start, float end, float value)
 	return end * sinf(value * (PI * 0.5f)) + start;
 }
 
-int rumbling_animation();
+//int rumbling_animation();
 
 void go_to_animation(float targetX, float targetY, CP_Vector* pos_to_change);
+
+void shrinking_animation(float target, float* to_change);
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position);
 int IsAreaClickedCorner(const GameObject obj, const CP_Vector position);
 
 CP_Vector getWorldPos(CP_Vector gridPos, const game_map* gm);
+int mouse_in_rect_lvl(float rect_x, float rect_y, float rect_width, float rect_height);
 #endif // !H_UTILS_H
