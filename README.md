@@ -19,7 +19,7 @@ Left click - interact with UI elements
 
 First, you the player would start their turn by rolling two 6-sided 
 dice (D6) to see how many tiles you can walk.
-After you have exhausted all your "energy" it will be the
+After you have exhausted all your "energy"/movement it will be the
 enemies' turn to move.
 If you would so happen to meet the misfortune of being
 seen and targeted by the enemy, combat will begin.

@@ -137,11 +137,6 @@ void combat_overlay_init(void)
 
 	turns = 3;
 
-	/*for (int d = 0; d < 3; d++)
-	{								//	TODO: replace with number of powerups left accordingly
-		powerups[d] = 0;
-	}*/
-
 	display_side_dice[0] = display_side_dice[1] = 0;
 	
 	// initialize description
@@ -149,7 +144,6 @@ void combat_overlay_init(void)
 	powerup[leatherskin].desc = " Leather Tunic: Shield +5 for 10 turns";
 	powerup[healthpot].desc = "    Health Pot:    Heals 10 HP.";
 	
-	//CP_System_Fullscreen();
 	CP_System_SetWindowSize(1280, 720);
 	
 	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
@@ -165,6 +159,9 @@ void combat_overlay_init(void)
 	powerup_timer = 0;
 
 	chest_item = false;
+
+	enemy_turn = false;
+	fight = false;
 
 	second_sfx_init();
 	
@@ -183,7 +180,7 @@ void init_rollPos(void)
 
 void combat_overlay_update(void)
 {
-	CP_Sound_SetGroupVolume(CP_SOUND_GROUP_MUSIC, 0.2f);
+	CP_Sound_SetGroupVolume(CP_SOUND_GROUP_MUSIC, 0.4f);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
@@ -382,7 +379,7 @@ void choose_to_roll_movement()
 void choose_powerup(int turns_left, int num_powerups[])
 {
 	char turns[2] = { '0' + turns_left / 10, '0' + turns_left % 10 };
-	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && !dice_button.clicked && !powerup_button.warning)	//	checks if user clicked the dice button
+	if (mouse_in_rect(powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y) == 1 && CP_Input_MouseClicked() && !dice_button.clicked && !powerup_button.warning && !enemy_turn && !fight)	//	checks if user clicked the dice button
 	{
 		CP_Sound_Play(click);
 		for (int i = 0; i < 3; i++)
@@ -529,7 +526,7 @@ void choose_powerup(int turns_left, int num_powerups[])
 				powerup[i].clicked = 0;
 				upup = false;
 			}
-			if (up) // TODO: change this so that it plays all the time but just once
+			if (up)
 			{
 				CP_Sound_Play(poweredup);
 				up = false;

@@ -82,7 +82,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 
 		en->sp->go.position.y += steps;
 		CP_Sound_Play(footsteps);
-
+		
 		++en->movement;
 		if (en->movement >= en->patrolRange)
 		{

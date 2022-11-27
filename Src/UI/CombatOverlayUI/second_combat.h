@@ -7,6 +7,8 @@
 
 CP_BOOL playerRolled;
 CP_BOOL enemyRolled;
+int enemy_turn;
+int fight;
 
 CP_Sound poweredup;
 
@@ -26,7 +28,7 @@ void second_choose_to_roll_dice(int* num_roll);
 
 void bottom_display(int player_roll, int enemy_roll);
 
-void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float dice_posY, float scale);
+void generate_dice(int number, dice_types dice_rolled, float dice_posX, float dice_posY, float scale);
 
 void enemy_ui(dice_types enemy_dice, int enemy_roll, float enemy_dice_scale);
 

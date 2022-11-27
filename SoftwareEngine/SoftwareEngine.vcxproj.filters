@@ -76,9 +76,6 @@
     <ClCompile Include="..\Src\SpriteAnimation\SpriteScene.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\UI\CombatOverlayUI\time_ui.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\yijia\tutorial.c">
       <Filter>Source Files</Filter>
     </ClCompile>

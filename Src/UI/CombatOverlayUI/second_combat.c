@@ -53,8 +53,7 @@ int warning_clicked[2];		// subscript 0: dice_button, subscript 1: powerup_butto
 float dice_scale;
 int combat_dice[3];
 int count_rolls;
-int enemy_turn;
-int fight;
+
 float enemy_timer;
 int enemy_turn_end;
 int enemy_hp;
@@ -67,6 +66,7 @@ float cutin_timer;
 float fighting_timer;
 bool prevent_powerup;
 bool modifier_start;
+bool growl, growlgrowl;
 
 //int player_roll;
 
@@ -365,7 +365,7 @@ void second_choose_to_roll_dice(int *num_roll)
 	for (int d = 0; d < 3; d++)
 	{
 		*dice[d].num = '0' + combat_dice[d];
-		if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked && !dice[d].clicked && !enemy_turn)	//	checks if user clicked the dice button
+		if (mouse_in_rect(dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y) == 1 && CP_Input_MouseClicked() && !powerup_button.clicked && !dice[d].clicked && !enemy_turn && !fight)	//	checks if user clicked the dice button
 		{
 			CP_Sound_Play(click);
 			dice_button.clicked = !dice_button.clicked;
@@ -557,7 +557,7 @@ void bottom_display(int player_roll, int enemy_roll)
 	}
 }
 
-void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float dice_posY, float scale) // draws dice (dice[d6] or d20) with number corresponding to value num_roll
+void generate_dice(int number, dice_types dice_rolled, float dice_posX, float dice_posY, float scale) // draws dice (dice[d6] or d20) with number corresponding to value number
 {
 	float text_posX = dice_posX + 2.0f * scale;
 	float text_posY = dice_posY;
@@ -567,28 +567,28 @@ void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float 
 		case e_std_D4:
 		{
 			CP_Image_Draw(dice[d4].image, dice_posX, dice_posY, dice[d4].size.x * scale, dice[d4].size.y * scale, 255);
-			char num_text[2] = { '0' + num_roll, '\0'};
+			char num_text[2] = { '0' + number, '\0'};
 			CP_Font_DrawText(num_text, text_posX + (2.0f * scale), text_posY + 12.5f);
 			break;
 		}
 		case e_std_D6:
 		{
 			CP_Image_Draw(dice[d6].image, dice_posX, dice_posY, dice[d6].size.x * scale, dice[d6].size.y * scale, 255);
-			char num_text[2] = { '0' + num_roll, '\0'};
+			char num_text[2] = { '0' + number, '\0'};
 			CP_Font_DrawText(num_text, text_posX, text_posY);
 			break;
 		}
 		case e_std_D20:
 		{
 			CP_Image_Draw(dice[d20].image, dice_posX, dice_posY, dice[d20].size.x * scale, dice[d20].size.y * scale, 255);
-			if (num_roll >= 10)
+			if (number >= 10)
 			{
-				char num_text[3] = { '0' + (num_roll / 10), '0' + (num_roll % 10), '\0'};
+				char num_text[3] = { '0' + (number / 10), '0' + (number % 10), '\0'};
 				CP_Font_DrawText(num_text, text_posX, text_posY);
 			}
 			else
 			{
-				char num_text[2] = { '0' + num_roll, '\0'};
+				char num_text[2] = { '0' + number, '\0'};
 				CP_Font_DrawText(num_text, text_posX, text_posY);
 			}
 			break;
@@ -596,7 +596,7 @@ void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float 
 		default:
 		{
 			CP_Image_Draw(dice[d6].image, dice_posX, dice_posY, dice[d20].size.x * scale, dice[d20].size.y * scale, 255);
-			char num_text[2] = { '0' + num_roll, '\0'};
+			char num_text[2] = { '0' + number, '\0'};
 			CP_Font_DrawText(num_text, text_posX, text_posY);
 			break;
 		}
@@ -659,7 +659,6 @@ void enemy_ui(dice_types enemy_dice, int enemy_roll, float enemy_dice_scale)
 			fight = !fight;
 			enemy_turn = !enemy_turn;
 			enemy_turn_end = 1;
-			//clash_init();
 			enemy_timer = 0.0f;
 		}
 	}
@@ -708,11 +707,23 @@ void fighting_animation(int *num_roll, int *enemys_roll)
 				CP_Image_Draw(slash.image, enemy_pos.x + tileSizeDiv, enemy_pos.y + tileSizeDiv, slash.size.x, slash.size.y, 255);
 				CP_Settings_TextSize(50.0f);
 				CP_Font_DrawText(lostHP, CP_System_GetWindowWidth() - 400.0f, 110.0f);
+				if (growlgrowl == false)
+				{
+					growl = true;
+					growlgrowl = true;
+				}
 			}
+		}
+		if (growl)
+		{
+			CP_Sound_Play(monster_growl);
+			growlgrowl = true;
+			growl = false;
 		}
 	}
 	if (fighting_timer > 2.0f)
 	{
+		growlgrowl = false;
 		fighting_timer = 0;
 		*num_roll = 0;
 		*enemys_roll = 0;
@@ -722,7 +733,7 @@ void fighting_animation(int *num_roll, int *enemys_roll)
 
 void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 {
-	if (remaining_hp == 0)
+	if (remaining_hp <= 0)
 	{
 		char hp_text[] = { 'P', 'l', 'a', 'y', 'e', 'r', ' ', 'H', 'P', ':', ' ',
 							'0', '0', '0',
@@ -744,40 +755,56 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 	float width = CP_System_GetWindowWidth() * 0.30f;
 	if (num_roll < enemys_roll && fight)
 	{
-		if (current_powerup == LEATHER_SKIN)
+		if (remaining_hp <= 0)
 		{
-			for (int i = 0; i < get_character()->modifier; i++)
-			{
-				CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
-				CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
-				CP_Settings_Fill(CP_Color_Create(200, 200, 200, alpha));
-				CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
-			}
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
+			CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, width, 50.0f);
 		}
-		//rumbling_animation(alpha);
-		CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
-		CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, width, 50.0f);
-		CP_Settings_Fill(CP_Color_Create(200, 50, 50, alpha));
-		CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, ((float)remaining_hp / 100) * width, 50.0f);
-		CP_Image_Draw(alive_hp.image, player_rumble.x, player_rumble.y, alive_hp.size.x, alive_hp.size.y, alpha);
+		else
+		{
+			if (current_powerup == LEATHER_SKIN)
+			{
+				for (int i = 0; i < get_character()->modifier; i++)
+				{
+					CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
+					CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
+					CP_Settings_Fill(CP_Color_Create(200, 200, 200, alpha));
+					CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
+				}
+			}
+			//rumbling_animation(alpha);
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
+			CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, width, 50.0f);
+			CP_Settings_Fill(CP_Color_Create(200, 50, 50, alpha));
+			CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, ((float)remaining_hp / 100) * width, 50.0f);
+			CP_Image_Draw(alive_hp.image, player_rumble.x, player_rumble.y, alive_hp.size.x, alive_hp.size.y, alpha);
+		}
 	}
 	else
 	{		
 		player_rumble.x = 50.0f;
 		player_rumble.y = 50.0f;
-		CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
-		CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, width, 50.0f);
-		CP_Settings_Fill(CP_Color_Create(200, 50, 50, 255));
-		CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, ((float)remaining_hp / 100) * width, 50.0f);
-		CP_Image_Draw(alive_hp.image, player_rumble.x, player_rumble.y, alive_hp.size.x, alive_hp.size.y, 255);
-		if (current_powerup == LEATHER_SKIN)
+		if (remaining_hp <= 0)
 		{
-			for (int i = 0; i < get_character()->modifier; i++)
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+			CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, width, 50.0f);
+		}
+		else
+		{
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+			CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, width, 50.0f);
+			CP_Settings_Fill(CP_Color_Create(200, 50, 50, 255));
+			CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, ((float)remaining_hp / 100) * width, 50.0f);
+			CP_Image_Draw(alive_hp.image, player_rumble.x, player_rumble.y, alive_hp.size.x, alive_hp.size.y, 255);
+			if (current_powerup == LEATHER_SKIN)
 			{
-				CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
-				CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
-				CP_Settings_Fill(CP_Color_Create(200, 200, 200, 255));
-				CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
+				for (int i = 0; i < get_character()->modifier; i++)
+				{
+					CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+					CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
+					CP_Settings_Fill(CP_Color_Create(200, 200, 200, 255));
+					CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
+				}
 			}
 		}
 	}
@@ -785,30 +812,62 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 
 void enemy_health_bar(int enemy_hp, int enemyMaxHp)
 {
-	char hp_text[] = { 'E', 'n', 'e', 'm', 'y', ' ', 'H', 'P', ':', ' ',
-						'0' + enemy_hp / 100, '0' + ((enemy_hp % 100) / 10), '0' + (enemy_hp % 10),
-						'/', '0' + enemyMaxHp/100, '0' + ((enemyMaxHp % 100) / 10), '0' + (enemyMaxHp % 10),'\0'};
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Settings_TextSize(35.0f);
-	CP_Font_DrawText((const char*)hp_text, CP_System_GetWindowWidth() - 200.0f, 110.0f);
+	if (enemy_hp <= 0)
+	{
+		char hp_text[] = { 'E', 'n', 'e', 'm', 'y', ' ', 'H', 'P', ':', ' ',
+							'0', '0', '0',
+							'/', '0' + enemyMaxHp / 100, '0' + ((enemyMaxHp % 100) / 10), '0' + (enemyMaxHp % 10),'\0' };
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Settings_TextSize(35.0f);
+		CP_Font_DrawText((const char*)hp_text, CP_System_GetWindowWidth() - 200.0f, 110.0f);
+	}
+	else
+	{
+		char hp_text[] = { 'E', 'n', 'e', 'm', 'y', ' ', 'H', 'P', ':', ' ',
+							'0' + enemy_hp / 100, '0' + ((enemy_hp % 100) / 10), '0' + (enemy_hp % 10),
+							'/', '0' + enemyMaxHp / 100, '0' + ((enemyMaxHp % 100) / 10), '0' + (enemyMaxHp % 10),'\0' };
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Settings_TextSize(35.0f);
+		CP_Font_DrawText((const char*)hp_text, CP_System_GetWindowWidth() - 200.0f, 110.0f);
+	}
+
+
 	float positionX = CP_System_GetWindowWidth() - 50.0f;
 	float positionY = 50.0f;
 	float width = CP_System_GetWindowWidth() * 0.30f;
 	if (enemys_roll < num_roll && fight)
 	{
-		CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
-		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
-		CP_Settings_Fill(CP_Color_Create(50, 50, 200, alpha));
-		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / enemyMaxHp) * width, 50.0f);
-		CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, alpha);
+		if (enemy_hp <= 0)
+		{
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
+			CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
+			CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, alpha);
+		}
+		else
+		{
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
+			CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
+			CP_Settings_Fill(CP_Color_Create(50, 50, 200, alpha));
+			CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / enemyMaxHp) * width, 50.0f);
+			CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, alpha);
+		}
 	}
 	else
 	{
-		CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
-		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
-		CP_Settings_Fill(CP_Color_Create(50, 50, 200, 255));
-		CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / enemyMaxHp) * width, 50.0f);
-		CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, 255);
+		if (enemy_hp <= 0)
+		{
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+			CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
+			CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, 255);
+		}
+		else
+		{
+			CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+			CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, width, 50.0f);
+			CP_Settings_Fill(CP_Color_Create(50, 50, 200, 255));
+			CP_Graphics_DrawRect(positionX - width, positionY - 20.0f, ((float)enemy_hp / enemyMaxHp) * width, 50.0f);
+			CP_Image_Draw(enemy_alive_hp.image, positionX, positionY, alive_hp.size.x, alive_hp.size.y, 255);
+		}
 	}
 }
 
