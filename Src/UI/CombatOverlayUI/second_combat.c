@@ -173,14 +173,6 @@ void second_init(void)
 		}
 	}
 
-	// TODO: Add powerup counter
-	/*for (int d = 0; d < 3; d++)
-	{								//	TODO: replace with number of powerups left accordingly
-		powerups[d] = 0;
-	}*/
-
-	// set location of the buttons based on the center of the area where the power up and dice buttons are drawn
-
 	buttons_centerpointX = CP_System_GetWindowWidth() - 140.0f;
 	buttons_centerpointY = CP_System_GetWindowHeight() - 80.0f;
 	dice_button.position.x = buttons_centerpointX + 60.0f;
@@ -192,7 +184,6 @@ void second_init(void)
 	modifier_start = false;
 	prevent_powerup = true;
 	enemy_timer = 0.0f;
-	//player_roll = 0;
 	second_sfx_init();
 }
 
@@ -325,7 +316,6 @@ void second_update(void)
 				}
 				}
 			}
-			//TODO: add powerup counter
 		}
 		enemy_turn_end = !enemy_turn_end;
 	}
@@ -681,7 +671,6 @@ void fighting_animation(int *num_roll, int *enemys_roll)
 	fighting_timer += CP_System_GetDt();
 	CP_Vector player_pos = getWorldPos(get_character()->sp->go.position, getMap());
 	CP_Vector enemy_pos = getWorldPos(the_enemy->sp->go.position, getMap());
-	//float tileSize = ;
 	float tileSizeDiv = CP_System_GetWindowHeight() / getMap()->height / 2;
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(30.0f);
@@ -784,7 +773,6 @@ void health_bar(int remaining_hp)	//	draws hp bar (max is currently 5)
 					CP_Graphics_DrawRect(player_rumble.x + width + (25.0f * i), player_rumble.y - 20.0f, 25.0f, 50.0f);
 				}
 			}
-			//rumbling_animation(alpha);
 			CP_Settings_Fill(CP_Color_Create(50, 50, 50, alpha));
 			CP_Graphics_DrawRect(player_rumble.x, player_rumble.y - 20.0f, width, 50.0f);
 			CP_Settings_Fill(CP_Color_Create(200, 50, 50, alpha));

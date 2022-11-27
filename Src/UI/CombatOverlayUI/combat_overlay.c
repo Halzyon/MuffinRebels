@@ -362,7 +362,6 @@ void choose_to_roll_movement()
 {
 	get_character()->energy = 0;
 	get_character()->energy += individual_mov_roll[0] + individual_mov_roll[1];
-	//get_character()->sp->moved = 0;
 	get_character()->turn_done = 0;
 	if (mov_dice.side_display && !mov_dice.warning)
 	{
@@ -489,7 +488,6 @@ void choose_powerup(int turns_left, int num_powerups[])
 		for (int i = 0; i < 3; i++)
 		{
 			*powerup[i].num = '0' + num_powerups[i];
-			//float x = powerup_button.position.x - ((float)i * (128.0f));
 			CP_Image_Draw(desc_panel.image, powerup[i].position.x - 50.0f, powerup[i].position.y + 50.0f, desc_panel.size.x * 0.4, desc_panel.size.y * 0.4, 255);
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Settings_TextSize(40.0f);
