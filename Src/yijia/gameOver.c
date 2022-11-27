@@ -16,7 +16,7 @@
 
 asset win;
 asset gameover;
-int alpha;
+static int alpha;
 CP_Vector overPos;
 float overdt;
 extern bool sub;

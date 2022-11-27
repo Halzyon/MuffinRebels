@@ -15,8 +15,8 @@
 #include "../GameStateManager.h"
 #include "../SpriteAnimation/spriteAnimation.h"
 
-unsigned char alpha; // variable to set for alpha image
-float speed; // speed in seconds
+static unsigned char alpha; // variable to set for alpha image
+static float speed; // speed in seconds
 #define TIMETAKEN 2 //time taken to go from transparent to opaque
 bool paused = false;
 Sprite* logo;

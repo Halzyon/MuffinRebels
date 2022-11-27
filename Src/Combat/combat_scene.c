@@ -14,7 +14,7 @@ CP_Image player; // @TODO need to find stuff for it
 CP_Vector playerPos;
 CP_Vector targetPlayerPos;
 
-CP_Image enemy; // @TODO need to find stuff for it
+static CP_Image enemy; // @TODO need to find stuff for it
 CP_Vector enemyPos;
 CP_Vector targetEnemyPos;
 

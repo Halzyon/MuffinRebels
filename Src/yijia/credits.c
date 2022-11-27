@@ -17,7 +17,7 @@
 
 asset credit[5]; 
 int currentScene = 0;
-int alpha = 255;
+static int alpha = 255;
 
 
 void credits_init() {
