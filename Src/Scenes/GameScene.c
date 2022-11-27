@@ -559,9 +559,11 @@ void setNextLvl(char next)
 		enemy[0]->maxHP = 5;
 		enemy[1]->maxHP = 5;
 		enemy[2]->maxHP = 10;
+		enemy[3]->maxHP = 15;
 		enemy[0]->hp = 5;
 		enemy[1]->hp = 5;
 		enemy[2]->hp = 10;
+		enemy[3]->hp = 15;
 
 		portal->go.position.x = 25;
 		portal->go.position.y = 2;
