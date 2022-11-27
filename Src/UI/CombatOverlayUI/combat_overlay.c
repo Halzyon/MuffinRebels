@@ -206,64 +206,59 @@ void combat_overlay_update(void)
 		item_pos.y -= tileSize;
 		switch (currLvl)
 		{
-		case 0:
-		{
-			if (chest >= 0 && chest <= 3)
+			case 0:
 			{
-				item_num = chest;				// wood - iron items
+				if (chest >= 0 && chest <= 3)
+				{
+					item_num = chest;				// wood - iron items
+				}
+				else if (chest >= 4 && chest <= 6)
+				{
+					item_num = (chest - 4) + 9;
+					powerups[item_num - 9]++;
+				}
+				else if (chest == 16)
+				{
+					item_num = (chest - 16) + mastersword;
+				}
+				break;
 			}
-			else if (chest >= 4 && chest <= 6)
+			case 1:
 			{
-				item_num = (chest - 4) + 9;
-				powerups[item_num - 9]++;
+				if (chest >= 7 && chest <= 10)
+				{
+					item_num = (chest - 7) + ironsword;	//iron - gold items
+				}
+				else if (chest >= 11 && chest <= 13)
+				{
+					item_num = (chest - 11) + 9;
+					powerups[item_num - 9]++;
+				}
+				else if (chest == 16)
+				{
+					item_num = (chest - 16) + mastersword;
+				}
+				break;
 			}
-			else if (chest == 16)
+			case 2:
 			{
-				item_num = (chest - 16) + mastersword;
-			}
-			break;
-		}
-		case 1:
-		{
-			if (chest >= 7 && chest <= 10)
-			{
-				item_num = (chest - 7) + ironsword;	//iron - gold items
-			}
-			else if (chest >= 11 && chest <= 13)
-			{
-				item_num = (chest - 11) + 9;
-				powerups[item_num - 9]++;
-			}
-			else if (chest == 16)
-			{
-				item_num = (chest - 16) + mastersword;
-			}
-			break;
-		}
-		case 2:
-		{
-			if (chest >= 14 && chest <= 16)
-			{
-				item_num = (chest - 14) + diamondsword; // diamond items n mastersword
-			}
-			else if (17 <= chest && chest <= 19)
-			{
-				item_num = (chest - 17) + 9;
+				if (chest >= 14 && chest <= 16)
+				{
+					item_num = (chest - 14) + diamondsword; // diamond items n mastersword
+				}
+				else if (17 <= chest && chest <= 19)
+				{
+					item_num = (chest - 17) + 9;
 
+				}
+				break;
 			}
-			break;
-		}
-		default:
-		{
-			break;
-		}
+			default:
+			{
+				break;
+			}
 		}
 		chest_item = true;
-	}
-
-	if (chest_item)
-	{
-		item_to_inventory(item_num);
 	}
 
 	dice_powerup(get_character()->mod_duration);
@@ -273,7 +268,11 @@ void combat_overlay_update(void)
 	CP_Settings_TextSize(50.0f);
 	movement_window(get_character()->energy, side_display_pos.x, side_display_pos.y + 100.0f, 0.8f);
 	
-	
+	if (chest_item)
+	{
+		item_to_inventory(item_num);
+	}
+
 	settings_button();
 }
 
