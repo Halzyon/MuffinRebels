@@ -5,11 +5,11 @@
 
 Meet the team:
 
-Jun Wei
-Alwin Moo           moo.g@digipen.edu
-Yi Jia
-yn
-Hazim
+Foong Jun Wei                   f.junwei@digipen.edu
+Alwin Moo                       moo.g@digipen.edu
+Yeo Yi Jia                      y.yijia@digipen.edu
+Liew Yeni                       yeni.l@digipen.edu
+Muhammad Hazim Bin Gazali       m.bingazali@digipen.edu
 
 ---
 ## How to play
