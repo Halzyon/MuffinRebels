@@ -267,8 +267,9 @@ void game_update(void)
 		{
 			enemy[i]->hp = 0;
 			enemy[i]->sp->go.isAlive = false;
-			--enemyCount;
+			
 		}
+		enemyCount = 0;
 	}
 	//get player input
 	hardware_handler();
