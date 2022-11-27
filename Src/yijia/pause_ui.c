@@ -10,7 +10,7 @@
 #include "cprocessing.h"
 #include "SpriteAnimation/spriteAnimation.h"
 #include "../UI/UtilsUI/ui_utils.h"
-//#include"../yijia/pause_ui.h"
+#include"../yijia/pause_ui.h"
 #include "GameStateManager.h"
 
 asset pausedpopup;

@@ -19,9 +19,7 @@ asset settingsbg;
 asset brightness_icon;
 asset brightnesslow_icon;
 asset brightnesshigh_icon;
-asset save_icon;
 asset SoundOn_icon;
-asset savehover;
 asset brightnesshover_icon;
 asset soundhover;
 asset brightnessSlider;
@@ -33,7 +31,7 @@ asset no;
 asset progresstxt;
 asset soundoffscaled;
 asset soundscaled;
-asset matte;
+asset matte; //for brightness
 int brightposx = 255;
 int alpha;
 int bright_clicked = false;
@@ -44,9 +42,7 @@ void settings_init(void){
 	get_image_size_set("Assets/settingsbg.png", &settingsbg);
 	get_image_size_set("Assets/exitsetting_icon.png", &exitsetting_icon);
 	get_image_size_set("Assets/brightness_icon.png", &brightness_icon);
-	get_image_size_set("Assets/save_icon.png", &save_icon);
 	get_image_size_set("Assets/SoundOn_icon.png", &SoundOn_icon);
-	get_image_size_set("Assets/savehover.png", &savehover);
 	get_image_size_set("Assets/brightnessSlidercircle.png", &brightnessSlidercircle);
 	get_image_size_set("Assets/brightnessSlider.png", &brightnessSlider);
 	get_image_size_set("Assets/brightnesshover_icon.png", &brightnesshover_icon);
@@ -72,24 +68,20 @@ void settings_init(void){
 	settingsbg.position.x = CP_System_GetWindowWidth() - 640;
 	settingsbg.position.y = 360;
 
-	brightness_icon.position.x = CP_System_GetWindowWidth() - 810;
+	brightness_icon.position.x = CP_System_GetWindowWidth() - 765;
 	brightness_icon.position.y = 565;
 
-	save_icon.position.x = CP_System_GetWindowWidth() - 460;
-	save_icon.position.y = 565;
 
-	SoundOn_icon.position.x = CP_System_GetWindowWidth() - 635;
+	SoundOn_icon.position.x = CP_System_GetWindowWidth() - 505;
 	SoundOn_icon.position.y = 565;
 
 	//hover
-	savehover.position.x = CP_System_GetWindowWidth() - 460;
-	savehover.position.y = 565;
 
-	brightnesshover_icon.position.x = CP_System_GetWindowWidth() - 810;
-	brightnesshover_icon.position.y = 565;
+	brightnesshover_icon.position.x = brightness_icon.position.x;
+	brightnesshover_icon.position.y = brightness_icon.position.y;
 
-	soundhover.position.x = CP_System_GetWindowWidth() - 635;
-	soundhover.position.y = 565;
+	soundhover.position.x = SoundOn_icon.position.x;
+	soundhover.position.y = SoundOn_icon.position.y;
 
 	//brightnessslider
 	brightnessSlidercircle.position.x = CP_System_GetWindowWidth() - 525;
@@ -103,6 +95,9 @@ void settings_init(void){
 
 	brightnesshigh_icon.position.x = CP_System_GetWindowWidth() - 470;
 	brightnesshigh_icon.position.y = 360;
+
+	matte.position.x = CP_System_GetWindowWidth() - 640;
+	matte.position.y = 360;
 
 	//txt 
 	brightnesstxt.position.x = CP_System_GetWindowWidth() - 635;
@@ -121,18 +116,6 @@ void settings_init(void){
 	//	starts the game with the sound on
 	soundscaled.clicked = 1;
 
-	//positions of variables inside the save tab
-	yes.position.x = CP_System_GetWindowWidth() - 685;
-	yes.position.y =  380;
-
-	no.position.x = CP_System_GetWindowWidth() - 575;
-	no.position.y = 380;
-
-	progresstxt.position.x = CP_System_GetWindowWidth() - 635;
-	progresstxt.position.y = 280;
-
-	matte.position.x = CP_System_GetWindowWidth() - 640;
-	matte.position.y = 360;
 
 }
 
@@ -161,7 +144,7 @@ void settings_update(void)
 		if (CP_Input_MouseClicked())
 		{
 			brightness_icon.clicked = !brightness_icon.clicked;
-			save_icon.clicked = SoundOn_icon.clicked = 0;
+			SoundOn_icon.clicked = 0;
 		}
 	}
 	if (brightness_icon.clicked)
@@ -193,33 +176,7 @@ void settings_update(void)
 		brightnessSlidercircle.position.x = CP_Math_ClampInt(brightnessSlidercircle.position.x,brightnessSlider.position.x -110, brightnessSlider.position.x + 110 );
 	}
 
-	//SAVE ICON
-	RenderAsset(save_icon, 255);
-	if (mouse_in_rect(save_icon.position.x, save_icon.position.y, save_icon.size.x, save_icon.size.y) == 1)	// save hover 
-	{
-		RenderAsset(savehover, 255);
-		if (CP_Input_MouseClicked())
-		{
-			save_icon.clicked = !save_icon.clicked;
-			brightness_icon.clicked = SoundOn_icon.clicked = 0;
-		}
-	}
-	if (save_icon.clicked)
-	{
-		RenderAsset(yes, 255);
-		RenderAsset(no, 255);
-		RenderAsset(progresstxt, 255);
-		RenderAsset(savehover, 255);
-		/*if (yes.clicked == 1)
-		{
-
-		}
-		if (no.clicked == 1)
-		{
-
-		}*/
-	}
-	
+		
 
 	//SOUND ICON 
 	RenderAsset(SoundOn_icon, 255); // renders the soundicon in the selection tab
@@ -229,7 +186,7 @@ void settings_update(void)
 		if (CP_Input_MouseClicked())
 		{
 			SoundOn_icon.clicked = !SoundOn_icon.clicked;
-			brightness_icon.clicked = save_icon.clicked = 0;
+			brightness_icon.clicked = 0;
 		}
 	}
 	if (SoundOn_icon.clicked)	//	renders the sound window if the sound icon in the tab is selected
