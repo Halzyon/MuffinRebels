@@ -23,7 +23,7 @@
 
 CP_Sound *sound;
 #define MAXENEMIES 1
-static Enemy* enemy[MAXENEMIES];
+Enemy* enemy[MAXENEMIES];
 
 float buttons_centerpointX;
 float buttons_centerpointY;

@@ -32,7 +32,7 @@
 static double speed = 5000;
 Sprite* ash;
 game_map* Level;
-static Enemy* enemy[MAXENEMIES];
+Enemy* enemy[MAXENEMIES];
 
 bool b_paused = false;
 bool goNextLvl = false;
