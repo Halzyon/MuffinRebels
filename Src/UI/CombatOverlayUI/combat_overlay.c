@@ -197,7 +197,7 @@ void combat_overlay_update(void)
 		item_pos.x += tileSize / 2;
 		item_pos.y -= tileSize;
 		chest_item = true;
-		item_num = 9;
+		item_num = chest;
 		if (item_num >= 9)
 		{
 			powerups[item_num - 9]++;
