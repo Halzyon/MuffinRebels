@@ -7,6 +7,7 @@
 #include "../Combat/combatHandler.h"
 #include "../Character/gameMap.h"
 #include "../FileIO/fileIO.h"
+#include "../Items/itemHandler.h"
 
 #define MAXENEMIES 8
 #define FILEPATH "Assets/"
@@ -68,6 +69,10 @@ void game_init(void)
 	// create and initialise cplayer
 	init_dice();
 	init_char();
+
+	// resetting items and powerups
+	reset_items();
+	reset_modifier();
 	
 	//creating map data
 	int width = MAP1_SIZE;
