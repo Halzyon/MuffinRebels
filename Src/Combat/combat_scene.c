@@ -43,8 +43,8 @@ void combat_scene_init()
 	//do stuff
 	// load images!
 	transition_img = CP_Image_Load(FILEPATH "transition.png");
-	transitionSize.x = CP_Image_GetWidth(transition_img);
-	transitionSize.y = CP_Image_GetHeight(transition_img);
+	transitionSize.x = (float)CP_Image_GetWidth(transition_img);
+	transitionSize.y = (float)CP_Image_GetHeight(transition_img);
 	transitionPos.x = 0;
 	transitionPos.y = 0;
 
@@ -68,7 +68,7 @@ void combat_scene_update()
 	{
 		if (!transitionEnd)
 		{
-			transitionPos.x -= speedowagon * CP_System_GetDt();
+			transitionPos.x -= (float)(speedowagon * CP_System_GetDt());
 
 			// continue doing the transition
 			CP_Image_Draw(transition_img, transitionPos.x, transitionPos.y, transitionSize.x, transitionSize.y, 255);
@@ -109,7 +109,7 @@ void combat_scene_update()
 		if (!transitionEnd)
 		{
 			// move the transition thing back onto screen
-			transitionPos.x += speedowagon * CP_System_GetDt();
+			transitionPos.x += (float)(speedowagon * CP_System_GetDt());
 
 			// continue doing the transition
 			CP_Image_Draw(transition_img, transitionPos.x, transitionPos.y, transitionSize.x, transitionSize.y, 255);
@@ -121,7 +121,7 @@ void combat_scene_update()
 		else if (!sceneSet)
 		{
 			// move away 
-			transitionPos.x -= speedowagon * CP_System_GetDt();
+			transitionPos.x -= (float)(speedowagon * CP_System_GetDt());
 
 			// continue doing the transition
 			CP_Image_Draw(transition_img, transitionPos.x, transitionPos.y, transitionSize.x, transitionSize.y, 255);
@@ -161,8 +161,8 @@ void move_to(CP_Vector* curr, CP_Vector dst)
 	{
 		double dt = CP_System_GetDt();
 		CP_Vector dir = CP_Vector_Normalize(CP_Vector_Set(dst.x - curr->x, dst.y - curr->y));
-		curr->x += dir.x * speedowagon2 * dt;
-		curr->y += dir.y * speedowagon2 * dt;
+		curr->x += (float)(dir.x * speedowagon2 * dt);
+		curr->y += (float)(dir.y * speedowagon2 * dt);
 	}
 }
 

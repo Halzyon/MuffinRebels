@@ -78,6 +78,9 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 
 	--en->energy;
 
+	float dst = CP_Vector_Distance(en->sp->go.position, get_character()->sp->go.position);
+	float vol = 1.f / dst;
+
 	if (en->enemyState == PATROL_UPDOWN_STATE)
 	{
 		int steps = en->steps;
@@ -91,7 +94,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->sp->renderMode = en->sp->spriteStates[BACKWARD];
 
 		en->sp->go.position.y += steps;
-		CP_Sound_Play(footsteps);
+		CP_Sound_PlayAdvanced(footsteps, vol,1.f,false,CP_SOUND_GROUP_0);
 		
 		++en->movement;
 		if (en->movement >= en->patrolRange)
@@ -113,7 +116,7 @@ void UpdateEnemy(Enemy* en, float dt, bool move)
 			en->sp->renderMode = en->sp->spriteStates[RIGHT];
 
 		en->sp->go.position.x += steps;
-		CP_Sound_Play(footsteps);
+		CP_Sound_PlayAdvanced(footsteps, vol, 1.f, false, CP_SOUND_GROUP_0);
 
 		++en->movement;
 		if (en->movement >= en->patrolRange)

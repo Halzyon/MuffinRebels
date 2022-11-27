@@ -83,7 +83,7 @@ void load_map_file(game_map* dst, const char* src)
 
 void render_map(game_map* map, CP_Vector offset)
 {
-	for (int i = 0; i < map->height * map->width; ++i)
+	for (unsigned int i = 0; i < map->height * map->width; ++i)
 	{
 		double gridsize = CP_System_GetWindowHeight() / map->height;
 		CP_Settings_ImageMode(CP_POSITION_CORNER);
@@ -96,7 +96,7 @@ void render_mapFog(game_map* map, CP_Vector offset, CP_Vector pos, int range, in
 	double gridsize = CP_System_GetWindowHeight() / map->height;
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	pos.x -= mapoffset;
-	for (int i = 0; i < map->height * map->width; ++i)
+	for (unsigned int i = 0; i < map->height * map->width; ++i)
 	{
 		int y = map_get_x((int)i, map->width);
 		int x = map_get_y((float)i, map->height);

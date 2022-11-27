@@ -518,13 +518,13 @@ void setNextLvl(char next)
 	{
 	case 0:
 	{
-		get_character()->sp->go.position.x = mapOffset[targetLevel] + 7;
-		get_character()->sp->go.position.y = 14;
+		get_character()->sp->go.position.x = (float)(mapOffset[targetLevel] + 7);
+		get_character()->sp->go.position.y = 14.f;
 
-		enemy[0]->sp->go.position.x = 7 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.x = (float)(7 + mapOffset[targetLevel]);
 		enemy[0]->sp->go.position.y = 8;
 		enemy[0]->enemyState = PATROL_LEFTRIGHT_STATE;
-		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[1]->sp->go.position.x = (float)(13 + mapOffset[targetLevel]);
 		enemy[1]->sp->go.position.y = 8;
 		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
 		enemy[0]->maxHP = 5;
@@ -537,18 +537,18 @@ void setNextLvl(char next)
 		break;
 	case 1:
 	{
-		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
+		get_character()->sp->go.position.x = (float)(mapOffset[targetLevel] + 2);
 		get_character()->sp->go.position.y = 18;
 
-		enemy[0]->sp->go.position.x = 8 + mapOffset[targetLevel]; 
+		enemy[0]->sp->go.position.x = (float)(8 + mapOffset[targetLevel]); 
 		enemy[0]->sp->go.position.y = 8;
 		enemy[0]->enemyState = PATROL_UPDOWN_STATE;
 
-		enemy[1]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[1]->sp->go.position.x = (float)(13 + mapOffset[targetLevel]);
 		enemy[1]->sp->go.position.y = 9;
 		enemy[1]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[2]->sp->go.position.x = 12 + mapOffset[targetLevel];
+		enemy[2]->sp->go.position.x = (float)(12 + mapOffset[targetLevel]);
 		enemy[2]->sp->go.position.y = 13;
 		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
 

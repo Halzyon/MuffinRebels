@@ -51,12 +51,12 @@ void splash_screen_update(void)
 	float dt = CP_System_GetDt();
 	//algorithm for logo fade in and out
 	int oldalpha = alpha;
-	alpha += speed * dt;
+	alpha += (unsigned char)(speed * dt);
 
 	logo->go.alpha = alpha;
 	if (nextLogo)
 	{
-		 logoAlpha += speed * dt;
+		 logoAlpha += (char)(speed * dt);
 		 gameLogo->go.alpha = abs(logoAlpha) * 2;
 		 if (gameLogo->go.alpha >= 254)
 			 flip = true;
