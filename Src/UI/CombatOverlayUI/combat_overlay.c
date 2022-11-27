@@ -1,3 +1,14 @@
+
+/*-------------------------------------------------------------------------------------
+	
+	File: combat_overlay.c
+	Project: 1401 Game Project - DiceRebels
+	Author: Liew Yeni (yeni.l@digipen.edu)
+
+	All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
+
 #include "combat_overlay.h"
 #include "../UtilsUI/ui_utils.h"
 #include "GameStateManager.h"
@@ -193,12 +204,61 @@ void combat_overlay_update(void)
 		float tileSize = CP_System_GetWindowHeight() / getMap()->height;
 		item_pos.x += tileSize / 2;
 		item_pos.y -= tileSize;
-		chest_item = true;
-		item_num = chest;
-		if (item_num >= 9)
+		switch (currLvl)
 		{
-			powerups[item_num - 9]++;
+		case 0:
+		{
+			if (chest >= 0 && chest <= 3)
+			{
+				item_num = chest;				// wood - iron items
+			}
+			else if (chest >= 4 && chest <= 6)
+			{
+				item_num = (chest - 4) + 9;
+				powerups[item_num - 9]++;
+			}
+			else if (chest == 16)
+			{
+				item_num = (chest - 16) + mastersword;
+			}
+			break;
 		}
+		case 1:
+		{
+			if (chest >= 7 && chest <= 10)
+			{
+				item_num = (chest - 7) + ironsword;	//iron - gold items
+			}
+			else if (chest >= 11 && chest <= 13)
+			{
+				item_num = (chest - 11) + 9;
+				powerups[item_num - 9]++;
+			}
+			else if (chest == 16)
+			{
+				item_num = (chest - 16) + mastersword;
+			}
+			break;
+		}
+		case 2:
+		{
+			if (chest >= 14 && chest <= 16)
+			{
+				item_num = (chest - 14) + diamondsword; // diamond items n mastersword
+			}
+			else if (17 <= chest && chest <= 19)
+			{
+				item_num = (chest - 17) + 9;
+
+			}
+			break;
+		}
+		default:
+		{
+			break;
+		}
+		}
+		chest_item = true;
 	}
 
 	if (chest_item)
@@ -212,9 +272,6 @@ void combat_overlay_update(void)
 	CP_Font_DrawText("Movement:", side_display_pos.x + 10.0f, side_display_pos.y + 40.0f);
 	CP_Settings_TextSize(50.0f);
 	movement_window(get_character()->energy, side_display_pos.x, side_display_pos.y + 100.0f, 0.8f);
-	//side_display(get_character()->energy, turns);
-	 // double check if it works
-	//movement_window(get_character()->energy, float x, float y, float scale)
 	
 	
 	settings_button();
@@ -226,8 +283,6 @@ void dice_powerup(int powerup_turns)
 
 	CP_Image_Draw(dice_button.image, dice_button.position.x, dice_button.position.y, dice_button.size.x, dice_button.size.y, 255);
 	CP_Image_Draw(powerup_button.image, powerup_button.position.x, powerup_button.position.y, powerup_button.size.x, powerup_button.size.y, 255);
-
-	//side_display(powerup_turns);
 
 	// branch out to decide if player rolls or not
 	for (int d = 0; d < 3; d++)
@@ -677,18 +732,18 @@ void combat_overlay_exit(void)
 	CP_Image_Free(&inventory.image);
 	CP_Image_Free(&cursor.image);
 	CP_Image_Free(&desc_panel.image);
-	CP_Image_Free(&dice_item[woodensword]);
-	CP_Image_Free(&dice_item[woodenshield]);
-	CP_Image_Free(&dice_item[ironsword]);
-	CP_Image_Free(&dice_item[ironshield]);
-	CP_Image_Free(&dice_item[goldsword]);
-	CP_Image_Free(&dice_item[goldshield]);
-	CP_Image_Free(&dice_item[diamondsword]);
-	CP_Image_Free(&dice_item[diamondshield]);
-	CP_Image_Free(&dice_item[mastersword]);
-	CP_Image_Free(&powerup[strongarm]);
-	CP_Image_Free(&powerup[leatherskin]);
-	CP_Image_Free(&powerup[healthpot]);
+	CP_Image_Free(&dice_item[woodensword].image);
+	CP_Image_Free(&dice_item[woodenshield].image);
+	CP_Image_Free(&dice_item[ironsword].image);
+	CP_Image_Free(&dice_item[ironshield].image);
+	CP_Image_Free(&dice_item[goldsword].image);
+	CP_Image_Free(&dice_item[goldshield].image);
+	CP_Image_Free(&dice_item[diamondsword].image);
+	CP_Image_Free(&dice_item[diamondshield].image);
+	CP_Image_Free(&dice_item[mastersword].image);
+	CP_Image_Free(&powerup[strongarm].image);
+	CP_Image_Free(&powerup[leatherskin].image);
+	CP_Image_Free(&powerup[healthpot].image);
 }
 
 

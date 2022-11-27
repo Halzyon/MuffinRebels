@@ -55,16 +55,16 @@ int randomise_all(int current_level)
 			modifier_healthpot();
 			break;
 		case 7:						//level 2
-			init_goldsword();
-			break;
-		case 8:
-			init_goldshield();
-			break;
-		case 9:
 			init_ironsword();
 			break;
-		case 10:
+		case 8:
 			init_ironshield();
+			break;
+		case 9:
+			init_goldsword();
+			break;
+		case 10:
+			init_goldshield();
 			break;
 		case 11:
 			modifier_strongarm();

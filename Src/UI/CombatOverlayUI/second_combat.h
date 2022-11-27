@@ -1,3 +1,15 @@
+
+/*-------------------------------------------------------------------------------------
+
+	File: second_combat.h
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Author: Liew Yeni (yeni.l@digipen.edu)
+
+	All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
+
+
 #ifndef SECOND_COMBAT_H
 #define SECOND_COMBAT_H
 

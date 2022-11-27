@@ -1,3 +1,16 @@
+
+/*-------------------------------------------------------------------------------------
+
+	File: ui_utils.c
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Authors: Muhammad Hazim Bin Gazali (m.bingazali@digipen.edu) - IsAreaClickedCentre, IsAreaClickedCorner
+			 Foong Jun Wei (f.junwei@digipen.edu) - mouse_in_rect
+			 Liew Yeni (yeni.l@digipen.edu) - get_image_size, get_image_size_set, go_to_animation, shrinking_animation
+
+	All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
+
 #include "cprocessing.h"
 #include "ui_utils.h"
 #include "../CombatOverlayUI/combat_overlay.h"
@@ -9,19 +22,6 @@ int alpha;
 
 int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_height)
 {
-	//float mouse_x = CP_Input_GetMouseX();
-	//float mouse_y = CP_Input_GetMouseY();
-	//float max_dist_rect_sq = ((rect_width / 2) * (rect_width / 2)) + ((rect_height / 2) * (rect_height / 2));	// pythagoras to find diagonal length from center to a corner in the rectangle. value is squared
-	//float dist_rect_PointerToCenter_sq = ((rect_x - mouse_x) * (rect_x - mouse_x)) + ((rect_y - mouse_y) * (rect_y - mouse_y));	// distance of pointer from center to pointer. value is squared
-	//if (max_dist_rect_sq > dist_rect_PointerToCenter_sq)	// pointer is in the rectangle
-	//{
-	//	return 1;
-	//}
-	//else	// pointer is outside of rectangle
-	//{
-	//	return 0;
-	//}
-
 	float x = CP_Input_GetMouseX();
 	float y = CP_Input_GetMouseY();
 	float x2 = rect_x - rect_width / 2;
@@ -65,28 +65,6 @@ void shrinking_animation(float target, float* to_change)
 	float shrink_ps = 0.2 * (*to_change - target);
 	*to_change -= shrink_ps;
 }
-/*
-int rumbling_animation(void)
-{
-	blinkTimer += CP_System_GetDt();
-	timer += CP_System_GetDt();
-	if (timer < 3.0)     // lets say blink for 2 sec
-	{
-		if (blinkTimer > 0.5)   // flip every 0.5 seconds
-		{
-			if (!alpha)
-			{
-				alpha = 255; // max alpha
-				timer = 0;
-			}
-			else
-			{
-				alpha = 0;
-				timer = 0;
-			}
-		}
-	}
-}*/
 
 int IsAreaClickedCentre(const GameObject obj, const CP_Vector position)
 {
