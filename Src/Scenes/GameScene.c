@@ -182,6 +182,7 @@ void game_update(void)
 	if (!enemyCount)
 	{
 		playerWon = 1;
+		enemyCount = -1;
 	}
 
 	if (playerWon == 1)
@@ -195,7 +196,10 @@ void game_update(void)
 				if (currLvl + 1 < 3)
 					setNextLvl(currLvl + 1);
 				else
-					GameStateSetNextScene(MAINMENU_SCENE);
+				{
+					playerWon = 0;
+					GameStateSetNextSubScene(GAMEOVER_SCENE, false);
+				}
 			}
 		}
 	}
@@ -249,6 +253,22 @@ void game_update(void)
 	if (CP_Input_KeyReleased(KEY_B)) // for trailer use
 	{
 		toggleBigDMG();
+	}
+	if (CP_Input_KeyReleased(KEY_COMMA)) // for trailer use
+	{
+		if (combatants_present)
+		{
+			the_enemy->hp = 0;
+		}
+	}
+	if (CP_Input_KeyReleased(KEY_PERIOD)) // for trailer use
+	{
+		for (int i = 0; i < numEnemies[currLvl]; ++i)
+		{
+			enemy[i]->hp = 0;
+			enemy[i]->sp->go.isAlive = false;
+			--enemyCount;
+		}
 	}
 	//get player input
 	hardware_handler();

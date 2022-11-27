@@ -20,6 +20,8 @@
 
 CP_Sound bgm;
 
+#pragma warning (disable:4113)
+
 void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, FunctionPtr exit)
 {
 	Scene* scne = (Scene*)malloc(sizeof(scn) + sizeof(init) + sizeof(update) + sizeof(exit));
@@ -107,7 +109,9 @@ void insertArray(SceneArray* a, Scene element) {
 	// Therefore a->used can go up to a->size 
 	if (a->used == a->size) {
 		a->size *= 2;
-		a->array = realloc(a->array, a->size * sizeof(Scene));
+		Scene* tmp;
+		if (tmp = realloc(a->array, a->size * sizeof(Scene)))
+		a->array = tmp;
 	} 
 	a->array[a->used++] = element;
 }

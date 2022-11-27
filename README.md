@@ -49,3 +49,5 @@ Keys 1,2,3 - changes to lvl 1,2,3 respectively
 Key M - toggles guaranteed master sword from chest
 Key N - toggles guaranteed 1 dmg
 Key B - toggles guaranteed 20 dmg
+Key Comma - kills currently engaged enemy
+Key Period - kills all enemies on the map

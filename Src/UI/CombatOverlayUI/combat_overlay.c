@@ -637,7 +637,7 @@ int isEnemyNearUI(CP_Vector dir)
 	
 	for (int i = 0; i < numEnemies[currLvl]; ++i)
 	{
-		if (tmp.x == enemy[i]->sp->go.position.x && tmp.y == enemy[i]->sp->go.position.y)
+		if (tmp.x == enemy[i]->sp->go.position.x && tmp.y == enemy[i]->sp->go.position.y && enemy[i]->hp > 0)
 		{
 			check = 1;
 			break;
