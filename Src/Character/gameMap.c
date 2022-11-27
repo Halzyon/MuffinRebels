@@ -85,9 +85,9 @@ void render_map(game_map* map, CP_Vector offset)
 {
 	for (unsigned int i = 0; i < map->height * map->width; ++i)
 	{
-		double gridsize = CP_System_GetWindowHeight() / map->height;
+		double gridsize = (double)(CP_System_GetWindowHeight() / map->height);
 		CP_Settings_ImageMode(CP_POSITION_CORNER);
-		CP_Image_Draw(level_sprites[map->map_arr[i] - 1], (float)(map_get_y((int)i, map->width) * gridsize) + offset.x, (float)(map_get_x((float)i, map->height) * gridsize) + offset.y, gridsize, gridsize - 0.5f, 255);
+		CP_Image_Draw(level_sprites[map->map_arr[i] - 1], (float)(map_get_y((int)i, map->width) * gridsize) + offset.x, (float)(map_get_x(i, map->height) * (float)gridsize) + offset.y, (float)gridsize, (float)gridsize - 0.5f, 255);
 	}
 }
 
@@ -98,8 +98,8 @@ void render_mapFog(game_map* map, CP_Vector offset, CP_Vector pos, int range, in
 	pos.x -= mapoffset;
 	for (unsigned int i = 0; i < map->height * map->width; ++i)
 	{
-		int y = map_get_x((int)i, map->width);
-		int x = map_get_y((float)i, map->height);
+		int y = map_get_x(i, map->width);
+		int x = map_get_y(i, map->height);
 		if (x >= pos.x - range && x <= pos.x + range)
 		{
 			if (y >= pos.y - range && y <= pos.y + range)
@@ -107,7 +107,7 @@ void render_mapFog(game_map* map, CP_Vector offset, CP_Vector pos, int range, in
 				continue;
 			}
 		}
-		CP_Image_Draw(fog, (float)(map_get_y((int)i, map->width) * gridsize) + offset.x, (float)(map_get_x((float)i, map->height) * gridsize) + offset.y, gridsize, gridsize - 0.5f, 245);
+		CP_Image_Draw(fog, (float)(map_get_y((int)i, map->width) * gridsize) + offset.x, (float)(map_get_x(i, map->height) * gridsize) + offset.y, (float)gridsize, (float)gridsize - 0.5f, 245);
 
 	}
 }

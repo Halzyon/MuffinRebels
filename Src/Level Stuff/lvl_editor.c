@@ -140,7 +140,7 @@ void editor_exit(void)
 	exit_lvl_manager();
 	for (int i = 0; i < NUM_TYPES_TILE - 1; ++i)
 	{
-		CP_Image_Free(level_sprites[i]);
+		CP_Image_Free(&level_sprites[i]);
 	}
 }
 

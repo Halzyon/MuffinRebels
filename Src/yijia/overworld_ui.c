@@ -54,37 +54,37 @@ void overworld_init(void) {
 	//positions
 
 
-	button.position.x = CP_System_GetWindowWidth() - 640;
+	button.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button.position.y = 220;
 
-	button2.position.x = CP_System_GetWindowWidth() - 640;
+	button2.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button2.position.y = 370;
 
-	button3.position.x = CP_System_GetWindowWidth() - 640;
+	button3.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button3.position.y = 520;
 
-	button1pressed.position.x = CP_System_GetWindowWidth() - 640;
+	button1pressed.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button1pressed.position.y = 220;
 
-	button2pressed.position.x = CP_System_GetWindowWidth() - 640;
+	button2pressed.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button2pressed.position.y = 370;
 
-	button3pressed.position.x = CP_System_GetWindowWidth() - 640;
+	button3pressed.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button3pressed.position.y = 520;
 
-	lvl1icon.position.x = CP_System_GetWindowWidth() - 640;
+	lvl1icon.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	lvl1icon.position.y = 220;
 
-	lvl2icon.position.x = CP_System_GetWindowWidth() - 640; 
+	lvl2icon.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	lvl2icon.position.y = 370;
 
-	lvl3icon.position.x = CP_System_GetWindowWidth() - 640;
+	lvl3icon.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	lvl3icon.position.y = 520;
 
-	bg.position.x = CP_System_GetWindowWidth() - 640;
+	bg.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	bg.position.y = 360;
 
-	prev.position.x = CP_System_GetWindowWidth() - 1230;
+	prev.position.x = (float)(CP_System_GetWindowWidth() - 1230);
 	prev.position.y = 670;
 
 }

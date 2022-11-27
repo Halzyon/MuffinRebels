@@ -11,6 +11,7 @@
 #include <time.h>
 
 #include "diceHandler.h"
+#pragma warning (disable:4047)
 
 int std_D4[D4_SIZE] = { 1,2,3,4 };
 int std_D6[D6_SIZE] = {1,2,3,4,5,6};

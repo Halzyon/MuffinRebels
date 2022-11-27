@@ -32,19 +32,19 @@ void tutorial_init() {
 	CP_Settings_ImageMode(CP_POSITION_CENTER); 
 
 	//positions
-	howtoplay1.position.x = CP_System_GetWindowWidth() - 640;
+	howtoplay1.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	howtoplay1.position.y = 360;
 
-	howtoplay2.position.x = CP_System_GetWindowWidth() - 640;
+	howtoplay2.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	howtoplay2.position.y = 360;
 
-	next.position.x = CP_System_GetWindowWidth() - 325;
+	next.position.x = (float)(CP_System_GetWindowWidth() - 325);
 	next.position.y = 380;
 
-	prev.position.x = CP_System_GetWindowWidth() - 950;
+	prev.position.x = (float)(CP_System_GetWindowWidth() - 950);
 	prev.position.y = 380;
 
-	exit_icon.position.x = CP_System_GetWindowWidth() - 330;
+	exit_icon.position.x = (float)(CP_System_GetWindowWidth() - 330);
 	exit_icon.position.y = 220;
 
 }

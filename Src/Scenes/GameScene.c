@@ -70,7 +70,7 @@ void game_init(void)
 	numEnemies[2] = 8;
 	currLvl = 0;
 	transition_img = CP_Image_Load(FILEPATH "transition.png");
-	transitionSize = CP_Vector_Set(CP_Image_GetWidth(transition_img), CP_Image_GetHeight(transition_img));
+	transitionSize = CP_Vector_Set((float)CP_Image_GetWidth(transition_img), (float)CP_Image_GetHeight(transition_img));
 	transitionPos = CP_Vector_Set(transitionSize.x, transitionSize.y);
 
 
@@ -98,7 +98,7 @@ void game_init(void)
 		b->data = readFile("map1.dat");
 		//size_t len = strlen(b->data);
 		//b->data = b64_decode(b->data, strlen(b->data), &len);
-		init_map_obj(Level, MAP1_SIZE, MAP1_SIZE, CP_System_GetWindowHeight(), CP_System_GetWindowHeight());
+		init_map_obj(Level, MAP1_SIZE, MAP1_SIZE, (float)CP_System_GetWindowHeight(), (float)CP_System_GetWindowHeight());
 		load_map_file(Level, b->data);
 		clearBuffer(b);
 		fclose(getFile("map1.dat"));
@@ -111,7 +111,7 @@ void game_init(void)
 		b->data = readFile("map2.dat");
 		//size_t len = strlen(b->data);
 		//b->data = b64_decode(b->data, strlen(b->data), &len);
-		init_map_obj(Level + 1, MAP2_SIZE, MAP2_SIZE, CP_System_GetWindowHeight(), CP_System_GetWindowHeight());
+		init_map_obj(Level + 1, MAP2_SIZE, MAP2_SIZE, (float)CP_System_GetWindowHeight(), (float)CP_System_GetWindowHeight());
 		load_map_file(Level + 1, b->data);
 		clearBuffer(b);
 		fclose(getFile("map2.dat"));
@@ -123,7 +123,7 @@ void game_init(void)
 		b->data = readFile("map3.dat");
 		//size_t len = strlen(b->data);
 		//b->data = b64_decode(b->data, strlen(b->data), &len);
-		init_map_obj(Level + 2, MAP3_SIZE, MAP3_SIZE, CP_System_GetWindowHeight(), CP_System_GetWindowHeight());
+		init_map_obj(Level + 2, MAP3_SIZE, MAP3_SIZE, (float)CP_System_GetWindowHeight(), (float)CP_System_GetWindowHeight());
 		load_map_file(Level + 2, b->data);
 		clearBuffer(b);
 		fclose(getFile("map3.dat"));
@@ -264,7 +264,7 @@ void game_update(void)
 			UpdateEnemy(enemy[i], dt, false);
 		}
 		//RENDER
-		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
+		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5f,0.f };
 
 		render_map(Level + currLvl, vec);
 		render_mapFog(Level + currLvl, vec, get_character()->sp->go.position, 3 + currLvl, mapOffset[currLvl]);
@@ -305,7 +305,7 @@ void game_update(void)
 	else
 	{
 		//RENDER
-		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5,0 };
+		CP_Vector vec = { CP_System_GetWindowWidth() / 4.5f,0.f };
 		render_map(Level + currLvl, vec);
 
 		bool enemy_done = false;
@@ -552,7 +552,7 @@ void setNextLvl(char next)
 		enemy[2]->sp->go.position.y = 13;
 		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[3]->sp->go.position.x = 15 + mapOffset[targetLevel];
+		enemy[3]->sp->go.position.x = (float)(15 + mapOffset[targetLevel]);
 		enemy[3]->sp->go.position.y = 1;
 		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
 
@@ -569,38 +569,38 @@ void setNextLvl(char next)
 		break;
 	case 2:
 	{
-		get_character()->sp->go.position.x = mapOffset[targetLevel] + 2;
+		get_character()->sp->go.position.x = (float)(mapOffset[targetLevel] + 2);
 		get_character()->sp->go.position.y = 28;
 
-		enemy[0]->sp->go.position.x = 1 + mapOffset[targetLevel];
+		enemy[0]->sp->go.position.x = (float)(1 + mapOffset[targetLevel]);
 		enemy[0]->sp->go.position.y = 6;
 		enemy[0]->enemyState = PATROL_UPDOWN_STATE;
 
-		enemy[1]->sp->go.position.x = 2 + mapOffset[targetLevel];
+		enemy[1]->sp->go.position.x = (float)(2 + mapOffset[targetLevel]);
 		enemy[1]->sp->go.position.y = 12;
 		enemy[1]->enemyState = PATROL_UPDOWN_STATE;
 
-		enemy[2]->sp->go.position.x = 17 + mapOffset[targetLevel];
+		enemy[2]->sp->go.position.x = (float)(17 + mapOffset[targetLevel]);
 		enemy[2]->sp->go.position.y = 8;
 		enemy[2]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[3]->sp->go.position.x = 18 + mapOffset[targetLevel];
+		enemy[3]->sp->go.position.x = (float)(18 + mapOffset[targetLevel]);
 		enemy[3]->sp->go.position.y = 3;
 		enemy[3]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[4]->sp->go.position.x = 26 + mapOffset[targetLevel];
+		enemy[4]->sp->go.position.x = (float)(26 + mapOffset[targetLevel]);
 		enemy[4]->sp->go.position.y = 22;
 		enemy[4]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[5]->sp->go.position.x = 29 + mapOffset[targetLevel];
+		enemy[5]->sp->go.position.x = (float)(29 + mapOffset[targetLevel]);
 		enemy[5]->sp->go.position.y = 24;
 		enemy[5]->enemyState = PATROL_LEFTRIGHT_STATE;
 
-		enemy[6]->sp->go.position.x = 19 + mapOffset[targetLevel];
+		enemy[6]->sp->go.position.x = (float)(19 + mapOffset[targetLevel]);
 		enemy[6]->sp->go.position.y = 19;
 		enemy[6]->enemyState = PATROL_UPDOWN_STATE;
 
-		enemy[7]->sp->go.position.x = 13 + mapOffset[targetLevel];
+		enemy[7]->sp->go.position.x = (float)(13 + mapOffset[targetLevel]);
 		enemy[7]->sp->go.position.y = 17;
 		enemy[7]->enemyState = PATROL_LEFTRIGHT_STATE;
 

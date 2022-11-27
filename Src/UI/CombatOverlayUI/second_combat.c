@@ -180,7 +180,7 @@ void second_init(void)
 	dice_button.position.x = buttons_centerpointX + 60.0f;
 	dice_button.position.y = powerup_button.position.y = sword.position.y = shield.position.y = buttons_centerpointY;	// y position of both power up and dice button are the same
 	powerup_button.position.x = buttons_centerpointX - 60.0f;
-	sword.position.x = shield.position.x = CP_System_GetWindowWidth()/2;
+	sword.position.x = shield.position.x = (float)(CP_System_GetWindowWidth()/2);
 	playerRolled = false;
 	enemyRolled = false;
 	modifier_start = false;
@@ -211,7 +211,7 @@ void second_init_dicePos(void)
 		dice[d].position.y = dice_button.position.y - 130.0f - (115.0f * d);
 	}
 	enemy_dice_pos = getWorldPos(the_enemy->sp->go.position, getMap());
-	float tileSize = CP_System_GetWindowHeight() / getMap()->height;
+	float tileSize = (float)(CP_System_GetWindowHeight() / getMap()->height);
 
 	enemy_dice_pos.x += tileSize / 2;
 	enemy_dice_pos.y -= tileSize;
@@ -384,7 +384,7 @@ void second_choose_to_roll_dice(int *num_roll)
 		inventory_window(3, dice_button.position.x);
 		for (int d = 0; d < 3; d++)
 		{
-			CP_Image_Draw(dice[d].image, dice[d].position.x, dice[d].position.y, dice[d].size.x * 0.95, dice[d].size.y * 0.95, 255);
+			CP_Image_Draw(dice[d].image, dice[d].position.x, dice[d].position.y, dice[d].size.x * 0.95f, dice[d].size.y * 0.95f, 255);
 			dice[d].inButton = mouse_in_rect(dice[d].position.x, dice[d].position.y, dice[d].size.x - 30.0f, dice[d].size.y - 30.0f);
 			CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
 			CP_Settings_TextSize(45.0f);
@@ -397,7 +397,7 @@ void second_choose_to_roll_dice(int *num_roll)
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 				CP_Graphics_DrawRect(dice[d].position.x, dice[d].position.y, inventory.size.x, inventory.size.y);
 			}
-			CP_Image_Draw(desc_panel.image, dice[d].position.x - 50.0f, dice[d].position.y + 50.0f, desc_panel.size.x * 0.4, desc_panel.size.y * 0.4, 255);
+			CP_Image_Draw(desc_panel.image, dice[d].position.x - 50.0f, dice[d].position.y + 50.0f, desc_panel.size.x * 0.4f, desc_panel.size.y * 0.4f, 255);
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Settings_TextSize(40.0f);
 			CP_Font_DrawText(dice[d].num, dice[d].position.x - 50.0f, dice[d].position.y + 50.0f);
@@ -508,7 +508,7 @@ void second_choose_to_roll_dice(int *num_roll)
 		char mod[4] = { '+', '0' + get_character()->modifier / 10, '0' + get_character()->modifier % 10, '\0' };
 		if (dice_timer < 2.0f)
 		{
-			CP_Image_Draw(powerup[strongarm].image, sword.position.x - 250.0f, sword.position.y - 80.0f, powerup[strongarm].size.x * 0.6, powerup[strongarm].size.y * 0.6, 255);
+			CP_Image_Draw(powerup[strongarm].image, sword.position.x - 250.0f, sword.position.y - 80.0f, powerup[strongarm].size.x * 0.6f, powerup[strongarm].size.y * 0.6f, 255);
 			CP_Settings_TextSize(65.0f);
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Font_DrawText(mod, sword.position.x - 160.0f, sword.position.y - 80.0f);
@@ -690,7 +690,7 @@ void fighting_animation(int *num_roll, int *enemys_roll)
 	fighting_timer += CP_System_GetDt();
 	CP_Vector player_pos = getWorldPos(get_character()->sp->go.position, getMap());
 	CP_Vector enemy_pos = getWorldPos(the_enemy->sp->go.position, getMap());
-	float tileSizeDiv = CP_System_GetWindowHeight() / getMap()->height / 2;
+	float tileSizeDiv = (float)(CP_System_GetWindowHeight() / getMap()->height / 2);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(30.0f);
 	if (*num_roll == *enemys_roll)
@@ -703,7 +703,7 @@ void fighting_animation(int *num_roll, int *enemys_roll)
 		{
 			CP_Image_Draw(parried.image, (player_pos.x + enemy_pos.x) / 2 + tileSizeDiv, player_pos.y + tileSizeDiv, parried.size.x, parried.size.y, 255);
 			CP_Settings_TextSize(40.0f);
-			CP_Font_DrawText("Parried!", CP_System_GetWindowWidth() / 2, buttons_centerpointY);
+			CP_Font_DrawText("Parried!", CP_System_GetWindowWidth() / 2.f, buttons_centerpointY);
 		}
 	}
 	else if (*num_roll != *enemys_roll)
@@ -921,15 +921,15 @@ void second_exit(void)
 	CP_Image_Free(&clash1.image);
 	CP_Image_Free(&clash2.image);
 	CP_Image_Free(&enemy_alive_hp.image);
-	CP_Sound_Free(dice_throw);
-	CP_Sound_Free(dice_shuffle);
-	CP_Sound_Free(attack);
-	CP_Sound_Free(parry);
-	CP_Sound_Free(click);
-	CP_Sound_Free(footsteps);
-	CP_Sound_Free(poweredup);
-	CP_Sound_Free(chest_open);
-	CP_Sound_Free(monster_growl);
+	CP_Sound_Free(&dice_throw);
+	CP_Sound_Free(&dice_shuffle);
+	CP_Sound_Free(&attack);
+	CP_Sound_Free(&parry);
+	CP_Sound_Free(&click);
+	CP_Sound_Free(&footsteps);
+	CP_Sound_Free(&poweredup);
+	CP_Sound_Free(&chest_open);
+	CP_Sound_Free(&monster_growl);
 }
 
 void toggleOneDMG(void)

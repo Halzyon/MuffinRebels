@@ -18,7 +18,6 @@
 #include "yijia/tutorial.h"
 #include "yijia/gameOver.h"
 
-
 CP_Sound bgm;
 
 void GameStateAddScene(SCENES scn, FunctionPtr init, FunctionPtr update, FunctionPtr exit)
@@ -99,7 +98,7 @@ void initArray(SceneArray* a, size_t initialSize) {
 
 	a->array = malloc(initialSize * sizeof(Scene));
 	a->used = 0;
-	a->size = initialSize;
+	a->size = (UINT8)initialSize;
 	
 }
 

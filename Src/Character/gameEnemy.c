@@ -217,7 +217,7 @@ void ChangeState(Enemy* en, ENEMY_STATE state)
 void FreeEnemy(Enemy* en)
 {
 	
-	CP_Image_Free(en->sp->go.image);
+	CP_Image_Free(&en->sp->go.image);
 	free(en->sp);
 	free(en);
 }

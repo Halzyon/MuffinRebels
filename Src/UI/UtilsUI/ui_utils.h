@@ -18,7 +18,7 @@
 #include "../CombatOverlayUI/combat_overlay.h"
 #include "../../Character/gameMap.h"
 #include <math.h>
-#define PI 3.142857
+#define PI 3.142857f
 int mouse_in_rect(float rect_x, float rect_y, float rect_width, float rect_height);
 
 void get_image_size(const char* filepath, asset* obj);

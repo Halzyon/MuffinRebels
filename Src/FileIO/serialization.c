@@ -13,6 +13,7 @@
 
 #ifdef _MSC_VER // for visual studios/microsoft compiler
 #pragma warning(disable : 4996) // microsoft wants you to use their fopen_s but it is not portable at all
+#pragma warning(disable : 4020)
 //and not really taht much safer lol
 #endif        
 
@@ -34,8 +35,8 @@ Buffer *newBuffer()
     if (b == NULL)
         return NULL;
     b->data = malloc(DEFAULT_SIZE);
-    if (b->data != NULL)
-        *b->data = NULL;
+    if (b->data)
+        *b->data = (unsigned char)NULL;
     b->size = DEFAULT_SIZE;
     b->next = 0;
     return b;
@@ -125,7 +126,7 @@ void serializeDouble(double d, Buffer *b)
 *//*______________________________________________________________________*/
 void serializeString(const unsigned char* c, Buffer *b)
 {
-    int size = strlen(c) + 1 + 4 + 2;
+    size_t size = strlen(c) + 1 + 4 + 2;
     reserveSpace(b, size);
 
 
@@ -164,12 +165,12 @@ void serialize_Ex(ExampleStruct exStruct, Buffer *output)
 *//*______________________________________________________________________*/
 void readSerialize_Ex(const unsigned char* file, ExampleStruct *ex)
 {
-    int size = strlen(file) + 1;
+    size_t size = strlen(file) + 1;
     unsigned char buffer[5];
     buffer[4] = '\0';
     if (file != NULL)
     {
-        for (int i = 0; i < size; ++i)
+        for (size_t i = 0; i < size; ++i)
         {
             buffer[0] = file[i];
             if (i + 1 < size)
@@ -183,7 +184,7 @@ void readSerialize_Ex(const unsigned char* file, ExampleStruct *ex)
             if (strcmp(buffer, IDENTIFIER_INT) == 0)
             {
                 i += 4;
-                int j = 0;
+                size_t j = 0;
                 unsigned char tmpBuffer[8];
                 while (j < 8 && (i + j + 8) < size)
                 {
@@ -224,7 +225,7 @@ void readSerialize_Ex(const unsigned char* file, ExampleStruct *ex)
                 unsigned char* buffer2 = malloc(sizeof(unsigned char) * k);
                 for (int x = 0; x < k&& buffer2 != NULL; ++x)
                 {
-                    if (file[i + x] != NULL)
+                    if (file[i + x])
                         buffer2[x] = file[i + x];
                 }
                 ex->str = malloc(k);
@@ -232,7 +233,7 @@ void readSerialize_Ex(const unsigned char* file, ExampleStruct *ex)
                 {
                     for (int y = 0; y < k; ++y)
                     {
-                        if (buffer2[y] != NULL)
+                        if (buffer2[y])
                             ex->str[y] = buffer2[y];
 
                         #ifdef _DEBUG
@@ -283,7 +284,7 @@ double deSerializeDouble(const unsigned char* c)
 
 void serializeMap(char* c, Buffer* b)
 {
-    int size = strlen(c) + 2;
+    size_t size = strlen(c) + 2;
     reserveSpace(b, size);
 
     //unsigned char* tmp = malloc(size);

@@ -48,11 +48,11 @@ void combat_scene_init()
 	transitionPos.x = 0;
 	transitionPos.y = 0;
 
-	playerPos = CP_Vector_Set(CP_System_GetWindowWidth() + 100, CP_System_GetWindowHeight() - CP_System_GetWindowHeight() / 5);
+	playerPos = CP_Vector_Set(CP_System_GetWindowWidth() + 100.f, CP_System_GetWindowHeight() - CP_System_GetWindowHeight() / 5.f);
 	enemyPos = CP_Vector_Set(-100.f ,0.f);
 
-	targetPlayerPos = CP_Vector_Set(CP_System_GetWindowWidth() / 5, CP_System_GetWindowHeight() - CP_System_GetWindowHeight() / 5);
-	targetEnemyPos = CP_Vector_Set(CP_System_GetWindowWidth() - CP_System_GetWindowWidth() / 5, 0.f);
+	targetPlayerPos = CP_Vector_Set(CP_System_GetWindowWidth() / 5.f, CP_System_GetWindowHeight() - CP_System_GetWindowHeight() / 5.f);
+	targetEnemyPos = CP_Vector_Set(CP_System_GetWindowWidth() - CP_System_GetWindowWidth() / 5.f, 0.f);
 
 	transitionEnd = false;
 	sceneSet = false;
@@ -139,7 +139,7 @@ void combat_scene_update()
 
 void combat_scene_exit()
 {
-	CP_Image_Free(transition_img);
+	CP_Image_Free(&transition_img);
 }
 
 void start_combat_scene()

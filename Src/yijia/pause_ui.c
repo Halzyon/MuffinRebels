@@ -39,22 +39,22 @@ void gamepaused_init(void)
 
 	//POSITIONS
 
-	pausedpopup.position.x = CP_System_GetWindowWidth() - 640;
+	pausedpopup.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	pausedpopup.position.y = 360;
 
-	exit_icon.position.x = CP_System_GetWindowWidth() - 330;
+	exit_icon.position.x = (float)(CP_System_GetWindowWidth() - 330);
 	exit_icon.position.y = 220;
 
-	gamepaused.position.x = CP_System_GetWindowWidth() - 640;
+	gamepaused.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	gamepaused.position.y = 280;
 	
-	restart.position.x = CP_System_GetWindowWidth() - 640;
+	restart.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	restart.position.y = 350;
 
-	resume.position.x = CP_System_GetWindowWidth() - 640;
+	resume.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	resume.position.y = 410;
 
-	exittxt.position.x = CP_System_GetWindowWidth() - 640;
+	exittxt.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	exittxt.position.y = 470;
 }
 

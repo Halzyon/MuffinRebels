@@ -61,16 +61,16 @@ void mainmenu_init() {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	second_sfx_init();
 	//positions
-	settings.position.x = CP_System_GetWindowWidth() - 50;
+	settings.position.x = (float)(CP_System_GetWindowWidth() - 50);
 	settings.position.y = 50;
 
-	button.position.x = CP_System_GetWindowWidth() - 640;
+	button.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button.position.y = 300;
 
-	button2.position.x = CP_System_GetWindowWidth() - 640;
+	button2.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button2.position.y = 450;
 
-	button3.position.x = CP_System_GetWindowWidth() - 640;
+	button3.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	button3.position.y = 600;
 
 	button1pressed.position.x = button.position.x;
@@ -82,22 +82,22 @@ void mainmenu_init() {
 	button3pressed.position.x = button3.position.x;
 	button3pressed.position.y = button3.position.y;
 
-	creditstxt.position.x = CP_System_GetWindowWidth() - 640;
+	creditstxt.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	creditstxt.position.y = 445;
 
-	startxt.position.x = CP_System_GetWindowWidth() - 640;
+	startxt.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	startxt.position.y = 295;
 
-	exittxtlarge.position.x = CP_System_GetWindowWidth() - 640;
+	exittxtlarge.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	exittxtlarge.position.y = 595;
 
-	bg.position.x = CP_System_GetWindowWidth() - 640;
+	bg.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	bg.position.y = 360;
 
-	dicerebellogo.position.x= CP_System_GetWindowWidth() - 640;
+	dicerebellogo.position.x= (float)(CP_System_GetWindowWidth() - 640);
 	dicerebellogo.position.y = 150;
 
-	qnmark.position.x = CP_System_GetWindowWidth() - 50;
+	qnmark.position.x = (float)(CP_System_GetWindowWidth() - 50);
 	qnmark.position.y = 160;
 	
 	GameStateSetNextSubScene(SETTINGS_SCENE, false);

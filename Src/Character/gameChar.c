@@ -43,7 +43,7 @@ int init_char(void)
 		the_player->sp->spriteStates[FORWARD] = 0;
 	}
 
-	return the_player;
+	return 0;
 }
 
 my_character* get_character(void)
@@ -53,9 +53,10 @@ my_character* get_character(void)
 
 int free_char(void)
 {
-	CP_Image_Free(get_character()->sp->go.image);
+	CP_Image_Free(&get_character()->sp->go.image);
 	free(get_character()->sp);
 
 	the_player = NULL;
 	free(the_player);
+	return 0;
 }

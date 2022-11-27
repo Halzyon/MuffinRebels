@@ -28,7 +28,7 @@ get_image_size_set("Assets/credit5.png", &credit[4]);
 CP_System_SetWindowSize(1280, 720);
 CP_Settings_ImageMode(CP_POSITION_CENTER);
 
-credit[0].position.x = CP_System_GetWindowWidth() - 640;
+credit[0].position.x = (float)(CP_System_GetWindowWidth() - 640);
 credit[0].position.y = 360;
 
 credit[1].position.x = credit[0].position.x;

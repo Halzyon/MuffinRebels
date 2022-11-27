@@ -62,17 +62,17 @@ void settings_init(void){
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	
 	//POSITIONS
-	exitsetting_icon.position.x = CP_System_GetWindowWidth() - 440;
+	exitsetting_icon.position.x = (float)(CP_System_GetWindowWidth() - 440);
 	exitsetting_icon.position.y = 170;
 
-	settingsbg.position.x = CP_System_GetWindowWidth() - 640;
+	settingsbg.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	settingsbg.position.y = 360;
 
-	brightness_icon.position.x = CP_System_GetWindowWidth() - 765;
+	brightness_icon.position.x = (float)(CP_System_GetWindowWidth() - 765);
 	brightness_icon.position.y = 565;
 
 
-	SoundOn_icon.position.x = CP_System_GetWindowWidth() - 505;
+	SoundOn_icon.position.x = (float)(CP_System_GetWindowWidth() - 505);
 	SoundOn_icon.position.y = 565;
 
 	//hover
@@ -84,33 +84,33 @@ void settings_init(void){
 	soundhover.position.y = SoundOn_icon.position.y;
 
 	//brightnessslider
-	brightnessSlidercircle.position.x = CP_System_GetWindowWidth() - 525;
+	brightnessSlidercircle.position.x = (float)(CP_System_GetWindowWidth() - 525);
 	brightnessSlidercircle.position.y = 360;
 
-	brightnessSlider.position.x = CP_System_GetWindowWidth() - 635;
+	brightnessSlider.position.x = (float)(CP_System_GetWindowWidth() - 635);
 	brightnessSlider.position.y = 360;
 
-	brightnesslow_icon.position.x = CP_System_GetWindowWidth() - 800;
+	brightnesslow_icon.position.x = (float)(CP_System_GetWindowWidth() - 800);
 	brightnesslow_icon.position.y = 360; 
 
-	brightnesshigh_icon.position.x = CP_System_GetWindowWidth() - 470;
+	brightnesshigh_icon.position.x = (float)(CP_System_GetWindowWidth() - 470);
 	brightnesshigh_icon.position.y = 360;
 
-	matte.position.x = CP_System_GetWindowWidth() - 640;
+	matte.position.x = (float)(CP_System_GetWindowWidth() - 640);
 	matte.position.y = 360;
 
 	//txt 
-	brightnesstxt.position.x = CP_System_GetWindowWidth() - 635;
+	brightnesstxt.position.x = (float)(CP_System_GetWindowWidth() - 635);
 	brightnesstxt.position.y = 260; 
 
-	soundtxt.position.x = CP_System_GetWindowWidth() - 635;
+	soundtxt.position.x = (float)(CP_System_GetWindowWidth() - 635);
 	soundtxt.position.y = 260;
 	
 	//positions of variables inside the sound tab
-	soundoffscaled.position.x = CP_System_GetWindowWidth() - 635;
+	soundoffscaled.position.x = (float)(CP_System_GetWindowWidth() - 635);
 	soundoffscaled.position.y = 360;
 
-	soundscaled.position.x = CP_System_GetWindowWidth() - 635;
+	soundscaled.position.x = (float)(CP_System_GetWindowWidth() - 635);
 	soundscaled.position.y = 360;
 
 	//	starts the game with the sound on
@@ -170,10 +170,10 @@ void settings_update(void)
 	}
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1) && bright_clicked)
 	{
-		brightposx += CP_Input_GetMouseDeltaX();
+		brightposx += (int)CP_Input_GetMouseDeltaX();
 		brightposx = CP_Math_ClampInt(brightposx, 35, 255);
 		brightnessSlidercircle.position.x += CP_Input_GetMouseDeltaX();
-		brightnessSlidercircle.position.x = CP_Math_ClampInt(brightnessSlidercircle.position.x,brightnessSlider.position.x -110, brightnessSlider.position.x + 110 );
+		brightnessSlidercircle.position.x = (float)CP_Math_ClampInt((int)brightnessSlidercircle.position.x, (int)brightnessSlider.position.x -110, (int)brightnessSlider.position.x + 110 );
 	}
 
 		

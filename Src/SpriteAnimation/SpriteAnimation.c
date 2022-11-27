@@ -21,10 +21,10 @@ Sprite* CreateSprite(char* imgPath, UINT8 row, UINT8 col, bool SPRITESHEET, bool
 			LOG("ERROR LOADING IMAGE FROM FILE %s", imgPath);
 		newSprite->col = col;
 		newSprite->row = row;
-		newSprite->go.size.x = CP_Image_GetWidth(newSprite->go.image) / newSprite->col;
-		newSprite->go.size.y = CP_Image_GetHeight(newSprite->go.image) / newSprite->row;
+		newSprite->go.size.x = (float)(CP_Image_GetWidth(newSprite->go.image) / newSprite->col);
+		newSprite->go.size.y = (float)(CP_Image_GetHeight(newSprite->go.image) / newSprite->row);
 		newSprite->id = 0;
-		newSprite->time = 0.15;
+		newSprite->time = 0.15f;
 		newSprite->time_elapsed = 0;
 		newSprite->go.position = CP_Vector_Zero();
 		newSprite->go.speed = 0;
@@ -88,14 +88,14 @@ void RenderSprite(Sprite* sprite)
 	//CP_Color color;
 	//color.
 	if (sprite != NULL && sprite->go.isAlive)	
-		CP_Image_DrawSubImage(sprite->go.image, sprite->go.position.x, sprite->go.position.y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y, sprite->go.alpha);
+		CP_Image_DrawSubImage(sprite->go.image, sprite->go.position.x, sprite->go.position.y, sprite->go.size.x * sprite->go.scale.x, sprite->go.size.y * sprite->go.scale.y, sprite->tL.x, sprite->tL.y, sprite->bR.x, sprite->bR.y, (int)sprite->go.alpha);
 }
 
 void RenderSpriteOnMap(Sprite* sprite, game_map* gm)
 {
 	if (sprite != NULL && sprite->go.isAlive)
 	{
-		float gridsize = CP_System_GetWindowHeight() / gm->height;
+		float gridsize = (float)(CP_System_GetWindowHeight() / gm->height);
 		float x = sprite->go.position.x * gridsize + (gridsize / 2);
 		float y = sprite->go.position.y * gridsize + (gridsize / 4.f);
 		//float width = gridsize / (sprite->go.size.x * sprite->go.scale.x);

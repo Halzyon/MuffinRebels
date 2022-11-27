@@ -61,7 +61,7 @@ void go_to_animation(float targetX, float targetY, CP_Vector *pos_to_change)
 
 void shrinking_animation(float target, float* to_change)
 {
-	float shrink_ps = 0.2 * (*to_change - target);
+	float shrink_ps = 0.2f * (*to_change - target);
 	*to_change -= shrink_ps;
 }
 
@@ -91,7 +91,7 @@ int IsAreaClickedCorner(const GameObject obj, const CP_Vector position)
 
 CP_Vector getWorldPos(CP_Vector gridPos, const game_map* gm)
 {
-	float gridsize = CP_System_GetWindowHeight() / gm->height;
+	float gridsize = (float)(CP_System_GetWindowHeight() / gm->height);
 	return CP_Vector_Set(gridPos.x * gridsize, gridPos.y * gridsize);
 }
 
