@@ -14,6 +14,9 @@ Muhammad Hazim Bin Gazali       m.bingazali@digipen.edu
 ---
 ## How to play
 
+WASD - Up, Left, Down, Right, respectively
+Left click - interact with UI elements
+
 First, you the player would start their turn by rolling two 6-sided 
 dice (D6) to see how many tiles you can walk.
 After you have exhausted all your "energy" it will be the
@@ -38,3 +41,6 @@ they want to use to roll with. After which, the one with the lower
 value takes damage equal to the difference between both dice.
 This keeps going until the minimum number of dice has been
 rolled. And then the attackers and defenders will swap.
+
+## Map editor
+
