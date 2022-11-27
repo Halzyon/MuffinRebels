@@ -146,30 +146,30 @@ void second_init(void)
 
 	// initializes the counter for the dice and powerups
 
-	for (int d = 0; d < MAX_DICE; d++)
+	for (int d = 0; d < get_character()->dice_size; d++)
 	{
 		switch (get_character()->dice[d])
 		{
-		case e_std_D4:
-		{
-			combat_dice[d4]++;
-			break;
-		}
-		case e_std_D6:
-		{
-			combat_dice[d6]++;
-			break;
-		}
-		case e_std_D20:
-		{
-			combat_dice[d20]++;
-			break;
-		}
-		default:
-		{
-			d = MAX_DICE;
-			break;
-		}
+			case e_std_D4:
+			{
+				combat_dice[d4]++;
+				break;
+			}
+			case e_std_D6:
+			{
+				combat_dice[d6]++;
+				break;
+			}
+			case e_std_D20:
+			{
+				combat_dice[d20]++;
+				break;
+			}
+			default:
+			{
+				d = MAX_DICE;
+				break;
+			}
 		}
 	}
 
@@ -290,30 +290,30 @@ void second_update(void)
 			else if (the_enemy->enemyState == DEFEND_STATE)
 				the_enemy->enemyState = ATTACK_STATE;
 
-			for (int d = 0; d < MAX_DICE; d++)
+			for (int d = 0; d < get_character()->dice_size; d++)
 			{
 				switch (get_character()->dice[d])
 				{
-				case e_std_D4:
-				{
-					combat_dice[d4]++;
-					break;
-				}
-				case e_std_D6:
-				{
-					combat_dice[d6]++;
-					break;
-				}
-				case e_std_D20:
-				{
-					combat_dice[d20]++;
-					break;
-				}
-				default:
-				{
-					d = MAX_DICE;
-					break;
-				}
+					case e_std_D4:
+					{
+						combat_dice[d4]++;
+						break;
+					}
+					case e_std_D6:
+					{
+						combat_dice[d6]++;
+						break;
+					}
+					case e_std_D20:
+					{
+						combat_dice[d20]++;
+						break;
+					}
+					default:
+					{
+						d = MAX_DICE;
+						break;
+					}
 				}
 			}
 		}

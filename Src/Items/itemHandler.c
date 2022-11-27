@@ -46,13 +46,13 @@ int randomise_all(int current_level)
 			init_ironshield();
 			break;
 		case 4:
-			modifier_strongarm();
+			current_powerup = STRONG_ARM;
 			break;
 		case 5:
-			modifier_leatherskin();
+			current_powerup = LEATHER_SKIN;
 			break;
 		case 6:
-			modifier_healthpot();
+			current_powerup = HEALTH_POT;
 			break;
 		case 7:						//level 2
 			init_ironsword();
@@ -67,13 +67,13 @@ int randomise_all(int current_level)
 			init_goldshield();
 			break;
 		case 11:
-			modifier_strongarm();
+			current_powerup = STRONG_ARM;
 			break;
 		case 12:
-			modifier_leatherskin();
+			current_powerup = LEATHER_SKIN;
 			break;
 		case 13:
-			modifier_healthpot();
+			current_powerup = HEALTH_POT;
 			break;
 		case 14:					//level 3
 			init_diamondsword();
@@ -85,13 +85,13 @@ int randomise_all(int current_level)
 			init_mastersword();
 			break;
 		case 17:
-			modifier_strongarm();
+			current_powerup = STRONG_ARM;
 			break;
 		case 18:
-			modifier_leatherskin();
+			current_powerup = LEATHER_SKIN;
 			break;
 		case 19:
-			modifier_healthpot();
+			current_powerup = HEALTH_POT;
 			break;
 		default:
 			break;

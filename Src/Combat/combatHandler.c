@@ -124,6 +124,11 @@ int combat_phase(void)
 
 			return 0;
 		}
+
+		if (get_character()->mod_duration <= 0 || (current_powerup == LEATHER_SKIN && get_character()->modifier <= 0))
+		{
+			reset_modifier();
+		}
 	}
 
 	return 1;
