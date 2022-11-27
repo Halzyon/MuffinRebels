@@ -18,8 +18,6 @@ void second_init_rollPos(void);
 
 void second_sfx_init(void);
 
-void clash_init(void);
-
 void second_update(void);
 
 void second_dice_powerup(int* rng_num, int powerup_turns);
@@ -32,13 +30,11 @@ void generate_dice(int num_roll, dice_types dice_rolled, float dice_posX, float 
 
 void enemy_ui(dice_types enemy_dice, int enemy_roll, float enemy_dice_scale);
 
-void fighting_animation(int num_roll, int enemys_roll);
-
-void cut_in(int num_roll, int enemys_roll);
+void fighting_animation(int *num_roll, int *enemys_roll);
 
 void health_bar(int remaining_hp);
 
-void enemy_health_bar(int enemy_hp, CP_Vector position);
+void enemy_health_bar(int enemy_hp, int enemyMaxHp);
 
 void inventory_window(int num_item, float position_X);
 

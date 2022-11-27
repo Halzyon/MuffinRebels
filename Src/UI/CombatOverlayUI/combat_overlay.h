@@ -5,6 +5,7 @@
 #include "../../Character/diceHandler.h"
 
 CP_Sound footsteps;
+int powerups[3];
 
 typedef struct
 {
@@ -28,7 +29,6 @@ enum powerup
 	strongarm = 0,
 	leatherskin = 1,
 	healthpot = 2,
-	maxPowerups = 3
 };
 
 enum dice_items
@@ -42,7 +42,6 @@ enum dice_items
 	diamondsword = 6,
 	diamondshield = 7,
 	mastersword = 8,
-	maxDiceItems = 9
 };
 
 enum dice
