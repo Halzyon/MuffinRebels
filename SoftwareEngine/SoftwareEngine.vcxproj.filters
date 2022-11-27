@@ -177,6 +177,9 @@
     <ClInclude Include="..\Src\yijia\gameOver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Src\yijia\pause_ui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

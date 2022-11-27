@@ -1,3 +1,12 @@
+/*---------------------------------------------------------------
+  File: overworld.c
+  Project: DICE REBELS
+  Author: Yeo Yi Jia, y.yijia@digipen.edu
+  Co-Author: Liew Yeni, yeni.l@digipen.edu
+  Co-Author: Muhammad Hazim Bin Gazali, m.bingazali@digipen.edu
+  Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "cprocessing.h"
 #include "GameStateManager.h"
 #include "SpriteAnimation/spriteAnimation.h"
@@ -110,6 +119,8 @@ void overworld_update(void) {
 		//{
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
+			button.clicked = 0;
+			
 			setNextLvl(0);
 		}
 	}
@@ -128,6 +139,7 @@ void overworld_update(void) {
 			// 2level
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
+			button2.clicked = 0;
 			setNextLvl(1);
 		}
 	}
@@ -145,6 +157,7 @@ void overworld_update(void) {
 			//level 3
 			enemykilled = 0;
 			GameStateSetNextScene(GAME_SCENE);
+			button3.clicked = 0;
 			setNextLvl(2);
 		}
 	}
