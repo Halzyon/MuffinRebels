@@ -13,7 +13,7 @@
 #include "../Character/diceHandler.h"
 #include "../Character/gameChar.h"
 
-typedef enum ITEMS
+enum ITEMS
 {
 	WOODEN_SWORD,
 	WOODEN_SHIELD,
@@ -30,7 +30,7 @@ typedef enum ITEMS
 	MASTER_SWORD
 };
 
-typedef enum POWERUPS
+enum POWERUPS
 {
 	STRONG_ARM,
 	LEATHER_SKIN,

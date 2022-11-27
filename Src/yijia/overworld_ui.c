@@ -15,6 +15,7 @@
 #include "../UI/UtilsUI/ui_utils.h"
 #include "GameStateManager.h"
 #include "../Scenes/GameScene.h"
+#include "../yijia/pause_ui.h"
 
 asset bg;
 asset button;

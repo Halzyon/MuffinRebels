@@ -13,6 +13,7 @@
 #include "../UI/UtilsUI/ui_utils.h"
 #include "../UI/CombatOverlayUI/combat_overlay.h"
 #include "GameStateManager.h"
+#include "../yijia/pause_ui.h"
 
 asset credit[5]; 
 int currentScene = 0;

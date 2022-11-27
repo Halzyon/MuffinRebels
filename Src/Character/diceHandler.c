@@ -11,13 +11,12 @@
 #include <time.h>
 
 #include "diceHandler.h"
-#pragma warning (disable:4047)
 
 int std_D4[D4_SIZE] = { 1,2,3,4 };
 int std_D6[D6_SIZE] = {1,2,3,4,5,6};
 int std_D20[D20_SIZE] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
 
-int* dice_list[NUM_TYPES] = {&std_D4, &std_D6, &std_D20};
+int* dice_list[NUM_TYPES] = {std_D4, std_D6, std_D20};
 
 void init_dice(void)
 {

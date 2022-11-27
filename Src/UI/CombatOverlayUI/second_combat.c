@@ -18,9 +18,6 @@
 #include "../../Combat/combat_scene.h"
 #include "../../Scenes/GameScene.h"
 #include "../../Items/itemHandler.h"
-#ifdef _MSC_VER // for visual studios/microsoft compiler
-#pragma warning(disable : 4996)
-#endif
 
 float buttons_centerpointX;
 float buttons_centerpointY;

@@ -25,7 +25,6 @@ bool flip = false;
 bool nextLogo = false;
 bool nextScene = false;
 char logoAlpha = 0;
-#pragma warning (disable:4244)
 
 void splash_screen_init(void)
 {
@@ -40,9 +39,9 @@ void splash_screen_init(void)
 	speed = 255 / TIMETAKEN;
 
 	logo->go.scale = CP_Vector_Set(0.8f, 0.8f);
-	logo->go.position = CP_Vector_Set(0, 720* 0.5 - logo->go.size.y * 0.5);
+	logo->go.position = CP_Vector_Set(0.f, 720 * 0.5f - logo->go.size.y * 0.5f);
 	gameLogo->go.scale = CP_Vector_Set(1, 1);
-	gameLogo->go.position = CP_Vector_Set(CP_System_GetWindowWidth() / 2 - CP_Image_GetWidth(gameLogo->go.image) / 2 , 720 * 0.5 - logo->go.size.y * 0.5);
+	gameLogo->go.position = CP_Vector_Set((float)(CP_System_GetWindowWidth() / 2 - CP_Image_GetWidth(gameLogo->go.image) / 2) , 720 * 0.5f - logo->go.size.y * 0.5f);
 	gameLogo->go.alpha = 0;
 }
 
@@ -58,7 +57,7 @@ void splash_screen_update(void)
 	if (nextLogo)
 	{
 		 logoAlpha += (char)(speed * dt);
-		 gameLogo->go.alpha = (abs(logoAlpha) * 2);
+		 gameLogo->go.alpha = (float)(abs(logoAlpha) * 2);
 		 if (gameLogo->go.alpha >= 254)
 			 flip = true;
 		 if (gameLogo->go.alpha <= 2 && flip)

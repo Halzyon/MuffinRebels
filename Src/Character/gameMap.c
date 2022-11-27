@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "gameMap.h"
 
@@ -26,7 +27,7 @@ int init_map_obj(game_map* out_obj, unsigned int width_size, unsigned int height
 	out_obj->world_width = world_width;
 	out_obj->world_height = world_height;
 
-	return (int)out_obj;
+	return (int)(out_obj == NULL);
 }
 
 int map_get_index(int x, int y, int width)

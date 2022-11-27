@@ -22,6 +22,7 @@
 #include "../Character/gameMap.h"
 #include "../FileIO/fileIO.h"
 #include "../Items/itemHandler.h"
+#include "../yijia/pause_ui.h"
 
 #define MAXENEMIES 8
 #define FILEPATH "Assets/"

@@ -13,6 +13,7 @@
 #include "../UI/CombatOverlayUI/combat_overlay.h"
 #include "GameStateManager.h"
 #include "../UI/UtilsUI/ui_utils.h"
+#include "../yijia/pause_ui.h"
 
 asset howtoplay1;
 asset howtoplay2;
