@@ -1,3 +1,12 @@
+/*-------------------------------------------------------------------------------------
+
+	File: itemHandler.h
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Author: Alwin Moo (moo.g@digipen.edu)
+
+	All content � 2021 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 #ifndef ITEM_HANDLER_H
 #define ITEM_HANDLER_H
 

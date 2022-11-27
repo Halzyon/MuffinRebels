@@ -1,3 +1,12 @@
+/*-------------------------------------------------------------------------------------
+
+	File: combatHandler.c
+	Project: 1401 Game Project - Game Name: DiceRebels
+	Author: Alwin Moo (moo.g@digipen.edu)
+
+	All content � 2021 DigiPen Institute of Technology Singapore, all rights reserved
+
+---------------------------------------------------------------------------------------*/
 #include "combatHandler.h"
 #include "../Character/diceHandler.h"
 #include "../Character/gameEnemy.h"
