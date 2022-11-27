@@ -1,3 +1,14 @@
+/*---------------------------------------------------------------
+  File: GameScene.c
+  Project: DICE REBELS
+  Author: Muhammad Hazim Bin Gazali, m.bingazali@digipen.edu
+  Co-Author: Yeo Yi Jia, (y.yijia@digipen.edu)
+  Co-Author: Alwin Moo (moo.g@digipen.edu)
+  Co-Author: Liew Yeni, yeni.l@digipen.edu
+  Co-Author: Foong Jun Wei (f.junwei)
+  Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "SpriteAnimation/spriteAnimation.h"
 #include "Character/diceHandler.h"
 #include "Character/charMovement.h"
